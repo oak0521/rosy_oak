@@ -11,8 +11,12 @@ CSS and vanilla JS, meant to be opened directly in a browser or published via th
 **Artifact** tool.
 
 - `reports/<brand>/weekly-report.html` — the current/latest weekly report for that brand. There
-  is one file per brand (currently `reports/anela/`); a new brand gets its own directory built
-  from the same template/structure.
+  is one file per brand (`reports/anela/`, `reports/rosyorganic/`); a new brand gets its own
+  directory built from the same template/structure. Each brand's header links to the other's
+  published Artifact URL via a `.brand-chip` — update both sides when either report's URL changes.
+  The 아넬라/로지오가닉 Meta ad accounts are known to mix campaigns across the two brands (see
+  Data-integrity workflow below) and 로지오가닉's Meta conversion campaign landing page currently
+  points at 아넬라's smartstore, so its reported conversions may include 아넬라 purchases.
 
 ## Commands
 
