@@ -188,6 +188,8 @@ h2.section-title{font-size:18px;font-weight:700;margin:0;letter-spacing:-0.01em;
 .add-btn:hover{background:var(--accent-soft);border-color:var(--accent);}
 .edit-hint{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-muted);margin:-4px 0 12px;}
 .edit-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;}
+body.ro .bullet-text{pointer-events:none;user-select:none;}
+body.ro .del-btn,body.ro .add-btn{pointer-events:none;opacity:0 !important;visibility:hidden;}
 .quad.good{border-left:3px solid var(--good);}
 .quad.bad{border-left:3px solid var(--serious);}
 .quad.doing{border-left:3px solid var(--warning);}
@@ -1199,8 +1201,6 @@ renderTrend('all');
   function setReadOnly(msg){
     document.body.classList.add('ro');
     if(hint) hint.textContent = msg;
-    document.querySelectorAll('.bullet-text').forEach(el=>el.contentEditable='false');
-    document.querySelectorAll('.del-btn, .add-btn').forEach(el=>el.style.display='none');
   }
 
   document.addEventListener('claude:sync-off', e=>{
