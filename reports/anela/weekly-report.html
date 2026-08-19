@@ -324,6 +324,19 @@ textarea.memo{
 }
 .callout b{color:var(--warning);}
 
+.mission-card{padding:20px 22px;}
+.mission-card h3{margin:0 0 4px;font-size:15px;}
+.mission-meta{font-size:12px;color:var(--text-muted);margin-bottom:14px;}
+.mission-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media (max-width:720px){.mission-grid{grid-template-columns:1fr;}}
+.mission-item{border:1px solid var(--border);border-radius:9px;padding:12px 14px;background:var(--surface-2);}
+.mission-item .who{font-size:11.5px;color:var(--text-muted);}
+.mission-item .what{font-size:15px;font-weight:700;font-family:'Gowun Batang',serif;margin:2px 0 4px;}
+.mission-item .why{font-size:12.5px;color:var(--text-secondary);}
+.mission-link{display:inline-block;margin-top:14px;font-size:13px;font-weight:600;color:#fff;background:var(--accent);
+  border-radius:8px;padding:9px 16px;text-decoration:none;}
+.mission-link:hover{background:var(--accent-ink);}
+.mission-note{font-size:12.5px;color:var(--text-secondary);margin:12px 0 0;}
 .mission-empty{
   padding:26px 20px;text-align:center;color:var(--text-muted);font-size:13px;
   border:1px dashed var(--border);border-radius:10px;background:var(--surface-2);
@@ -574,7 +587,34 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
         <p class="section-sub">이번 주 별도로 지정된 미션이 있을 경우 여기에 표시됩니다</p>
       </div>
     </div>
-    <div class="mission-empty">이번 주 지정된 미션이 없습니다.<br>예: &ldquo;아넬라·로지오가닉 롤모델 브랜드 서치&rdquo; 같은 미션이 있을 경우 알려주시면 이 영역에 정리해드립니다.</div>
+    <div class="card mission-card">
+      <h3>아넬라 · 로지오가닉 롤모델 브랜드 서치</h3>
+      <p class="mission-meta">대표 주간보고용 · 매출 롤모델 / 브랜딩 롤모델 각 1개씩 선정 · 조사일 2026.08.19</p>
+      <div class="mission-grid">
+        <div class="mission-item">
+          <div class="who">아넬라 · 매출 롤모델</div>
+          <div class="what">베베쿡</div>
+          <div class="why">매출 610억(2023)·이유식 시장 약 40%. 월령 기반 CRM 개인화로 주문율 +70%, 객단가 +15~25% — 짧은 고객 생애주기를 재구매 설계로 이긴 국내 유일 공개 사례.</div>
+        </div>
+        <div class="mission-item">
+          <div class="who">아넬라 · 브랜딩 롤모델</div>
+          <div class="what">엘라스키친 (Ella's Kitchen)</div>
+          <div class="why">유통력 없이 포장·색·톤만으로 영국 유아식 점유율 30%. 아넬라의 &lsquo;물 한 방울 없이 생과일 그대로&rsquo;와 같은 자산 구조인데, 우리는 아직 할인 언어로만 쓰고 있음.</div>
+        </div>
+        <div class="mission-item">
+          <div class="who">로지오가닉 · 매출 롤모델</div>
+          <div class="what">정관장 홍이장군</div>
+          <div class="why">8~13만원 정가 정책으로 어린이 홍삼 12년 연속 1위. 연령 세분화 + 매일 루틴 설계 — 배도라지·젤리 라인을 &lsquo;간식&rsquo;에서 &lsquo;케어푸드&rsquo;로 옮길 때의 교본.</div>
+        </div>
+        <div class="mission-item">
+          <div class="who">로지오가닉 · 브랜딩 롤모델</div>
+          <div class="what">루솔</div>
+          <div class="why">어린이음료 선호도 49% 1위. 월 1회 특가 + 월 2회 소통 라이브로 매출 2.5배 — &lsquo;식품공학 박사 + 세 아이 아빠&rsquo; 창업자 자산을 가장 저비용으로 쓸 포맷.</div>
+        </div>
+      </div>
+      <p class="mission-note"><b>핵심 진단</b> — 우리 병목은 광고 효율(1~7월 ROAS 1,076%)이 아니라 <b>두 번째 구매</b>와 <b>제값 받기</b>입니다. 상시 할인 35~53%, 자사몰 대표 상품 후기 0~19건, 매출의 74%가 네이버 검색에 집중돼 있습니다.</p>
+      <a class="mission-link" href="https://claude.ai/code/artifact/eaa5f6f0-e6a7-46b5-a506-8500a65f5d07" target="_blank" rel="noopener">전체 벤치마킹 리포트 열기 →</a>
+    </div>
   </section>
 
   <footer class="foot">
