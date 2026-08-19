@@ -88,13 +88,18 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
      tooltips are wired up after `innerHTML` is set (see the `mouseenter`/`mousemove` listeners
      added to `rect[data-tip]` in `renderTrend`).
 
-## The 핵심요약 (summary) section is a live, editable doc
+## The 핵심요약 and 컨텐츠/업무 진행사항 sections are a live, editable doc
 
-The four "좋았던 점 / 안좋았던 점 / 개선하고 있는 것 / 개선이 필요한 것" lists — **times two**,
-once inside each brand's `data-brand-panel` block, eight sync regions total — use the Artifact
-`artifact` capability's zero-API sync regions (`<ul artifact-sync>`, `contenteditable` spans) so a
-viewer can edit/add/delete bullets directly in the published page and have it persist, in either
-brand, independent of which brand tab is currently visible. This means:
+The four "좋았던 점 / 안좋았던 점 / 개선하고 있는 것 / 개선이 필요한 것" lists (핵심요약) and the
+"컨텐츠 및 기타 업무 진행사항" list in `#comment` — **times two**, once inside each brand's
+`data-brand-panel` block, ten sync regions total — use the Artifact `artifact` capability's
+zero-API sync regions (`<ul artifact-sync>`, `contenteditable` spans) so a viewer can edit/add/
+delete bullets directly in the published page and have it persist, in either brand, independent
+of which brand tab is currently visible. The 컨텐츠/업무 진행사항 list is deliberately a bulleted
+`<ul class="memo-list" artifact-sync>` (add/delete items, same `makeBullet()`/`.bullet-text`/
+`.del-btn` machinery as 핵심요약, wired via `document.querySelectorAll('.quad, .memo-block')`),
+**not** a `<textarea>` — sync regions cannot capture `<textarea>`/`<select>` values at all, so a
+plain memo textarea silently never persists. This means:
 
 - When publishing via the Artifact tool, `capabilities: {"artifact": {}}` must be declared (it
   carries forward automatically on redeploys unless explicitly cleared).
