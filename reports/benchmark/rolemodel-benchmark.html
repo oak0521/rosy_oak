@@ -238,6 +238,45 @@ ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;
 ul.plain li{font-size:13px;color:var(--text-secondary);}
 ul.plain li b{color:var(--text-primary);}
 td.r{white-space:nowrap;}
+
+/* ---- age coverage chart ---- */
+.agechart{margin-top:6px;}
+.age-axis{display:grid;grid-template-columns:170px 1fr;gap:12px;font-size:10.5px;color:var(--text-muted);margin-bottom:6px;}
+.age-axis .ticks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;}
+.age-row{display:grid;grid-template-columns:170px 1fr;gap:12px;align-items:center;margin-bottom:9px;}
+@media(max-width:720px){.age-row,.age-axis{grid-template-columns:1fr;}.age-axis::after{grid-column:1;}}
+.age-label{font-size:12.5px;color:var(--text-primary);line-height:1.35;}
+.age-track{
+  position:relative;height:26px;border-radius:6px;background:var(--surface-2);
+  border:1px solid var(--border);
+  background-image:repeating-linear-gradient(to right,transparent,transparent calc(14.28% - 1px),var(--gridline) calc(14.28% - 1px),var(--gridline) 14.28%);
+}
+.age-bar{
+  position:absolute;top:3px;bottom:3px;background:var(--accent);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.age-bar.ext{background:var(--media-gfa);opacity:.9;border-left:2px solid var(--surface-1);}
+.age-bar span{font-size:10.5px;font-weight:600;color:#fff;white-space:nowrap;padding:0 6px;}
+.chart-legend{display:flex;gap:16px;margin-top:12px;font-size:11.5px;color:var(--text-secondary);}
+.chart-legend i.sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;}
+.chart-legend i.sw.ours{background:var(--accent);}
+.chart-legend i.sw.ext{background:var(--media-gfa);}
+
+/* ---- direction cards ---- */
+.dir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:860px){.dir-grid{grid-template-columns:1fr;}}
+.dir{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:16px 18px;}
+.dir-src{font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--text-muted);text-transform:uppercase;}
+.dir-title{font-size:14.5px;font-weight:700;margin:4px 0 8px;letter-spacing:-0.01em;}
+.dir p{font-size:12.8px;margin:0;}
+
+/* ---- phase cards ---- */
+.phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+@media(max-width:860px){.phase-grid{grid-template-columns:1fr;}}
+.phase{background:var(--surface-1);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;box-shadow:var(--shadow);padding:16px 18px;}
+.phase-when{font-size:11px;font-weight:700;color:var(--accent-ink);letter-spacing:.04em;}
+.phase-title{font-size:14px;font-weight:700;margin:3px 0 8px;}
+.phase p{font-size:12.8px;margin:0;}
 </style>
 <header class="top">
   <div class="top-inner">
@@ -245,102 +284,134 @@ td.r{white-space:nowrap;}
     <div class="period">2026.08 · 국내 영유아 간식 시장 · 매출 롤모델 / 브랜딩 롤모델</div>
   </div>
   <nav class="subnav">
-    <a href="#conclusion">결론</a>
+    <a href="#age">우리가 만나는 고객</a>
+    <a href="#conclusion">롤모델 4</a>
     <a href="#position">우리 위치</a>
-    <a href="#market">시장 팩트</a>
-    <a href="#anela">아넬라 롤모델</a>
-    <a href="#rosy">로지오가닉 롤모델</a>
-    <a href="#deal">가격·딜 구조</a>
-    <a href="#next">다음 단계 과제</a>
-    <a href="#src">수치 신뢰도 · 출처</a>
+    <a href="#anela">아넬라</a>
+    <a href="#rosy">로지오가닉</a>
+    <a href="#deal">가격 결정력</a>
+    <a href="#next">다음 단계</a>
+    <a href="#src">수치 신뢰도</a>
   </nav>
 </header>
 
 <div class="wrap">
 
+<!-- ============ 연령 ============ -->
+<section id="age">
+  <div class="section-head">
+    <h2 class="section-title">먼저 볼 것 — 우리를 만나는 아이는 몇 살까지인가</h2>
+    <p class="section-sub">제품 표기 섭취 월령 기준 · 상한은 각 브랜드 라인업 구성에서 추정</p>
+  </div>
+
+  <p class="lede">우리 두 브랜드의 제품은 <b>이유식을 시작한 아기부터 돌 전후까지</b>에 몰려 있습니다.
+  같은 시장의 상위 브랜드들은 <b>같은 고객을 초등 저학년까지 데리고 갑니다.</b> 브랜드 수명이 아니라 <b>고객 한 명을 몇 년 붙잡느냐</b>가 매출 규모의 차이를 만들고 있습니다.</p>
+
+  <div class="card chart" style="margin-top:16px;">
+    <div class="chart-title">브랜드별 제품 커버 연령대</div>
+    <div class="chart-sub">가로축: 개월 (0~84개월 = 0~7세)</div>
+    <div class="agechart">
+      <div class="age-axis"><span></span><span class="ticks"><span>0</span><span>12</span><span>24</span><span>36</span><span>48</span><span>60</span><span>72</span><span>84개월</span></span></div>
+
+      <div class="age-row">
+        <div class="age-label"><b>아넬라</b><br><span class="mut">퓨레 6개월~ / 쌀과자 7개월~</span></div>
+        <div class="age-track"><div class="age-bar ours" style="left:7.1%;width:21.4%"><span>5~24개월</span></div></div>
+      </div>
+      <div class="age-row">
+        <div class="age-label"><b>로지오가닉</b><br><span class="mut">쌀과자 5개월~ / 배도라지 11개월~</span></div>
+        <div class="age-track"><div class="age-bar ours" style="left:6.0%;width:31.0%"><span>5~36개월</span></div></div>
+      </div>
+      <div class="age-row">
+        <div class="age-label"><b>아이배냇</b><br><span class="mut">영유아식 + 키즈 브랜드 &lsquo;꼬마&rsquo;</span></div>
+        <div class="age-track"><div class="age-bar" style="left:0%;width:42.9%"></div><div class="age-bar ext" style="left:42.9%;width:42.9%"><span>3세~ 확장</span></div></div>
+      </div>
+      <div class="age-row">
+        <div class="age-label"><b>일동후디스</b><br><span class="mut">아이얌 → 하이키드 → 하이뮨</span></div>
+        <div class="age-track"><div class="age-bar" style="left:0%;width:42.9%"></div><div class="age-bar ext" style="left:42.9%;width:57.1%"><span>어린이 → 성인까지</span></div></div>
+      </div>
+    </div>
+    <div class="chart-legend">
+      <span><i class="sw ours"></i>현재 커버 구간</span>
+      <span><i class="sw ext"></i>연령 확장 라인</span>
+    </div>
+    <div class="chart-note">아이가 자라면 우리 브랜드를 떠날 자리가 없습니다. <b>재구매가 안 되는 게 아니라, 다음에 팔 제품이 없는 구조</b>입니다.</div>
+  </div>
+</section>
+
 <!-- ============ 결론 ============ -->
 <section id="conclusion">
   <div class="section-head">
-    <h2 class="section-title">결론 — 브랜드별 롤모델 4개</h2>
-    <p class="section-sub">선정 기준: ① 국내 시장에서 실제로 팔리고 있어 비교가 가능할 것 ② 우리 주력 카테고리(과일퓨레·유기농 쌀과자)와 겹칠 것 ③ 우리 조직 규모에서 구조를 복제할 수 있을 것</p>
+    <h2 class="section-title">롤모델 4 — 매출 / 브랜딩</h2>
+    <p class="section-sub">선정 기준: ① 국내에서 실제 유통되어 비교가 가능할 것 ② 우리 주력(과일퓨레·유기농 쌀과자)과 카테고리가 겹칠 것 ③ 수익을 내고 있을 것</p>
   </div>
 
-  <p class="lede">매출 롤모델은 <b>"어떻게 파는가"</b>, 브랜딩 롤모델은 <b>"어떻게 기억되는가"</b>로 분리해 브랜드마다 하나씩 선정했습니다.
-  두 브랜드 모두 <b>이미 확보한 자산(스마트스토어 리뷰·관심고객·유기농 인증)을 자사몰과 브랜드 자산으로 옮기는 단계</b>에 있어, 그 이행을 먼저 해낸 브랜드를 골랐습니다.</p>
-
-  <div class="rm-grid" style="margin-top:18px;">
+  <div class="rm-grid">
     <div class="rm">
       <div class="rm-eyebrow">아넬라 · 매출 롤모델</div>
       <div class="rm-brand">베베쿡</div>
-      <div class="rm-for">짧은 고객 생애주기를 CRM으로 방어하는 구조</div>
-      <p class="rm-why">영유아식은 아이가 크면 고객이 사라집니다. 베베쿡은 그 짧은 주기를 <b>월령 기반 CRM · 채널 전용 SKU · B2B 급식</b> 세 축으로 방어해 시장 축소기에도 카테고리 1위를 지켰습니다. 방법론이 수치와 함께 공개된 국내 사례입니다.</p>
+      <div class="rm-for">고객이 떠나기 전에 다음 제품을 붙이는 브랜드</div>
+      <p class="rm-why">이유식에서 시작해 간식·음료로 넓히고, 아이 월령에 맞춰 다음 제품을 제안하는 구조를 만들었습니다. 우리가 지금 비어 있는 두 가지 — <b>연령 확장과 재구매 설계</b> — 를 모두 먼저 해본 국내 브랜드입니다.</p>
       <ul class="rm-facts">
-        <li>매출 610억원(2023년, 기업정보 공시 기준)</li>
-        <li>영유아 간식 부문 브랜드 선호도 42%로 1위 · 이유식 13년 연속 1위</li>
-        <li>CRM 개인화 후 주문율 +70%, 객단가 15~25% 상승 <span class="src-tag warn">자사 발표</span></li>
+        <li>매출 610억원(2023, 공시) · 영유아 간식 선호도 1위</li>
+        <li>이유식 → 간식 → 음료로 카테고리 확장</li>
+        <li>월령 데이터를 마케팅의 기준으로 사용</li>
       </ul>
     </div>
 
     <div class="rm branding">
       <div class="rm-eyebrow">아넬라 · 브랜딩 롤모델</div>
-      <div class="rm-brand">힙 <span style="font-size:14px;color:var(--text-muted);">HiPP</span></div>
-      <div class="rm-for">창업자 없이 원산지·인증·멤버십으로 프리미엄을 만든 유럽 브랜드</div>
-      <p class="rm-why">아넬라와 조건이 같습니다 — <b>유럽 원산 유기농, 국내에서는 후발 진입</b>. 힙은 창업자 스토리에 기대지 않고 <b>인증·검사 항목·멤버십</b>으로 한국 엄마 시장에서 프리미엄 인지를 만들었습니다. 국내에서 실제 유통되고 있어 대조군으로 바로 쓸 수 있습니다.</p>
+      <div class="rm-brand">상하목장</div>
+      <div class="rm-for">&lsquo;유기농&rsquo;이라는 한 단어를 브랜드 이름으로 만든 사례</div>
+      <p class="rm-why">2008년 출시 이후 유기농 우유 1위를 지키며, 광고 문구가 아니라 <b>브랜드 이름 자체가 유기농의 대명사</b>가 됐습니다. 제품으로 신뢰를 쌓고 <b>상하농원이라는 공간에서 그 신뢰를 체험시키는</b> 구조는, 온라인 광고에서 전환이 낮았던 우리 원료 스토리를 살릴 방향을 보여줍니다.</p>
       <ul class="rm-facts">
-        <li>2018년 9월 한국 공식 진출 — 이마트 온·오프라인부터 시작해 분유→이유식→스킨케어로 라인 확장</li>
-        <li>EU 기준을 넘는 <b>약 260개 자체 검사 항목</b>을 브랜드 메시지의 핵심으로 사용</li>
-        <li>멤버십 <b>'HiPP 베이비클럽'</b>: 임신~첫돌 단계별 영양 정보 + 웰컴·100일·첫돌 선물 = 광고가 아닌 관계로 재구매를 만드는 구조</li>
+        <li>유기농 우유 매출 1위를 장기간 유지 · 프리미엄 가격대 방어</li>
+        <li>상하목장 → 상하치즈 → 상하농원으로 <b>이름을 확장</b></li>
+        <li>최근 영유아식 시장에 진입 — 우리 카테고리로 들어오는 중</li>
       </ul>
     </div>
 
     <div class="rm">
       <div class="rm-eyebrow">로지오가닉 · 매출 롤모델</div>
-      <div class="rm-brand">아이배냇</div>
-      <div class="rm-for">유기농 간식 전문 브랜드가 키즈까지 확장한 경로</div>
-      <p class="rm-why">대기업이 아닌 <b>전문 브랜드 체급에서 345억까지 올라간</b> 사례이고, 영유아 간식(쌀과자·퍼프) 카테고리가 로지오가닉과 정면으로 겹칩니다. 확장 경로 — 간식 → 3세 이상 키즈 → 배달 이유식 — 가 로지오가닉이 검토할 순서와 같습니다.</p>
+      <div class="rm-brand">아이얌 · 하이키드 <span style="font-size:14px;color:var(--text-muted);">일동후디스</span></div>
+      <div class="rm-for">같은 고객을 나이 들며 계속 붙잡는 연령 사다리</div>
+      <p class="rm-why">영유아식(아이얌)에서 어린이(하이키드), 나아가 성인 단백질(하이뮨)까지 <b>같은 고객의 성장에 맞춰 브랜드를 이어 붙인</b> 회사입니다. 제품군도 유기농 쌀과자·배도라지 주스로 로지오가닉과 거의 겹칩니다. 로지오가닉의 최우선 과제가 연령 확장이라면, 참고할 구조는 여기입니다.</p>
       <ul class="rm-facts">
-        <li>2012년 설립 · 매출 345억원(2024년) · 영유아 간식 선호도 27%로 2위</li>
-        <li>2018년 3세 이상 키즈 브랜드 '꼬마' 론칭 → 연령 확장으로 생애주기 연장</li>
-        <li>단, 최근 5년 영업적자 — <b>매출 경로는 참고하되 수익 구조는 반면교사</b>로 봅니다</li>
+        <li>아이얌: 1970년 국내 최초 유아식 · 유기농 쌀과자·주스 라인 보유</li>
+        <li>하이키드(2003)로 어린이, 하이뮨(2020)으로 성인까지 확장</li>
+        <li>2024년 매출 2,051억 · 영업이익 42억(공시) — <b>대기업 물량이 아니라 확장 구조를 배웁니다</b></li>
       </ul>
     </div>
 
     <div class="rm branding">
       <div class="rm-eyebrow">로지오가닉 · 브랜딩 롤모델</div>
       <div class="rm-brand">루솔</div>
-      <div class="rm-for">고정 편성 라이브로 '엄마와 아는 사이'가 된 브랜드</div>
-      <p class="rm-why">어린이음료 브랜드 선호도 <b>49%로 압도적 1위</b>. 월 1회 특가 + 월 2회 소통 라이브라는 <b>고정 편성</b>으로 관계 자체를 브랜드 자산으로 만들었습니다. 제작비가 거의 들지 않는 포맷이라 지금 인력으로 시작할 수 있습니다.</p>
+      <div class="rm-for">할인이 아니라 관계로 재구매를 만드는 브랜드</div>
+      <p class="rm-why">어린이음료 선호도 <b>49%로 1위</b>. 정기적으로 얼굴을 보이는 소통 방식으로 <b>가격이 아닌 이유로 다시 사는 고객</b>을 만들었습니다. 로지오가닉은 창업자를 전면에 세울 수 있는 브랜드라 같은 방식을 쓸 수 있습니다.</p>
       <ul class="rm-facts">
-        <li>라이브커머스 강화 후 시청 지표 2배, 매출 2.5배 <span class="src-tag warn">자사 발표</span></li>
-        <li>이유식·간식·음료·건기식을 '온 가족 푸드솔루션' 한 우산으로 정렬</li>
-        <li>방송에서 질문이 해소되며 CS 문의가 줄고 상담의 질이 올라감</li>
+        <li>이유식·간식·음료를 한 브랜드 언어로 묶음</li>
+        <li>고정된 소통 접점을 만들어 팬을 확보</li>
+        <li>브랜드 인지가 곧 가격 방어력으로 연결</li>
       </ul>
     </div>
   </div>
 
-  <h3 class="sub">보조 벤치마크 3</h3>
-  <div class="tbl-scroll">
-    <table>
-      <thead><tr><th style="width:150px;">브랜드</th><th>가져올 것</th><th>우리 적용 지점</th></tr></thead>
-      <tbody>
-        <tr><td><b>베베당</b><br><span style="font-size:11.5px;color:var(--text-muted);">유기농 아기 쌀과자 전문</span></td><td>네이버 <b>'아기과자' 키워드 검색 3년 연속 1위</b>를 브랜드 성장의 축으로 삼음 · 월령별 제품 구성 · '빠름보다 바름' 단일 슬로건</td><td>우리 매출의 74%가 네이버에서 발생 — <b>키워드 점유를 성과 지표로 관리</b>하는 방식이 즉시 이식 가능</td></tr>
-        <tr><td><b>정관장 홍이장군</b><br><span style="font-size:11.5px;color:var(--text-muted);">어린이 홍삼</span></td><td>연령·체형별 세분화 SKU와 <b>매일 먹는 루틴</b> 설계로 고가에도 12년 연속 판매 1위</td><td>로지오가닉 <b>케어 라인</b>(배도라지·젤리) 전용 참고 — 간식이 아니라 케어 카테고리의 가격·루틴 문법</td></tr>
-        <tr><td><b>코니바이에린</b><br><span style="font-size:11.5px;color:var(--text-muted);">육아용품 D2C</span></td><td>자사몰 매출 비중 70% · 고객 요청을 그대로 신제품으로 만드는 순환 구조</td><td>현재 진행 중인 <b>자사몰 육성</b>의 목표 모델 — 리뷰·문의를 제품 기획으로 되돌리는 루프</td></tr>
-      </tbody>
-    </table>
+  <div class="callout good" style="margin-top:16px;">
+    <span class="tag">보조 벤치마크 2</span>
+    <b>코니바이에린</b> — 자사몰 매출 비중 70%, 고객 요청을 제품으로 되돌리는 구조. 지금 진행 중인 자사몰 육성의 목표 모델.
+    <b style="margin-left:8px;">정관장 홍이장군</b> — 어린이 홍삼 장기 1위. 로지오가닉 <b>케어 라인</b>(배도라지·젤리)이 참고할 가격·루틴 문법.
   </div>
 </section>
 
 <!-- ============ 우리 위치 ============ -->
 <section id="position">
   <div class="section-head">
-    <h2 class="section-title">우리 위치 — 메인 판매처(네이버 스마트스토어) 기준</h2>
-    <p class="section-sub">아넬라 스마트스토어(brand.naver.com/anela) 공개 정보 + 광고 대시보드 2026년 1~7월 · 2026.08.19 확인</p>
+    <h2 class="section-title">우리 위치</h2>
+    <p class="section-sub">메인 판매처인 네이버 스마트스토어 공개 정보 + 광고 대시보드 2026년 1~7월</p>
   </div>
 
   <div class="kpis">
     <div class="kpi">
-      <div class="kpi-label">스마트스토어 관심고객</div>
+      <div class="kpi-label">스마트스토어 관심고객 (아넬라)</div>
       <div class="kpi-val num">162,869명</div>
       <div class="kpi-note">알림받기 기반 재접근 가능 모수</div>
     </div>
@@ -350,156 +421,72 @@ td.r{white-space:nowrap;}
       <div class="kpi-note">첫과일 세트 단일 상품 · 평점 4.8</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">광고 기여 매출 (1~7월)</div>
-      <div class="kpi-val num">7.81억원</div>
-      <div class="kpi-note">월평균 1.12억 · ROAS 1,076%</div>
+      <div class="kpi-label">광고 효율</div>
+      <div class="kpi-val num">1,004% / 532%</div>
+      <div class="kpi-note">8월 2주차 ROAS · 아넬라 / 로지오가닉</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">네이버 채널 매출 비중</div>
-      <div class="kpi-val num">74.1%</div>
-      <div class="kpi-note">메타 20.5% · GFA 5.4%</div>
+      <div class="kpi-label">제품 커버 연령</div>
+      <div class="kpi-val num">5~36개월</div>
+      <div class="kpi-note">경쟁 브랜드는 초등까지 커버</div>
     </div>
   </div>
 
   <div class="callout good">
-    <span class="tag">먼저 확인할 것</span>
-    광고 효율(ROAS 1,076%)과 <b>사회적 증거(누적 후기 2.8만건·평점 4.8·관심고객 16만명)</b>는 이미 카테고리 상위 수준입니다.
-    지금 단계의 과제는 이 자산을 <b>① 자사몰로 옮기고 ② 재구매 타이밍에 맞춰 다시 꺼내 쓰는 구조</b>를 만드는 것입니다.
+    <span class="tag">한 줄</span>
+    <b>고객을 데려오는 능력은 이미 증명됐습니다</b>(후기 20만건 이상, 관심고객 16만명, 두 브랜드 모두 ROAS 500% 이상).
+    남은 문제는 <b>데려온 고객을 얼마나 오래, 얼마에 붙잡느냐</b>입니다.
   </div>
 
-  <h3 class="sub">가격 구조 — 스마트스토어 실판매가 기준</h3>
+  <h3 class="sub">가격 구조</h3>
   <div class="tbl-scroll">
     <table>
-      <thead><tr><th>채널 / 상품</th><th class="r">표시가</th><th class="r">실판매가</th><th class="r">할인율</th><th class="r">후기</th><th class="r">평점</th></tr></thead>
+      <thead><tr><th>채널 · 상품</th><th class="r">표시가</th><th class="r">판매가</th><th class="r">할인율</th><th class="r">후기</th></tr></thead>
       <tbody>
-        <tr><td><b>스마트스토어</b> · 아넬라 과일퓨레 첫과일 세트(5팩+HOP 3팩)</td><td class="r num">48,300원</td><td class="r num">32,400원</td><td class="r num">32%</td><td class="r num">28,493</td><td class="r num">4.80</td></tr>
-        <tr><td><b>스마트스토어</b> · 아넬라 유기농 쌀과자 퍼프&amp;롱떡뻥 4봉+4봉</td><td class="r num">30,000원</td><td class="r num">20,700원</td><td class="r num">31%</td><td class="r num">3,205</td><td class="r num">4.88</td></tr>
-        <tr><td>자사몰 · 로지오가닉 퍼프 10봉(유기가공식품 인증)</td><td class="r num">59,000원</td><td class="r num">27,900원</td><td class="r num">53%</td><td class="r num">—</td><td class="r num">—</td></tr>
-        <tr><td>자사몰 · 로지오가닉 배도라지즙 30팩</td><td class="r num">50,700원</td><td class="r num">33,000원</td><td class="r num">35%</td><td class="r num">—</td><td class="r num">—</td></tr>
-        <tr><td>자사몰 · [첫구매] 아넬라 아기첫과일 체험팩</td><td class="r num">5,100원</td><td class="r num">4,200원</td><td class="r num">18%</td><td class="r num">—</td><td class="r num">—</td></tr>
+        <tr><td><b>스마트스토어</b> · 아넬라 과일퓨레 첫과일 세트</td><td class="r num">48,300원</td><td class="r num">32,400원</td><td class="r num">32%</td><td class="r num">28,493</td></tr>
+        <tr><td><b>스마트스토어</b> · 아넬라 유기농 쌀과자 4봉+4봉</td><td class="r num">30,000원</td><td class="r num">20,700원</td><td class="r num">31%</td><td class="r num">3,205</td></tr>
+        <tr><td>자사몰 · 로지오가닉 떡뻥 10봉</td><td class="r num">62,000원</td><td class="r num">29,900원</td><td class="r num">52%</td><td class="r num">—</td></tr>
+        <tr><td>자사몰 · 로지오가닉 퍼프 10봉</td><td class="r num">59,000원</td><td class="r num">27,900원</td><td class="r num">53%</td><td class="r num">—</td></tr>
+        <tr><td>자사몰 · 아넬라 과일퓨레 HOP 15팩+2팩(원데이 특가)</td><td class="r num">88,400원</td><td class="r num">38,500원</td><td class="r num">56%</td><td class="r num">—</td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">로지오가닉 스마트스토어는 외부 조회가 제한돼 자사몰 공개가로 표기했습니다. 다음 갱신 때 스마트스토어 실판매가·후기 수로 교체 예정입니다.</p>
-
-  <h3 class="sub">규모 감각 — 롤모델과의 거리</h3>
-  <div class="card chart">
-    <div class="chart-title">국내 영유아식 브랜드 매출 규모 대비</div>
-    <div class="chart-sub">단위: 억원 · 공시 연도가 서로 달라 <b>자릿수 감각용</b>으로만 봅니다</div>
-    <div class="bar-row"><div class="bar-label">베베쿡 (2023)</div><div class="bar-track"><div class="bar-fill" style="width:78.0%"></div><span class="bar-val num">610억</span></div></div>
-    <div class="bar-row"><div class="bar-label">아이배냇 (2024)</div><div class="bar-track"><div class="bar-fill" style="width:44.1%"></div><span class="bar-val num">345억</span></div></div>
-    <div class="bar-row"><div class="bar-label">아넬라 광고 기여 매출<br><span style="font-size:11px;color:var(--text-muted);">2026년 1~7월 연환산</span></div><div class="bar-track"><div class="bar-fill" style="width:1.7%"></div><span class="bar-val num">13.4억</span></div></div>
-    <div class="chart-note">아넬라 수치는 <b>광고가 직접 기여한 매출만</b>의 연환산이며 브랜드 총매출이 아닙니다. 쿠팡·컬리·오프라인·비광고 유입과 로지오가닉은 빠져 있어, 총매출 기준 실제 격차는 이보다 작습니다.</div>
-  </div>
-</section>
-
-<!-- ============ 시장 ============ -->
-<section id="market">
-  <div class="section-head">
-    <h2 class="section-title">시장 팩트</h2>
-    <p class="section-sub">공개 통계 기준 — 카테고리 성장률과 우리 성장률을 비교하기 위한 기준선</p>
-  </div>
-
-  <div class="card chart" style="margin-bottom:16px;">
-    <div class="chart-title">국내 영유아 간편식(이유식·간식) 시장 규모</div>
-    <div class="chart-sub">단위: 억원 · 2025년은 업계 전망치</div>
-    <div class="bar-row"><div class="bar-label">2015</div><div class="bar-track"><div class="bar-fill" style="width:16.1%"></div><span class="bar-val num">680억</span></div></div>
-    <div class="bar-row"><div class="bar-label">2020</div><div class="bar-track"><div class="bar-fill" style="width:39.5%"></div><span class="bar-val num">1,671억</span></div></div>
-    <div class="bar-row"><div class="bar-label">2022</div><div class="bar-track"><div class="bar-fill" style="width:59.8%"></div><span class="bar-val num">2,530억</span></div></div>
-    <div class="bar-row"><div class="bar-label">2024</div><div class="bar-track"><div class="bar-fill" style="width:70.9%"></div><span class="bar-val num">3,000억 돌파</span></div></div>
-    <div class="bar-row"><div class="bar-label">2025(E)</div><div class="bar-track"><div class="bar-fill" style="width:78.0%"></div><span class="bar-val num">3,300억</span></div></div>
-    <div class="chart-note">10년 새 약 5배. 출생아가 줄던 기간에도 시장은 커졌습니다 — <b>아이 수가 아니라 아이 1명당 지출이 시장을 만듭니다.</b></div>
-  </div>
-
-  <div class="tbl-scroll">
-    <table>
-      <thead><tr><th>지표</th><th>수치</th><th>시사점</th></tr></thead>
-      <tbody>
-        <tr><td><b>2025년 출생아 수</b></td><td class="num">254,500명 (+6.8%) · 합계출산율 0.80</td><td>2년 연속 반등, 2010년 이후 최대 증가폭</td></tr>
-        <tr><td><b>2026년 1분기 출생아</b></td><td class="num">75,013명 (+14.8%)</td><td>2019년 1분기 이후 최대 — 모수 축소 전제가 바뀌었습니다</td></tr>
-        <tr><td><b>첫째아 비중</b></td><td class="num">158,700명 (+8.6%), 전체의 62.4%</td><td>첫아이 부모 = 브랜드를 처음 고르는 고객, 신규 진입 기회 확대</td></tr>
-        <tr><td><b>영유아 가구 월평균 양육비</b></td><td class="num">115.1만원(2018) → 150.6만원(2023)</td><td>1인당 지출 +31% — 프리미엄 가격 수용도 상승</td></tr>
-        <tr><td><b>키즈 건강기능식품 시장</b></td><td class="num">2,599억원 (2020 대비 +52.2%)</td><td>로지오가닉 케어 라인의 인접 시장 · 젤리 제형이 건기식의 10.5%</td></tr>
-        <tr><td><b>프리미엄 유아용품(롯데백화점 1분기)</b></td><td class="num">+180% · 키즈 카테고리 +20%</td><td>오프라인 프리미엄 수요 확대 — 팝업 입점을 검토할 근거</td></tr>
-        <tr><td><b>팝업스토어 시장</b></td><td class="num">연 3,000여 개 운영</td><td>식품 팝업이 시식 중심에서 체험형으로 이동 — 유기농 소구를 감각으로 전달할 통로</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">로지오가닉 스마트스토어(smartstore.naver.com/rosyorganic)는 <b>네이버가 외부 접근을 로그인 화면으로 돌려보내</b> 수치 확인이 안 돼 자사몰 공개가로 표기했습니다. 아넬라는 브랜드스토어(brand.naver.com) 도메인이라 조회가 가능했습니다 — 스토어 상태 문제가 아니라 도메인 차이입니다.</p>
 </section>
 
 <!-- ============ 아넬라 ============ -->
 <section id="anela">
   <div class="section-head">
-    <h2 class="section-title">아넬라 — 매출 <b>베베쿡</b> / 브랜딩 <b>힙(HiPP)</b></h2>
-    <p class="section-sub">아넬라 포지션: 지중해 전용 농장 생과일 100% 퓨레 + 유기농 쌀과자 7종 · 스마트스토어 중심 판매</p>
+    <h2 class="section-title">아넬라 — 무엇을 가져올 것인가</h2>
+    <p class="section-sub">세부 실행안이 아니라 방향 세 가지. 확정된 방향에 대해서만 다음 회의에서 실행을 논의합니다</p>
   </div>
 
-  <h3 class="sub">베베쿡에서 가져올 것</h3>
-  <div class="tbl-scroll">
-    <table>
-      <thead><tr><th style="width:160px;">베베쿡의 구조</th><th>공개된 성과</th><th>아넬라 적용 지점</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><b>월령 기반 CRM</b></td>
-          <td>생후 일자별 추천(180일 이유식 체험, 200일 철분 보충). 가입 단계 개발이 막히자 <b>앱 메시지로 아이 생일을 수집</b>해 고객 과반의 월령 데이터 확보 → 무료체험 고객만 분리 발송해 주문율 +70%</td>
-          <td>우리는 <b>재구매 메시지는 이미 발송 중</b>이지만 월령 데이터가 없어 타이밍이 일괄입니다. 아이 생년월 한 칸만 확보하면 6개월 첫 과일 → 8개월 혼합 → 12개월 쌀과자로 <b>발송 타이밍을 개인화</b>할 수 있습니다</td>
-        </tr>
-        <tr>
-          <td><b>재구매 시점 데이터화</b></td>
-          <td>구매 회차별 퍼널 분석 결과 재구매가 가장 많은 시점은 <b>구매 당일과 7일 후</b></td>
-          <td>우리 제품은 대용량 구매로 개당 단가를 낮추는 구조라 <b>재구매 주기가 길고 시점이 브랜드마다 다릅니다</b>. 같은 방식으로 우리 실제 주기를 먼저 계산해 발송 시점을 재설계</td>
-        </tr>
-        <tr>
-          <td><b>정기 세트 업셀</b></td>
-          <td>정기 식단 세트 추천으로 객단가 상승, CRM 도입 8개월 만에 단가 15~25% 개선 <span class="src-tag warn">자사 발표</span></td>
-          <td>퓨레·쌀과자는 소진 주기가 예측 가능한 품목 → <b>'4주 코스' 정기 구성</b>으로 딜 할인 대신 정기 혜택에 무게를 옮기는 실험</td>
-        </tr>
-        <tr>
-          <td><b>B2B 급식 채널</b></td>
-          <td>CJ프레시웨이와 독점 유통 계약으로 어린이집·유치원 공급 및 간식 공동 개발</td>
-          <td>퍼프·롱떡뻥은 기관 간식 규격에 맞는 품목 — <b>광고비 없이 볼륨과 시식 경험을 동시에</b> 얻는 채널로 검토</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3 class="sub">힙(HiPP)에서 가져올 것 — 창업자 없이 프리미엄을 만드는 법</h3>
-  <div class="gap" style="margin-top:6px;">
-    <div class="gap-head"><span class="gap-title">힙의 방식 → 아넬라의 조건</span></div>
-    <div class="gap-body">
-      <div class="gap-col">
-        <h5>힙 (HiPP)</h5>
-        <ul>
-          <li><b>인증과 검사 숫자를 브랜드 언어로</b> — "EU 기준을 넘는 약 260개 자체 검사 항목"을 반복 노출</li>
-          <li><b>원산지·농법을 브랜드의 얼굴로</b> 사용 (창업자 개인 서사에 의존하지 않음)</li>
-          <li><b>멤버십 'HiPP 베이비클럽'</b> — 임신부터 첫돌까지 단계별 정보 제공, 웰컴·100일·첫돌 선물로 아이의 시간표를 브랜드 시간표로 만듦</li>
-          <li>이마트 등 <b>신뢰도 높은 채널 진입</b>을 브랜드 검증 장치로 활용</li>
-          <li>인스타 이벤트를 멤버십 가입 동선과 연결</li>
-        </ul>
-      </div>
-      <div class="gap-col">
-        <h5>아넬라 (조건이 같고, 도구도 있음)</h5>
-        <ul>
-          <li>이미 보유: <b>지중해 전용 농장·생과일 100%·무첨가·유기가공식품 인증·HACCP</b> — 힙이 쓴 것과 같은 종류의 자산</li>
-          <li>창업자 노출은 불가(유럽 브랜드·창업자 작고) → <b>화자를 농장과 인증, 그리고 2.8만 건의 엄마 후기로</b> 대체</li>
-          <li>브랜드 스토리를 <b>전환 소구로 쓰면 성과가 낮았던 것이 이미 검증됨</b> → 광고 헤드라인이 아니라 <b>상세페이지 중단·자사몰·팝업 등 신뢰 구간</b>에 배치</li>
-          <li>멤버십 대안: 스마트스토어 <b>알림받기 16.2만명</b> + 카카오채널을 아이 월령 기준으로 묶어 <b>'첫 과일 → 첫 과자 → 케어' 시간표</b> 제공</li>
-          <li>네이버 베이비바우처·라이프위크 등 <b>플랫폼 공식 프로그램 참여를 신뢰 장치로</b> 표기</li>
-        </ul>
-      </div>
+  <div class="dir-grid">
+    <div class="dir">
+      <div class="dir-src">베베쿡에서</div>
+      <div class="dir-title">아이가 자라도 살 것이 남아 있게</div>
+      <p>지금 아넬라는 퓨레와 쌀과자에서 끝납니다. 돌 이후에 이어질 제품 라인이 있어야 재구매가 성립합니다. <b>어떤 제품을 붙일지는 상품팀과 논의할 사안</b>이고, 마케팅에서는 <b>이탈 시점과 이탈 후 수요</b>를 데이터로 제시하겠습니다.</p>
+    </div>
+    <div class="dir">
+      <div class="dir-src">베베쿡에서</div>
+      <div class="dir-title">아이 월령을 마케팅의 기준으로</div>
+      <p>지금은 모든 고객에게 같은 메시지를 보냅니다. 아이 월령을 알면 <b>같은 비용으로 다른 결과</b>가 납니다. 데이터 수집 방식은 CRM 도구 도입과 함께 정리하겠습니다.</p>
+    </div>
+    <div class="dir">
+      <div class="dir-src">상하목장에서</div>
+      <div class="dir-title">브랜드를 한 단어로 정리</div>
+      <p>상하목장은 &lsquo;유기농&rsquo;을 이름으로 가졌습니다. 아넬라는 <b>물 한 방울 없는 생과일</b>이라는 좋은 재료를 갖고도 광고에서는 할인 문구로 소비되고 있습니다. 브랜드가 무엇으로 기억될지 <b>한 문장으로 합의하는 것</b>이 먼저입니다.</p>
     </div>
   </div>
 
-  <h3 class="sub">후보 비교</h3>
-  <div class="tbl-scroll">
+  <div class="tbl-scroll" style="margin-top:18px;">
     <table>
-      <thead><tr><th>후보</th><th>근거</th><th>판정</th></tr></thead>
+      <thead><tr><th>검토했으나 제외</th><th>사유</th></tr></thead>
       <tbody>
-        <tr><td><b>베베쿡</b></td><td>매출 610억(2023) · 간식 선호도 1위 · CRM 방법론 공개</td><td><span class="pill ok">매출 롤모델</span> 재현 가능한 방법론이 수치와 함께 공개된 유일한 국내 사례</td></tr>
-        <tr><td><b>힙(HiPP)</b></td><td>2018년 한국 공식 진출 · 유럽 유기농 · 멤버십 운영</td><td><span class="pill ok">브랜딩 롤모델</span> 국내 유통 중이라 매대·가격·메시지를 직접 비교 가능</td></tr>
-        <tr><td><b>엘라스키친</b></td><td>영국 유아식 점유율 30%</td><td><span class="pill no">제외</span> 국내 유통이 사실상 없어 비교 대조군으로 쓸 수 없음</td></tr>
-        <tr><td><b>남양 아이꼬야 · 일동후디스 아이얌</b></td><td>39~60종 라인업 · 대기업 유통망</td><td><span class="pill">참고</span> SKU 물량 전략은 복제 대상이 아님. 단 <b>아이얌의 가격 인상 관철 사례</b>는 가격 정책 참고</td></tr>
-        <tr><td><b>리틀스푼 · 거버</b></td><td>국내 퓨레 시장 경쟁 브랜드</td><td><span class="pill">경쟁사</span> 롤모델이 아니라 가격·후기·키워드 모니터링 대상</td></tr>
+        <tr><td><b>힙(HiPP)</b></td><td>국내에서는 <b>분유 브랜드로 인지</b>돼 있어 간식·디저트인 우리와 비교 대상이 되기 어려움</td></tr>
+        <tr><td><b>엘라스키친</b></td><td>국내 유통이 사실상 없어 대표님도 매대에서 확인할 수 없음</td></tr>
+        <tr><td><b>아이배냇</b></td><td>매출 345억이지만 <b>최근 5년 영업적자</b> — 매출 롤모델로 부적합. 연령 확장(&lsquo;꼬마&rsquo;) 사례로만 인용</td></tr>
+        <tr><td><b>베베당</b></td><td>경영 상황이 불안정한 것으로 확인돼 롤모델에서 제외</td></tr>
       </tbody>
     </table>
   </div>
@@ -508,89 +495,55 @@ td.r{white-space:nowrap;}
 <!-- ============ 로지오가닉 ============ -->
 <section id="rosy">
   <div class="section-head">
-    <h2 class="section-title">로지오가닉 — 매출 <b>아이배냇</b> / 브랜딩 <b>루솔</b></h2>
-    <p class="section-sub">로지오가닉 포지션: 유기농 아기 쌀과자(퍼프·떡뻥·스틱) 주력 + 케어 라인(배도라지·젤리·유산균) · 스마트스토어와 쿠팡 병행</p>
+    <h2 class="section-title">로지오가닉 — 무엇을 가져올 것인가</h2>
+    <p class="section-sub">주력은 유기농 아기 쌀과자, 케어 라인(배도라지·젤리)이 뒤를 받치는 구조</p>
   </div>
 
-  <h3 class="sub">아이배냇에서 가져올 것</h3>
-  <div class="tbl-scroll">
-    <table>
-      <thead><tr><th style="width:160px;">아이배냇의 구조</th><th>공개된 사실</th><th>로지오가닉 적용 지점</th></tr></thead>
-      <tbody>
-        <tr><td><b>전문 브랜드로 시작해 카테고리 확장</b></td><td>2012년 설립 · 산양분유로 출발해 이유식·간식·음료까지 확장, 매출 345억(2024)</td><td>같은 체급에서 <b>345억이 도달 가능한 목표선</b>임을 보여주는 사례. 우리는 쌀과자에서 시작해 케어 라인으로 넓히는 중</td></tr>
-        <tr><td><b>연령 확장으로 생애주기 연장</b></td><td>2018년 3세 이상 키즈 브랜드 <b>'꼬마'</b> 별도 론칭</td><td>쌀과자는 이미 STEP 단계 구성이 있으나 케어 라인은 11개월~ 단일. <b>3세 이상 구간</b>이 비어 있어 재구매 총 횟수가 제한됨</td></tr>
-        <tr><td><b>간식 선호도 2위(27%)</b></td><td>1위 베베쿡(42%)과 함께 소비자 인지 상위권</td><td>인지도는 <b>후기·키워드 점유</b>에서 나옴 — 우리 강점(후기 2.8만건)이 아직 로지오가닉 쪽에는 축적되지 않음</td></tr>
-        <tr><td><b>확장의 비용</b></td><td>최근 5년 영업적자 · 2024년 매출도 전년 대비 감소</td><td><b>여기가 핵심 교훈</b>: 라인업 확장이 매출은 만들지만 마진은 보장하지 않음. 확장은 <b>기존 SKU의 재구매가 붙은 뒤</b> 진행</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3 class="sub">루솔에서 가져올 것</h3>
-  <div class="gap">
-    <div class="gap-head"><span class="gap-title">루솔의 방식 → 로지오가닉의 도구</span></div>
-    <div class="gap-body">
-      <div class="gap-col">
-        <h5>루솔</h5>
-        <ul>
-          <li>라이브 <b>고정 편성</b>: 월 1회 특가 + 월 2회 소통</li>
-          <li>시청 지표 2배, 매출 2.5배 <span class="src-tag warn">자사 발표</span></li>
-          <li>방송에서 질문이 해소되며 CS 부담 감소</li>
-          <li>전 품목을 <b>'온 가족 푸드솔루션'</b> 한 문장으로 묶음</li>
-          <li>어린이음료 선호도 49% 1위</li>
-        </ul>
-      </div>
-      <div class="gap-col">
-        <h5>로지오가닉</h5>
-        <ul>
-          <li><b>'식품공학 박사 + 세 아이 아빠'</b>라는 창업 서사를 보유 — 아넬라와 달리 <b>화자를 세울 수 있는 브랜드</b></li>
-          <li>월 1회 30분 <b>Q&amp;A 라이브</b>(성분·급여 시기·월령별 간식)로 시작 — 판매보다 신뢰 축적이 목적</li>
-          <li>녹화분을 상세페이지 FAQ·숏폼으로 재사용해 <b>소재 제작비를 상쇄</b></li>
-          <li>아넬라(첫 과일·쌀과자) → 로지오가닉(케어)로 이어지는 <b>한 문장</b> 정리: "첫 간식부터 케어까지"</li>
-          <li>인스타 UGC(@rosyorganic)를 라이브 참여 동선과 연결</li>
-        </ul>
-      </div>
+  <div class="dir-grid">
+    <div class="dir">
+      <div class="dir-src">아이얌 · 하이키드에서</div>
+      <div class="dir-title">연령 사다리를 브랜드로 만들기</div>
+      <p>일동후디스는 영유아 → 어린이 → 성인으로 <b>브랜드를 갈아타게 하지 않고 이어 붙였습니다</b>. 로지오가닉도 쌀과자 이후 구간(3세 이상)이 비어 있어, 같은 고객이 다음에 살 것을 잃고 있습니다.</p>
     </div>
-  </div>
-
-  <h3 class="sub">후보 비교</h3>
-  <div class="tbl-scroll">
-    <table>
-      <thead><tr><th>후보</th><th>근거</th><th>판정</th></tr></thead>
-      <tbody>
-        <tr><td><b>아이배냇</b></td><td>전문 브랜드 체급 · 345억 · 간식 선호도 2위 · 키즈 확장</td><td><span class="pill ok">매출 롤모델</span> 카테고리와 체급이 가장 가까움</td></tr>
-        <tr><td><b>루솔</b></td><td>어린이음료 1위 · 고정 편성 라이브</td><td><span class="pill ok">브랜딩 롤모델</span> 지금 인력으로 시작 가능한 포맷</td></tr>
-        <tr><td><b>정관장 홍이장군</b></td><td>어린이 홍삼 12년 연속 1위 · 고가 정가 정책</td><td><span class="pill">보조</span> 건강기능식품에 가까워 주력(쌀과자)과 결이 다름 — <b>케어 라인 전용 참고</b>로 이동</td></tr>
-        <tr><td><b>베베당</b></td><td>유기농 쌀과자 전문 · 네이버 '아기과자' 키워드 3년 연속 1위</td><td><span class="pill">보조</span> 매출 규모는 비공개지만 <b>키워드 점유 전술</b>이 가장 실용적</td></tr>
-        <tr><td><b>CJ웰케어 얌그루 · 키클래오</b></td><td>키즈 건기식 브랜드</td><td><span class="pill no">제외</span> 기능성 표시 규제가 달라 일반식품인 우리가 복제 불가</td></tr>
-      </tbody>
-    </table>
+    <div class="dir">
+      <div class="dir-src">아이얌에서</div>
+      <div class="dir-title">가격을 올릴 수 있는 브랜드 되기</div>
+      <p>아이얌은 원가 상승을 이유로 <b>가격을 올리고도 팔리는</b> 브랜드입니다. 우리는 반대로 할인 폭으로 경쟁하고 있습니다. 이 격차의 원인은 원가가 아니라 <b>브랜드 신뢰</b>입니다.</p>
+    </div>
+    <div class="dir">
+      <div class="dir-src">루솔에서</div>
+      <div class="dir-title">할인이 아닌 이유로 다시 사게</div>
+      <p>루솔은 정기적인 소통 접점으로 팬을 만들었습니다. 로지오가닉은 <b>창업자를 내세울 수 있는</b> 브랜드이므로, 우리가 가진 자산 중 가장 저비용으로 쓸 수 있는 카드입니다.</p>
+    </div>
   </div>
 </section>
 
-<!-- ============ 딜 구조 ============ -->
+<!-- ============ 딜 ============ -->
 <section id="deal">
   <div class="section-head">
-    <h2 class="section-title">가격·딜 구조 — 한국 영유아 커머스의 전제</h2>
-    <p class="section-sub">할인을 줄이는 문제가 아니라, 딜을 설계하는 문제로 봅니다</p>
+    <h2 class="section-title">가격 결정력 — 길게 봐야 할 숙제</h2>
+    <p class="section-sub">이번에는 방향만 정리합니다. 세부는 다음 회의에서 상품·영업과 함께 논의가 필요합니다</p>
   </div>
 
-  <p class="lede">국내 영유아 시장은 <b>맘카페와 핫딜 커뮤니티가 구매 시점을 결정</b>합니다. 상당수 고객이 딜을 기다렸다가 사고, <b>'브랜드명 + 핫딜'</b>로 검색해 진입하며, 당장 필요할 때만 쿠팡에서 정가로 삽니다.
-  브랜딩이 굳은 1~2위 브랜드는 정가를 지킬 수 있지만, <b>후발 주자가 정가 정책을 고수하려면 그만한 브랜드 자본이 먼저 필요합니다.</b> 따라서 목표는 할인율을 낮추는 것이 아니라 <b>딜을 예측 가능하게 만들고, 딜에서 얻은 고객을 남기는 것</b>입니다.</p>
+  <p class="lede">국내 영유아 시장에서 구매 시점을 결정하는 것은 <b>맘카페·핫딜·공동구매</b>입니다. 고객은 <b>&lsquo;브랜드명 + 핫딜&rsquo;, &lsquo;브랜드명 + 공구&rsquo;</b>로 검색해 들어오고, 당장 필요할 때만 정가로 삽니다.
+  브랜딩이 굳은 1~2위는 정가를 지키지만, <b>후발 주자가 정가를 고수하려면 그만한 브랜드 자본이 먼저</b> 필요합니다. 그래서 지금 할인을 끊는 것은 방법이 아니고, <b>할인에 갇히지 않는 상태로 이행하는 것</b>이 목표입니다.</p>
 
-  <div class="tbl-scroll" style="margin-top:14px;">
-    <table>
-      <thead><tr><th style="width:180px;">설계 항목</th><th>현재</th><th>제안</th></tr></thead>
-      <tbody>
-        <tr><td><b>딜 주기</b></td><td>페스타·끝딜·기념 이벤트가 그때그때 편성 (9주년 이벤트 54~61% 특가 등)</td><td><b>딜 캘린더 고정</b> — 월 1회 대형 딜 + 플랫폼 행사(라이프위크·베이비바우처) 연계. 예측 가능해지면 <b>대기 수요가 딜 당일에 몰려</b> 딜 매출 자체가 커짐</td></tr>
-        <tr><td><b>'브랜드명+핫딜' 검색</b></td><td>커뮤니티·외부 사이트가 이 검색어를 가져감</td><td>해당 키워드에 <b>우리 스토어·자사몰 랜딩을 직접 연결</b>하고 딜 예고 페이지를 상시 운영 — 베베당식 키워드 점유 관리</td></tr>
-        <tr><td><b>채널 역할</b></td><td>채널별 가격이 비슷하게 움직임</td><td><b>딜 = 대용량·번들(스마트스토어/자사몰), 정가 = 즉시성·소용량(쿠팡)</b>으로 역할 분리 — 같은 고객의 두 가지 구매 상황을 각각 가져감</td></tr>
-        <tr><td><b>딜 고객의 회수</b></td><td>딜 종료와 함께 접점 종료</td><td>딜 구매자에게 <b>알림받기·카카오채널로 다음 딜 예고</b>를 걸어 <b>할인 비용을 CRM 모수 확보 비용으로 전환</b></td></tr>
-        <tr><td><b>표시가 정합성</b></td><td>채널별 표시 할인율 상이 (31~53%)</td><td>표시가 기준을 통일해 <b>딜의 체감 폭을 유지</b>하면서 상시 할인처럼 보이지 않게 정리</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="callout good">
-    <span class="tag">요지</span> 딜은 한국 시장의 비용이 아니라 <b>거래 조건</b>입니다. 우리가 통제할 수 있는 것은 할인 여부가 아니라 <b>딜의 주기·구성·회수 동선</b>이며, 이 세 가지만 정리해도 같은 할인율에서 남는 것이 달라집니다.
+  <div class="phase-grid">
+    <div class="phase">
+      <div class="phase-when">지금</div>
+      <div class="phase-title">딜을 정리한다</div>
+      <p>산발적인 행사를 <b>예측 가능한 주기</b>로 묶습니다. 딜이 규칙적이면 대기 수요가 딜 당일에 모여 <b>같은 할인율에서 더 큰 매출</b>이 납니다.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-when">중기</div>
+      <div class="phase-title">딜 밖의 구매 이유를 만든다</div>
+      <p>연령 확장으로 <b>지금 사야 할 이유</b>(아이가 그 단계에 도달)를 만들고, 후기·체험으로 <b>가격 외의 근거</b>를 쌓습니다. 딜 고객을 알림받기·채널로 회수해 <b>할인 비용이 고객 자산으로</b> 남게 합니다.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-when">장기</div>
+      <div class="phase-title">가격을 정할 수 있는 브랜드로</div>
+      <p>아이얌처럼 <b>가격을 올려도 팔리는 상태</b>가 목표입니다. 이건 마케팅 단독으로는 불가능하고 상품·원가·유통이 함께 움직여야 하는 사안입니다.</p>
+    </div>
   </div>
 </section>
 
@@ -598,107 +551,79 @@ td.r{white-space:nowrap;}
 <section id="next">
   <div class="section-head">
     <h2 class="section-title">다음 단계 과제</h2>
-    <p class="section-sub">지금 하고 있는 것 위에서, 롤모델이 먼저 해둔 것을 얹는 순서로 정리했습니다</p>
+    <p class="section-sub">우선순위 순서 · 큰 맥락만 정리했습니다</p>
   </div>
 
   <div class="gap">
-    <div class="gap-head"><span class="gap-no">1</span><span class="gap-title">재구매 — 메시지는 보내고 있고, 다음은 타이밍입니다</span></div>
+    <div class="gap-head"><span class="gap-no">1</span><span class="gap-title">연령 확장 — 가장 시급합니다</span></div>
     <div class="gap-body">
       <div class="gap-col"><h5>현재</h5><ul>
-        <li>재구매 유도 메시지 <b>운영 중</b>, 다만 CRM 도구 도입 전이라 발송 타이밍이 일괄</li>
-        <li>대용량 구매로 개당 단가를 낮추는 판매 구조 → <b>재구매 주기가 길다</b></li>
-        <li>제품 특성상 <b>섭취 기간이 짧아</b> 고객 한 명당 재구매 횟수 자체가 제한적</li>
-        <li>자사몰은 육성 초기 단계라 반응 축적에 시간이 걸림</li>
+        <li>제품이 커버하는 구간이 <b>이유식 시작~돌 전후</b>에 몰려 있음</li>
+        <li>아이가 자라면 이어서 살 제품이 없어 <b>고객이 자연스럽게 이탈</b></li>
+        <li>경쟁 브랜드는 3세 이상 라인으로 같은 고객을 계속 보유</li>
       </ul></div>
-      <div class="gap-col"><h5>다음 단계 — 베베쿡</h5><ul>
-        <li>주문 데이터로 <b>실제 재구매 주기</b>를 먼저 산출 (제품별 소진일 추정)</li>
-        <li>아이 <b>생년월 수집</b> → 월령 기준 발송으로 전환</li>
-        <li>재구매 횟수 한계는 <b>브랜드 간 이관</b>으로 보완: 아넬라 퓨레 → 쌀과자 → 로지오가닉 케어</li>
-        <li>지표: 재구매율보다 <b>고객 1인당 누적 구매액</b>을 기준으로</li>
+      <div class="gap-col"><h5>방향</h5><ul>
+        <li>돌 이후 구간을 어떤 제품으로 채울지 <b>상품팀과 논의 시작</b></li>
+        <li>마케팅은 <b>이탈 시점과 이탈 후 수요 데이터</b>를 제시</li>
+        <li>아넬라 → 로지오가닉으로 이어지는 <b>브랜드 간 이관 동선</b> 우선 설계</li>
       </ul></div>
     </div>
   </div>
 
   <div class="gap">
-    <div class="gap-head"><span class="gap-no">2</span><span class="gap-title">딜 구조 — 없애는 게 아니라 캘린더로 만듭니다</span></div>
+    <div class="gap-head"><span class="gap-no">2</span><span class="gap-title">재구매 구조 — CRM 도구 도입을 준비 중입니다</span></div>
     <div class="gap-body">
       <div class="gap-col"><h5>현재</h5><ul>
-        <li>스마트스토어 상시 31~32%, 기념 이벤트 시 54~61%까지 운영</li>
-        <li>플랫폼 행사(라이프위크·베이비바우처) 참여 중 — 유입 효과 확인됨</li>
-        <li>딜 고객이 다음 딜까지 이어지는 동선은 아직 미설계</li>
+        <li>법인폰 명의가 불분명해 문자 기반 발송에 제약이 있어, <b>채널톡 등 별도 CRM 서비스 접목을 준비 중</b></li>
+        <li>대용량 구매로 개당 단가를 낮추는 구조라 <b>재구매 주기가 길다</b></li>
+        <li>섭취 기간이 짧아 고객당 재구매 횟수 자체가 제한적</li>
       </ul></div>
-      <div class="gap-col"><h5>다음 단계</h5><ul>
-        <li><b>월 1회 고정 딜 + 플랫폼 행사</b> 캘린더화</li>
-        <li>'브랜드명+핫딜' 검색 유입을 <b>우리 페이지로</b> 회수</li>
-        <li>딜/정가 <b>채널 역할 분리</b> (딜=번들, 쿠팡=즉시성)</li>
-        <li>지표: 딜 참여 고객의 <b>알림받기 전환율</b></li>
+      <div class="gap-col"><h5>방향</h5><ul>
+        <li>CRM 도입과 함께 <b>아이 월령을 기준으로</b> 메시지 타이밍 재설계</li>
+        <li>목표 지표를 재구매율이 아니라 <b>고객 1인당 누적 구매액</b>으로</li>
       </ul></div>
     </div>
   </div>
 
   <div class="gap">
-    <div class="gap-head"><span class="gap-no">3</span><span class="gap-title">보유 자산의 이전 — 후기와 UGC는 이미 충분합니다</span></div>
+    <div class="gap-head"><span class="gap-no">3</span><span class="gap-title">쌓아둔 자산을 자사몰로 옮기기</span></div>
     <div class="gap-body">
       <div class="gap-col"><h5>현재</h5><ul>
-        <li>스마트스토어 <b>누적 후기 20만건 이상</b> (대표 상품 단일 2.8만건, 평점 4.8)</li>
-        <li>인스타 UGC 축적 중 (@anela_korea / @rosyorganic)</li>
-        <li>자사몰은 <b>스킨 개편 진행 중</b>이며 자사몰 광고로 육성 중</li>
+        <li>후기 <b>20만건 이상</b>과 인스타 UGC는 스마트스토어·SNS에 있고, 자사몰에는 거의 없음</li>
+        <li>자사몰은 <b>스킨 개편 진행 중</b>이며 광고로 육성하는 단계</li>
       </ul></div>
-      <div class="gap-col"><h5>다음 단계 — 코니바이에린</h5><ul>
-        <li>스마트스토어 후기에서 <b>반복 등장 문장</b>을 추출해 자사몰 상세·광고 카피로 재배치</li>
-        <li>인스타 UGC를 <b>자사몰 첫 화면</b>과 팝업 콘텐츠로 이관</li>
-        <li>고객 요청을 제품 기획으로 되돌리는 창구 1개 (코니 방식)</li>
-        <li>지표: 자사몰 전환율, 자사몰 후기 축적 속도</li>
+      <div class="gap-col"><h5>방향</h5><ul>
+        <li>개편에 맞춰 <b>후기·UGC를 자사몰과 광고 소재로 이전</b></li>
+        <li>코니바이에린처럼 고객의 말이 <b>제품과 콘텐츠로 되돌아가는 구조</b></li>
       </ul></div>
     </div>
   </div>
 
   <div class="gap">
-    <div class="gap-head"><span class="gap-no">4</span><span class="gap-title">브랜드 스토리 — 전환 소구가 아니라 신뢰 구간에 배치합니다</span></div>
+    <div class="gap-head"><span class="gap-no">4</span><span class="gap-title">할인에 갇히지 않는 상태로 이행</span></div>
     <div class="gap-body">
       <div class="gap-col"><h5>현재</h5><ul>
-        <li>메타·네이버에서 <b>브랜드 스토리 소구를 이미 테스트</b> — 구매 전환 기여는 낮은 것으로 확인</li>
-        <li>유럽 브랜드이며 창업자 노출은 불가능</li>
-        <li>원료·농장·인증 자산은 보유 (생과일 100%, 유기가공식품 인증, HACCP)</li>
+        <li>핫딜·공구가 구매 시점을 결정하는 시장 구조</li>
+        <li>행사 참여는 유입에 효과가 있으나 <b>가격 인식이 딜가로 굳는</b> 부작용</li>
       </ul></div>
-      <div class="gap-col"><h5>다음 단계 — 힙(HiPP)</h5><ul>
-        <li>스토리는 <b>광고 헤드라인에서 빼고</b> 상세페이지 중단·자사몰·팝업 등 <b>구매 직전 신뢰 구간</b>으로 이동</li>
-        <li>화자를 창업자가 아니라 <b>인증·검사 항목·농장</b>으로 (힙의 '260개 검사 항목' 방식)</li>
-        <li>로지오가닉은 <b>창업자 화자 활용 가능</b> — 브랜드별로 전략을 분리</li>
-        <li>지표: 상세페이지 체류·스크롤 도달률, 재구매 고객의 브랜드 인지</li>
+      <div class="gap-col"><h5>방향</h5><ul>
+        <li>딜을 <b>예측 가능한 주기</b>로 정리(위 가격 결정력 섹션)</li>
+        <li>딜 고객을 <b>채널 구독으로 회수</b>해 할인 비용을 자산으로 전환</li>
+        <li>가격 정책 자체는 <b>상품·영업과 공동 논의 필요</b></li>
       </ul></div>
     </div>
   </div>
 
   <div class="gap">
-    <div class="gap-head"><span class="gap-no">5</span><span class="gap-title">채널 — 온라인은 갖췄고, 남은 축은 오프라인입니다</span></div>
+    <div class="gap-head"><span class="gap-no">5</span><span class="gap-title">브랜드를 직접 경험시킬 접점</span></div>
     <div class="gap-body">
       <div class="gap-col"><h5>현재</h5><ul>
-        <li>네이버 스마트스토어(메인) · <b>쿠팡(매출 비중 큼)</b> · 컬리 입점 완료</li>
-        <li>자사몰 육성을 위한 광고 집행 중</li>
-        <li>오프라인 접점은 아직 없음</li>
+        <li>브랜드 스토리 소구는 <b>광고에서 이미 테스트했고 전환 기여가 낮았음</b></li>
+        <li>온라인 채널(스마트스토어·쿠팡·컬리·자사몰)은 갖췄고 오프라인 접점은 없음</li>
       </ul></div>
-      <div class="gap-col"><h5>다음 단계</h5><ul>
-        <li>영유아 식품 브랜드가 확대 중인 <b>백화점·아울렛 키즈존 팝업</b> 검토 (연 3,000여 개 팝업 시장, 식품은 체험형으로 이동)</li>
-        <li>팝업은 <b>시식 + 인증 스토리 + 즉시 구매</b>를 한 곳에서 전달 — 광고에서 전환이 낮았던 브랜드 스토리를 살릴 통로</li>
-        <li>B2B(어린이집·유치원) 간식 납품은 볼륨과 시식 경험을 함께 얻는 대안</li>
-        <li>지표: 팝업 1회당 획득 고객 수·알림받기 전환</li>
-      </ul></div>
-    </div>
-  </div>
-
-  <div class="gap">
-    <div class="gap-head"><span class="gap-no">6</span><span class="gap-title">연령 확장 — 쌀과자는 단계가 있고, 케어 라인이 비어 있습니다</span></div>
-    <div class="gap-body">
-      <div class="gap-col"><h5>현재</h5><ul>
-        <li>로지오가닉 쌀과자는 <b>STEP 단계별 구성</b> 보유 (5개월~ 떡뻥부터)</li>
-        <li>아넬라 퓨레 6개월~, 쌀과자 5개월~</li>
-        <li>케어 라인(배도라지즙)은 11개월~ <b>단일 구간</b></li>
-      </ul></div>
-      <div class="gap-col"><h5>다음 단계 — 홍이장군</h5><ul>
-        <li>케어 라인을 <b>연령 2~3단계</b>로 나눠 재구매 사다리 확보</li>
-        <li>3세 이상 구간은 아이배냇 '꼬마'처럼 <b>별도 구성</b>으로 검토</li>
-        <li>지표: 고객당 생애 구매 횟수, 브랜드 간 교차 구매율</li>
+      <div class="gap-col"><h5>방향</h5><ul>
+        <li>유기농·무첨가는 <b>먹여보면 설득되는</b> 메시지 — 상하목장이 공간으로 한 것과 같은 접근</li>
+        <li>백화점·아울렛 키즈존 팝업을 <b>검토 안건으로</b> 제안 (비용·인력은 별도 논의)</li>
       </ul></div>
     </div>
   </div>
@@ -708,21 +633,20 @@ td.r{white-space:nowrap;}
 <section id="src">
   <div class="section-head">
     <h2 class="section-title">수치 신뢰도 &amp; 출처</h2>
-    <p class="section-sub">인용한 수치의 출처 성격을 등급으로 표기했습니다 — 절대치 비교보다 방향성 참고용입니다</p>
+    <p class="section-sub">인용 수치의 출처 성격을 구분했습니다 — 절대치 비교보다 방향성 참고용입니다</p>
   </div>
 
   <div class="tbl-scroll">
     <table>
-      <thead><tr><th>수치</th><th>출처 성격</th><th>해석 시 주의</th></tr></thead>
+      <thead><tr><th>수치</th><th>성격</th><th>주의</th></tr></thead>
       <tbody>
-        <tr><td>베베쿡 매출 610억(2023) / 아이배냇 345억·영업손실(2024)</td><td><span class="src-tag ok">공시 재무</span></td><td>감사보고서 기반 기업정보로 신뢰도 높음. 다만 <b>연도가 서로 다름</b>(2023 vs 2024), 베베쿡 2024년 수치는 미공개</td></tr>
-        <tr><td>베베쿡 이유식 시장 점유율 약 40%</td><td><span class="src-tag warn">기업 보도자료</span></td><td>유통 파트너사 보도자료 기준 — 제3자 조사 수치가 아님</td></tr>
-        <tr><td>베베쿡 CRM 성과(주문율 +70%, 객단가 15~25% 상승 등)</td><td><span class="src-tag warn">자사 발표</span></td><td>마케팅 솔루션 행사에서 <b>브랜드·대행사가 직접 발표</b>한 내용. 캠페인 단위 상대 수치이며 전사 실적이 아님 — <b>방법론만 참고</b></td></tr>
-        <tr><td>브랜드 선호도(간식 베베쿡 42% / 아이배냇 27%, 어린이음료 루솔 49%)</td><td><span class="src-tag warn">매체 독자 투표</span></td><td>육아 매체 투표 결과로 <b>표본이 공개되지 않음</b>. 실제 점유율과 다를 수 있음 — 인지도 지표로만 사용</td></tr>
-        <tr><td>홍이장군 12년 연속 판매 1위 / 가격대 8~13만원</td><td><span class="src-tag warn">자사 보도자료</span></td><td>닐슨 데이터를 인용하고 있으나 <b>원자료는 비공개</b>. 가격대는 기사 서술 기준</td></tr>
-        <tr><td>루솔 라이브 매출 2.5배</td><td><span class="src-tag warn">자사 발표</span></td><td>라이브 플랫폼 인터뷰 기준, 기준 시점·모수 비공개</td></tr>
-        <tr><td>출생아·양육비·시장 규모 통계</td><td><span class="src-tag ok">정부·업계 통계</span></td><td>국가 통계 및 업계 추정치. 2025년 시장 규모는 <b>전망치</b></td></tr>
-        <tr><td>우리 광고 성과(ROAS 1,076% 등)</td><td><span class="src-tag ok">내부 대시보드</span></td><td>대행사 대시보드 기준 <b>광고 기여 매출</b> — 브랜드 총매출과 다름</td></tr>
+        <tr><td>베베쿡 610억(2023) · 일동후디스 2,051억·영업이익 42억(2024)</td><td><span class="src-tag ok">공시 재무</span></td><td>감사보고서 기반. 연도가 서로 다름</td></tr>
+        <tr><td>일동후디스 2025년 매출 1,868억(-8.9%)</td><td><span class="src-tag ok">공시 재무</span></td><td>회사 전체는 역성장 중 — <b>배울 것은 연령 확장 구조이지 성장률이 아님</b></td></tr>
+        <tr><td>상하목장 유기농 우유 1위 · 프리미엄 매출 성장</td><td><span class="src-tag warn">기업 발표·보도</span></td><td>브랜드 단위 매출은 비공개</td></tr>
+        <tr><td>브랜드 선호도 순위(간식 베베쿡 1위, 어린이음료 루솔 49%)</td><td><span class="src-tag warn">매체 독자 투표</span></td><td>표본 비공개 — 인지도 지표로만 사용</td></tr>
+        <tr><td>아이배냇 345억·5년 연속 적자</td><td><span class="src-tag ok">공시 재무</span></td><td>롤모델에서 제외한 근거</td></tr>
+        <tr><td>제품 커버 연령대</td><td><span class="src-tag warn">추정</span></td><td>제품 표기 섭취 월령 기준, 상한은 라인업 구성에서 추정한 값</td></tr>
+        <tr><td>우리 광고 성과(아넬라 ROAS 1,004% · 로지오가닉 532%)</td><td><span class="src-tag ok">내부 대시보드</span></td><td>8월 2주차 기준 <b>광고 기여 매출</b> — 브랜드 총매출과 다름</td></tr>
       </tbody>
     </table>
   </div>
@@ -730,21 +654,19 @@ td.r{white-space:nowrap;}
   <div class="card" style="margin-top:16px;">
     <h4 class="sub2">출처 링크</h4>
     <ul class="src">
-      <li>베베쿡 — <a href="https://www.saramin.co.kr/zf_user/company-info/view-inner-finance/csn/VVJmYU9TSHh4Q2luMm96anF3WS9xZz09/company_nm/(%EC%A3%BC)%EB%B2%A0%EB%B2%A0%EC%BF%A1">재무정보</a> · <a href="https://www.brandbrief.co.kr/news/articleView.html?idxno=7887">CRM 성과(브랜드브리프)</a> · <a href="https://cjnews.cj.net/">CJ프레시웨이 독점 유통</a></li>
-      <li>힙(HiPP) — <a href="https://www.busan.com/view/busan/view.php?code=20180905000241">국내 공식 론칭</a> · <a href="https://m.sedaily.com/article/12677447">HiPP 베이비클럽 멤버십</a> · <a href="https://www.madtimes.co.kr/news/articleView.html?idxno=23274">브랜드 소개(매드타임스)</a></li>
-      <li>아이배냇 — <a href="https://news.nate.com/view/20250402n30216">2024년 실적</a> · <a href="https://www.foodtoday.or.kr/news/article.html?no=162178">배냇밀 론칭(푸드투데이)</a></li>
-      <li>루솔 — <a href="https://blog.gripcloud.show/lusol-interview">라이브커머스 인터뷰</a> · <a href="https://www.thinkfood.co.kr/news/articleView.html?idxno=85323">어린이음료 트렌드(식품음료신문)</a></li>
-      <li>베베당 — <a href="https://thehi.co.kr/in-the-press/?pageid=1&amp;mod=document&amp;uid=69">브랜드 가치평가 1위 보도</a></li>
-      <li>정관장 홍이장군 — <a href="https://www.yakpum.co.kr/9244">약품신문</a> · <a href="https://www.dailypharm.com/user/news/107657">어린이 영양제 시장(데일리팜)</a></li>
-      <li>코니바이에린 — <a href="https://www.hankyung.com/article/202605208291i">한국경제</a></li>
-      <li>브랜드 선호도 조사 — <a href="https://www.ibabynews.com/news/articleView.html?idxno=136987">베이비뉴스 2025</a></li>
-      <li>시장·통계 — <a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156745912">2025년 출생 통계</a> · <a href="https://m.skyedaily.com/news_view.html?ID=304633">2026년 1분기 출생아·키즈 소비</a> · <a href="https://edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=04657606645510584">영유아 간편식 시장</a> · <a href="https://digitalchosun.dizzo.com/site/data/html_dir/2025/04/24/2025042480137.html">키즈 건기식</a> · <a href="https://www.openads.co.kr/content/contentDetail?contsId=19913">팝업스토어 트렌드</a></li>
-      <li>자사 — <a href="https://brand.naver.com/anela">아넬라 스마트스토어</a> · <a href="https://rosyorganic.com/">공식몰</a> (2026.08.19 확인)</li>
+      <li>베베쿡 — <a href="https://www.saramin.co.kr/zf_user/company-info/view-inner-finance/csn/VVJmYU9TSHh4Q2luMm96anF3WS9xZz09/company_nm/(%EC%A3%BC)%EB%B2%A0%EB%B2%A0%EC%BF%A1">재무정보</a> · <a href="https://www.sisunnews.co.kr/news/articleView.html?idxno=229508">브랜드 선호도</a></li>
+      <li>일동후디스 — <a href="https://m.saramin.co.kr/job-search/company-info-view/finance?csn=Mk1rUmdURlNZQ1hBYkxGclV4MjBVQT09">2024년 재무정보</a> · <a href="http://sateconomy.co.kr/news/view/1065573856122745">2025년 실적·브랜드 구조</a> · <a href="https://www.newsis.com/view/NISX20251016_0003364860">아이얌 가격 정책</a></li>
+      <li>상하목장 — <a href="https://www.insight.co.kr/news/565552">브랜드 확장 전략</a> · <a href="https://www.smartbizn.com/news/articleView.html?idxno=141034">영유아식 진출</a></li>
+      <li>루솔 — <a href="https://www.thinkfood.co.kr/news/articleView.html?idxno=85323">어린이음료 선호도</a> · <a href="https://blog.gripcloud.show/lusol-interview">브랜드 인터뷰</a></li>
+      <li>아이배냇 — <a href="https://news.nate.com/view/20250402n30216">2024년 실적</a></li>
+      <li>코니바이에린 — <a href="https://www.hankyung.com/article/202605208291i">한국경제</a> · 정관장 홍이장군 — <a href="https://www.yakpum.co.kr/9244">약품신문</a></li>
+      <li>시장 통계 — <a href="https://www.korea.kr/briefing/policyBriefingView.do?newsId=156745912">2025년 출생 통계</a> · <a href="https://edaily.co.kr/News/Read?mediaCodeNo=257&amp;newsId=04657606645510584">영유아 간편식 시장</a></li>
+      <li>자사 — <a href="https://brand.naver.com/anela">아넬라 스마트스토어</a> · <a href="https://rosyorganic.com/">공식몰</a> (2026.08 확인)</li>
     </ul>
   </div>
 </section>
 
 <footer class="foot">
-  아넬라 · 로지오가닉 롤모델 브랜드 벤치마킹 · 2026.08 · 내부 검토 자료
+  아넬라 · 로지오가닉 롤모델 브랜드 벤치마킹 · 2026.08
 </footer>
 </div>
