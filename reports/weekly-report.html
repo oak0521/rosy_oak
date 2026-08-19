@@ -1,0 +1,1223 @@
+<title>브랜드 주간 리포트</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
+
+:root{
+  --bg-page:#f6f8f4;
+  --surface-1:#ffffff;
+  --surface-2:#eef1e9;
+  --border:#dde3d6;
+  --text-primary:#1a2420;
+  --text-secondary:#55625a;
+  --text-muted:#8b968e;
+  --accent:#12705f;
+  --accent-soft:#e3f1ec;
+  --accent-ink:#0c4a3f;
+
+  --media-search:#1baf7a;
+  --media-search-soft:#e2f5ec;
+  --media-gfa:#d9762e;
+  --media-gfa-soft:#fbead9;
+  --media-meta:#2a78d6;
+  --media-meta-soft:#e3edfb;
+
+  --good:#0ca30c;
+  --good-soft:#e5f6e2;
+  --warning:#b8790a;
+  --warning-soft:#fdefd8;
+  --serious:#c85a34;
+  --serious-soft:#fbe6dc;
+  --critical:#d03b3b;
+  --critical-soft:#fbe2e2;
+
+  --gridline:#e4e7de;
+  --shadow: 0 1px 2px rgba(20,30,20,0.04), 0 4px 14px rgba(20,30,20,0.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-page:#101210;
+    --surface-1:#191b18;
+    --surface-2:#212420;
+    --border:#33362f;
+    --text-primary:#f3f5ef;
+    --text-secondary:#c3c7ba;
+    --text-muted:#8b9186;
+    --accent:#3fd6a8;
+    --accent-soft:#163329;
+    --accent-ink:#8ff0cf;
+
+    --media-search:#199e70;
+    --media-search-soft:#122a20;
+    --media-gfa:#d9762e;
+    --media-gfa-soft:#2e2013;
+    --media-meta:#3987e5;
+    --media-meta-soft:#152439;
+
+    --good:#39c239;
+    --good-soft:#123317;
+    --warning:#e7ab35;
+    --warning-soft:#332711;
+    --serious:#e58a5f;
+    --serious-soft:#33201a;
+    --critical:#e66767;
+    --critical-soft:#331717;
+
+    --gridline:#2c2f28;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg-page:#101210;
+  --surface-1:#191b18;
+  --surface-2:#212420;
+  --border:#33362f;
+  --text-primary:#f3f5ef;
+  --text-secondary:#c3c7ba;
+  --text-muted:#8b9186;
+  --accent:#3fd6a8;
+  --accent-soft:#163329;
+  --accent-ink:#8ff0cf;
+
+  --media-search:#199e70;
+  --media-search-soft:#122a20;
+  --media-gfa:#d9762e;
+  --media-gfa-soft:#2e2013;
+  --media-meta:#3987e5;
+  --media-meta-soft:#152439;
+
+  --good:#39c239;
+  --good-soft:#123317;
+  --warning:#e7ab35;
+  --warning-soft:#332711;
+  --serious:#e58a5f;
+  --serious-soft:#33201a;
+  --critical:#e66767;
+  --critical-soft:#331717;
+
+  --gridline:#2c2f28;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg-page);
+  color:var(--text-primary);
+  font-family:'IBM Plex Sans KR', -apple-system, sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px;}
+.num{font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-variant-numeric:tabular-nums;}
+[hidden]{display:none !important;}
+
+/* ---------- header ---------- */
+header.top{
+  border-bottom:1px solid var(--border);
+  background:var(--surface-1);
+  position:sticky; top:0; z-index:40;
+}
+.top-inner{
+  max-width:1120px;margin:0 auto;padding:18px 20px 0;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.brand-block{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+.brand-title{
+  font-family:'Gowun Batang', serif; font-weight:700;
+  font-size:26px; letter-spacing:-0.01em; color:var(--text-primary);
+}
+.brand-tabs{display:flex;gap:6px;}
+.brand-chip{
+  font-size:12.5px; padding:5px 12px; border-radius:999px; border:1px solid var(--border);
+  color:var(--text-secondary); background:var(--surface-2); cursor:pointer; text-decoration:none;
+  font-family:inherit;
+}
+.brand-chip.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;cursor:default;}
+.brand-chip:not(.active):hover{border-color:var(--accent);color:var(--accent-ink);}
+.period{font-size:13px;color:var(--text-muted);}
+.period b{color:var(--text-secondary);font-weight:600;}
+
+nav.subnav{display:flex;gap:2px;margin-top:14px;overflow-x:auto;}
+nav.subnav a{
+  white-space:nowrap; font-size:13px; padding:10px 14px; color:var(--text-secondary);
+  text-decoration:none; border-bottom:2px solid transparent;
+}
+nav.subnav a:hover{color:var(--text-primary);}
+nav.subnav a.current{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:600;}
+
+/* ---------- generic section ---------- */
+section{padding:40px 0 8px;border-bottom:1px solid var(--border);}
+section:last-of-type{border-bottom:none;}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+h2.section-title{font-size:18px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+.section-sub{font-size:12.5px;color:var(--text-muted);margin:2px 0 0;}
+
+.card{
+  background:var(--surface-1);border:1px solid var(--border);border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* ---------- quadrant summary ---------- */
+.quad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media (max-width:720px){.quad-grid{grid-template-columns:1fr;}}
+.quad{padding:18px 20px;border-radius:12px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow);}
+.quad-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.quad-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+.quad-title{font-size:13.5px;font-weight:700;}
+.quad ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;}
+.quad li{font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:6px;list-style:disc;}
+.quad li b{color:var(--text-primary);font-weight:600;}
+.quad li .bullet-text{flex:1;padding:4px 6px;border-radius:5px;outline:none;}
+.quad li .bullet-text:hover{background:var(--surface-2);}
+.quad li .bullet-text:focus{background:var(--surface-2);box-shadow:0 0 0 1.5px var(--accent) inset;}
+.quad li .del-btn{
+  flex:none;width:18px;height:18px;border-radius:50%;border:none;background:transparent;
+  color:var(--text-muted);font-size:14px;line-height:1;cursor:pointer;margin-top:5px;
+  opacity:0;transition:opacity .12s;
+}
+.quad li:hover .del-btn{opacity:1;}
+.quad li .del-btn:hover{background:var(--critical-soft);color:var(--critical);}
+.add-btn{
+  margin-top:8px;font-size:12px;color:var(--accent-ink);background:none;border:1px dashed var(--border);
+  border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;
+}
+.add-btn:hover{background:var(--accent-soft);border-color:var(--accent);}
+.edit-hint{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-muted);margin:-4px 0 12px;}
+.edit-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;}
+.quad.good{border-left:3px solid var(--good);}
+.quad.bad{border-left:3px solid var(--serious);}
+.quad.doing{border-left:3px solid var(--warning);}
+.quad.need{border-left:3px solid var(--critical);}
+.note-pill{display:inline-block;font-size:11px;color:var(--text-muted);background:var(--surface-2);border-radius:6px;padding:2px 7px;margin-top:8px;}
+
+/* weekly compare table */
+.wk-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:12.5px;}
+.wk-table th,.wk-table td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--gridline);white-space:nowrap;}
+.wk-table th:first-child,.wk-table td:first-child{text-align:left;color:var(--text-secondary);}
+.wk-table thead th{color:var(--text-muted);font-weight:600;font-size:11.5px;border-bottom:1px solid var(--border);}
+.wk-table tbody tr:last-child td{font-weight:700;color:var(--accent-ink);background:var(--accent-soft);}
+.delta-up{color:var(--good);}
+.delta-down{color:var(--critical);}
+
+/* ---------- kpi cards ---------- */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:14px;}
+@media (max-width:900px){.kpi-row{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:520px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+.kpi{padding:13px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface-1);}
+.kpi .l{font-size:11px;color:var(--text-muted);margin-bottom:5px;}
+.kpi .v{font-size:16px;font-weight:600;}
+
+/* ---------- tabs ---------- */
+.tabbar{display:flex;gap:6px;flex-wrap:wrap;}
+.tabbtn{
+  font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface-1);color:var(--text-secondary);cursor:pointer;font-family:inherit;
+}
+.tabbtn.active{background:var(--text-primary);color:var(--bg-page);border-color:var(--text-primary);font-weight:600;}
+.tabbtn[data-media="search"].active{background:var(--media-search);border-color:var(--media-search);color:#fff;}
+.tabbtn[data-media="gfa"].active{background:var(--media-gfa);border-color:var(--media-gfa);color:#fff;}
+.tabbtn[data-media="meta"].active{background:var(--media-meta);border-color:var(--media-meta);color:#fff;}
+.subtabbar{display:flex;gap:6px;margin-top:12px;}
+.subtabbtn{
+  font-size:12.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface-2);color:var(--text-secondary);cursor:pointer;font-family:inherit;
+}
+.subtabbtn.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+
+.mnote{border:1px solid var(--border);border-left-width:3px;border-radius:8px;padding:10px 13px;background:var(--surface-1);font-size:12.5px;color:var(--text-secondary);}
+.mnote b.mnote-label{color:var(--text-primary);font-weight:700;margin-right:4px;}
+
+/* channel split mini bars */
+.split-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+@media (max-width:640px){.split-row{grid-template-columns:1fr;}}
+.split-card{border:1px solid var(--border);border-radius:10px;padding:14px 16px;background:var(--surface-1);}
+.split-card .sc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.split-card .sc-name{font-size:13px;font-weight:600;}
+.split-card .sc-roas{font-size:12px;color:var(--text-muted);}
+.bar-track{height:8px;border-radius:5px;background:var(--surface-2);overflow:hidden;}
+.bar-fill{height:100%;border-radius:5px;}
+.sc-figs{display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;color:var(--text-muted);}
+
+/* campaign table */
+.tbl-wrap{overflow-x:auto;margin-top:16px;border:1px solid var(--border);border-radius:10px;}
+table.data{width:100%;border-collapse:collapse;font-size:12.5px;min-width:760px;}
+table.data th,table.data td{padding:9px 11px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--gridline);}
+table.data th:first-child,table.data td:first-child{text-align:left;}
+table.data td:first-child{color:var(--text-primary);font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;}
+table.data thead th{background:var(--surface-2);color:var(--text-muted);font-weight:600;font-size:11px;position:sticky;top:0;}
+table.data tbody tr:hover{background:var(--surface-2);}
+.chan-tag{font-size:10.5px;padding:2px 7px;border-radius:5px;font-weight:600;}
+.chan-store{background:var(--accent-soft);color:var(--accent-ink);}
+.chan-mall{background:var(--media-gfa-soft);color:var(--media-gfa);}
+.roas-cell{font-weight:700;}
+
+/* creative ranking */
+.rank-list{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+.rank-item{
+  display:grid;grid-template-columns:26px 1fr auto auto auto;gap:12px;align-items:center;
+  padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface-1);
+}
+@media (max-width:720px){.rank-item{grid-template-columns:22px 1fr auto;row-gap:6px;}
+  .rank-item .ri-cost,.rank-item .ri-conv{display:none;}}
+.rank-item .ri-rank{font-family:'IBM Plex Mono';font-size:11px;color:var(--text-muted);}
+.rank-item .ri-name{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;}
+.rank-item .ri-cost,.rank-item .ri-conv{font-size:11.5px;color:var(--text-muted);text-align:right;}
+.rank-item .ri-roas{font-size:13px;font-weight:700;text-align:right;min-width:78px;}
+.badge{font-size:10px;padding:2px 6px;border-radius:5px;font-weight:700;margin-left:6px;vertical-align:1px;}
+.badge.good{background:var(--good-soft);color:var(--good);}
+.badge.bad{background:var(--critical-soft);color:var(--critical);}
+.creative-note{margin-top:12px;font-size:12px;color:var(--text-muted);background:var(--surface-2);border-radius:8px;padding:10px 12px;}
+
+/* chart */
+.chart-card{padding:18px 20px 22px;position:relative;}
+.chart-tabs{display:flex;gap:6px;margin-bottom:14px;}
+svg.chart{width:100%;height:auto;overflow:visible;font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;}
+.axis-label{font-size:10px;fill:var(--text-muted);}
+.tip-target{cursor:pointer;}
+.legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);}
+.legend-swatch{width:10px;height:10px;border-radius:2px;}
+.ghost-note{font-size:11.5px;color:var(--text-muted);text-align:center;margin-top:6px;}
+
+.chart-tooltip{
+  position:absolute;pointer-events:none;z-index:5;background:var(--text-primary);color:var(--bg-page);
+  font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-size:11.5px;line-height:1.5;
+  padding:7px 10px;border-radius:7px;box-shadow:var(--shadow);white-space:nowrap;
+  transform:translate(-50%,-100%);margin-top:-10px;transition:opacity .08s;opacity:0;
+}
+.chart-tooltip.show{opacity:1;}
+.chart-tooltip b{display:block;font-weight:600;margin-bottom:2px;color:var(--bg-page);}
+
+/* monthly commentary accordion */
+.trend-notes{margin-top:16px;display:flex;flex-direction:column;gap:8px;}
+.trend-notes details{
+  border:1px solid var(--border);border-radius:9px;background:var(--surface-1);overflow:hidden;
+}
+.trend-notes summary{
+  list-style:none;cursor:pointer;padding:11px 14px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:8px;user-select:none;
+}
+.trend-notes summary::-webkit-details-marker{display:none;}
+.trend-notes summary::before{
+  content:'';width:7px;height:7px;border-right:1.6px solid var(--text-muted);border-bottom:1.6px solid var(--text-muted);
+  transform:rotate(-45deg);transition:transform .15s;flex:none;
+}
+.trend-notes details[open] summary::before{transform:rotate(45deg);}
+.trend-notes .tn-body{padding:2px 16px 14px 29px;display:flex;flex-direction:column;gap:9px;}
+.tn-item b{font-size:12.5px;color:var(--text-primary);}
+.tn-item p{margin:3px 0 0;font-size:12.5px;color:var(--text-secondary);}
+.tn-tag{font-size:10.5px;color:var(--text-muted);background:var(--surface-2);border-radius:5px;padding:1px 6px;margin-left:6px;}
+
+/* comment / mission */
+.comment-card{padding:18px 20px;}
+.comment-card h3{margin:0 0 10px;font-size:14px;}
+textarea.memo{
+  width:100%;min-height:110px;resize:vertical;border:1px solid var(--border);border-radius:8px;
+  background:var(--surface-2);color:var(--text-primary);font-family:inherit;font-size:13px;padding:10px 12px;
+}
+.prefill-list{margin:0 0 14px;padding-left:18px;}
+.prefill-list li{font-size:12.5px;color:var(--text-secondary);margin-bottom:5px;}
+.callout{
+  border:1px solid var(--warning);background:var(--warning-soft);color:var(--text-primary);
+  border-radius:9px;padding:12px 14px;font-size:12.5px;margin-top:14px;
+}
+.callout b{color:var(--warning);}
+
+.mission-card{padding:20px 22px;}
+.mission-card h3{margin:0 0 4px;font-size:15px;}
+.mission-meta{font-size:12px;color:var(--text-muted);margin-bottom:14px;}
+.mission-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+@media (max-width:720px){.mission-grid{grid-template-columns:1fr;}}
+.mission-item{border:1px solid var(--border);border-radius:9px;padding:12px 14px;background:var(--surface-2);}
+.mission-item .who{font-size:11.5px;color:var(--text-muted);}
+.mission-item .what{font-size:15px;font-weight:700;font-family:'Gowun Batang',serif;margin:2px 0 4px;}
+.mission-item .why{font-size:12.5px;color:var(--text-secondary);}
+.mission-link{display:inline-block;margin-top:14px;font-size:13px;font-weight:600;color:#fff;background:var(--accent);
+  border-radius:8px;padding:9px 16px;text-decoration:none;}
+.mission-link:hover{background:var(--accent-ink);}
+.mission-note{font-size:12.5px;color:var(--text-secondary);margin:12px 0 0;}
+.mission-empty{
+  padding:26px 20px;text-align:center;color:var(--text-muted);font-size:13px;
+  border:1px dashed var(--border);border-radius:10px;background:var(--surface-2);
+}
+
+footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-block">
+      <span class="brand-title" id="brandTitle">아넬라 주간 리포트</span>
+      <div class="brand-tabs" id="brandSwitch">
+        <button type="button" class="brand-chip active" data-brand="anela">아넬라</button>
+        <button type="button" class="brand-chip" data-brand="rosy">로지오가닉</button>
+      </div>
+    </div>
+    <div class="period">리포트 기간 <b>2026.08.10 – 08.16</b> · 2주차 · 대표 주간회의용 요약</div>
+  </div>
+  <nav class="subnav wrap" style="padding-left:0;padding-right:0;">
+    <a href="#summary" class="current">핵심요약</a>
+    <a href="#trend">월별 추이</a>
+    <a href="#media">매체별 성과</a>
+    <a href="#creative">소재별 성과</a>
+    <a href="#comment">코멘트</a>
+    <a href="#mission">주간 미션</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ SUMMARY ============ -->
+  <section id="summary">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">핵심 요약</h2>
+        <p class="section-sub">전주(8/3–8/9) 대비 2주차(8/10–8/16) 비교 · 대시보드 수치 기준</p>
+      </div>
+    </div>
+
+    <p class="edit-hint"><span class="edit-dot"></span>아래 항목을 클릭하면 바로 수정할 수 있어요 — 편집 내용은 이 페이지에 저장됩니다.</p>
+
+    <!-- ===== 아넬라 ===== -->
+    <div data-brand-panel="anela">
+      <div class="quad-grid">
+        <div class="quad good">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--good)"></span><span class="quad-title">👍 좋았던 점</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">전체 매출 +94%, ROAS 532% → 1,004% — 오늘끝딜과 메타 카탈로그·파트너십 영상 효율 개선이 견인</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">브랜드검색 매출 +150%, ROAS 1,797% → 4,486% (월~화 오늘끝딜 영향)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">GFA 매출 +198%, ROAS 500% → 1,378%</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 카탈로그 캠페인 ROAS 상승 견인 (전주대비 매출 증가 언급 — 정확한 주간 금액은 엑셀과 차이가 있어 확인 중, 코멘트 섹션 참고)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 파트너십 영상 캠페인 ROAS 상승 견인 (별개 캠페인 — 정확한 주간 금액은 엑셀과 차이가 있어 확인 중, 코멘트 섹션 참고)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">쇼핑검색 내 퓨레캠페인 매출 +67% — 주말에도 매출 견조(8/15 토 약 65만원)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+        <div class="quad bad">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--serious)"></span><span class="quad-title">👎 안좋았던 점</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">파워링크: 연휴(8/15~16 토~일) 영향으로 광고비 -35% 축소 운영, 클릭 -32%, 일평균 전환수 3건→2건으로 감소</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">쇼핑검색 내 과자캠페인 매출 -39% (금요일부터 전환 저하, 8/15 토 매출 미발생)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 아넬라 시크릿링크 ROAS 687% → 342%로 매출 -53%</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 자사몰 바캉스 간식 페스타: 구매건수는 늘었지만 객단가 하락으로 매출·효율 감소</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+        <div class="quad doing">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--warning)"></span><span class="quad-title">🔧 개선하고 있는 것</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">GFA: 반응 저조했던 '밥테기 소구' 14일간 OFF, 현재 할인 소구만 운영 중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 웰컴박스: 차주 중 OFF 예정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+        <div class="quad need">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--critical)"></span><span class="quad-title">🎯 개선이 필요한 것 (차주 운영방향)</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">메타: 시크릿링크 효율 모니터링 &amp; 소재 교체</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">GFA: 상시 소재 기획 — 금주 중 새 소구 기획안 전달 예정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">파워링크: 연휴 이후 일평균 전환수 회복 여부 모니터링 필요</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+      </div>
+
+      <table class="wk-table card">
+        <thead>
+          <tr><th>기간</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>광고비</th><th>구매</th><th>CVR</th><th>매출액</th><th>ROAS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>8/3 – 8/9 (1주차)</td><td class="num">409,379</td><td class="num">5,579</td><td class="num">1.36%</td><td class="num">554원</td><td class="num">3,088,119원</td><td class="num">448</td><td class="num">8.0%</td><td class="num">16,428,948원</td><td class="num">532.0%</td></tr>
+          <tr><td>8/10 – 8/16 (2주차)</td><td class="num">433,600</td><td class="num">5,872</td><td class="num">1.35%</td><td class="num">542원</td><td class="num">3,182,034원</td><td class="num">800</td><td class="num">13.6%</td><td class="num">31,947,352원</td><td class="num">1,004.0%</td></tr>
+          <tr><td>전주 대비</td><td class="num delta-up">+6%</td><td class="num delta-up">+5%</td><td class="num delta-down">-1%p</td><td class="num delta-up">-2%</td><td class="num delta-up">+3%</td><td class="num delta-up">+79%</td><td class="num delta-up">+70%</td><td class="num delta-up">+94%</td><td class="num delta-up">+89%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== 로지오가닉 ===== -->
+    <div data-brand-panel="rosy" hidden>
+      <div class="quad-grid">
+        <div class="quad good">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--good)"></span><span class="quad-title">👍 좋았던 점</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">전체 매출 +11%, ROAS 532% — 광고비는 전주와 유사하게 소진, 전환율 +1.1%p 개선</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">쇼핑검색 매출 +106%, ROAS 251% → 401% — 과자·음료 캠페인 모두 증가, 쌀과자 오늘끝딜로 8/10~11 전환 집중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">브랜드검색 매출 +30%, ROAS 636% → 826% — 8/10~12 전환 집중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">GFA 매출 +71%, ROAS 107% → 193% — 카탈로그 91%→710%, 웹전환 108%→153%로 둘 다 개선</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타-상시 매출 유사 확보(ROAS 850%→844%) — 간식고민 소재에서 신규 전환 발생</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+        <div class="quad bad">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--serious)"></span><span class="quad-title">👎 안좋았던 점</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">파워링크 광고비 -15%, 매출 -42%, ROAS 292% → 199% — 목~일 클릭수 전반적 감소 영향</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">파워링크 구매K·대표K 캠페인 매출·ROAS 감소 (구매K는 떡뻥·돌아기간식 전환 감소가 원인)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 할인소재 매출 소폭 감소 (구매 6건 감소) — 간식고민 소재가 상쇄</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+        <div class="quad doing">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--warning)"></span><span class="quad-title">🔧 개선하고 있는 것</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">GFA 웹전환 지속운영 여부 검토 중 — ROAS 지속 상승 확인, 차주 200% 달성 여부로 최종 결정 예정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+        <div class="quad need">
+          <div class="quad-head"><span class="quad-dot" style="background:var(--critical)"></span><span class="quad-title">🎯 개선이 필요한 것 (차주 운영방향)</span></div>
+          <ul artifact-sync>
+            <li><span class="bullet-text" contenteditable="true">네이버 검색: 효율 중심 운영, 확장검색 키워드 추가 및 키워드 효율 분석</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">메타 상시 캠페인: 전환 캠페인 성과 모니터링</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+            <li><span class="bullet-text" contenteditable="true">GFA: 웹전환 효율 모니터링</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          </ul>
+          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
+        </div>
+      </div>
+
+      <table class="wk-table card">
+        <thead>
+          <tr><th>기간</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>광고비</th><th>구매</th><th>CVR</th><th>매출액</th><th>ROAS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>8/3 – 8/9 (1주차)</td><td class="num">110,862</td><td class="num">1,703</td><td class="num">1.59%</td><td class="num">844원</td><td class="num">1,487,489원</td><td class="num">295</td><td class="num">16.75%</td><td class="num">7,196,679원</td><td class="num">403.7%</td></tr>
+          <tr><td>8/10 – 8/16 (2주차)</td><td class="num">111,598</td><td class="num">1,855</td><td class="num">1.65%</td><td class="num">811원</td><td class="num">1,505,077원</td><td class="num">330</td><td class="num">17.84%</td><td class="num">8,016,824원</td><td class="num">532.0%</td></tr>
+          <tr><td>전주 대비</td><td class="num delta-up">+1%</td><td class="num delta-up">+9%</td><td class="num delta-up">+0.06%p</td><td class="num delta-up">-4%</td><td class="num delta-up">+1%</td><td class="num delta-up">+12%</td><td class="num delta-up">+1.1%p</td><td class="num delta-up">+11%</td><td class="num delta-up">+32%</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11.5px;color:var(--text-muted);margin-top:8px;">※ 대행사 코멘트 원문은 유입(클릭수) 증가를 &ldquo;5%&rdquo;로 서술했으나, 대시보드 표 수치로 계산하면 +9%로 나타나 소폭 차이가 있습니다. CVR(+1.1%p)·매출(+11%)·ROAS(532%)는 원문과 표가 정확히 일치합니다.</p>
+    </div>
+  </section>
+
+  <!-- ============ MONTHLY TREND ============ -->
+  <section id="trend">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">월별 추이</h2>
+        <p class="section-sub">광고비 · 매출 · ROAS 흐름 — 2026년 1월~7월, 대행사 월간 리포트 기준</p>
+      </div>
+    </div>
+    <div class="card chart-card">
+      <div class="tabbar chart-tabs" id="trendTabs">
+        <button class="tabbtn active" data-t="all">전체 브랜드</button>
+        <button class="tabbtn" data-t="search" data-media="search">네이버 검색광고</button>
+        <button class="tabbtn" data-t="gfa" data-media="gfa">GFA</button>
+        <button class="tabbtn" data-t="meta" data-media="meta">메타</button>
+      </div>
+      <div id="trendChart"></div>
+      <div class="chart-tooltip" id="chartTooltip"></div>
+      <div class="ghost-note">8월은 아직 진행 중(2주차까지)이라 월 비교 왜곡을 피하기 위해 제외했습니다 — 마감 후 다음 갱신에 자동 반영됩니다</div>
+
+      <!-- ===== 아넬라 코멘트 ===== -->
+      <div class="trend-notes" data-brand-panel="anela">
+        <details>
+          <summary>전체 코멘트<span class="tn-tag">7월 전월대비</span></summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>7월 총평</b><p>전체 광고비 4% 감액 운영 → 쇼핑검색·브랜드검색에서 매출이 하락했지만 GFA·메타에서 매출을 보완하며 전월 대비 전체 매출액 4% 상승.</p></div>
+          </div>
+        </details>
+        <details>
+          <summary>네이버 검색광고 코멘트<span class="tn-tag">파워링크 · 쇼핑검색 · 브랜드검색</span></summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>파워링크 — 상반기 총평</b><p>예산을 지속적으로 증액하여 4월 최대 매출 달성 후 5~6월은 유입 볼륨을 확장했으나 전환율이 감소하며 효율 350%대로 마감.</p></div>
+            <div class="tn-item"><b>파워링크 — 7월 전월대비</b><p>광고비 8% 증액, 유입 8% 증가 및 전환율 0.3%p 상승했으나 객단가 7% 감소하며 매출액은 3% 증가에 그침.</p></div>
+            <div class="tn-item"><b>쇼핑검색 — 상반기 총평</b><p>상반기 평균 ROAS 1,100%에 달하는 고효율 매체. 6월은 전환율 감소에도 유입 증가로 상반기 중 최고 매출 달성.</p></div>
+            <div class="tn-item"><b>쇼핑검색 — 7월 전월대비</b><p>광고비는 비슷하게 소진됐지만 유입 6% 증가. 전환율·객단가가 각 6% 감소하며 전체 매출액은 16% 감소.</p></div>
+            <div class="tn-item"><b>브랜드검색 — 상반기 총평</b><p>평균 전환율 31.54%, 평균 ROAS 3,442%. 4월 10주년 이벤트, 6월 넷다세일 이벤트로 높은 효율 달성.</p></div>
+            <div class="tn-item"><b>브랜드검색 — 7월 전월대비</b><p>운영일수는 1일 늘었지만 PC 버전 운영 종료로 광고비 31% 감소, 유입 6% 감소, 매출액 9% 감소 — 다만 ROAS는 4,647%로 오히려 상승.</p></div>
+          </div>
+        </details>
+        <details>
+          <summary>GFA 코멘트</summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>상반기 총평</b><p>리타겟팅(카탈로그) 중심으로 운영, 브랜드검색광고와 유사한 흐름을 보임.</p></div>
+            <div class="tn-item"><b>7월 전월대비</b><p>카탈로그에 더해 GFA(웹사이트 전환)를 추가 운영하며 광고비 341% 증액 — ROAS는 감소했지만 매출 볼륨은 145% 증가.</p></div>
+          </div>
+        </details>
+        <details>
+          <summary>메타 코멘트</summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>상반기 총평</b><p>2월부터 본격 운영 시작. 4월 최고 전환율(12.2%)로 매출 4,700만원·ROAS 849% 달성했으나, 5~6월은 유입은 유지된 채 전환율이 감소하며 매출·ROAS 하락.</p></div>
+            <div class="tn-item"><b>7월 전월대비</b><p>네이버 협력광고 효율 저조로 광고비 21% 감액 운영했으나 전환율이 증가하며 전체 매출액은 46% 증가.</p></div>
+          </div>
+        </details>
+      </div>
+
+      <!-- ===== 로지오가닉 코멘트 ===== -->
+      <div class="trend-notes" data-brand-panel="rosy" hidden>
+        <details>
+          <summary>전체 코멘트<span class="tn-tag">7월 전월대비</span></summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>7월 총평</b><p>광고비 25% 증액, 유입(클릭수) 52% 증가, 전환율 1%p 개선으로 전체 매출 46% 상승. ROAS 420%→493% 개선. CPC·CPM 모두 하락하며 유입 단가·트래픽 효율 개선.</p></div>
+            <div class="tn-item"><b>견인 요인</b><p>네이버 SA·GFA·메타를 중심으로 노출·유입 확대. 브랜드검색 전환율이 21%p 상승하며 전월대비 약 650만원 매출 증가 — 전월 추가 전환추적 사이트에 로지오가닉이 반영되며 데이터가 보완된 영향으로 판단.</p></div>
+          </div>
+        </details>
+        <details>
+          <summary>네이버 검색광고 코멘트<span class="tn-tag">파워링크 · 쇼핑검색 · 브랜드검색</span></summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>파워링크 — 3~4월 정점 이후</b><p>3~4월 매출 정점 기록 후 5~6월은 효율 중심 운영으로 전환, 6월 최고 ROAS 265%로 마감.</p></div>
+            <div class="tn-item"><b>파워링크 — 7월 전월대비</b><p>광고비 54% 감액했음에도 유입 47% 증가하며 매출 40% 증가. 1주차 넾다세일 종료 구간 증액 후 점진적 감액.</p></div>
+            <div class="tn-item"><b>쇼핑검색 — 상반기 흐름</b><p>3월 예산 증액으로 1차 매출 정점 달성 후, 6월 구매전환율 상승으로 예산 절감에도 상반기 최대 매출 달성.</p></div>
+            <div class="tn-item"><b>쇼핑검색 — 7월 전월대비</b><p>광고비 유사 소진, 유입·전환율 증가로 매출 21% 상승. 브랜드K 캠페인 전환율 4%p 상승이 주요 요인.</p></div>
+            <div class="tn-item"><b>브랜드검색 — 상반기 흐름</b><p>3~4월 브랜드 유입 폭발로 3월 ROAS 969% 달성했으나, 5~6월은 유입은 유지된 채 전환율 하락하며 효율 감소 — <b>5~6월 전환 데이터 추적 유실 가능성 高</b>(대행사 코멘트).</p></div>
+            <div class="tn-item"><b>브랜드검색 — 7월 전월대비</b><p>광고비 3% 증액, 유입 16%·전환율 21%p·객단가 7% 전반적 증가로 매출 244% 증가. 6월 전환 추적 보완 후 7월 효율이 정상화된 것으로 판단.</p></div>
+          </div>
+        </details>
+        <details>
+          <summary>GFA 코멘트</summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>상반기 흐름</b><p>리타겟팅(카탈로그) 중심 운영. 2월 유입 고점 이후 하락 흐름이었으나 6월 유입 반등, 2분기 전환율 20%대 유지하며 ROAS는 상승 유지.</p></div>
+            <div class="tn-item"><b>7월 전월대비</b><p>카탈로그에 GFA(웹사이트 전환) 추가 운영하며 광고비 197% 증액했으나, 웹전환 효율 저조(ROAS 70%)로 전체 ROAS는 108%로 하락. 8월부터 웹전환 OFF하고 예산을 네이버 검색광고로 재배분 예정.</p></div>
+          </div>
+        </details>
+        <details>
+          <summary>메타 코멘트<span class="tn-tag">3월부터 운영</span></summary>
+          <div class="tn-body">
+            <div class="tn-item"><b>운영 개요</b><p>3월 광고 시작 후 월별 유입·전환율 증가 흐름, 매출·ROAS 모두 상승 추세.</p></div>
+            <div class="tn-item"><b>7월 전월대비</b><p>광고비 24% 증액, 유입 86% 증가. 객단가 27%↓·전환율 3%p↓에도 매출 16% 증가. 네이버협력광고 카탈로그 캠페인(6/29~7/14) ROAS 182%로 저조해 OFF, 효율 좋은 전환캠페인(할인·간식고민 소재) 재라이브.</p></div>
+            <div class="tn-item"><b>⚠ 데이터 주의</b><p>로지오가닉 전환캠페인의 랜딩페이지가 <b>아넬라 스마트스토어 URL</b>로 연결되고 있어, 해당 링크를 통한 아넬라 상품 구매도 로지오가닉 전환으로 집계될 수 있습니다 — 순수 로지오가닉 구매건수로 보기 어려운 부분이 있다고 대행사가 직접 안내했습니다.</p></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEDIA PERFORMANCE ============ -->
+  <section id="media">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">매체별 성과</h2>
+        <p class="section-sub">2026.08.10 – 08.16 · 매체 → 판매채널(스마트스토어/자사몰) 순으로 확인</p>
+      </div>
+    </div>
+
+    <div class="tabbar" id="mediaTabs">
+      <button class="tabbtn active" data-media="search">네이버 검색광고<span style="opacity:.7;font-weight:400"> · 쇼핑검색/파워링크/브랜드검색</span></button>
+      <button class="tabbtn" data-media="gfa">GFA</button>
+      <button class="tabbtn" data-media="meta">메타</button>
+    </div>
+    <div class="subtabbar" id="channelTabs">
+      <button class="subtabbtn active" data-chan="total">전체</button>
+      <button class="subtabbtn" data-chan="store">스마트스토어</button>
+      <button class="subtabbtn" data-chan="mall">자사몰</button>
+    </div>
+
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <div id="mediaNotes" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;"></div>
+
+    <div class="split-row" id="splitRow"></div>
+
+    <div class="tbl-wrap">
+      <table class="data" id="campaignTable">
+        <thead>
+          <tr><th>캠페인</th><th>채널</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>광고비</th><th>전환</th><th>CVR</th><th>매출액</th><th>CPA</th><th>ROAS</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ CREATIVE ============ -->
+  <section id="creative">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">소재별 성과</h2>
+        <p class="section-sub">메타 · GFA — 캠페인명을 소재 기준으로 대체 표기 (개별 소재명 미설정)</p>
+      </div>
+    </div>
+    <div class="tabbar" id="creativeTabs">
+      <button class="tabbtn active" data-media="meta">메타</button>
+      <button class="tabbtn" data-media="gfa">GFA</button>
+    </div>
+    <div class="rank-list" id="creativeList"></div>
+    <div class="creative-note">
+      썸네일 미연동 상태입니다. 이미지/영상 파일을 전달해주시면 소재별 카드에 매칭해 표시할 수 있고, 이후 메타 API 연동 시 소재명·썸네일을 자동으로 가져오도록 구성할 예정입니다.
+    </div>
+  </section>
+
+  <!-- ============ COMMENT ============ -->
+  <section id="comment">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">코멘트</h2>
+        <p class="section-sub">이번 주 이슈사항 · 데이터를 볼 때 참고할 내용을 자유롭게 기록하는 공간</p>
+      </div>
+    </div>
+
+    <!-- ===== 아넬라 ===== -->
+    <div data-brand-panel="anela">
+      <div class="card comment-card">
+        <h3>대행사 담당자 코멘트 요약 (8월 2주차)</h3>
+        <ul class="prefill-list">
+          <li>전주대비 클릭 +5%, 객단가 +9%, 전환율 +5.6%p로 전반적 상승 → 전체 매출 +94%, ROAS 1,004%</li>
+          <li>매출·효율 증가 요인: <b>오늘끝딜</b> 프로모션 진행 &amp; <b>메타(카탈로그, 파트너십 영상 캠페인)</b> 효율 개선</li>
+          <li>파워링크는 연휴(8/15~16)로 광고비를 35% 축소 운영 — 이 기간 일평균 전환수는 감소했지만 오늘끝딜 진행된 월·화 전환은 상승</li>
+          <li>쇼핑검색은 과자캠페인 부진(-39%)을 퓨레캠페인 호조(+67%)가 상쇄하며 전체 +57%</li>
+        </ul>
+        <h3>메모</h3>
+        <textarea class="memo" placeholder="예) 8월 3주차부터 스마트스토어 여름 행사 시작 예정 — 다음 주 매출 급등 가능성 있음">여기에 이번 주 특이사항이나 참고할 내용을 자유롭게 적어주세요.</textarea>
+      </div>
+      <div class="card comment-card" style="margin-top:14px;">
+        <h3>차주 운영 방향 (대행사 제시)</h3>
+        <ul class="prefill-list">
+          <li><b>메타</b>: 시크릿링크 효율 모니터링 &amp; 소재 교체</li>
+          <li><b>GFA</b>: 상시 소재 기획 (금주 중 새 소구 기획안 전달 예정)</li>
+        </ul>
+      </div>
+      <div class="callout" style="margin-top:14px;">
+        <b>⚠ 데이터 정합성 확인 필요</b> — 대행사 코멘트 수치를 캠페인별 엑셀(8/1~8/16, 16일 합계)과 대조한 결과, 메타 일부 캠페인의 절대 금액이 맞지 않습니다. 대행사에 확인 요청 부탁드립니다.
+        <ul class="prefill-list" style="margin-top:8px;">
+          <li>카탈로그 캠페인(260629_아넬라 카탈로그 판매, 파트너십 영상과는 별개 캠페인): 코멘트상 &lsquo;금주 매출 약 375만원&rsquo; vs 엑셀상 &lsquo;16일 전체 매출 208만원&rsquo; — 2주차(7일) 단독 매출이 16일 전체보다 클 수 없어 모순</li>
+          <li>파트너십 영상 캠페인(260305_아넬라_베이비바우처_2, 카탈로그와는 별개 캠페인): 코멘트상 &lsquo;금주 매출 약 348만원&rsquo; vs 엑셀상 &lsquo;16일 전체 매출 196만원&rsquo; — 동일한 모순</li>
+          <li>아넬라 시크릿링크(260729_자사몰_시크릿링크_검색 + 7일뒤, 2개 캠페인 합): 코멘트상 &lsquo;금주 매출 약 126만원&rsquo; 기준 역산한 2주 합계와 엑셀 16일 합계(503만원) 간 약 28% 차이 — 이 정도는 8/1~8/2 이틀치 매출로 설명 가능한 범위라 심각한 불일치는 아님</li>
+        </ul>
+        <p style="margin:8px 0 0;font-size:12px;color:var(--text-muted);">참고로 전체 합계(매출 94%↑, ROAS 1,004%)와 GFA·브랜드검색 수치는 반올림 수준 오차로 대체로 일치했습니다. <b>메타 쪽만 유독 크게 벗어나는 이유</b>는 이번 달 메타 광고 시스템이 불안정해서 일부 캠페인을 껐다가 다시 켠 이력이 있었기 때문으로 보입니다 — 온/오프 구간에서는 리포팅 수치가 꼬이거나 재집계되는 경우가 있어, 카탈로그·파트너십 영상 캠페인의 큰 차이는 이 영향일 가능성이 높습니다. 그래도 정확한 원인은 대행사에 한 번 확인받는 걸 권장드립니다.</p>
+        <p style="margin:8px 0 0;font-size:12px;color:var(--text-muted);"><b>반영된 수정사항</b> — 웰컴박스(공짜·0원) 2개 캠페인 채널을 스마트스토어→자사몰로 수정, &lsquo;로지음료시크릿링크&rsquo; 계열 2개 캠페인은 로지오가닉 데이터로 확인되어 이 리포트에서 제외했습니다. 이 영향으로 메타 매체 합계가 광고비 2,457,163원→2,310,018원, 매출 10,432,805원→10,196,105원(ROAS 424.6%→441.4%)로 소폭 조정되었습니다.</p>
+      </div>
+    </div>
+
+    <!-- ===== 로지오가닉 ===== -->
+    <div data-brand-panel="rosy" hidden>
+      <div class="card comment-card">
+        <h3>대행사 담당자 코멘트 요약 (8월 2주차)</h3>
+        <ul class="prefill-list">
+          <li>전주와 광고비 유사 소진, 전환율 +1.1%p로 전체 매출 +11%, ROAS 532%</li>
+          <li>ROAS 증가 매체: 쇼핑검색 · 브랜드검색 · GFA / ROAS 감소 매체: 파워링크 · 메타(상시, 소폭)</li>
+          <li>파워링크는 목~일 클릭 감소로 광고비 15% 감액 운영 — 구매K·대표K 매출·ROAS 감소가 주요 원인</li>
+          <li>GFA는 카탈로그·웹전환 둘 다 개선 — 웹전환은 차주 ROAS 200% 달성 여부로 지속 운영 최종 결정 예정</li>
+        </ul>
+        <h3>메모</h3>
+        <textarea class="memo" placeholder="예) 8월 3주차 프로모션 일정, 참고할 내용을 자유롭게 적어주세요">여기에 이번 주 특이사항이나 참고할 내용을 자유롭게 적어주세요.</textarea>
+      </div>
+      <div class="card comment-card" style="margin-top:14px;">
+        <h3>차주 운영 방향 (대행사 제시)</h3>
+        <ul class="prefill-list">
+          <li><b>네이버 검색</b>: 효율 중심 운영, 확장검색 키워드 추가 및 키워드 효율 분석</li>
+          <li><b>메타 상시 캠페인</b>: 전환 캠페인 성과 모니터링</li>
+          <li><b>GFA</b>: 웹전환 효율 모니터링</li>
+        </ul>
+      </div>
+      <div class="callout" style="margin-top:14px;">
+        <b>ℹ 데이터 확인 사항</b> — 이번 주는 아넬라 때와 같은 수준의 큰 모순(캠페인 개별 금액 불일치)은 발견되지 않았습니다. 다만 참고해주실 부분이 있습니다.
+        <ul class="prefill-list" style="margin-top:8px;">
+          <li><b>메타 8월 대시보드 캡처</b> — 캠페인별 엑셀(메타 3건)에 더해 대시보드 화면도 반영했습니다 (아래 매체별 성과 탭 참고).</li>
+          <li><b>메타 전환캠페인 랜딩페이지가 아넬라 스마트스토어 URL</b>로 연결되어 있어 로지오가닉 전환수에 아넬라 구매가 섞여 있을 수 있습니다 (대행사가 월간 리포트에서 직접 언급).</li>
+          <li><b>브랜드검색 5~6월 전환 데이터 추적 유실 가능성</b>이 있었다고 대행사가 언급 — 7월에 추적이 보완되며 매출이 급증(+244%)한 것으로 보입니다. 5~6월 효율 저하를 실제 성과 하락으로 오독하지 않도록 주의가 필요합니다.</li>
+          <li>주간 비교표의 유입(클릭수) 증가율만 원문(5%)과 표 계산치(9%) 간 소폭 차이가 있습니다 (핵심요약 하단 각주 참고) — 큰 문제는 아니라고 판단됩니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MISSION ============ -->
+  <section id="mission">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">주간 미션</h2>
+        <p class="section-sub">이번 주 별도로 지정된 미션이 있을 경우 여기에 표시됩니다 (두 브랜드 공통)</p>
+      </div>
+    </div>
+    <div class="card mission-card">
+      <h3>아넬라 · 로지오가닉 롤모델 브랜드 서치</h3>
+      <p class="mission-meta">매출 롤모델 / 브랜딩 롤모델 각 1개씩 선정 · 국내에서 실제로 유통 중인 브랜드 기준 · 2026.08 조사</p>
+      <div class="mission-grid">
+        <div class="mission-item">
+          <div class="who">아넬라 · 매출 롤모델</div>
+          <div class="what">베베쿡</div>
+          <div class="why">매출 610억(2023, 공시) · 영유아 간식 선호도 1위. 월령 기반 CRM·채널 전용 SKU·B2B 급식으로 짧은 고객 생애주기를 방어한 국내 사례.</div>
+        </div>
+        <div class="mission-item">
+          <div class="who">아넬라 · 브랜딩 롤모델</div>
+          <div class="what">힙 (HiPP)</div>
+          <div class="why">아넬라와 조건이 같은 유럽 유기농 브랜드. 창업자 스토리 없이 인증·검사 항목·멤버십(베이비클럽)으로 한국에서 프리미엄 인지를 만든 방식.</div>
+        </div>
+        <div class="mission-item">
+          <div class="who">로지오가닉 · 매출 롤모델</div>
+          <div class="what">아이배냇</div>
+          <div class="why">전문 브랜드 체급에서 345억(2024, 공시) · 간식 선호도 2위. 유기농 간식에서 3세 이상 키즈로 넓힌 확장 경로가 로지오가닉 검토 순서와 동일.</div>
+        </div>
+        <div class="mission-item">
+          <div class="who">로지오가닉 · 브랜딩 롤모델</div>
+          <div class="what">루솔</div>
+          <div class="why">어린이음료 선호도 49% 1위. 월 1회 특가 + 월 2회 소통 라이브 고정 편성 — &lsquo;식품공학 박사 + 세 아이 아빠&rsquo; 창업자 자산을 쓸 수 있는 포맷.</div>
+        </div>
+      </div>
+      <p class="mission-note"><b>보조 벤치마크</b> — 베베당(네이버 &lsquo;아기과자&rsquo; 키워드 3년 연속 1위), 정관장 홍이장군(케어 라인 가격·루틴), 코니바이에린(자사몰 육성).
+      <b>핵심</b>은 광고 효율(1~7월 ROAS 1,076%)이 아니라, 스마트스토어에 쌓인 후기 20만건과 관심고객 16.2만명을 자사몰과 재구매 구조로 옮기는 일입니다.</p>
+      <a class="mission-link" href="https://claude.ai/code/artifact/eaa5f6f0-e6a7-46b5-a506-8500a65f5d07" target="_blank" rel="noopener">전체 벤치마킹 리포트 열기 →</a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span id="footSource">데이터 출처: 서스테이너블 컨설팅 대행사 대시보드(anela.sus1.report) 캡처 · 엑셀 내보내기, 2026.08 기준</span>
+    <span>상단 브랜드 탭을 눌러 아넬라 ↔ 로지오가닉 전환</span>
+  </footer>
+</div>
+
+<script>
+const fmt = n => Math.round(n).toLocaleString('ko-KR');
+const pct = n => (Math.round(n*10)/10).toLocaleString('ko-KR') + '%';
+
+const mediaColor = {search:'var(--media-search)', gfa:'var(--media-gfa)', meta:'var(--media-meta)'};
+const mediaSoft  = {search:'var(--media-search-soft)', gfa:'var(--media-gfa-soft)', meta:'var(--media-meta-soft)'};
+
+function agg(rows){
+  const a = {imp:0,clk:0,cost:0,conv:0,rev:0};
+  rows.forEach(r=>{a.imp+=r.imp;a.clk+=r.clk;a.cost+=r.cost;a.conv+=r.conv;a.rev+=r.rev;});
+  a.roas = a.cost ? a.rev/a.cost*100 : 0;
+  a.ctr = a.imp ? a.clk/a.imp*100 : 0;
+  a.cpc = a.clk ? a.cost/a.clk : 0;
+  a.cvr = a.clk ? a.conv/a.clk*100 : 0;
+  a.cpa = a.conv ? a.cost/a.conv : 0;
+  return a;
+}
+const roasOf = (cost,rev)=> cost? rev/cost*100 : 0;
+
+// ================= BRAND DATA =================
+const BRANDS = {
+  anela: {
+    label: '아넬라',
+    title: '아넬라 주간 리포트',
+    footSource: '데이터 출처: 서스테이너블 컨설팅 대행사 대시보드(anela.sus1.report) 캡처 · 엑셀 내보내기, 2026.08 기준',
+    campaigns: [
+      // 네이버 쇼핑검색 (all 스마트스토어)
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_퓨레종합_일반K', imp:463551, clk:1012, cost:1173419.09, conv:182, rev:5944000},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_퓨레종합_브랜드K', imp:61155, clk:697, cost:424176.36, conv:197, rev:7870220},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_과자(떡뻥)_일반K', imp:16822, clk:352, cost:417140.91, conv:51, rev:791800},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_퓨레개별_통합K', imp:23083, clk:128, cost:102776.36, conv:23, rev:764020},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_과자(떡뻥)_브랜드K', imp:2358, clk:34, cost:3244.55, conv:10, rev:181200},
+      // 네이버 파워링크
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_퓨레K', imp:35703, clk:486, cost:506086.36, conv:43, rev:1590100},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_브랜드K', imp:2725, clk:137, cost:125576.36, conv:18, rev:701000},
+      {media:'search', src:'파워링크', chan:'mall', name:'SA_아넬라 캠페인_자사몰', imp:7796, clk:118, cost:85642.73, conv:4, rev:57200},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_베이비바우처', imp:3232, clk:21, cost:10300.91, conv:0, rev:0},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_과자K(브랜드)', imp:3203, clk:18, cost:8139.09, conv:1, rev:21900},
+      // 네이버 브랜드검색
+      {media:'search', src:'브랜드검색', chan:'store', name:'아넬라_브검_모바일', imp:2853, clk:1294, cost:426662, conv:328, rev:14153800},
+      // GFA (all 스마트스토어)
+      {media:'gfa', src:'GFA', chan:'store', name:'아넬라_상시_테스트 운영', imp:45679, clk:925, cost:613002, conv:140, rev:6296640},
+      {media:'gfa', src:'GFA', chan:'store', name:'아넬라_카탈로그_리타겟기반', imp:6916, clk:75, cost:104161, conv:23, rev:896300},
+      {media:'gfa', src:'GFA', chan:'store', name:'넷다세일', imp:0, clk:0, cost:0, conv:5, rev:286600},
+      // 메타 — 아넬라 시크릿링크 = '검색' + '7일뒤' 두 캠페인. '로지음료시크릿링크' 계열(2건)은 로지오가닉 데이터로 확인되어 제외함.
+      {media:'meta', src:'메타', chan:'mall', name:'260729_자사몰_시크릿링크_검색', imp:80367, clk:1570, cost:785173, conv:114, rev:5027800},
+      {media:'meta', src:'메타', chan:'store', name:'260629_아넬라 카탈로그 판매', imp:53654, clk:1375, cost:439290, conv:56, rev:2081300},
+      {media:'meta', src:'메타', chan:'store', name:'260305_아넬라_베이비바우처(파트너십영상)_2', imp:22256, clk:778, cost:269771, conv:52, rev:1955905},
+      {media:'meta', src:'메타', chan:'mall', name:'260805_자사몰_바캉스_조기종료', imp:15721, clk:306, cost:249926, conv:14, rev:566200},
+      {media:'meta', src:'메타', chan:'mall', name:'260519_아넬라_웰컴박스_공짜', imp:15682, clk:1122, cost:245445, conv:2, rev:49700},
+      {media:'meta', src:'메타', chan:'mall', name:'260810_자사몰_바캉스_반값종료', imp:11531, clk:242, cost:170005, conv:13, rev:388500},
+      {media:'meta', src:'메타', chan:'mall', name:'260519_아넬라_웰컴박스_0원', imp:6349, clk:361, cost:91318, conv:1, rev:27400},
+      {media:'meta', src:'메타', chan:'mall', name:'260805_자사몰_바캉스_마지막기회', imp:3612, clk:87, cost:57295, conv:0, rev:0},
+      {media:'meta', src:'메타', chan:'mall', name:'260729_자사몰_시크릿링크_7일뒤', imp:108, clk:1, cost:1795, conv:0, rev:0},
+      {media:'meta', src:'메타', chan:'mall', name:'260728_자사몰_방학준비특가마켓_마감임박', imp:0, clk:0, cost:0, conv:2, rev:99300},
+    ],
+    mediaNotes: {
+      search: [
+        {label:'파워링크', text:'광고비 35% 감액 운영(연휴 8/15~16 토~일 영향으로 클릭 -32%, 광고비 소진 급감). 전환율 +4.8%p·객단가 +20%로 매출 +37%(ROAS 232%→486%). 오늘끝딜 진행된 월·화는 전환 상승했으나, 연휴 이어진 목~일 구간은 일평균 전환수 3건→2건으로 감소.'},
+        {label:'쇼핑검색', text:'광고비 -3%, 전환율 +6.8%p·객단가 +14%로 매출 +57%(ROAS 560%→911%). 과자캠페인 매출 -39%(금요일부터 전환 저하, 8/15 토 매출 미발생) vs 퓨레캠페인 매출 +67%(주말도 견조, 8/15 토 약 65만원) — 퓨레가 금주 매출을 견인.'},
+        {label:'브랜드검색', text:'클릭 +21%, 전환율 +15.1%p·객단가 +4%로 매출 +150%(ROAS 1,797%→4,486%). 월~화 오늘끝딜 영향.'},
+      ],
+      gfa: [
+        {label:'GFA', text:'광고비 +8%, 전환율 +16.1%p·객단가 -9%로 매출 +198%(ROAS 500%→1,378%). 반응 저조했던 &lsquo;밥테기 소구&rsquo; 14일 OFF, 현재는 할인 소구만 운영 — 금주 새로운 소구 기획안 전달 예정.'}
+      ],
+      meta: [
+        {label:'전체', text:'광고비 +18% 증액(웰컴박스 7일 운영 &amp; 로지오가닉 음료 시크릿링크 신규 운영). 클릭 +9%, 전환율 +2.2%p·객단가 +2%로 매출 +72%(ROAS 422%→617%).'},
+        {label:'카탈로그 (별개 캠페인)', text:'매출·효율 견인(ROAS 329%→981%). ⚠ 대행사 코멘트의 절대 금액(약 375만원)이 캠페인별 엑셀 16일 합계(208만원)보다 커서 그대로 신뢰하기 어려움 — 이번 달 메타 시스템 불안정으로 캠페인을 껐다 켠 이력이 있어 그 영향으로 추정되나, 정확한 원인은 대행사 확인 요청.'},
+        {label:'파트너십 영상 (별개 캠페인)', text:'매출·효율 견인(ROAS 455%→1,469%). ⚠ 대행사 코멘트의 절대 금액(약 348만원)이 캠페인별 엑셀 16일 합계(196만원)보다 커서 그대로 신뢰하기 어려움 — 카탈로그와 같은 이유(메타 시스템 온/오프 이력)로 추정.'},
+        {label:'시크릿링크·프로모션', text:'아넬라 시크릿링크(260729_자사몰_시크릿링크_검색·7일뒤) ROAS 687%→342%로 매출 감소. 자사몰 바캉스 간식 페스타는 구매건수 +5건이나 객단가 하락으로 매출·효율 감소. 웰컴박스는 자사몰 소재로 확인되어 채널 재분류, 차주 중 OFF 예정. (참고: 이전 버전에 있던 &lsquo;로지 시크릿링크&rsquo; 캠페인은 로지오가닉 데이터로 확인되어 이 리포트에서 제외했습니다.)'}
+      ]
+    },
+    monthlyByMedia: {
+      search: [
+        {m:'1월', cost:3208467,  rev:64495280},
+        {m:'2월', cost:4249286,  rev:72921260},
+        {m:'3월', cost:5412057,  rev:87593040},
+        {m:'4월', cost:4764353,  rev:103271540},
+        {m:'5월', cost:6163843,  rev:81571340},
+        {m:'6월', cost:7368981,  rev:89219220},
+        {m:'7월', cost:7089735,  rev:79653650},
+      ],
+      gfa: [
+        {m:'1월', cost:231550,  rev:3498900},
+        {m:'2월', cost:251498,  rev:4804890},
+        {m:'3월', cost:278941,  rev:5578350},
+        {m:'4월', cost:263049,  rev:6776020},
+        {m:'5월', cost:275568,  rev:4349560},
+        {m:'6월', cost:217586,  rev:5095160},
+        {m:'7월', cost:960530,  rev:12477610},
+      ],
+      meta: [
+        {m:'1월', cost:198887,   rev:933100},
+        {m:'2월', cost:4092839,  rev:16795458},
+        {m:'3월', cost:6751162,  rev:32583155},
+        {m:'4월', cost:5540846,  rev:47053618},
+        {m:'5월', cost:6882115,  rev:26862039},
+        {m:'6월', cost:4709247,  rev:14600300},
+        {m:'7월', cost:3718186,  rev:21353290},
+      ],
+    },
+  },
+
+  rosy: {
+    label: '로지오가닉',
+    title: '로지오가닉 주간 리포트',
+    footSource: '데이터 출처: 서스테이너블 컨설팅 대행사 대시보드(organic.sus1.report) 캡처 · 엑셀 내보내기, 2026.08 기준',
+    campaigns: [
+      // 네이버 파워링크 (all 스마트스토어 — '자사몰' 표기 없는 캠페인)
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_대표K', imp:13413, clk:214, cost:237001.82, conv:16, rev:321700},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_구매K', imp:7116, clk:181, cost:203698.18, conv:31, rev:745000},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_탐색K', imp:30534, clk:285, cost:182837.27, conv:22, rev:437650},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_그외K', imp:4994, clk:46, cost:26227.27, conv:8, rev:186700},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_신제품K', imp:7636, clk:39, cost:24629.09, conv:3, rev:50300},
+      // 네이버 쇼핑검색
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_로지오가닉_과자_브랜드K', imp:28759, clk:360, cost:446147.27, conv:66, rev:1443500},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_로지오가닉_과자 캠페인_신제품', imp:11217, clk:108, cost:146167.27, conv:9, rev:171400},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_로지오가닉_음료_브랜드K', imp:9235, clk:179, cost:87385.45, conv:21, rev:840600},
+      // 네이버 브랜드검색
+      {media:'search', src:'브랜드검색', chan:'store', name:'로지오가닉_브검_모바일', imp:1511, clk:582, cost:426662, conv:143, rev:3418600},
+      // GFA — 이번 주는 캠페인별 세부 집계가 아직 없어 매체 합계 1건으로 표기
+      {media:'gfa', src:'GFA', chan:'store', name:'네이버 GFA (전체)', imp:36212, clk:414, cost:507487, conv:36, rev:699800},
+      // 메타 (엑셀 3건 + 대시보드 캡처 반영 기준 매체 합계 검증됨: 노출113,050 / 클릭1,743 / 광고비1,113,928 / 전환391 / 매출9,527,422 / ROAS 855.3%)
+      {media:'meta', src:'메타', chan:'store', name:'260506_로지오가닉_과자(상시)_할인', imp:110827, clk:1713, cost:1089776, conv:389, rev:9478422},
+      {media:'meta', src:'메타', chan:'store', name:'260506_로지오가닉_과자(상시)_간식고민', imp:2162, clk:30, cost:23559, conv:2, rev:49000},
+      {media:'meta', src:'메타', chan:'store', name:'260506_로지오가닉_과자(상시)_간식고민-사본', imp:61, clk:0, cost:593, conv:0, rev:0},
+    ],
+    mediaNotes: {
+      search: [
+        {label:'파워링크', text:'전주대비 광고비 15% 감액 운영. 유입(클릭수) 10%·전환율 2.5%p·객단가 17% 전반적 감소하며 매출 42% 감소(ROAS 292%→199%). 감액 원인은 목~일 캠페인 전반 클릭수 감소. 구매K·대표K 캠페인 매출·ROAS 감소(구매K는 떡뻥·돌아기간식 전환 감소) & 탐색K는 매출 증가.'},
+        {label:'쇼핑검색', text:'전주대비 광고비 29% 증액. 유입 25%·객단가 28% 증가, 전환율 3.1%p 증가로 매출 106% 증가(ROAS 251%→401%). 과자·음료 캠페인 모두 매출 증가, 과자 캠페인은 8/10~11 전환 집중(쌀과자 오늘끝딜 진행).'},
+        {label:'브랜드검색', text:'전주대비 유입(클릭수) 30%, 전환율 2.7%p 증가, 객단가 12% 감소. 매출 30% 증가(ROAS 636%→826%). 8/10~12 전환 집중되며 매출 증가.'},
+      ],
+      gfa: [
+        {label:'GFA(카탈로그+웹전환)', text:'전주와 광고비 유사 운영. 유입 동일했으나 객단가 22% 감소에도 전환율 7.6%p 증가하며 매출 71% 증가(ROAS 107%→193%). 카탈로그 ROAS 91%→710%(매출 1.9만원→약11만원), 웹전환 ROAS 108%→153%(매출 약22만원→약30만원). 웹전환은 ROAS 지속 상승 확인 — 차주 200% 달성 여부로 지속 운영 최종 결정 예정.'}
+      ],
+      meta: [
+        {label:'상시', text:'전주와 광고비 유사 운영. 유입 유사 확보, 전환율 0.4%p 감소, 객단가 2% 증가 — 매출 유사 확보(ROAS 850%→844%, 대시보드 확인 855.3%). 할인 소재는 매출 소폭 감소(구매 6건 감소)했으나 간식고민 소재에서 신규 전환 발생하며 전체 매출 볼륨 유사 확보.'},
+        {label:'⚠ 데이터 주의', text:'로지오가닉 전환캠페인의 랜딩페이지가 아넬라 스마트스토어 URL로 연결되고 있어, 이 링크로 들어가 아넬라 상품을 구매해도 로지오가닉 전환으로 집계될 수 있습니다(대행사 안내). 순수 로지오가닉 구매건수로 단정하기 어려운 점 참고 바랍니다.'}
+      ]
+    },
+    monthlyByMedia: {
+      search: [
+        {m:'1월', cost:3022577,  rev:13346120},
+        {m:'2월', cost:3852828,  rev:14517640},
+        {m:'3월', cost:4937097,  rev:18320440},
+        {m:'4월', cost:4547781,  rev:15883840},
+        {m:'5월', cost:4222496,  rev:11223890},
+        {m:'6월', cost:3474296,  rev:11323150},
+        {m:'7월', cost:4031232,  rev:20196550},
+      ],
+      gfa: [
+        {m:'1월', cost:196800,  rev:1568710},
+        {m:'2월', cost:396397,  rev:1086510},
+        {m:'3월', cost:274375,  rev:1225160},
+        {m:'4월', cost:228045,  rev:1207640},
+        {m:'5월', cost:125052,  rev:709500},
+        {m:'6월', cost:193506,  rev:918580},
+        {m:'7월', cost:575648,  rev:622670},
+      ],
+      meta: [
+        {m:'1월', cost:0, rev:0},
+        {m:'2월', cost:0, rev:0},
+        {m:'3월', cost:726457,   rev:1227500},
+        {m:'4월', cost:576455,   rev:990785},
+        {m:'5월', cost:1025707,  rev:5135976},
+        {m:'6월', cost:1514553,  rev:9657456},
+        {m:'7월', cost:1883461,  rev:11202322},
+      ],
+    },
+  },
+};
+
+// derive 'all' monthly series + roas for every brand
+Object.values(BRANDS).forEach(b=>{
+  const mb = b.monthlyByMedia;
+  mb.all = mb.search.map((r,i)=>({
+    m:r.m,
+    cost:r.cost+mb.gfa[i].cost+mb.meta[i].cost,
+    rev:r.rev+mb.gfa[i].rev+mb.meta[i].rev,
+  }));
+  [...mb.search,...mb.gfa,...mb.meta,...mb.all].forEach(r=> r.roas = roasOf(r.cost,r.rev));
+});
+
+let curBrand = 'anela';
+let curMedia = 'search', curChan = 'total', curCreative = 'meta', curTrend = 'all';
+
+// ================= MEDIA SECTION =================
+function renderMedia(){
+  const campaigns = BRANDS[curBrand].campaigns;
+  const mediaNotes = BRANDS[curBrand].mediaNotes;
+  document.querySelectorAll('#mediaTabs .tabbtn').forEach(b=>b.classList.toggle('active', b.dataset.media===curMedia));
+  document.querySelectorAll('#channelTabs .subtabbtn').forEach(b=>b.classList.toggle('active', b.dataset.chan===curChan));
+
+  const all = campaigns.filter(r=>r.media===curMedia);
+  const store = all.filter(r=>r.chan==='store');
+  const mall = all.filter(r=>r.chan==='mall');
+  const shown = curChan==='total'?all:(curChan==='store'?store:mall);
+  const a = agg(shown);
+
+  const kpiRow = document.getElementById('kpiRow');
+  kpiRow.innerHTML = [
+    ['광고비', fmt(a.cost)+'원'],
+    ['노출', fmt(a.imp)],
+    ['클릭', fmt(a.clk)],
+    ['CTR', pct(a.ctr)],
+    ['전환', fmt(a.conv)+'건'],
+    ['매출액', fmt(a.rev)+'원'],
+  ].map(([l,v])=>`<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div></div>`).join('') +
+  `<div class="kpi" style="grid-column:span 6;background:${mediaSoft[curMedia]};border-color:${mediaColor[curMedia]}"><div class="l">ROAS</div><div class="v num" style="color:${mediaColor[curMedia]};font-size:22px">${pct(a.roas)}</div></div>`;
+
+  const notesBox = document.getElementById('mediaNotes');
+  notesBox.innerHTML = (mediaNotes[curMedia]||[]).map(n=>
+    `<div class="mnote" style="border-left-color:${mediaColor[curMedia]}"><b class="mnote-label">${n.label}</b>${n.text}</div>`
+  ).join('');
+
+  const splitRow = document.getElementById('splitRow');
+  if(curChan==='total' && mall.length){
+    const s = agg(store), m = agg(mall);
+    const max = Math.max(s.roas, m.roas, 1);
+    splitRow.style.display='grid';
+    splitRow.innerHTML = [
+      ['스마트스토어', s, 'var(--accent)'],
+      ['자사몰', m, 'var(--media-gfa)'],
+    ].map(([label,d,color])=>`
+      <div class="split-card">
+        <div class="sc-head"><span class="sc-name">${label}</span><span class="sc-roas num" style="color:${color};font-weight:700">ROAS ${pct(d.roas)}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.min(100,d.roas/max*100)}%;background:${color}"></div></div>
+        <div class="sc-figs num"><span>광고비 ${fmt(d.cost)}원</span><span>매출 ${fmt(d.rev)}원</span></div>
+      </div>`).join('');
+  } else {
+    splitRow.style.display='none';
+  }
+
+  const tbody = document.querySelector('#campaignTable tbody');
+  const rows = [...shown].sort((x,y)=> (y.rev/(y.cost||1)) - (x.rev/(x.cost||1)));
+  tbody.innerHTML = rows.map(r=>{
+    const ctr=r.imp?r.clk/r.imp*100:0, cpc=r.clk?r.cost/r.clk:0, cvr=r.clk?r.conv/r.clk*100:0, cpa=r.conv?r.cost/r.conv:0, roas=r.cost?r.rev/r.cost*100:0;
+    return `<tr>
+      <td title="${r.name}">${r.name}</td>
+      <td><span class="chan-tag ${r.chan==='store'?'chan-store':'chan-mall'}">${r.chan==='store'?'스마트스토어':'자사몰'}</span></td>
+      <td class="num">${fmt(r.imp)}</td>
+      <td class="num">${fmt(r.clk)}</td>
+      <td class="num">${pct(ctr)}</td>
+      <td class="num">${fmt(cpc)}원</td>
+      <td class="num">${fmt(r.cost)}원</td>
+      <td class="num">${fmt(r.conv)}</td>
+      <td class="num">${pct(cvr)}</td>
+      <td class="num">${fmt(r.rev)}원</td>
+      <td class="num">${r.conv?fmt(cpa)+'원':'–'}</td>
+      <td class="num roas-cell" style="color:${roas>=300?'var(--good)':(roas<100?'var(--critical)':'var(--text-primary)')}">${r.cost?pct(roas):'–'}</td>
+    </tr>`;
+  }).join('');
+}
+document.getElementById('mediaTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.tabbtn'); if(!b) return;
+  curMedia = b.dataset.media; curChan='total'; renderMedia();
+});
+document.getElementById('channelTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.subtabbtn'); if(!b) return;
+  curChan = b.dataset.chan; renderMedia();
+});
+
+// ================= CREATIVE RANKING =================
+function renderCreative(){
+  const campaigns = BRANDS[curBrand].campaigns;
+  document.querySelectorAll('#creativeTabs .tabbtn').forEach(b=>b.classList.toggle('active', b.dataset.media===curCreative));
+  const rows = campaigns.filter(r=>r.media===curCreative && r.cost>0)
+    .map(r=>({...r, roas: r.rev/r.cost*100}))
+    .sort((a,b)=>b.roas-a.roas);
+  const list = document.getElementById('creativeList');
+  list.innerHTML = rows.map((r,i)=>{
+    const badge = r.roas>=500?'<span class="badge good">우수</span>':(r.roas<100?'<span class="badge bad">저조</span>':'');
+    const color = r.roas>=500?'var(--good)':(r.roas<100?'var(--critical)':'var(--text-primary)');
+    return `<div class="rank-item">
+      <div class="ri-rank">${i+1}</div>
+      <div class="ri-name">${r.name}${badge}</div>
+      <div class="ri-cost num">${fmt(r.cost)}원</div>
+      <div class="ri-conv num">전환 ${r.conv}건</div>
+      <div class="ri-roas num" style="color:${color}">${pct(r.roas)}</div>
+    </div>`;
+  }).join('');
+}
+document.getElementById('creativeTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.tabbtn'); if(!b) return;
+  curCreative = b.dataset.media; renderCreative();
+});
+
+// ================= MONTHLY TREND CHART =================
+function monthlyFor(mediaKey){ return BRANDS[curBrand].monthlyByMedia[mediaKey]; }
+
+function renderTrend(mediaKey){
+  curTrend = mediaKey;
+  document.querySelectorAll('#trendTabs .tabbtn').forEach(x=>x.classList.toggle('active', x.dataset.t===mediaKey));
+  const data = monthlyFor(mediaKey);
+  const color = mediaKey==='all' ? 'var(--accent)' : mediaColor[mediaKey];
+  const W=1040,H=300,padL=64,padT=20,padB=34;
+  const plotW = W-padL-40, plotH = H-padT-padB;
+  const n = data.length;
+  const groupW = plotW/n;
+  const maxVal = Math.max(1,...data.map(d=>Math.max(d.cost||0,d.rev||0)));
+  const maxRoas = Math.max(1,...data.map(d=>d.roas||0));
+  const y = v => padT + plotH - (v/maxVal)*plotH;
+  const yR = v => padT + plotH - (v/maxRoas)*plotH;
+
+  let bars='', gridlines='', roasPts=[], labels='';
+  const ticks=4;
+  for(let i=0;i<=ticks;i++){
+    const v = maxVal/ticks*i;
+    const yy = y(v);
+    gridlines += `<line x1="${padL}" y1="${yy}" x2="${padL+plotW}" y2="${yy}" stroke="var(--gridline)" stroke-width="1"/>`;
+    gridlines += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="axis-label">${v>=10000?Math.round(v/10000)+'만':Math.round(v)}</text>`;
+  }
+  data.forEach((d,i)=>{
+    const cx = padL + groupW*i + groupW/2;
+    labels += `<text x="${cx}" y="${H-10}" text-anchor="middle" class="axis-label">${d.m}</text>`;
+    if(d.cost===0 && d.rev===0){
+      roasPts.push(null);
+      bars += `<text x="${cx}" y="${padT+plotH/2}" text-anchor="middle" class="axis-label" opacity="0.6">미운영</text>`;
+      return;
+    }
+    const bw = 22;
+    const x1 = cx-bw-3, x2 = cx+3;
+    const hCost = plotH-(y(d.cost)-padT), hRev = plotH-(y(d.rev)-padT);
+    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 광고비" data-value="${fmt(d.cost)}원" x="${x1}" y="${y(d.cost)}" width="${bw}" height="${hCost}" rx="3" fill="${color}" opacity="0.55"/>`;
+    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 매출액" data-value="${fmt(d.rev)}원" x="${x2}" y="${y(d.rev)}" width="${bw}" height="${hRev}" rx="3" fill="${color}"/>`;
+    roasPts.push([cx, yR(d.roas)]);
+  });
+  let roasLine='', roasDots='';
+  const validPts = roasPts.filter(Boolean);
+  if(validPts.length){
+    roasLine = `<polyline points="${validPts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--critical)" stroke-width="2"/>`;
+    roasDots = validPts.map(([x,yy],idx)=>`<circle cx="${x}" cy="${yy}" r="4" fill="var(--critical)"/><text x="${x}" y="${yy-10}" text-anchor="middle" class="axis-label" font-weight="700" fill="var(--critical)">${pct(data.filter(d=>!(d.cost===0&&d.rev===0))[idx].roas)}</text>`).join('');
+  }
+
+  document.getElementById('trendChart').innerHTML = `
+    <svg class="chart" viewBox="0 0 ${W} ${H}">
+      ${gridlines}
+      ${bars}
+      ${roasLine}${roasDots}
+      ${labels}
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:${color};opacity:0.55"></span>광고비(원)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:${color}"></span>매출액(원)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--critical)"></span>ROAS(%, 우측 참고선)</div>
+    </div>`;
+
+  const tip = document.getElementById('chartTooltip');
+  const cardEl = document.getElementById('trendChart').closest('.chart-card');
+  document.querySelectorAll('#trendChart rect[data-tip]').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{
+      tip.innerHTML = `<b>${el.dataset.label}</b>${el.dataset.value}`;
+      tip.classList.add('show');
+    });
+    el.addEventListener('mousemove', e=>{
+      const box = cardEl.getBoundingClientRect();
+      tip.style.left = (e.clientX - box.left) + 'px';
+      tip.style.top = (e.clientY - box.top) + 'px';
+    });
+    el.addEventListener('mouseleave', ()=> tip.classList.remove('show'));
+  });
+}
+document.getElementById('trendTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.tabbtn'); if(!b) return;
+  renderTrend(b.dataset.t);
+});
+
+// ================= BRAND SWITCH =================
+function setBrand(key){
+  if(!BRANDS[key]) return;
+  curBrand = key;
+  document.querySelectorAll('#brandSwitch .brand-chip').forEach(b=> b.classList.toggle('active', b.dataset.brand===key));
+  document.getElementById('brandTitle').textContent = BRANDS[key].title;
+  document.getElementById('footSource').textContent = BRANDS[key].footSource;
+  document.querySelectorAll('[data-brand-panel]').forEach(p=>{
+    p.hidden = p.dataset.brandPanel !== key;
+  });
+  // reset sub-tabs to defaults and re-render everything that depends on brand data
+  curMedia='search'; curChan='total'; curCreative='meta';
+  renderMedia();
+  renderCreative();
+  renderTrend(curTrend);
+}
+document.getElementById('brandSwitch').addEventListener('click', e=>{
+  const b = e.target.closest('.brand-chip'); if(!b) return;
+  setBrand(b.dataset.brand);
+});
+
+// initial render
+renderMedia();
+renderCreative();
+renderTrend('all');
+
+// ================= EDITABLE SUMMARY (핵심요약 직접 수정) =================
+(function(){
+  const hint = document.querySelector('.edit-hint');
+
+  function makeBullet(text){
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    span.className = 'bullet-text';
+    span.contentEditable = 'true';
+    span.textContent = text || '새 항목을 입력하세요';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'del-btn';
+    btn.setAttribute('aria-label','삭제');
+    btn.textContent = '×';
+    li.appendChild(span);
+    li.appendChild(btn);
+    return li;
+  }
+
+  document.querySelectorAll('.quad').forEach(quad=>{
+    const ul = quad.querySelector('ul[artifact-sync]');
+    const addBtn = quad.querySelector('.add-btn');
+    ul.addEventListener('click', e=>{
+      const del = e.target.closest('.del-btn');
+      if(del){ del.closest('li').remove(); }
+    });
+    ul.addEventListener('keydown', e=>{
+      if(e.target.classList.contains('bullet-text') && e.key==='Enter'){
+        e.preventDefault(); e.target.blur();
+      }
+    });
+    addBtn.addEventListener('click', ()=>{
+      const li = makeBullet('');
+      ul.appendChild(li);
+      const span = li.querySelector('.bullet-text');
+      span.focus();
+      document.getSelection().selectAllChildren(span);
+    });
+  });
+
+  (async ()=>{
+    try{
+      if(!window.claude || typeof window.claude.use !== 'function'){
+        setReadOnly('공유 링크로 열람 중이거나 이 보기에서는 편집이 지원되지 않아요. Claude Code 아티팩트로 열어야 직접 수정할 수 있습니다.');
+        return;
+      }
+      const artifact = await window.claude.use('artifact');
+      if(!artifact){
+        setReadOnly('이 보기는 읽기 전용입니다 — 편집 내용이 저장되지 않아요.');
+      }
+    }catch(err){
+      // capability probing itself should never break the page
+    }
+  })();
+
+  function setReadOnly(msg){
+    document.body.classList.add('ro');
+    if(hint) hint.textContent = msg;
+    document.querySelectorAll('.bullet-text').forEach(el=>el.contentEditable='false');
+    document.querySelectorAll('.del-btn, .add-btn').forEach(el=>el.style.display='none');
+  }
+
+  document.addEventListener('claude:sync-off', e=>{
+    if(hint) hint.textContent = '이 영역은 저장되지 않는 상태예요 — 새로고침 후 다시 시도해주세요.';
+  });
+})();
+</script>
