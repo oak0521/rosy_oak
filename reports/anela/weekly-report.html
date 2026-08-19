@@ -132,9 +132,10 @@ header.top{
 .brand-tabs{display:flex;gap:6px;}
 .brand-chip{
   font-size:12.5px; padding:5px 12px; border-radius:999px; border:1px solid var(--border);
-  color:var(--text-secondary); background:var(--surface-2); cursor:default;
+  color:var(--text-secondary); background:var(--surface-2); cursor:default; text-decoration:none;
 }
 .brand-chip.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+a.brand-chip:hover{border-color:var(--accent);color:var(--accent-ink);}
 .period{font-size:13px;color:var(--text-muted);}
 .period b{color:var(--text-secondary);font-weight:600;}
 
@@ -351,7 +352,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       <span class="brand-title">아넬라 주간 리포트</span>
       <div class="brand-tabs">
         <span class="brand-chip active">아넬라</span>
-        <span class="brand-chip" title="데이터 전달 후 추가 예정">로지오가닉 (준비중)</span>
+        <a class="brand-chip" href="https://claude.ai/code/artifact/0fbc4005-d43f-4bdb-b51d-2e36728ca4a3" target="_blank" rel="noopener">로지오가닉</a>
       </div>
     </div>
     <div class="period">리포트 기간 <b>2026.08.10 – 08.16</b> · 2주차 · 대표 주간회의용 요약</div>
@@ -422,12 +423,12 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
 
     <table class="wk-table card">
       <thead>
-        <tr><th>기간</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>구매</th><th>CVR</th><th>매출액</th><th>ROAS</th></tr>
+        <tr><th>기간</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>광고비</th><th>구매</th><th>CVR</th><th>매출액</th><th>ROAS</th></tr>
       </thead>
       <tbody>
-        <tr><td>8/3 – 8/9 (1주차)</td><td class="num">409,379</td><td class="num">5,579</td><td class="num">1.36%</td><td class="num">554원</td><td class="num">448</td><td class="num">8.0%</td><td class="num">16,428,948원</td><td class="num">532.0%</td></tr>
-        <tr><td>8/10 – 8/16 (2주차)</td><td class="num">433,600</td><td class="num">5,872</td><td class="num">1.35%</td><td class="num">542원</td><td class="num">800</td><td class="num">13.6%</td><td class="num">31,947,352원</td><td class="num">1,004.0%</td></tr>
-        <tr><td>전주 대비</td><td class="num delta-up">+6%</td><td class="num delta-up">+5%</td><td class="num delta-down">-1%p</td><td class="num delta-up">-2%</td><td class="num delta-up">+79%</td><td class="num delta-up">+70%</td><td class="num delta-up">+94%</td><td class="num delta-up">+89%</td></tr>
+        <tr><td>8/3 – 8/9 (1주차)</td><td class="num">409,379</td><td class="num">5,579</td><td class="num">1.36%</td><td class="num">554원</td><td class="num">3,088,119원</td><td class="num">448</td><td class="num">8.0%</td><td class="num">16,428,948원</td><td class="num">532.0%</td></tr>
+        <tr><td>8/10 – 8/16 (2주차)</td><td class="num">433,600</td><td class="num">5,872</td><td class="num">1.35%</td><td class="num">542원</td><td class="num">3,182,034원</td><td class="num">800</td><td class="num">13.6%</td><td class="num">31,947,352원</td><td class="num">1,004.0%</td></tr>
+        <tr><td>전주 대비</td><td class="num delta-up">+6%</td><td class="num delta-up">+5%</td><td class="num delta-down">-1%p</td><td class="num delta-up">-2%</td><td class="num delta-up">+3%</td><td class="num delta-up">+79%</td><td class="num delta-up">+70%</td><td class="num delta-up">+94%</td><td class="num delta-up">+89%</td></tr>
       </tbody>
     </table>
   </section>
@@ -589,37 +590,38 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     </div>
     <div class="card mission-card">
       <h3>아넬라 · 로지오가닉 롤모델 브랜드 서치</h3>
-      <p class="mission-meta">대표 주간보고용 · 매출 롤모델 / 브랜딩 롤모델 각 1개씩 선정 · 조사일 2026.08.19</p>
+      <p class="mission-meta">매출 롤모델 / 브랜딩 롤모델 각 1개씩 선정 · 국내에서 실제로 유통 중인 브랜드 기준 · 2026.08 조사</p>
       <div class="mission-grid">
         <div class="mission-item">
           <div class="who">아넬라 · 매출 롤모델</div>
           <div class="what">베베쿡</div>
-          <div class="why">매출 610억(2023)·이유식 시장 약 40%. 월령 기반 CRM 개인화로 주문율 +70%, 객단가 +15~25% — 짧은 고객 생애주기를 재구매 설계로 이긴 국내 유일 공개 사례.</div>
+          <div class="why">매출 610억(2023, 공시) · 영유아 간식 선호도 1위. 월령 기반 CRM·채널 전용 SKU·B2B 급식으로 짧은 고객 생애주기를 방어한 국내 사례.</div>
         </div>
         <div class="mission-item">
           <div class="who">아넬라 · 브랜딩 롤모델</div>
-          <div class="what">엘라스키친 (Ella's Kitchen)</div>
-          <div class="why">유통력 없이 포장·색·톤만으로 영국 유아식 점유율 30%. 아넬라의 &lsquo;물 한 방울 없이 생과일 그대로&rsquo;와 같은 자산 구조인데, 우리는 아직 할인 언어로만 쓰고 있음.</div>
+          <div class="what">힙 (HiPP)</div>
+          <div class="why">아넬라와 조건이 같은 유럽 유기농 브랜드. 창업자 스토리 없이 인증·검사 항목·멤버십(베이비클럽)으로 한국에서 프리미엄 인지를 만든 방식.</div>
         </div>
         <div class="mission-item">
           <div class="who">로지오가닉 · 매출 롤모델</div>
-          <div class="what">정관장 홍이장군</div>
-          <div class="why">8~13만원 정가 정책으로 어린이 홍삼 12년 연속 1위. 연령 세분화 + 매일 루틴 설계 — 배도라지·젤리 라인을 &lsquo;간식&rsquo;에서 &lsquo;케어푸드&rsquo;로 옮길 때의 교본.</div>
+          <div class="what">아이배냇</div>
+          <div class="why">전문 브랜드 체급에서 345억(2024, 공시) · 간식 선호도 2위. 유기농 간식에서 3세 이상 키즈로 넓힌 확장 경로가 로지오가닉 검토 순서와 동일.</div>
         </div>
         <div class="mission-item">
           <div class="who">로지오가닉 · 브랜딩 롤모델</div>
           <div class="what">루솔</div>
-          <div class="why">어린이음료 선호도 49% 1위. 월 1회 특가 + 월 2회 소통 라이브로 매출 2.5배 — &lsquo;식품공학 박사 + 세 아이 아빠&rsquo; 창업자 자산을 가장 저비용으로 쓸 포맷.</div>
+          <div class="why">어린이음료 선호도 49% 1위. 월 1회 특가 + 월 2회 소통 라이브 고정 편성 — &lsquo;식품공학 박사 + 세 아이 아빠&rsquo; 창업자 자산을 쓸 수 있는 포맷.</div>
         </div>
       </div>
-      <p class="mission-note"><b>핵심 진단</b> — 우리 병목은 광고 효율(1~7월 ROAS 1,076%)이 아니라 <b>두 번째 구매</b>와 <b>제값 받기</b>입니다. 상시 할인 35~53%, 자사몰 대표 상품 후기 0~19건, 매출의 74%가 네이버 검색에 집중돼 있습니다.</p>
+      <p class="mission-note"><b>보조 벤치마크</b> — 베베당(네이버 &lsquo;아기과자&rsquo; 키워드 3년 연속 1위), 정관장 홍이장군(케어 라인 가격·루틴), 코니바이에린(자사몰 육성).
+      <b>핵심</b>은 광고 효율(1~7월 ROAS 1,076%)이 아니라, 스마트스토어에 쌓인 후기 20만건과 관심고객 16.2만명을 자사몰과 재구매 구조로 옮기는 일입니다.</p>
       <a class="mission-link" href="https://claude.ai/code/artifact/eaa5f6f0-e6a7-46b5-a506-8500a65f5d07" target="_blank" rel="noopener">전체 벤치마킹 리포트 열기 →</a>
     </div>
   </section>
 
   <footer class="foot">
     <span>데이터 출처: 서스테이너블 컨설팅 대행사 대시보드(anela.sus1.report) 캡처 · 엑셀 내보내기, 2026.08 기준</span>
-    <span>초안 v1 — 로지오가닉 데이터 및 4~7월 데이터 추가 시 갱신 예정</span>
+    <span>로지오가닉 주간 리포트는 상단 브랜드 탭에서 확인 가능</span>
   </footer>
 </div>
 

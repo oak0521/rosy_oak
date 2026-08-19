@@ -1,0 +1,413 @@
+<title>벤치마킹 실행 노트</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
+
+:root{
+  --bg-page:#f6f8f4;
+  --surface-1:#ffffff;
+  --surface-2:#eef1e9;
+  --border:#dde3d6;
+  --text-primary:#1a2420;
+  --text-secondary:#55625a;
+  --text-muted:#8b968e;
+  --accent:#12705f;
+  --accent-soft:#e3f1ec;
+  --accent-ink:#0c4a3f;
+
+  --media-search:#1baf7a;
+  --media-search-soft:#e2f5ec;
+  --media-gfa:#d9762e;
+  --media-gfa-soft:#fbead9;
+  --media-meta:#2a78d6;
+  --media-meta-soft:#e3edfb;
+
+  --good:#0ca30c;
+  --good-soft:#e5f6e2;
+  --warning:#b8790a;
+  --warning-soft:#fdefd8;
+  --serious:#c85a34;
+  --serious-soft:#fbe6dc;
+  --critical:#d03b3b;
+  --critical-soft:#fbe2e2;
+
+  --gridline:#e4e7de;
+  --shadow: 0 1px 2px rgba(20,30,20,0.04), 0 4px 14px rgba(20,30,20,0.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-page:#101210;
+    --surface-1:#191b18;
+    --surface-2:#212420;
+    --border:#33362f;
+    --text-primary:#f3f5ef;
+    --text-secondary:#c3c7ba;
+    --text-muted:#8b9186;
+    --accent:#3fd6a8;
+    --accent-soft:#163329;
+    --accent-ink:#8ff0cf;
+
+    --media-search:#199e70;
+    --media-search-soft:#122a20;
+    --media-gfa:#d9762e;
+    --media-gfa-soft:#2e2013;
+    --media-meta:#3987e5;
+    --media-meta-soft:#152439;
+
+    --good:#39c239;
+    --good-soft:#123317;
+    --warning:#e7ab35;
+    --warning-soft:#332711;
+    --serious:#e58a5f;
+    --serious-soft:#33201a;
+    --critical:#e66767;
+    --critical-soft:#331717;
+
+    --gridline:#2c2f28;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg-page:#101210;
+  --surface-1:#191b18;
+  --surface-2:#212420;
+  --border:#33362f;
+  --text-primary:#f3f5ef;
+  --text-secondary:#c3c7ba;
+  --text-muted:#8b9186;
+  --accent:#3fd6a8;
+  --accent-soft:#163329;
+  --accent-ink:#8ff0cf;
+
+  --media-search:#199e70;
+  --media-search-soft:#122a20;
+  --media-gfa:#d9762e;
+  --media-gfa-soft:#2e2013;
+  --media-meta:#3987e5;
+  --media-meta-soft:#152439;
+
+  --good:#39c239;
+  --good-soft:#123317;
+  --warning:#e7ab35;
+  --warning-soft:#332711;
+  --serious:#e58a5f;
+  --serious-soft:#33201a;
+  --critical:#e66767;
+  --critical-soft:#331717;
+
+  --gridline:#2c2f28;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg-page);
+  color:var(--text-primary);
+  font-family:'IBM Plex Sans KR', -apple-system, sans-serif;
+  font-size:14px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 90px;}
+.num{font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-variant-numeric:tabular-nums;}
+
+header.top{border-bottom:1px solid var(--border);background:var(--surface-1);position:sticky;top:0;z-index:40;}
+.top-inner{max-width:1120px;margin:0 auto;padding:18px 20px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.brand-title{font-family:'Gowun Batang',serif;font-weight:700;font-size:25px;letter-spacing:-0.01em;}
+.brand-title small{font-family:'IBM Plex Sans KR',sans-serif;font-size:12.5px;font-weight:500;color:var(--text-muted);margin-left:10px;}
+.period{font-size:12.5px;color:var(--text-muted);}
+.period b{color:var(--text-secondary);font-weight:600;}
+nav.subnav{display:flex;gap:2px;margin-top:14px;overflow-x:auto;}
+nav.subnav a{white-space:nowrap;font-size:13px;padding:10px 13px;color:var(--text-secondary);text-decoration:none;border-bottom:2px solid transparent;}
+nav.subnav a:hover{color:var(--text-primary);border-bottom-color:var(--border);}
+
+section{padding:42px 0 10px;border-bottom:1px solid var(--border);scroll-margin-top:110px;}
+section:last-of-type{border-bottom:none;}
+.section-head{margin-bottom:16px;}
+h2.section-title{font-size:19px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+.section-sub{font-size:12.5px;color:var(--text-muted);margin:3px 0 0;}
+h3.sub{font-size:15px;font-weight:700;margin:26px 0 10px;letter-spacing:-0.01em;}
+h4.sub2{font-size:13.5px;font-weight:700;margin:18px 0 8px;color:var(--text-primary);}
+p{margin:0 0 10px;color:var(--text-secondary);}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:20px 22px;}
+
+/* hero conclusion */
+.lede{font-size:14.5px;color:var(--text-secondary);max-width:860px;}
+.lede b{color:var(--text-primary);}
+.rm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:6px;}
+@media(max-width:800px){.rm-grid{grid-template-columns:1fr;}}
+.rm{padding:18px 20px;border-radius:12px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.rm::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);}
+.rm.branding::before{background:var(--media-gfa);}
+.rm-eyebrow{font-size:11.5px;letter-spacing:.04em;font-weight:600;color:var(--text-muted);text-transform:uppercase;}
+.rm-brand{font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;margin:4px 0 2px;}
+.rm-for{font-size:12.5px;color:var(--accent-ink);font-weight:600;}
+.rm.branding .rm-for{color:var(--media-gfa);}
+.rm-why{font-size:13px;color:var(--text-secondary);margin-top:9px;}
+.rm-facts{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;}
+.rm-facts li{font-size:12.5px;color:var(--text-secondary);padding-left:14px;position:relative;}
+.rm-facts li::before{content:'—';position:absolute;left:0;color:var(--text-muted);}
+
+/* KPI strip */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0 4px;}
+@media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow);}
+.kpi-label{font-size:11.5px;color:var(--text-muted);}
+.kpi-val{font-size:21px;font-weight:700;margin-top:3px;letter-spacing:-0.02em;}
+.kpi-note{font-size:11.5px;color:var(--text-secondary);margin-top:3px;}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface-1);box-shadow:var(--shadow);}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px;}
+thead th{background:var(--surface-2);text-align:left;font-weight:600;font-size:12px;color:var(--text-secondary);padding:11px 14px;border-bottom:1px solid var(--border);white-space:nowrap;}
+tbody td{padding:12px 14px;border-bottom:1px solid var(--gridline);color:var(--text-secondary);vertical-align:top;}
+tbody tr:last-child td{border-bottom:none;}
+tbody td b{color:var(--text-primary);font-weight:600;}
+td.r,th.r{text-align:right;}
+
+/* bar chart */
+.chart{margin-top:10px;}
+.chart-title{font-size:13.5px;font-weight:700;margin-bottom:2px;}
+.chart-sub{font-size:11.5px;color:var(--text-muted);margin-bottom:14px;}
+.bar-row{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;margin-bottom:10px;}
+@media(max-width:640px){.bar-row{grid-template-columns:110px 1fr;}}
+.bar-label{font-size:12.5px;color:var(--text-secondary);text-align:right;}
+.bar-track{display:flex;align-items:center;gap:9px;min-width:0;}
+.bar-fill{height:16px;border-radius:0 4px 4px 0;background:var(--accent);flex:0 1 auto;min-width:3px;}
+.bar-fill.muted{background:var(--surface-2);border:1px solid var(--border);}
+.bar-val{font-size:12.5px;color:var(--text-primary);font-weight:600;white-space:nowrap;}
+.chart-note{font-size:11.5px;color:var(--text-muted);margin-top:8px;border-top:1px dashed var(--border);padding-top:8px;}
+
+/* callouts */
+.callout{border-radius:10px;padding:14px 16px;font-size:13px;margin:14px 0;border:1px solid;}
+.callout b{font-weight:700;}
+.callout.warn{background:var(--warning-soft);border-color:var(--warning);color:var(--text-primary);}
+.callout.bad{background:var(--critical-soft);border-color:var(--critical);color:var(--text-primary);}
+.callout.good{background:var(--accent-soft);border-color:var(--accent);color:var(--text-primary);}
+.callout .tag{font-weight:700;margin-right:6px;}
+
+/* gap → action blocks */
+.gap{border:1px solid var(--border);border-radius:12px;background:var(--surface-1);box-shadow:var(--shadow);padding:0;margin-bottom:12px;overflow:hidden;}
+.gap-head{display:flex;align-items:center;gap:10px;padding:13px 18px;background:var(--surface-2);border-bottom:1px solid var(--border);}
+.gap-no{font-size:12px;font-weight:700;color:#fff;background:var(--accent);border-radius:6px;padding:1px 9px;flex:none;}
+.gap-title{font-size:14px;font-weight:700;}
+.gap-body{padding:14px 18px;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:800px){.gap-body{grid-template-columns:1fr;}}
+.gap-col h5{margin:0 0 6px;font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:.03em;text-transform:uppercase;}
+.gap-col ul{margin:0;padding-left:17px;}
+.gap-col li{font-size:12.8px;color:var(--text-secondary);margin-bottom:4px;}
+.gap-col li b{color:var(--text-primary);font-weight:600;}
+
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:860px){.road{grid-template-columns:1fr;}}
+.road-col{border:1px solid var(--border);border-radius:12px;background:var(--surface-1);box-shadow:var(--shadow);padding:16px 18px;}
+.road-when{font-size:12px;font-weight:700;color:var(--accent-ink);letter-spacing:.03em;}
+.road-goal{font-size:13px;font-weight:700;margin:2px 0 10px;}
+.road-col ul{margin:0;padding-left:17px;}
+.road-col li{font-size:12.8px;color:var(--text-secondary);margin-bottom:6px;}
+
+/* qa */
+.qa{border-bottom:1px dashed var(--border);padding:13px 0;}
+.qa:last-child{border-bottom:none;}
+.qa-q{font-size:13.5px;font-weight:700;color:var(--text-primary);margin-bottom:5px;}
+.qa-q::before{content:'Q. ';color:var(--critical);}
+.qa-a{font-size:13px;color:var(--text-secondary);}
+.qa-a::before{content:'A. ';color:var(--accent);font-weight:700;}
+
+.src{font-size:12px;color:var(--text-secondary);}
+.src li{margin-bottom:5px;}
+.src a{color:var(--accent-ink);text-decoration:none;border-bottom:1px solid var(--border);word-break:break-all;}
+.src a:hover{border-bottom-color:var(--accent);}
+footer.foot{padding:26px 0 0;font-size:12px;color:var(--text-muted);}
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);color:var(--text-secondary);}
+.pill.ok{background:var(--good-soft);border-color:var(--good);color:var(--text-primary);}
+.pill.no{background:var(--critical-soft);border-color:var(--critical);color:var(--text-primary);}
+
+.src-tag{display:inline-block;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:5px;border:1px solid var(--border);
+  background:var(--surface-2);color:var(--text-secondary);white-space:nowrap;vertical-align:1px;}
+.src-tag.ok{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);}
+.src-tag.warn{background:var(--warning-soft);border-color:var(--warning);color:var(--text-primary);}
+.private-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px;
+  background:var(--critical-soft);border:1px solid var(--critical);color:var(--critical);margin-right:8px;}
+.mut{color:var(--text-muted);font-size:12px;}
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;}
+ul.plain li{font-size:13px;color:var(--text-secondary);}
+ul.plain li b{color:var(--text-primary);}
+td.r{white-space:nowrap;}
+</style>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-title">벤치마킹 실행 노트 <small>아넬라 · 로지오가닉</small></div>
+    <div class="period"><span class="private-badge">내부용 · 공유 금지</span> 2026.08 · 마케터 작업용</div>
+  </div>
+  <nav class="subnav">
+    <a href="#plan">90일 실행안</a>
+    <a href="#notdo">이번엔 안 하는 것</a>
+    <a href="#qa">예상 질문 &amp; 답변</a>
+    <a href="#cheat">롤모델 컨닝페이퍼</a>
+    <a href="#candid">솔직한 진단</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section id="plan">
+  <div class="section-head">
+    <h2 class="section-title">90일 실행안 — 1인 운영 기준</h2>
+    <p class="section-sub">2주 단위 6개 슬롯 · 슬롯당 <b>주력 1개 + 가벼운 1개</b>만 · 실가동 10일 가정(2일은 예비) · 광고 운영·리포트 등 기존 업무는 별도</p>
+  </div>
+
+  <div class="callout good">
+    <span class="tag">설계 원칙</span>
+    ① 동시 진행 과제는 <b>최대 2개</b>. ② 외부 의존(개발·디자인·대행사) 과제는 슬롯당 1개를 넘기지 않음. ③ 각 슬롯은 <b>산출물 1개</b>로 끝냄 — 끝나지 않으면 다음 슬롯으로 밀되 새 과제를 얹지 않음.
+  </div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th style="width:110px;">기간</th><th style="width:150px;">주력 과제</th><th>내용</th><th style="width:130px;">산출물</th><th class="r" style="width:80px;">예상 투입</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>1~2주차</b><br><span class="mut">D1–14</span></td>
+          <td><b>기준선 만들기</b></td>
+          <td>주문 데이터에서 <b>실제 재구매 주기·회차·고객당 누적 구매액</b> 산출(제품군별). 대용량 구매 구조라 주기가 길다는 가설을 숫자로 확인.<br><span class="mut">가벼운 과제: 스마트스토어 후기 상위 문구 30개 추출(반복 표현 정리)</span></td>
+          <td>재구매 기준선 시트 1장</td>
+          <td class="r num">주 4~5h</td>
+        </tr>
+        <tr>
+          <td><b>3~4주차</b><br><span class="mut">D15–28</span></td>
+          <td><b>딜 캘린더 초안</b></td>
+          <td>분기 단위 <b>월 1회 고정 딜 + 플랫폼 행사(라이프위크·베이비바우처 등)</b> 일정 매핑. 딜별 목표(매출/신규/알림받기) 사전 지정.<br><span class="mut">가벼운 과제: 아이 생년월 수집 방식 결정 — 주문서 추가 vs 카카오채널 설문 중 택1</span></td>
+          <td>분기 딜 캘린더</td>
+          <td class="r num">주 4h</td>
+        </tr>
+        <tr>
+          <td><b>5~6주차</b><br><span class="mut">D29–42</span></td>
+          <td><b>자산 이전</b></td>
+          <td>자사몰 스킨 개편 일정에 맞춰 <b>스마트스토어 후기·인스타 UGC를 자사몰 상단에 배치</b>. 1~2주차에 뽑은 문구를 상세·광고 카피로 재사용.<br><span class="mut">가벼운 과제: '브랜드명+핫딜' 검색 랜딩 1개 개설(딜 예고 상설 페이지)</span></td>
+          <td>자사몰 후기 섹션 + 랜딩</td>
+          <td class="r num">주 5~6h</td>
+        </tr>
+        <tr>
+          <td><b>7~8주차</b><br><span class="mut">D43–56</span></td>
+          <td><b>재구매 메시지 개편</b></td>
+          <td>산출된 주기에 맞춰 <b>발송 타이밍 재설계</b>(일괄 → 구매 후 N일·월령 기준). 딜 구매자에게 <b>다음 딜 예고</b>를 잇는 동선 연결.<br><span class="mut">가벼운 과제: 첫구매 체험팩 구매자 전용 후속 메시지 1종</span></td>
+          <td>메시지 시나리오 3종</td>
+          <td class="r num">주 4h</td>
+        </tr>
+        <tr>
+          <td><b>9~10주차</b><br><span class="mut">D57–70</span></td>
+          <td><b>로지오가닉 라이브 시범</b></td>
+          <td>월 1회 <b>30분 Q&amp;A 라이브</b> 1회 시범 운영(성분·급여 시기·월령별 간식). 판매보다 질문 수집이 목적.<br><span class="mut">가벼운 과제: 녹화분 → 상세페이지 FAQ 1개 + 숏폼 3개로 재가공</span></td>
+          <td>라이브 1회 + 콘텐츠 4개</td>
+          <td class="r num">주 5h</td>
+        </tr>
+        <tr>
+          <td><b>11~13주차</b><br><span class="mut">D71–90</span></td>
+          <td><b>1차 결과 정리</b></td>
+          <td>재구매 기준선 대비 변화, 딜 캘린더 1사이클 결과, 자사몰 전환 변화 정리. <b>다음 분기 제안 카드</b>(팝업 입점 · 케어 라인 연령 확장 · CRM 도구 검토) 준비.<br><span class="mut">가벼운 과제: 로지오가닉 스마트스토어 수치 정리(보고서 데이터 공백 메우기)</span></td>
+          <td>분기 리뷰 + 제안 카드</td>
+          <td class="r num">주 4h</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub">슬롯별 선행 조건</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>슬롯</th><th>필요한 것</th><th>막히면</th></tr></thead>
+      <tbody>
+        <tr><td>1~2주차</td><td>스마트스토어·자사몰 주문 데이터 추출 권한</td><td>스마트스토어 통계만으로 시작하고 자사몰은 다음 슬롯에 합류</td></tr>
+        <tr><td>5~6주차</td><td>자사몰 스킨 개편 일정 확정</td><td>개편이 밀리면 <b>광고 소재 카피 교체</b>만 먼저 (후기 문구 활용)</td></tr>
+        <tr><td>7~8주차</td><td>메시지 발송 도구의 조건 분기 지원 여부</td><td>도구가 지원 안 하면 <b>수동 세그먼트 2개</b>(체험팩 구매자 / 대용량 구매자)로 축소 운영</td></tr>
+        <tr><td>9~10주차</td><td>창업자(박사) 출연 일정 30분 + 촬영 세팅</td><td>라이브 대신 <b>녹화 Q&amp;A 영상 1편</b>으로 대체</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="notdo">
+  <div class="section-head">
+    <h2 class="section-title">이번 90일에 하지 않기로 한 것</h2>
+    <p class="section-sub">1인 운영에서 가장 큰 리스크는 착수한 과제가 많아 아무것도 끝나지 않는 것 — 제외 사유를 미리 적어둡니다</p>
+  </div>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th style="width:200px;">제외 항목</th><th>사유</th><th>다시 볼 시점</th></tr></thead>
+      <tbody>
+        <tr><td><b>B2B(어린이집·유치원) 영업</b></td><td>영업·물류·단가 협의가 필요해 마케팅 1인으로는 착수 불가. 베베쿡도 유통사 파트너십으로 해결</td><td>분기 리뷰 때 제안 카드로</td></tr>
+        <tr><td><b>CRM 솔루션 도입 계약</b></td><td>도구보다 <b>데이터(재구매 주기·월령)</b>가 먼저. 기준선 없이 도입하면 세그먼트를 못 만듦</td><td>7~8주차 결과 확인 후</td></tr>
+        <tr><td><b>신규 SKU 개발 · 케어 라인 연령 확장</b></td><td>기존 SKU 재구매가 붙기 전 확장은 아이배냇 사례의 함정(매출↑·마진↓)</td><td>다음 분기</td></tr>
+        <tr><td><b>팝업스토어 실행</b></td><td>비용·인력 규모가 커 대표 승인 사안 — 이번엔 <b>제안 카드까지만</b></td><td>분기 리뷰 때</td></tr>
+        <tr><td><b>정가 인상 / 할인율 축소</b></td><td>후발 주자가 브랜드 자본 없이 강행하면 매출 손실이 먼저 옴. 딜 <b>구조</b>부터 정리</td><td>딜 캘린더 1사이클 후</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="qa">
+  <div class="section-head">
+    <h2 class="section-title">예상 질문 &amp; 답변</h2>
+    <p class="section-sub">보고 자리에서 나올 법한 반문과 근거를 붙인 답변 — 나만 보는 대비 노트</p>
+  </div>
+  <div class="card">
+    <div class="qa"><div class="qa-q">브랜딩 롤모델이 왜 힙(HiPP)인가? 수입 브랜드 아닌가?</div><div class="qa-a">그 점이 선정 이유입니다. 아넬라도 유럽 원산 브랜드라 조건이 같고, 힙은 <b>2018년 한국 진출 후 이마트 등 정식 유통으로 프리미엄 인지를 만든</b> 사례입니다. 국내에서 실제로 팔리고 있어 매대·가격·메시지를 직접 비교할 수 있습니다. 창업자 노출 없이 <b>인증·검사 항목·멤버십</b>으로 프리미엄을 만든 방식이 우리 조건(창업자 노출 불가)에 그대로 맞습니다.</div></div>
+    <div class="qa"><div class="qa-q">아이배냇은 적자 회사인데 왜 매출 롤모델인가?</div><div class="qa-a">우리 목표는 <b>전문 브랜드 체급에서 345억까지 가는 경로</b>이고, 그 경로(간식 전문 → 키즈 연령 확장)는 유효합니다. 적자는 <b>확장 속도를 관리하지 못하면 마진이 무너진다</b>는 교훈으로 씁니다. 실제로 이번 90일 계획에서 신규 SKU 확장을 뒤로 미룬 근거가 이 사례입니다.</div></div>
+    <div class="qa"><div class="qa-q">인용한 수치들은 검증된 건가?</div><div class="qa-a">등급을 나눠 표기했습니다. <b>공시 재무</b>는 베베쿡 610억(2023)·아이배냇 345억(2024) 두 가지뿐이고, <b>CRM 성과·라이브 매출 2.5배·홍이장군 12년 1위</b>는 모두 <b>자사 발표 또는 보도자료</b>입니다. 선호도 순위는 육아 매체 <b>독자 투표</b>라 표본이 공개되지 않았습니다. 그래서 절대치 비교가 아니라 <b>방법론 참고용</b>으로만 인용했습니다.</div></div>
+    <div class="qa"><div class="qa-q">할인을 줄이면 되지 않나?</div><div class="qa-a">국내 영유아 커머스는 맘카페·핫딜 커뮤니티가 구매 시점을 결정하고, <b>'브랜드명+핫딜'</b> 검색이 실제 유입 경로입니다. 브랜딩이 굳은 1~2위는 정가를 지킬 수 있지만 <b>후발 주자가 정가를 고수하려면 그만한 브랜드 자본이 먼저</b> 필요합니다. 그래서 할인율이 아니라 <b>딜 주기·구성·회수 동선</b>을 통제하는 쪽으로 잡았습니다.</div></div>
+    <div class="qa"><div class="qa-q">후기가 20만건인데 왜 자사몰은 아직 작은가?</div><div class="qa-a">후기는 <b>스마트스토어에 쌓여 있고 자사몰로 옮겨지지 않았습니다</b>. 지금 스킨 개편과 자사몰 광고를 진행 중인 이유가 그것이고, 5~6주차에 <b>후기·UGC를 자사몰 상단으로 이전</b>하는 작업을 배치했습니다.</div></div>
+    <div class="qa"><div class="qa-q">쿠팡·컬리도 있는데 팝업이 왜 필요한가?</div><div class="qa-a">온라인에서는 <b>브랜드 스토리 소구의 전환이 낮다는 것을 이미 광고로 확인</b>했습니다. 유기농·무첨가는 <b>먹여보면 설득되는</b> 종류의 메시지라 체험 접점이 필요합니다. 다만 비용 사안이라 이번 분기에는 실행하지 않고 제안 카드까지만 준비합니다.</div></div>
+    <div class="qa"><div class="qa-q">라이브커머스, 인력이 없는데 가능한가?</div><div class="qa-a">루솔은 월 3회지만 우리는 <b>월 1회 30분, 판매가 아닌 Q&amp;A</b>로 시작합니다. 창업자가 직접 나오면 모델·스튜디오 비용이 없고, 녹화분을 FAQ·숏폼으로 재사용해 <b>소재 제작 부담이 오히려 줄어듭니다</b>. 일정이 안 되면 녹화 영상 1편으로 대체합니다.</div></div>
+    <div class="qa"><div class="qa-q">재구매율을 언제까지 얼마나 올릴 수 있나?</div><div class="qa-a">먼저 <b>기준선이 없습니다</b>. 우리 제품은 대용량 구매로 개당 단가를 낮추는 구조여서 재구매 주기가 길고, 섭취 기간이 짧아 고객당 재구매 횟수 자체가 제한적입니다. 그래서 목표 지표를 재구매율이 아니라 <b>고객 1인당 누적 구매액</b>으로 잡고, 1~2주차에 기준선부터 만들겠습니다.</div></div>
+    <div class="qa"><div class="qa-q">CRM 도입에 얼마가 드나?</div><div class="qa-a">이번 분기에는 <b>도구를 사지 않습니다</b>. 베베쿡 사례의 핵심도 도구가 아니라 <b>월령 데이터 확보와 발송 타이밍</b>이었습니다. 기존 메시지 채널로 시나리오를 먼저 검증하고, 효과가 확인되면 그때 도구를 제안드리겠습니다.</div></div>
+    <div class="qa"><div class="qa-q">로지오가닉 데이터는 왜 빠져 있나?</div><div class="qa-a">로지오가닉은 아직 광고 리포트가 편성되지 않았고, 스마트스토어 수치도 외부 조회가 막혀 이번 자료에는 자사몰 공개가만 넣었습니다. <b>11~13주차에 로지오가닉 수치 정리</b>를 넣어 다음 갱신 때 채웁니다.</div></div>
+    <div class="qa"><div class="qa-q">그래서 다음 회의 때 뭘 가져오나?</div><div class="qa-a">지금까지 본 적 없는 숫자 두 개 — <b>실제 재구매 주기</b>와 <b>고객 1인당 누적 구매액</b> — 그리고 <b>분기 딜 캘린더</b>를 가져오겠습니다.</div></div>
+  </div>
+</section>
+
+<section id="cheat">
+  <div class="section-head">
+    <h2 class="section-title">롤모델 컨닝페이퍼</h2>
+    <p class="section-sub">숫자를 물어봤을 때 바로 답할 한 줄 — 괄호는 출처 성격</p>
+  </div>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th style="width:130px;">브랜드</th><th style="width:110px;">역할</th><th>한 줄 근거</th></tr></thead>
+      <tbody>
+        <tr><td><b>베베쿡</b></td><td>아넬라 매출</td><td>매출 610억(2023, 공시) · 간식 선호도 42% 1위(매체 투표) · CRM 개인화로 주문율 +70%, 객단가 15~25%↑(자사 발표)</td></tr>
+        <tr><td><b>힙(HiPP)</b></td><td>아넬라 브랜딩</td><td>2018.9 한국 공식 진출 · EU 기준 상회 <b>260여 자체 검사 항목</b>을 브랜드 언어로 · 'HiPP 베이비클럽' 멤버십(임신~첫돌 단계별)</td></tr>
+        <tr><td><b>아이배냇</b></td><td>로지 매출</td><td>2012년 설립 · 매출 345억(2024, 공시) · 간식 선호도 27% 2위 · 3세+ '꼬마' 확장 · <b>5년 연속 영업적자</b>(확장 속도 교훈)</td></tr>
+        <tr><td><b>루솔</b></td><td>로지 브랜딩</td><td>어린이음료 선호도 49% 1위(매체 투표) · 월 1회 특가 + 월 2회 소통 라이브 고정 편성 · 매출 2.5배(자사 발표)</td></tr>
+        <tr><td><b>베베당</b></td><td>보조</td><td>유기농 아기 쌀과자 전문 · 네이버 '아기과자' 키워드 3년 연속 1위 · 매출 비공개</td></tr>
+        <tr><td><b>홍이장군</b></td><td>보조(케어)</td><td>2004년 출시 · 12년 연속 판매 1위(자사 보도, 닐슨 인용) · 8~13만원 고가 정책 · 연령·체형 세분화</td></tr>
+        <tr><td><b>코니바이에린</b></td><td>보조(자사몰)</td><td>자사몰 매출 비중 70% · 해외 60% · 고객 요청 기반 제품 확장</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="candid">
+  <div class="section-head">
+    <h2 class="section-title">솔직한 진단 — 나만 보는 버전</h2>
+    <p class="section-sub">보고서에서는 '다음 단계 과제'로 표현을 정리한 항목들의 원본 판단</p>
+  </div>
+  <div class="card">
+    <ul class="plain">
+      <li><b>가장 아까운 자산은 후기입니다.</b> 스마트스토어 20만건 이상 · 대표 상품 단일 2.8만건 · 평점 4.8은 광고비로 못 사는 자산인데, 자사몰·광고 카피에서 거의 인용되지 않고 있습니다. 이전 작업만으로도 자사몰 전환에 가장 큰 변화가 날 가능성이 높습니다.</li>
+      <li><b>재구매는 구조적으로 한계가 있는 카테고리입니다.</b> 대용량 판매 + 짧은 섭취 기간이면 고객당 재구매 횟수는 애초에 제한됩니다. 여기서 늘릴 수 있는 건 재구매율이 아니라 <b>브랜드 간 이관</b>(아넬라 → 로지오가닉)과 <b>객단가</b>입니다. 지표를 이렇게 바꿔야 성과가 성과로 보입니다.</li>
+      <li><b>딜은 못 없앱니다.</b> 없애자는 제안은 현실성이 없고 매출만 깎습니다. 대신 딜이 <b>예측 가능해지면</b> 대기 수요가 딜 당일에 몰려 딜 자체의 효율이 올라갑니다. 지금은 딜이 산발적이라 그 효과를 못 받고 있습니다.</li>
+      <li><b>브랜드 스토리는 이미 광고로 검증했습니다.</b> 전환이 안 나온 걸 계속 광고 헤드라인에 쓰면 낭비입니다. 스토리는 <b>구매 직전과 구매 이후</b>(상세 중단·자사몰·팝업·CS)에 놓을 때 값을 합니다.</li>
+      <li><b>로지오가닉이 데이터 공백입니다.</b> 광고 리포트가 없어 브랜드별 비교가 안 됩니다. 이건 마케팅 역량 문제가 아니라 <b>계측 편성 문제</b>이므로, 리포트 편성을 요청하는 것이 먼저입니다.</li>
+      <li><b>1인 체제에서 가장 큰 리스크는 동시 착수입니다.</b> 이번 계획에서 제외 항목을 먼저 적어둔 이유이고, 회의에서 새 과제가 추가될 때는 <b>어떤 슬롯을 미룰지</b>를 같이 정하는 게 안전합니다.</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="foot">
+  내부용 실행 노트 · 대외 공유 금지 · 2026.08
+</footer>
+</div>
