@@ -1,0 +1,22 @@
+{
+  "_설명": "롱폼 편집 결정 리스트. Claude가 원본 클립을 보고 이 파일을 채워줍니다. 모든 경로는 이 JSON이 있는 폴더 기준.",
+  "project": "2026-08-30_첫키즈카페",
+  "source_dir": "../inbox/2026-08-30",
+  "output": "../out/2026-08-30_longform.mp4",
+  "video": { "w": 1920, "h": 1080, "fps": 30 },
+  "subtitles": "2026-08-30_longform.srt",
+  "music": [
+    { "file": "../assets/bgm/warm-morning.mp3", "gain_db": -20 }
+  ],
+  "clips": [
+    { "src": "IMG_2201.MOV", "in": 8.2,  "out": 13.0, "speed": 1.0, "note": "콜드오픈 - 처음 보고 굳은 순간" },
+    { "src": "IMG_2188.MOV", "in": 0.0,  "out": 6.5,  "speed": 1.0, "note": "약속 - 오늘 어디 가는지" },
+    { "src": "IMG_2190.MOV", "in": 2.0,  "out": 14.0, "speed": 2.0, "note": "짐 싸기 타임랩스" },
+    { "src": "IMG_2193.MOV", "in": 1.5,  "out": 9.0,  "speed": 1.0, "note": "이동 - 창밖과 손" },
+    { "src": "IMG_2201.MOV", "in": 0.0,  "out": 22.0, "speed": 1.0, "note": "도착 첫 반응 (롱테이크)" },
+    { "src": "IMG_2205.MOV", "in": 4.0,  "out": 26.0, "speed": 1.0, "note": "위기 - 낮잠 타이밍 어긋남" },
+    { "src": "IMG_2209.MOV", "in": 0.0,  "out": 18.0, "speed": 1.0, "note": "해결 - 다시 놀기 시작" },
+    { "src": "IMG_2212.MOV", "in": 3.0,  "out": 20.0, "speed": 1.0, "note": "검증 7항목 정리컷" },
+    { "src": "IMG_2215.MOV", "in": 0.0,  "out": 6.0,  "speed": 1.0, "note": "아웃트로 - 나오는 뒷모습" }
+  ]
+}

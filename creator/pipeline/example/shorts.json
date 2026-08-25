@@ -1,0 +1,48 @@
+{
+  "source": "out/longform_master_자막없음.mp4",
+  "out_dir": "out/shorts",
+  "video": { "w": 1080, "h": 1920, "fps": 30 },
+  "shorts": [
+    {
+      "name": "A_검증7항목",
+      "in": 210, "out": 238,
+      "framing": "blur",
+      "subtitles": "shorts/A_검증7항목.srt",
+      "mute_for_instagram": true,
+      "_포맷": "F1 검증 리스트형 | 필러 P1",
+      "_새훅": "25개월 데리고 가도 되나 직접 가봤어요",
+      "_참여장치": "저장(체크리스트) + 댓글(다른 장소 추천 요청) + DM(위치 안내)"
+    },
+    {
+      "name": "B_30분울었다",
+      "in": 118, "out": 145,
+      "framing": "crop", "crop_pos": 0.5,
+      "subtitles": "shorts/B_30분울었다.srt",
+      "mute_for_instagram": true,
+      "_포맷": "F2 공감 스킷형 | 필러 P2",
+      "_새훅": "키즈카페에서 30분을 울었는데 제 잘못이었어요",
+      "_참여장치": "공유(대변형) + 댓글(개월수 소환)"
+    },
+    {
+      "name": "C_짐싸기5개",
+      "in": 20, "out": 45,
+      "framing": "blur",
+      "subtitles": "shorts/C_짐싸기5개.srt",
+      "mute_for_instagram": true,
+      "_포맷": "F5 리스트형 | 필러 P1",
+      "_새훅": "이거 안 챙기면 30분 만에 집 옵니다",
+      "_참여장치": "저장(준비물 리스트) + 댓글(빈칸 채우기)"
+    },
+    {
+      "name": "D_첫반응",
+      "in": 66, "out": 86,
+      "framing": "crop", "crop_pos": 0.5,
+      "subtitles": "shorts/D_첫반응.srt",
+      "mute_for_instagram": true,
+      "_포맷": "F4 비포/애프터형 | 필러 P4",
+      "_새훅": "키즈카페 처음 본 25개월의 1분",
+      "_참여장치": "완시청(루프 편집) + 공유",
+      "_루프설계": "마지막 컷에서 아이가 오른쪽으로 뛰어나감 → 첫 컷의 입구 진입 방향과 일치시켜 무한 루프"
+    }
+  ]
+}

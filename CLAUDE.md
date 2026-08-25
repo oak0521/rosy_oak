@@ -138,3 +138,47 @@ agency's free-text weekly comment. When they don't reconcile:
 Redeploy with the Claude Code `Artifact` tool, same `file_path`, passing the existing artifact
 `url` to update in place rather than create a new one. Always run the `node --check` validation
 above first — the tool has no other safety net for a broken inline `<script>`.
+
+## `creator/` — 육아 인플루언서 콘텐츠 파이프라인 (광고 리포트와 별개 라인)
+
+`reports/` 의 광고 대시보드와 무관한, 개인 SNS 계정 운영용 시스템입니다. 두 라인은 섞지 마세요.
+
+- **전제**: 아이 0~2세 / 인스타 릴스 중심(유튜브 쇼츠·롱폼 병행) / 주 4~6시간 / 릴스 주 3편 + 롱폼 월 2편
+- **전략 3층 구조** (`creator/strategy/01-positioning.md`): 정체성(복직맘) 30% ·
+  성장엔진(0~2세 동반 장소 검증 정보) 50% · 시그니처(동물 의인화 시리즈) 20%.
+  기획할 때 이 비중과 역할 구분을 유지하세요.
+- **모든 콘텐츠 기획은 `creator/strategy/02-growth-engine.md` 의 참여 장치를 최소 3개 포함**해야 합니다
+  (저장/공유/댓글/DM). 좋아요는 지표로 취급하지 않습니다.
+- **아동 노출 원칙** (`creator/strategy/05-child-safety.md`)은 티어와 무관하게 강제입니다.
+  이름·어린이집·주소 추정 가능 지점·실시간 위치·목욕/배변 장면은 절대 포함하지 마세요.
+  위반 소지가 있는 클립은 편집에 넣지 말고 먼저 지적할 것.
+
+### 파이프라인
+
+```
+prep.sh (ffprobe/ffmpeg) → inventory.json + 컨택트시트 + 프록시
+   → Claude(/reels, /longform)가 edl.json · *.srt · shorts.json · captions.md · music-cue.md 산출
+   → render.py 로 렌더 (또는 캡컷에서 EDL대로 수동 편집)
+```
+
+- `creator/pipeline/scripts/prep.sh` — 원본 폴더 → 클립 목록·컨택트시트·480p 프록시
+- `creator/pipeline/scripts/render.py` — `longform` / `shorts` 서브커맨드. `--dry-run` 지원.
+  수정 후에는 `python3 -m py_compile creator/pipeline/scripts/render.py` 로 검사하세요.
+  - 클립마다 해상도·fps 가 섞인 아이폰 원본을 중간 파일로 정규화한 뒤 concat 합니다
+  - **자막은 SRT 를 그대로 쓰지 않고 `srt_to_ass()` 로 변환**합니다. libass 가 작은 기본
+    PlayRes 를 가정해 force_style 의 px 값이 출력 해상도 비율만큼 확대되는 문제 때문이며,
+    PlayResX/Y 를 출력 해상도로 박아 넣어야 지정한 크기·여백이 그대로 적용됩니다.
+  - 롱폼 렌더는 **자막 번인본과 `_master_자막없음` 두 개**를 만듭니다. 숏폼은 반드시 후자에서
+    파생시키세요 — 자막 박힌 영상에서 뽑으면 새 훅 자막과 이중으로 겹칩니다.
+  - 숏폼은 **음악 포함본(유튜브 쇼츠용)과 `_무음_인스타용` 두 개**를 만듭니다. 인스타는 앱 내
+    트렌딩 오디오를 얹어야 도달이 붙고, 그 오디오를 유튜브에 그대로 올리면 저작권 클레임 대상입니다.
+  - 배속은 `atempo_chain()` 으로 2.0배씩 나눠 겁니다 (atempo 단일 필터는 0.5~2.0만 지원).
+- 영상 파일은 커밋하지 않습니다 (`creator/pipeline/.gitignore`).
+  **기획서·`.srt`·본문 문안은 커밋하세요** — 무엇이 통했는지 되짚는 자산입니다.
+- `creator/pipeline/example/` 는 `/longform` 산출물의 완성 예시입니다. 형식이 헷갈리면 여기를 보세요.
+
+### 스킬
+
+`.claude/skills/reels/`, `.claude/skills/longform/` — 두 스킬 모두 **작업 전에 `creator/` 아래
+해당 플레이북을 매번 읽도록** 되어 있습니다. 기억에 의존해 기획하지 마세요.
+컨택트시트 없이(=화면을 보지 않고) EDL 의 타임코드를 추측해서 쓰면 안 됩니다.
