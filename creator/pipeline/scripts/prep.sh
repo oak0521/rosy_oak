@@ -16,6 +16,16 @@ mkdir -p "$OUT/proxy" "$OUT/sheets"
 command -v ffmpeg  >/dev/null || { echo "ffmpeg 가 필요합니다"; exit 1; }
 command -v ffprobe >/dev/null || { echo "ffprobe 가 필요합니다"; exit 1; }
 
+# 컨택트시트 타임코드용 폰트 (없으면 타임코드 없이 진행)
+TCFONT=""
+for c in /System/Library/Fonts/Supplemental/Arial.ttf \
+         /System/Library/Fonts/Helvetica.ttc \
+         /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf \
+         /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf \
+         C:/Windows/Fonts/arial.ttf ; do
+  [ -f "$c" ] && { TCFONT="$c"; break; }
+done
+
 echo "[" > "$OUT/inventory.json"
 first=1
 
@@ -48,12 +58,18 @@ for f in "$SRC"/*.{mov,mp4,m4v,avi,hevc}; do
     -vf "scale=-2:480" -c:v libx264 -preset veryfast -crf 30 \
     -c:a aac -b:a 96k "$OUT/proxy/$base.mp4"
 
-  # 컨택트시트: 전체 길이에 균등 배치된 12프레임을 4x3 격자로
+  # 컨택트시트: 전체 길이에 균등 배치된 12프레임을 4x3 격자로.
+  # 각 프레임에 원본 기준 타임코드를 새겨 넣습니다 —
+  # 이게 있어야 Claude 가 EDL 의 in/out 초를 추정이 아니라 확인해서 쓸 수 있습니다.
   rate=$(python3 -c "d=float('${dur:-1}') or 1.0; print(max(12.0/d, 0.01))")
+  step=$(python3 -c "d=float('${dur:-1}') or 1.0; print(d/12.0)")
   ffmpeg -y -loglevel error -i "$f" \
-    -vf "fps=${rate},scale=320:-2,tile=4x3" \
-    -frames:v 1 -q:v 4 "$OUT/sheets/$base.jpg" 2>/dev/null \
-  || ffmpeg -y -loglevel error -i "$f" -vf "scale=320:-2" -frames:v 1 -q:v 4 "$OUT/sheets/$base.jpg"
+    -vf "fps=${rate},scale=320:-2,\
+drawtext=fontfile=${TCFONT}:text='%{eif\\:n*${step}\\:d}s':x=6:y=6:fontsize=20:fontcolor=white:box=1:boxcolor=black@0.75:boxborderw=5,\
+tile=4x3:margin=4:padding=4:color=black" \
+    -frames:v 1 -q:v 3 "$OUT/sheets/$base.jpg" 2>/dev/null \
+  || ffmpeg -y -loglevel error -i "$f" -vf "fps=${rate},scale=320:-2,tile=4x3" \
+       -frames:v 1 -q:v 3 "$OUT/sheets/$base.jpg"
 done
 echo "]" >> "$OUT/inventory.json"
 

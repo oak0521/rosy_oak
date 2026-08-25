@@ -1,5 +1,64 @@
 # 파이프라인 — 원본 올리고 완성본 받기까지
 
+## 먼저: 무엇이 "나오는" 것인가 (가장 헷갈리는 지점)
+
+**Claude 가 ffmpeg 스크립트를 만들어 주는 게 아닙니다.**
+ffmpeg 스크립트(`render.py`)는 이미 저장소에 있고 앞으로 바뀌지 않습니다 — 한 번 만들어 둔 기계예요.
+
+매번 새로 나오는 건 그 기계에 넣을 **재료**입니다.
+
+| | 정체 | 언제 만들어지나 |
+|---|---|---|
+| `scripts/prep.sh`<br>`scripts/render.py` | **기계.** 영상을 자르고 붙이고 자막을 굽는 실행 파일 | 이미 있음. 안 바뀜 |
+| `edl.json` · `*.srt`<br>`shorts.json` · `captions.md` | **재료.** 어느 클립 몇 초를 어떤 순서로, 자막은 뭐라고 | **매번 Claude 가 산출** |
+| `*.mp4` | 결과물 | 기계에 재료를 넣으면 나옴 |
+
+즉 순서는 이렇습니다.
+
+```
+원본 영상  ──prep.sh──▶  컨택트시트   ──Claude──▶  edl.json + .srt  ──render.py──▶  완성 mp4
+ (내가 넣음)              (기계가 만듦)             (Claude 가 만듦)      (기계가 만듦)
+```
+
+`render.py` 는 `edl.json` 을 **읽어서** 그때그때 ffmpeg 명령을 조립해 실행합니다.
+그래서 영상이 바뀌어도 스크립트는 그대로고, JSON 만 새로 오면 됩니다.
+
+> **render.py 를 아예 안 써도 됩니다.** `edl.json` 은 사람이 읽을 수 있는 작업 지시서이기도 해서,
+> 캡컷/VLLO 를 열고 표대로 컷을 배치해도 결과는 같습니다 (25분). `.srt` 는 그대로 임포트되고요.
+> 오히려 처음엔 이쪽을 권합니다 — 화면을 보면서 감을 잡는 게 낫습니다.
+
+## 어디서 실행하나 — 두 가지 방식
+
+원본 영상은 **당신 컴퓨터**에 있고, `prep.sh` 와 `render.py` 도 거기서 돌아야 합니다.
+Claude 를 어디서 쓰느냐에 따라 왕복 방식이 달라집니다.
+
+### 방식 A — 컴퓨터에서 Claude Code CLI (권장, 왕복 없음)
+
+저장소를 맥/PC 에 클론하고 그 폴더에서 `claude` 를 실행하면,
+Claude 가 컨택트시트를 **직접 읽고** 산출물을 **직접 그 폴더에 씁니다.** 파일을 옮길 일이 없습니다.
+
+```bash
+git clone <이 저장소> && cd rosy_oak
+brew install ffmpeg                                   # 최초 1회
+# 원본을 creator/pipeline/inbox/2026-08-30_키즈카페/ 에 복사
+./creator/pipeline/scripts/prep.sh creator/pipeline/inbox/2026-08-30_키즈카페
+claude                                                # 같은 폴더에서 실행
+# 그 안에서:  /longform 2026-08-30 키즈카페 ... (상황 설명)
+python3 creator/pipeline/scripts/render.py longform creator/pipeline/out/2026-08-30_키즈카페/edl.json
+```
+
+### 방식 B — 웹 Claude Code (지금 이 방식, 손으로 왕복)
+
+세션이 클라우드에 있어서 당신 컴퓨터의 파일을 볼 수 없습니다. 두 번 옮겨야 합니다.
+
+1. 컴퓨터에서 `prep.sh` 실행
+2. `_prep/sheets/*.jpg` 를 채팅에 **이미지로 업로드**, `_prep/inventory.json` 은 **텍스트로 붙여넣기**
+3. `/longform` + 상황 설명
+4. Claude 가 준 `edl.json` · `.srt` 를 복사해서 컴퓨터에 저장
+5. `render.py` 실행 (또는 캡컷)
+
+번거로우면 방식 A 로 옮기세요. 같은 저장소, 같은 명령입니다.
+
 ## 전체 흐름
 
 ```
