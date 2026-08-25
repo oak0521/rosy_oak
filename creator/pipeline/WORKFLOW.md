@@ -27,37 +27,19 @@ ffmpeg 스크립트(`render.py`)는 이미 저장소에 있고 앞으로 바뀌�
 > 캡컷/VLLO 를 열고 표대로 컷을 배치해도 결과는 같습니다 (25분). `.srt` 는 그대로 임포트되고요.
 > 오히려 처음엔 이쪽을 권합니다 — 화면을 보면서 감을 잡는 게 낫습니다.
 
+## 윈도우 · 터미널 없이 쓰기 (권장)
+
+명령어를 칠 필요 없습니다. `scripts/윈도우/` 폴더의 세 파일을 더블클릭하면 됩니다.
+
+| 파일 | 언제 | 하는 일 |
+|---|---|---|
+| `0_최초설치.bat` | **딱 한 번** | FFmpeg·Python 설치 → 컴퓨터 재시작 |
+| `1_준비하기.bat` | 촬영본 옮긴 뒤 | 영상 폴더를 창에 **끌어다 놓으면** 컨택트시트 생성 |
+| `2_영상만들기.bat` | Claude 가 json 을 준 뒤 | json 을 창에 **끌어다 놓으면** 렌더 |
+
+자세한 사용법과 문제 해결은 `scripts/윈도우/README.md`.
+
 ## 어디서 실행하나 — 두 가지 방식
-
-원본 영상은 **당신 컴퓨터**에 있고, `prep.sh` 와 `render.py` 도 거기서 돌아야 합니다.
-Claude 를 어디서 쓰느냐에 따라 왕복 방식이 달라집니다.
-
-### 방식 A — 컴퓨터에서 Claude Code CLI (권장, 왕복 없음)
-
-저장소를 맥/PC 에 클론하고 그 폴더에서 `claude` 를 실행하면,
-Claude 가 컨택트시트를 **직접 읽고** 산출물을 **직접 그 폴더에 씁니다.** 파일을 옮길 일이 없습니다.
-
-```bash
-git clone <이 저장소> && cd rosy_oak
-brew install ffmpeg                                   # 최초 1회
-# 원본을 creator/pipeline/inbox/2026-08-30_키즈카페/ 에 복사
-./creator/pipeline/scripts/prep.sh creator/pipeline/inbox/2026-08-30_키즈카페
-claude                                                # 같은 폴더에서 실행
-# 그 안에서:  /longform 2026-08-30 키즈카페 ... (상황 설명)
-python3 creator/pipeline/scripts/render.py longform creator/pipeline/out/2026-08-30_키즈카페/edl.json
-```
-
-### 방식 B — 웹 Claude Code (지금 이 방식, 손으로 왕복)
-
-세션이 클라우드에 있어서 당신 컴퓨터의 파일을 볼 수 없습니다. 두 번 옮겨야 합니다.
-
-1. 컴퓨터에서 `prep.sh` 실행
-2. `_prep/sheets/*.jpg` 를 채팅에 **이미지로 업로드**, `_prep/inventory.json` 은 **텍스트로 붙여넣기**
-3. `/longform` + 상황 설명
-4. Claude 가 준 `edl.json` · `.srt` 를 복사해서 컴퓨터에 저장
-5. `render.py` 실행 (또는 캡컷)
-
-번거로우면 방식 A 로 옮기세요. 같은 저장소, 같은 명령입니다.
 
 ## 전체 흐름
 

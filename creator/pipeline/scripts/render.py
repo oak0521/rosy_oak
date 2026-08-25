@@ -78,6 +78,8 @@ def srt_to_ass(srt_path, ass_path, w, h, style):
         text = "\\N".join(lines[lines.index(tc) + 1:])
         events.append((_ass_time(start), _ass_time(end), text))
 
+    check_cues(events, os.path.basename(srt_path))
+
     header = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {w}
@@ -96,6 +98,37 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     with open(ass_path, "w", encoding="utf-8") as f:
         f.write(header + body)
     return ass_path
+
+
+def check_cues(events, name):
+    """자막이 서로 겹치거나 너무 오래 머무는지 확인하고 경고합니다.
+
+    playbooks/subtitles-and-music.md 규칙: 한 자막은 1.5~2.5초, 4초를 넘기지 않습니다.
+    겹치는 자막은 화면에 두 줄이 동시에 떠서 편집 사고로 이어지므로 반드시 잡아야 합니다.
+    """
+    warns = []
+    prev_end, prev_i = None, None
+    for i, (a, b, txt) in enumerate(events, 1):
+        sa, sb = _secs(a), _secs(b)
+        if sb <= sa:
+            warns.append(f"  #{i} 끝이 시작보다 빠르거나 같음 ({a} → {b})")
+        if sb - sa > 4.0:
+            warns.append(f"  #{i} {sb-sa:.1f}초 표시 — 4초 초과 (이탈 지점이 됩니다)")
+        if prev_end is not None and sa < prev_end - 1e-6:
+            warns.append(f"  #{i} 가 #{prev_i} 와 겹침 ({a} < 앞 자막 끝)")
+        if not txt.strip() or txt.strip() == ".":
+            warns.append(f"  #{i} 내용이 비어 있음")
+        prev_end, prev_i = sb, i
+    if warns:
+        print(f"⚠ 자막 확인 필요 — {name}")
+        for w in warns:
+            print(w)
+
+
+def _secs(t):
+    """0:01:23.45 → 83.45"""
+    h, m, rest = t.split(":")
+    return int(h) * 3600 + int(m) * 60 + float(rest)
 
 
 def _ass_time(t):

@@ -161,7 +161,12 @@ prep.sh (ffprobe/ffmpeg) → inventory.json + 컨택트시트 + 프록시
    → render.py 로 렌더 (또는 캡컷에서 EDL대로 수동 편집)
 ```
 
-- `creator/pipeline/scripts/prep.sh` — 원본 폴더 → 클립 목록·컨택트시트·480p 프록시
+- `creator/pipeline/scripts/prep.py` — 원본 폴더 → 클립 목록·컨택트시트·480p 프록시.
+  윈도우/맥 공용 단일 구현이고 `prep.sh` 는 이걸 부르는 래퍼일 뿐입니다 (구현을 이중화하지 마세요).
+  컨택트시트 타일마다 원본 기준 초를 각인합니다 — **EDL 의 in/out 은 이 각인을 확인하고 쓰세요, 추측 금지.**
+- `creator/pipeline/scripts/윈도우/*.bat` — 사용자는 터미널을 쓰지 않습니다.
+  드래그앤드롭으로 경로를 받는 더블클릭 배치 파일이며, **CRLF · BOM 없는 UTF-8** 로 저장해야 합니다
+  (BOM 이 있으면 첫 줄이 깨집니다). 오류 메시지는 사용자가 그대로 복사해 붙여넣도록 안내되어 있습니다.
 - `creator/pipeline/scripts/render.py` — `longform` / `shorts` 서브커맨드. `--dry-run` 지원.
   수정 후에는 `python3 -m py_compile creator/pipeline/scripts/render.py` 로 검사하세요.
   - 클립마다 해상도·fps 가 섞인 아이폰 원본을 중간 파일로 정규화한 뒤 concat 합니다
@@ -173,6 +178,7 @@ prep.sh (ffprobe/ffmpeg) → inventory.json + 컨택트시트 + 프록시
   - 숏폼은 **음악 포함본(유튜브 쇼츠용)과 `_무음_인스타용` 두 개**를 만듭니다. 인스타는 앱 내
     트렌딩 오디오를 얹어야 도달이 붙고, 그 오디오를 유튜브에 그대로 올리면 저작권 클레임 대상입니다.
   - 배속은 `atempo_chain()` 으로 2.0배씩 나눠 겁니다 (atempo 단일 필터는 0.5~2.0만 지원).
+  - `check_cues()` 가 자막의 겹침·4초 초과·빈 내용을 렌더 전에 경고합니다. 경고가 뜨면 무시하지 말고 SRT 를 고치세요.
 - 영상 파일은 커밋하지 않습니다 (`creator/pipeline/.gitignore`).
   **기획서·`.srt`·본문 문안은 커밋하세요** — 무엇이 통했는지 되짚는 자산입니다.
 - `creator/pipeline/example/` 는 `/longform` 산출물의 완성 예시입니다. 형식이 헷갈리면 여기를 보세요.
