@@ -154,15 +154,23 @@ from a `/1.1` VAT-inclusive→exclusive conversion baked into the agency's Excel
 old pattern as license to apply the same division to new raw-platform numbers; it isn't needed.)
 
 ### Weekly automation
+The user's work hours are **10:00–19:00 KST** — don't schedule triggers outside that window.
 Two Routines keep the Mon-upload → Tue-delivery cadence on track, both bound to this session so
 they carry full context (see `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit):
-- **Monday 09:00 KST** — asks the user for the week's raw files (Naver SA CSV, Naver GFA CSV with
+- **Monday 10:30 KST** — asks the user for the week's raw files (Naver SA CSV, Naver GFA CSV with
   a revenue column, the Meta xlsx pair, and any new creative zip), then runs this whole pipeline
-  (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table → publish → commit) as
-  soon as the files arrive.
+  (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table) as soon as the files
+  arrive.
+- **The agency's free-text weekly comment arrives separately from the client**, by Tuesday 10:30
+  KST — it's not part of either Routine's job, just an expected delivery to fold into `mediaNotes`
+  /quad-grid/#comment once it lands (cross-checked against the raw numbers per the workflow above)
+  before publishing/committing.
 - **Tuesday 14:00 KST** — checks whether that week's report has already been published; if not,
   re-requests the data with a reminder that Thursday 2pm is the CEO meeting. No-ops silently if the
   week's report is already done.
+
+No native KakaoTalk delivery is available — Routines bound to this session land as a resumed
+conversation turn (visible next time the user opens the session), not a push/KakaoTalk message.
 The one thing full automation can't do: actually pull the raw exports from Naver/Meta itself (no
 stored platform credentials, and browser automation for authenticated sessions is off-limits) — a
 human still has to download and attach the files each week.
