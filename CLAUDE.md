@@ -109,6 +109,12 @@ plain memo textarea silently never persists. This means:
 - A republish (same `file_path` + `url`) replaces the whole page; the sync-region edit journal
   layered on top is a separate concern from that page content — see the `artifact-capabilities`
   skill before changing anything here.
+- `#comment`'s `.comment-card` per brand holds **only** the 컨텐츠 및 기타 업무 진행사항 memo-list
+  now — the earlier static `광고 관련 코멘트 (n주차)` and `차주 운영 방향` `<ul class="prefill-list">`
+  blocks were removed (2026.08.26) because they duplicated the 핵심요약 quad-grid's "안좋았던 점"
+  and "개선이 필요한 것 (차주 운영방향)" lists verbatim — one editable source of truth (the
+  quad-grid) beats two copies that can drift. Don't reintroduce those two static lists in
+  `#comment`; narrative/number commentary and next-week direction live in the quad-grid only.
 - Viewers reached via the *shared link* can see a version pinned earlier than what's actually live
   — if a user reports "my edit didn't show up" or "my fix isn't there," re-fetch the live artifact
   content directly (`WebFetch` the artifact URL) before assuming the publish failed.
@@ -155,19 +161,24 @@ old pattern as license to apply the same division to new raw-platform numbers; i
 
 ### Weekly automation
 The user's work hours are **10:00–19:00 KST** — don't schedule triggers outside that window.
-Two Routines keep the Mon-upload → Tue-delivery cadence on track, both bound to this session so
-they carry full context (see `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit):
+Three Routines keep the Mon-upload → Tue-delivery → Thu-mission cadence on track, all bound to
+this session so they carry full context (see `list_triggers`/`mcp__Claude_Code_Remote__*` tools to
+inspect/edit):
 - **Monday 10:30 KST** — asks the user for the week's raw files (Naver SA CSV, Naver GFA CSV with
   a revenue column, the Meta xlsx pair, and any new creative zip), then runs this whole pipeline
   (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table) as soon as the files
   arrive.
 - **The agency's free-text weekly comment arrives separately from the client**, by Tuesday 10:30
   KST — it's not part of either Routine's job, just an expected delivery to fold into `mediaNotes`
-  /quad-grid/#comment once it lands (cross-checked against the raw numbers per the workflow above)
-  before publishing/committing.
+  /quad-grid once it lands (cross-checked against the raw numbers per the workflow above) before
+  publishing/committing.
 - **Tuesday 14:00 KST** — checks whether that week's report has already been published; if not,
   re-requests the data with a reminder that Thursday 2pm is the CEO meeting. No-ops silently if the
   week's report is already done.
+- **Thursday 18:00 KST** — asks the user whether there's content for that week's `#mission` section
+  (single shared block, not per-brand). If nothing, leave `#mission` empty rather than carrying
+  over a stale previous week's mission; if given, research as needed (WebSearch etc.) and write it
+  in following the existing markup tone/structure, then run the standard publish/commit pipeline.
 
 No native KakaoTalk delivery is available — Routines bound to this session land as a resumed
 conversation turn (visible next time the user opens the session), not a push/KakaoTalk message.
