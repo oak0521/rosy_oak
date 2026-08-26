@@ -20,7 +20,7 @@ JS, meant to be opened directly in a browser or published via the Claude Code **
   weekly missions apply to both brands together. A new brand means: add a key to `BRANDS`, add its
   `data-brand-panel` blocks, add a `.brand-chip` button, and extend `setBrand()`'s reset list.
   The 아넬라/로지오가닉 Meta ad accounts are known to mix campaigns across the two brands (see
-  Data-integrity workflow below) and 로지오가닉's Meta conversion campaign landing page currently
+  Data-sourcing & data-integrity workflow below) and 로지오가닉's Meta conversion campaign landing page currently
   points at 아넬라's smartstore, so its reported conversions may include 아넬라 purchases.
 
 ## Commands
@@ -113,25 +113,49 @@ plain memo textarea silently never persists. This means:
   — if a user reports "my edit didn't show up" or "my fix isn't there," re-fetch the live artifact
   content directly (`WebFetch` the artifact URL) before assuming the publish failed.
 
-## Data-integrity workflow (established practice — follow it)
+## Data-sourcing & data-integrity workflow (established practice — follow it)
 
-Numbers in the 핵심요약 and the per-media commentary must be cross-checked against the underlying
-campaign-level export (Excel/screenshots) before being written, not copied verbatim from the
-agency's free-text weekly comment. When they don't reconcile:
+Weekly reports are sourced as a **hybrid**, not from the agency's dashboard screenshots/Excel
+alone:
 
-- State the discrepancy explicitly in the report (see the "⚠ 데이터 정합성 확인 필요" callout in
-  `#comment`) rather than silently trusting one source — include both numbers and the magnitude of
-  the gap.
-- Distinguish a **plausible** gap (e.g. the agency's "1주차/2주차" comment table covers a 14-day
-  window while the dashboard export covers 16 days — a gap explainable by 2 extra days of revenue)
-  from a **real contradiction** (e.g. a single week's claimed revenue exceeding the campaign's
-  entire fortnight total in the export — mathematically impossible, not a rounding issue).
-- Known recurring causes of Meta-specific mismatches in this account: the client's Meta ad account
-  has mixed campaigns from more than one brand (아넬라 vs 로지오가닉) under similar naming
-  (`_자사몰_..._시크릿링크_...`) — confirm brand attribution with the client before including a
-  campaign, don't infer it from naming alone; and the agency has been toggling some Meta campaigns
-  off/on mid-month due to platform instability, which can make a campaign's reported weekly split
-  disagree with a full-period export even when both numbers are individually "real."
+- **Numbers (campaigns array) and creative assets come from raw platform exports** — 네이버
+  검색광고 시스템's 캠페인 리포트 and Meta 광고관리자's campaign-level breakdown, pulled directly
+  by the client for the exact date range needed, plus each ad's actual creative image/video
+  downloaded straight from Meta 광고관리자. This replaced an earlier dashboard-screenshot-only
+  workflow after several data-integrity issues traced back to *agency export quality* rather than
+  the underlying platform data (e.g. an agency export that silently covered only 9 of 16 days but
+  was read as the full period; creative-asset filenames mangled by whatever zip tool the agency
+  used). Pulling directly from the platform removes the date-range ambiguity, and platform
+  filenames/campaign names match `campaigns[].name` reliably (see `CREATIVE_IMAGES` in the
+  architecture section above) — no more matching scrambled filenames by eye.
+- **The agency's free-text weekly comment is still copied in verbatim** into `#comment` /
+  `#trend`'s narrative — it's operational context (why a number moved, what's planned next week),
+  not itself a data source. Cross-check any number it claims against the raw platform export
+  before writing it into 핵심요약; a comment is still prose written by a person, not verified data,
+  regardless of how the rest of the report is sourced.
+- When the agency's comment and the raw export don't reconcile: **say so in chat, not in the
+  published report** — the report itself should carry only the reconciled numbers. (Earlier
+  versions of this report surfaced discrepancies as an in-page "⚠ 데이터 정합성 확인 필요" /
+  "ℹ 반영된 수정사항" callout in `#comment`; that pattern was dropped in favor of chat-only notes
+  once the underlying number was confirmed and corrected — don't reintroduce a callout for this.)
+- Distinguish a **plausible** gap (e.g. a date-range boundary difference between two sources) from
+  a **real contradiction** (e.g. a single week's claimed revenue exceeding the campaign's
+  full-period total — mathematically impossible, not a rounding issue). With platform-sourced raw
+  numbers this class of error should mostly disappear; if a real contradiction still shows up, it's
+  more likely the agency's narrative than an incomplete export — verify with the client rather than
+  assuming the export is at fault.
+- Known **account-structure** caveats that pulling raw data does *not* fix, because both brands'
+  campaigns live in the same Meta ad account regardless of who exports them:
+  - Campaigns from both brands (아넬라 vs 로지오가닉) appear mixed under similar naming
+    (`_자사몰_..._시크릿링크_...`) in the shared Meta account — confirm brand attribution before
+    adding a campaign to either brand's `campaigns` array; don't infer it from naming alone.
+  - 로지오가닉's Meta conversion campaign landing page points at 아넬라's smartstore, so its
+    reported conversions may include 아넬라 purchases — this needs a standing caveat in
+    `#trend`/mediaNotes regardless of data source, not something a cleaner export can resolve.
+  - Platform-side tracking can itself drop out mid-month (e.g. the 브랜드검색 5~6월 conversion
+    tracking loss the agency flagged) — a raw export faithfully reflects whatever the platform
+    recorded, so a tracking gap still needs to be called out rather than mistaken for a real
+    performance drop.
 
 ## Publishing
 
