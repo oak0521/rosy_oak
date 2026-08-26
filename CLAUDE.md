@@ -116,7 +116,56 @@ plain memo textarea silently never persists. This means:
 ## Data-sourcing & data-integrity workflow (established practice — follow it)
 
 Weekly reports are sourced as a **hybrid**, not from the agency's dashboard screenshots/Excel
-alone:
+alone. As of the 8/17–8/23 report, `campaigns` is genuinely **one 7-day week again** (not the
+16-day-cumulative shape the old agency-export era produced) — each week's raw exports are pulled
+for that week's exact Mon–Sun range and fully replace the previous week's `campaigns` array.
+
+### Raw file shapes seen so far (per brand pair, per week)
+- **Naver 검색광고 SA** — one combined CSV for both brands (title line mentions `[아넬라/로지]`),
+  daily rows with `일별,캠페인유형,캠페인,광고그룹,...,구매완료 전환수,구매완료 전환매출액(원)`.
+  Use **구매완료** columns for `conv`/`rev` (not `총 전환수`/`총 전환매출액` — those include
+  non-purchase conversions). Aggregate by (brand, `캠페인유형`→`src`, `광고그룹`→`name`) summed
+  across the week's dates. Brand is always unambiguous from `캠페인`/`광고그룹` text.
+- **Naver GFA** — separate CSV, daily rows keyed by `광고 그룹 이름`/`캠페인 이름`, aggregate to
+  `name` = 광고 그룹 이름 (matches existing GFA row granularity). **Ask for a version with
+  `구매완료 수`/`구매완료 전환매출액` columns** — an earlier GFA export had no revenue column at
+  all (지출/노출/클릭만) and had to be re-requested.
+- **네이버 브랜드검색 cost is not in the daily SA export** (그 상품은 정액제/구좌 단위이고 raw
+  daily 리포트에는 "총비용"이 매일 `0`으로 찍힘). Cost must be computed from the flat-rate
+  contract instead: as of 2026.08, **2,640,000원 / 90일 (VAT 포함)**, prorated to the week's day
+  count and applied identically to both brands' `_브검_모바일` rows (걸 다시 확인받기 전까진 이
+  값을 계속 사용— ask the user if it's been renewed/changed). State the flat-rate basis inline in
+  that mediaNotes entry since it's not a real per-day platform figure like everything else.
+- **Meta 광고관리자 "Raw Data Report"** — typically **two xlsx files per week**, because Meta
+  reports different columns for different campaign objectives: one has plain `구매`/`구매 전환값`
+  (website-conversion campaigns), the other has `공유 항목이 포함된 구매`/`공유 항목의 구매
+  전환값` (catalog/dynamic-product campaigns) — use whichever purchase columns the file has, don't
+  assume both files share a schema. Aggregate by (brand, `광고 이름`→`name`) summed across the
+  week's dates within `보고 시작`/`일`. **Brand attribution from Meta has been 100% unambiguous
+  every week so far** — every `캠페인 이름` explicitly states 아넬라 or 로지(오가닉) — but the
+  instruction to double-check by 소재명 and ask before writing if genuinely ambiguous still stands
+  for whenever that stops being true.
+
+### VAT convention for raw platform costs (confirmed 2026.08)
+Use every raw cost figure **as-is, no VAT adjustment** — Naver 검색광고/GFA's raw exports default
+to VAT-excluded, and Meta doesn't charge KRW VAT on ad spend. (This differs from the *old*
+agency-Excel-era `campaigns` rows, several of which carry `.09`/`.36`-style fractional cost values
+from a `/1.1` VAT-inclusive→exclusive conversion baked into the agency's Excel — don't read that
+old pattern as license to apply the same division to new raw-platform numbers; it isn't needed.)
+
+### Weekly automation
+Two Routines keep the Mon-upload → Tue-delivery cadence on track, both bound to this session so
+they carry full context (see `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit):
+- **Monday 09:00 KST** — asks the user for the week's raw files (Naver SA CSV, Naver GFA CSV with
+  a revenue column, the Meta xlsx pair, and any new creative zip), then runs this whole pipeline
+  (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table → publish → commit) as
+  soon as the files arrive.
+- **Tuesday 14:00 KST** — checks whether that week's report has already been published; if not,
+  re-requests the data with a reminder that Thursday 2pm is the CEO meeting. No-ops silently if the
+  week's report is already done.
+The one thing full automation can't do: actually pull the raw exports from Naver/Meta itself (no
+stored platform credentials, and browser automation for authenticated sessions is off-limits) — a
+human still has to download and attach the files each week.
 
 - **Numbers (campaigns array) and creative assets come from raw platform exports** — 네이버
   검색광고 시스템's 캠페인 리포트 and Meta 광고관리자's campaign-level breakdown, pulled directly
