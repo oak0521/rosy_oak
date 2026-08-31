@@ -55,13 +55,14 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
    (good/warning/serious/critical) are a **separate, unchanged** system — they're validated per the
    `dataviz` skill (see `scripts/validate_palette.js` in that skill if they're ever changed; don't
    hand-pick new hues without re-validating CVD/contrast) and carry real data meaning, so don't fold
-   them into the neutral/indigo chrome repaint or vice versa. Body/heading font is **Pretendard**
-   (Regular/Medium/SemiBold/Bold), inlined as base64 `@font-face` data URIs in `<style>` — it isn't on
-   Google Fonts, so it can't be linked via the Artifact CSP's stylesheet allowlist; fetch the four
-   `static/woff2/Pretendard-*.woff2` weights from the `pretendard` npm package (`npm pack pretendard`)
-   if they ever need re-embedding, don't try to load them from a CDN at view-time. This replaced the
-   prior Gowun Batang (display) + IBM Plex Sans KR (body) + IBM Plex Mono (numbers) pairing — numbers
-   now stay in Pretendard with `font-variant-numeric:tabular-nums` rather than a separate mono face.
+   them into the neutral/indigo chrome repaint or vice versa. Body/heading font is **Noto Sans KR**
+   (400/500/600/700), linked via the standard Google Fonts `@import` — this replaced the prior Gowun
+   Batang (display) + IBM Plex Sans KR (body) + IBM Plex Mono (numbers) pairing; numbers stay in Noto
+   Sans KR with `font-variant-numeric:tabular-nums` rather than a separate mono face. (Pretendard was
+   tried first for a closer visual match to the neutral/indigo redesign, but it isn't on Google
+   Fonts — inlining its 4 weights as base64 `@font-face` data URIs added ~4MB to the file, which was
+   reverted 2026.08.31 in favor of Google-Fonts-hosted Noto Sans KR once file size became a concern;
+   don't reintroduce an inlined non-Google-Fonts face without weighing that cost again.)
    `[hidden]{display:none !important;}` backs the brand switcher's panel toggling; `.brand-chip` is a
    clickable tab (not a link — no `target="_blank"`).
 2. Static HTML sections, in source order top to bottom, matching the sticky top nav's link order:
@@ -310,8 +311,8 @@ after editing the file with something other than `Read`+`Edit`) — the fix is `
 the saved comparison file matches what's expected before republishing; don't pass `force:true`
 without the user's explicit go-ahead.
 
-`reports/weekly-report.html` is **~12.4MB** as of 2026.08.31 (mostly `CREATIVE_IMAGES` base64
-thumbnails/video and the inlined Pretendard font faces) against the Artifact tool's 16MB hard cap —
-there's headroom left but not a lot; if a future week's creative batch or another inlined font/asset
-would push a publish close to the limit, say so before adding it rather than finding out from a
-`too_large` rejection.
+`reports/weekly-report.html` is **~8.2MB** as of 2026.08.31 (almost entirely `CREATIVE_IMAGES`
+base64 thumbnails/video) against the Artifact tool's 16MB hard cap — comfortable for now, but it
+only grows week over week as creative assets accumulate, so keep an eye on it; if a future week's
+creative batch or an inlined font/asset would push a publish close to the limit, say so before
+adding it rather than finding out from a `too_large` rejection.
