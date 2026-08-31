@@ -1,0 +1,293 @@
+<title>주간·월간 리포트 아카이브</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
+
+:root{
+  --bg-page:#f6f8f4;
+  --surface-1:#ffffff;
+  --surface-2:#eef1e9;
+  --border:#dde3d6;
+  --text-primary:#1a2420;
+  --text-secondary:#55625a;
+  --text-muted:#8b968e;
+  --accent:#12705f;
+  --accent-soft:#e3f1ec;
+  --accent-ink:#0c4a3f;
+
+  --media-search:#1baf7a;
+  --media-gfa:#d9762e;
+  --media-meta:#2a78d6;
+
+  --good:#0ca30c;
+  --gridline:#e4e7de;
+  --shadow: 0 1px 2px rgba(20,30,20,0.04), 0 4px 14px rgba(20,30,20,0.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-page:#101210;
+    --surface-1:#191b18;
+    --surface-2:#212420;
+    --border:#33362f;
+    --text-primary:#f3f5ef;
+    --text-secondary:#c3c7ba;
+    --text-muted:#8b9186;
+    --accent:#3fd6a8;
+    --accent-soft:#163329;
+    --accent-ink:#8ff0cf;
+    --media-search:#199e70;
+    --media-gfa:#d9762e;
+    --media-meta:#3987e5;
+    --good:#39c239;
+    --gridline:#2c2f28;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg-page:#101210;
+  --surface-1:#191b18;
+  --surface-2:#212420;
+  --border:#33362f;
+  --text-primary:#f3f5ef;
+  --text-secondary:#c3c7ba;
+  --text-muted:#8b9186;
+  --accent:#3fd6a8;
+  --accent-soft:#163329;
+  --accent-ink:#8ff0cf;
+  --media-search:#199e70;
+  --media-gfa:#d9762e;
+  --media-meta:#3987e5;
+  --good:#39c239;
+  --gridline:#2c2f28;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg-page);
+  color:var(--text-primary);
+  font-family:'IBM Plex Sans KR', -apple-system, sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+.num{font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-variant-numeric:tabular-nums;}
+a{color:inherit;}
+
+header.top{
+  border-bottom:1px solid var(--border);
+  padding:34px 0 22px;
+  margin-bottom:28px;
+}
+header.top h1{
+  font-family:'Gowun Batang', serif;
+  font-size:28px;
+  font-weight:700;
+  margin:0 0 6px;
+  text-wrap:balance;
+  letter-spacing:-0.01em;
+}
+header.top p{
+  margin:0;
+  color:var(--text-secondary);
+  font-size:13.5px;
+}
+
+.section{margin-bottom:36px;}
+.section-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+.section-head h2{
+  font-family:'Gowun Batang', serif;
+  font-size:17px;
+  font-weight:700;
+  margin:0;
+}
+.section-head .count{
+  font-size:12px;
+  color:var(--text-muted);
+}
+
+/* ---- latest report hero card ---- */
+.hero-card{
+  display:block;
+  background:var(--surface-1);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:22px 24px;
+  text-decoration:none;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.hero-card:hover{border-color:var(--accent); transform:translateY(-1px);}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:var(--accent-ink);
+  background:var(--accent-soft);
+  border-radius:999px;
+  padding:3px 10px 3px 8px;
+  margin-bottom:12px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;}
+.hero-card .period{
+  font-family:'Gowun Batang', serif;
+  font-size:21px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+.hero-card .desc{color:var(--text-secondary); font-size:13px;}
+.hero-card .go{
+  margin-top:14px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent-ink);
+}
+
+/* ---- card list ---- */
+.card-list{display:flex; flex-direction:column; gap:10px;}
+.item-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:var(--surface-1);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 18px;
+  text-decoration:none;
+  color:inherit;
+  transition:border-color .15s ease, background .15s ease;
+}
+.item-card:hover{border-color:var(--accent); background:var(--surface-2);}
+.item-week{
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:600;
+  font-size:12.5px;
+  color:var(--accent-ink);
+  background:var(--accent-soft);
+  border-radius:6px;
+  padding:3px 8px;
+  white-space:nowrap;
+}
+.item-period{
+  font-weight:600;
+  font-size:14px;
+  flex:1;
+  min-width:0;
+}
+.item-period .range{color:var(--text-secondary); font-weight:400; margin-left:6px; font-size:12.5px;}
+.item-meta{
+  display:flex;
+  gap:14px;
+  font-size:12px;
+  color:var(--text-muted);
+  white-space:nowrap;
+}
+.item-meta b{color:var(--text-secondary); font-weight:600;}
+.item-arrow{color:var(--text-muted); font-size:15px;}
+
+.empty-note{
+  color:var(--text-muted);
+  font-size:12.5px;
+  padding:14px 18px;
+  border:1px dashed var(--border);
+  border-radius:12px;
+}
+
+footer.foot{
+  border-top:1px solid var(--border);
+  margin-top:8px;
+  padding-top:16px;
+  color:var(--text-muted);
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>주간·월간 리포트 아카이브</h1>
+    <p>아넬라 · 로지오가닉 광고 성과 리포트 — 발행된 주차/월별 리포트를 한 곳에서 확인합니다.</p>
+  </header>
+
+  <div class="section">
+    <div class="section-head"><h2>이번 주 리포트</h2></div>
+    <a class="hero-card" href="https://claude.ai/code/artifact/67f27114-2c32-47df-916b-3e02adffe6c5" target="_blank" rel="noopener">
+      <span class="hero-eyebrow"><span class="dot"></span>최신 · 계속 갱신됨</span>
+      <div class="period">2026.08.17 – 08.23 · 3주차</div>
+      <div class="desc">아넬라 · 로지오가닉 공통 — 브랜드 탭으로 전환해서 볼 수 있습니다.</div>
+      <div class="go">리포트 열기 →</div>
+    </a>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>월간 리포트</h2><span class="count" id="monthlyCount"></span></div>
+    <div class="card-list" id="monthlyList"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>주간 리포트 아카이브</h2><span class="count" id="weeklyCount"></span></div>
+    <div class="card-list" id="weeklyList"></div>
+  </div>
+
+  <footer class="foot">
+    <span>매주 발행 시점의 리포트를 스냅샷으로 보관합니다 (숫자는 발행 당시 기준, 소급 수정되지 않습니다)</span>
+  </footer>
+</div>
+
+<script>
+// 최신순으로 위에 오도록 최신 항목을 배열 앞에 추가해 주세요.
+const WEEKLIES = [
+  {
+    week: '3주차',
+    start: '2026-08-17',
+    range: '2026.08.17 – 08.23',
+    url: 'https://claude.ai/code/artifact/f3c132c8-b3ef-4e9a-8c1e-87b54906c39e',
+    published: '2026.08.26'
+  }
+];
+
+const MONTHLIES = [
+  // { month: '2026.08', url: '...', published: '2026.08.31' }
+];
+
+function fmt(list, kind){
+  if(!list.length) return '<div class="empty-note">아직 발행된 ' + kind + ' 리포트가 없습니다.</div>';
+  return list.map(item => {
+    if(item.month){
+      return `<a class="item-card" href="${item.url}" target="_blank" rel="noopener">
+        <span class="item-week">${item.month}</span>
+        <span class="item-period">월간 리포트</span>
+        <span class="item-meta"><b>발행</b> ${item.published}</span>
+        <span class="item-arrow">→</span>
+      </a>`;
+    }
+    return `<a class="item-card" href="${item.url}" target="_blank" rel="noopener">
+      <span class="item-week">${item.week}</span>
+      <span class="item-period">${item.range}</span>
+      <span class="item-meta"><b>발행</b> ${item.published}</span>
+      <span class="item-arrow">→</span>
+    </a>`;
+  }).join('');
+}
+
+document.getElementById('weeklyList').innerHTML = fmt(WEEKLIES, '주간');
+document.getElementById('monthlyList').innerHTML = fmt(MONTHLIES, '월간');
+document.getElementById('weeklyCount').textContent = WEEKLIES.length + '건';
+document.getElementById('monthlyCount').textContent = MONTHLIES.length + '건';
+</script>

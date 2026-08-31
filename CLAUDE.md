@@ -225,8 +225,66 @@ human still has to download and attach the files each week.
     recorded, so a tracking gap still needs to be called out rather than mistaken for a real
     performance drop.
 
+## Weekly/monthly archive (established 2026.08.31 — follow it)
+
+Every week used to simply overwrite `reports/weekly-report.html` in place, so past weeks' data
+was gone once the next week landed. As of the 3주차 (8/17–8/23) report, past weeks are archived
+instead, and an index page ties them together:
+
+- `reports/weekly-report.html` — stays the **live** report: continuously edited in place each
+  week and republished to its **one fixed** Artifact URL
+  (`https://claude.ai/code/artifact/67f27114-2c32-47df-916b-3e02adffe6c5`) exactly as before. This
+  is the link the CEO always opens for "this week's numbers."
+- `reports/weekly/YYYY-MM-DD.html` — a frozen **snapshot**, one per week, filed under that week's
+  Mon–Sun period-start date (e.g. `2026-08-17.html` for the 8/17–8/23 / 3주차 report). Each
+  snapshot is published as its **own separate** Artifact (its own URL, never reusing the live
+  report's URL) so old links keep working forever. Once a week is archived it's frozen — don't go
+  back and edit an old snapshot's numbers; corrections belong in the week they're discovered.
+- `reports/archive.html` — a lightweight index/gallery page (its own Artifact,
+  `https://claude.ai/code/artifact/fb28ef03-ed69-46bf-a7f8-35f05fa9999c`, **no** `artifact`
+  capability needed — it's static, nothing on it is user-editable) listing the live report, every
+  archived week (newest first), and every monthly report. The list data lives in two small
+  hand-maintained arrays in its inline `<script>` (`WEEKLIES`, `MONTHLIES`) — add a new object to
+  the front of the relevant array and republish; there's no build step or generator.
+- `reports/monthly/YYYY-MM.html` — a monthly rollup (future one per calendar month), also its own
+  Artifact, built by **summing that month's archived weekly `campaigns` arrays** (extract each
+  archived week's inline `<script>` the same way the `node --check` validation snippet does, sum
+  per brand/media across every week whose period falls in that month). This only works cleanly for
+  a month where **every** week in it was archived under the new raw-platform pipeline (3주차
+  8/17–8/23 onward) — 2026.08 is a transition month (1–2주차 predate this archive and used the old
+  agency-dashboard method; there's also no agency monthly-Excel figure for August yet to fall back
+  on), so don't force an August monthly rollup by silently mixing an incomplete weekly sum with old
+  data — the first clean auto-aggregated monthly report is 2026.09, once all of that month's weeks
+  have been archived. If the user asks for an approximate August number before then, say plainly
+  which weeks it's missing rather than presenting a number as complete.
+
+### Weekly workflow order (updated)
+
+Each Monday, **before** overwriting `campaigns`/`mediaNotes` for the new week, first check
+`reports/archive.html`'s `WEEKLIES` array for the *outgoing* week's period-start date — if it's
+already listed (e.g. it was archived out-of-cycle, as happened for 3주차/`2026-08-17` when this
+whole archive system was bootstrapped on 2026.08.31), skip straight to overwriting; don't archive
+the same week twice. Otherwise:
+1. Copy the current (outgoing) `reports/weekly-report.html` to `reports/weekly/<that week's
+   period-start date>.html`.
+2. Publish the copy as its own new Artifact (`favicon: "📅"`; give it its own `<title>` so it
+   reads as an archived week, not the live report — the live report's own `<title>` tag otherwise
+   wins and both would show the same name in the gallery).
+3. Add an entry to the *front* of `WEEKLIES` in `reports/archive.html` and republish that page.
+4. *Then* edit `reports/weekly-report.html` in place for the new week and continue the normal
+   pipeline (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table → publish →
+   commit) as before.
+
+Both the live report and every archived snapshot link to `reports/archive.html` from the header's
+`.period` line (and an archived snapshot additionally links back to the live report), so a reader
+can navigate in either direction.
+
 ## Publishing
 
 Redeploy with the Claude Code `Artifact` tool, same `file_path`, passing the existing artifact
 `url` to update in place rather than create a new one. Always run the `node --check` validation
-above first — the tool has no other safety net for a broken inline `<script>`.
+above first — the tool has no other safety net for a broken inline `<script>`. This repo now
+publishes to **three separate Artifacts** (the live weekly report, the current week's archived
+snapshot when one is being created, and `reports/archive.html`) — always pass the matching `url`
+for whichever file you're republishing; publishing without `url` (or with the wrong one) creates a
+stray new Artifact instead of updating the right one.
