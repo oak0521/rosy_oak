@@ -174,32 +174,59 @@ agency-Excel-era `campaigns` rows, several of which carry `.09`/`.36`-style frac
 from a `/1.1` VAT-inclusive→exclusive conversion baked into the agency's Excel — don't read that
 old pattern as license to apply the same division to new raw-platform numbers; it isn't needed.)
 
-### Weekly automation
+### Weekly automation (fresh-session-per-fire, established 2026.09 — follow it)
 The user's work hours are **10:00–19:00 KST** — don't schedule triggers outside that window.
-Three Routines keep the Mon-upload → Tue-delivery → Thu-mission cadence on track, all bound to
-this session so they carry full context (see `list_triggers`/`mcp__Claude_Code_Remote__*` tools to
-inspect/edit):
-- **Monday 10:30 KST** — asks the user for the week's raw files (Naver SA CSV, Naver GFA CSV with
-  a revenue column, the Meta xlsx pair, and any new creative zip), then runs this whole pipeline
-  (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table) as soon as the files
-  arrive.
-- **The agency's free-text weekly comment arrives separately from the client**, by Tuesday 10:30
-  KST — it's not part of either Routine's job, just an expected delivery to fold into `mediaNotes`
-  /quad-grid once it lands (cross-checked against the raw numbers per the workflow above) before
-  publishing/committing.
-- **Tuesday 14:00 KST** — checks whether that week's report has already been published; if not,
-  re-requests the data with a reminder that Thursday 2pm is the CEO meeting. No-ops silently if the
-  week's report is already done.
-- **Thursday 18:00 KST** — asks the user whether there's content for that week's `#mission` section
-  (single shared block, not per-brand). If nothing, leave `#mission` empty rather than carrying
-  over a stale previous week's mission; if given, research as needed (WebSearch etc.) and write it
-  in following the existing markup tone/structure, then run the standard publish/commit pipeline.
+Four Routines drive the Mon-upload → Tue-finalize → Thu-mission → monthly-rollup cadence. As of
+2026.09 they all use `create_new_session_on_fire: true` — **each firing spawns a brand-new session
+with no memory of any prior conversation**, so every Routine prompt is written as a complete,
+standalone instruction, and every fired session must re-derive current state from the repo (git
+log, the live `reports/weekly-report.html`, `reports/archive.html`) rather than assume continuity
+with whichever session did last week's work. This is deliberate: CLAUDE.md plus git history already
+carry everything a fresh session needs to pick the work back up correctly — piling every week into
+one ever-growing conversation only adds compaction risk and per-turn token overhead with no benefit
+(this project's own long-running session hit its first auto-compaction well before this change).
+(See `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit any of the four.)
 
-No native KakaoTalk delivery is available — Routines bound to this session land as a resumed
-conversation turn (visible next time the user opens the session), not a push/KakaoTalk message.
-The one thing full automation can't do: actually pull the raw exports from Naver/Meta itself (no
-stored platform credentials, and browser automation for authenticated sessions is off-limits) — a
-human still has to download and attach the files each week.
+- **Monday 10:30 KST** — starts the week. First archives last week's report if it isn't already in
+  `reports/archive.html`'s `WEEKLIES` array (see "Weekly workflow order" below), then asks the user
+  for that week's raw files (Naver SA CSV, Naver GFA CSV with a revenue column, the Meta xlsx pair,
+  any new creative zip). Once the files land (same session, same day or later), aggregates by brand
+  and rebuilds `campaigns`/the weekly comparison table's numbers, then **commits that to git but
+  does not publish yet** — the quad-grid/`mediaNotes` narrative needs the agency's comment, which
+  hasn't arrived yet, and the live Artifact should keep showing last week's *complete* report rather
+  than a half-written draft in the meantime.
+- **The agency's free-text weekly comment arrives separately from the client**, usually by Tuesday
+  10:30 KST.
+- **Tuesday 14:00 KST — this is where the week's report actually gets finalized and published.**
+  Reads the current repo state (Monday's numbers-only commit, if it landed) and asks for the
+  agency's comment if it hasn't been given yet. Once received: cross-check every number against the
+  raw platform data (per the workflow above), apply the 브랜드검색 commentary threshold above,
+  write the quad-grid 핵심요약 and `mediaNotes` for both brands, then publish + commit the final
+  version — this publish is the one the CEO actually reads. If Monday's raw data never arrived at
+  all, re-request it here instead, with a reminder that Thursday 2pm is the CEO meeting.
+- **Thursday 18:00 KST** — after the Thursday 2pm CEO meeting, asks the user whether there's
+  content for *next* week's `#mission` section (single shared block, not per-brand). If nothing,
+  leave `#mission` empty rather than carrying over a stale mission; if given, research as needed
+  (WebSearch etc.) and write it in following the existing markup tone/structure, then
+  publish/commit.
+- **Monthly, 1st of the month at 10:30 KST** — checks whether the calendar month that just ended
+  has every week archived under the raw-data pipeline (see "Weekly/monthly archive" below); if not
+  (a transition month, or a week still in progress), no-ops silently. If it does, builds
+  `reports/monthly/YYYY-MM.html` by summing that month's archived weekly `campaigns`, applies the
+  same 브랜드검색 threshold rule, publishes it as its own Artifact, and adds it to the front of
+  `MONTHLIES` in `reports/archive.html` — the **same page** the weekly archive already lives on, no
+  separate dashboard needed. Keep the monthly report numbers/trend-only — no `CREATIVE_IMAGES` —
+  the point is to stay lightweight, not duplicate the weekly reports' creative galleries. The actual
+  monthly page layout still needs to be designed the first time this fires for real (first eligible
+  month is 2026.09, so first real build is 2026.10.01) — use that month's archived weekly reports as
+  the reference content when designing it.
+
+No native KakaoTalk delivery is available. A fresh-session Routine firing shows up as a new session
+in the user's session list (Claude Code UI / Remote Control) rather than landing in one long-running
+conversation; push/email completion notifications are available for fresh-session Routines and are
+enabled on these. The one thing full automation can't do: actually pull the raw exports from
+Naver/Meta itself (no stored platform credentials, and browser automation for authenticated sessions
+is off-limits) — a human still has to download and attach the files each week.
 
 - **Numbers (campaigns array) and creative assets come from raw platform exports** — 네이버
   검색광고 시스템's 캠페인 리포트 and Meta 광고관리자's campaign-level breakdown, pulled directly
@@ -239,6 +266,18 @@ human still has to download and attach the files each week.
     tracking loss the agency flagged) — a raw export faithfully reflects whatever the platform
     recorded, so a tracking gap still needs to be called out rather than mistaken for a real
     performance drop.
+
+### 브랜드검색 commentary threshold (established 2026.09 — follow it)
+네이버 브랜드검색은 대부분 영업팀이 직접 관리한다 — 사용자는 데이터 흐름만 확인하고, 문제가 있을
+때만 개입한다. 그래서 핵심요약(quad-grid)에는 **브랜드검색에 대한 코멘트를 기본적으로 쓰지 않는다**
+— 좋았던 점이든 안좋았던 점이든, 숫자가 오르내린다는 이유만으로는 언급하지 않는다 (4주차의
+1+1·자체행사로 인한 브랜드검색 급등처럼 이벤트로 설명되는 변동도 포함).
+
+예외는 딱 하나뿐이다: **행사가 없는 주(no-event week)의 브랜드검색 매출이, 다른 행사 없는 주들과
+비교해서 심각하게 떨어지는 경우**만 다룬다. 이때도 **리포트에는 쓰지 말고 채팅창에만** 남긴다 —
+정말 문제라고 판단될 때만 알리는 것이지, 매주 정기적으로 보고하는 항목이 아니다. 이벤트가 있었던
+주는 이 비교의 기준(baseline)에서 제외한다 — 이벤트 주는 원래 급등락하는 게 정상이라 "문제"의
+신호가 아니다. 이 규칙은 주간·월간 리포트 모두에 동일하게 적용한다.
 
 ## Weekly/monthly archive (established 2026.08.31 — follow it)
 
