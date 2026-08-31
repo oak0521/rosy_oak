@@ -47,13 +47,27 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
 
 1. `<title>` + `<style>` — CSS custom properties define the theme (light values on `:root`, dark
    values mirrored under both a `prefers-color-scheme: dark` media query and `:root[data-theme="dark"]`
-   so an explicit viewer toggle wins over OS setting). Categorical colors (네이버 검색광고 / GFA / 메타)
-   and status colors (good/warning/serious/critical) are picked and validated per the `dataviz` skill
-   — see `scripts/validate_palette.js` in that skill if colors are ever changed; don't hand-pick new
-   hues without re-validating CVD/contrast. `[hidden]{display:none !important;}` backs the brand
-   switcher's panel toggling; `.brand-chip` is a clickable tab (not a link — no `target="_blank"`).
-2. Static HTML sections (`#summary`, `#trend`, `#media`, `#creative`, `#comment`, `#mission`) — in
-   source order, top to bottom on the page. Section anchors are linked from the sticky top nav.
+   so an explicit viewer toggle wins over OS setting). The chrome/UI accent (`--accent`/`--accent-soft`/
+   `--accent-ink`, active tab, links, icon chips) is a **neutral-grayscale-base + single indigo point
+   color** system (established 2026.08.31, replacing an earlier all-over sage-green brand accent that
+   read as generic/"AI-templated") — `--bg-page`/`--surface-1`/`--surface-2`/`--border`/`--text-*` are
+   true neutrals, not tinted. Categorical colors (네이버 검색광고 / GFA / 메타) and status colors
+   (good/warning/serious/critical) are a **separate, unchanged** system — they're validated per the
+   `dataviz` skill (see `scripts/validate_palette.js` in that skill if they're ever changed; don't
+   hand-pick new hues without re-validating CVD/contrast) and carry real data meaning, so don't fold
+   them into the neutral/indigo chrome repaint or vice versa. Body/heading font is **Pretendard**
+   (Regular/Medium/SemiBold/Bold), inlined as base64 `@font-face` data URIs in `<style>` — it isn't on
+   Google Fonts, so it can't be linked via the Artifact CSP's stylesheet allowlist; fetch the four
+   `static/woff2/Pretendard-*.woff2` weights from the `pretendard` npm package (`npm pack pretendard`)
+   if they ever need re-embedding, don't try to load them from a CDN at view-time. This replaced the
+   prior Gowun Batang (display) + IBM Plex Sans KR (body) + IBM Plex Mono (numbers) pairing — numbers
+   now stay in Pretendard with `font-variant-numeric:tabular-nums` rather than a separate mono face.
+   `[hidden]{display:none !important;}` backs the brand switcher's panel toggling; `.brand-chip` is a
+   clickable tab (not a link — no `target="_blank"`).
+2. Static HTML sections, in source order top to bottom, matching the sticky top nav's link order:
+   `#summary`, `#comment`, `#trend`, `#media`, `#creative`, `#mission` (`#comment` was moved to
+   directly after `#summary` on 2026.08.31 — keep the nav's `<a href="#...">` order and the sections'
+   DOM order in sync if either changes again).
    `#summary`, `#trend`'s notes/table, and `#comment` each contain **two** sibling
    `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the non-active one carries
    `hidden`); `#mission` is a single shared block, not duplicated.
@@ -288,3 +302,16 @@ publishes to **three separate Artifacts** (the live weekly report, the current w
 snapshot when one is being created, and `reports/archive.html`) — always pass the matching `url`
 for whichever file you're republishing; publishing without `url` (or with the wrong one) creates a
 stray new Artifact instead of updating the right one.
+
+A republish can be refused with a "newer version ... not built on it" conflict if the session's
+tracked base version is stale (e.g. after a prior publish earlier in the same conversation, or
+after editing the file with something other than `Read`+`Edit`) — the fix is `Artifact` `action:
+"read"` on that `url` first (re-fetching, not reusing an earlier turn's cached copy) and confirming
+the saved comparison file matches what's expected before republishing; don't pass `force:true`
+without the user's explicit go-ahead.
+
+`reports/weekly-report.html` is **~12.4MB** as of 2026.08.31 (mostly `CREATIVE_IMAGES` base64
+thumbnails/video and the inlined Pretendard font faces) against the Artifact tool's 16MB hard cap —
+there's headroom left but not a lot; if a future week's creative batch or another inlined font/asset
+would push a publish close to the limit, say so before adding it rather than finding out from a
+`too_large` rejection.
