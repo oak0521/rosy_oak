@@ -103,36 +103,27 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
      tooltips are wired up after `innerHTML` is set (see the `mouseenter`/`mousemove` listeners
      added to `rect[data-tip]` in `renderTrend`).
 
-## The 핵심요약 and 컨텐츠/업무 진행사항 sections are a live, editable doc
+## The 핵심요약 and 컨텐츠/업무 진행사항 sections are plain static lists (not live-editable)
 
-The four "좋았던 점 / 안좋았던 점 / 개선하고 있는 것 / 개선이 필요한 것" lists (핵심요약) and the
-"컨텐츠 및 기타 업무 진행사항" list in `#comment` — **times two**, once inside each brand's
-`data-brand-panel` block, ten sync regions total — use the Artifact `artifact` capability's
-zero-API sync regions (`<ul artifact-sync>`, `contenteditable` spans) so a viewer can edit/add/
-delete bullets directly in the published page and have it persist, in either brand, independent
-of which brand tab is currently visible. The 컨텐츠/업무 진행사항 list is deliberately a bulleted
-`<ul class="memo-list" artifact-sync>` (add/delete items, same `makeBullet()`/`.bullet-text`/
-`.del-btn` machinery as 핵심요약, wired via `document.querySelectorAll('.quad, .memo-block')`),
-**not** a `<textarea>` — sync regions cannot capture `<textarea>`/`<select>` values at all, so a
-plain memo textarea silently never persists. This means:
+The four "좋았던 점 / 안좋았던 점 / 개선하고 있는 것 / 개선이 필요한 것" lists (핵심요약, quad-grid)
+and the "컨텐츠 및 기타 업무 진행사항" list in `#comment` — one instance inside each brand's
+`data-brand-panel` block — are **plain `<ul><li><span class="bullet-text">text</span></li></ul>`
+lists**. There is no in-page editing UI (no "+ 항목 추가" button, no per-item × delete button, no
+`contenteditable`) and no Artifact `artifact-sync` capability declared. This was a deliberate
+removal (2026.09) — the sync-region live-editing feature (built 2026.08, "fixed" once already after
+a `setReadOnly()`-mutating-a-sync-region bug) never reliably persisted edits for the user in
+practice, so rather than keep chasing it, the editing chrome was stripped out entirely. **Content
+changes to these lists now go through Claude** (the user asks in chat, a session edits the HTML and
+republishes) — don't reintroduce `artifact-sync`, `contenteditable`, add/delete buttons, or the
+`capabilities: {"artifact": {...}}` declaration on publish for this file unless the user explicitly
+asks for live editing back.
 
-- When publishing via the Artifact tool, `capabilities: {"artifact": {}}` must be declared (it
-  carries forward automatically on redeploys unless explicitly cleared).
-- Keep each editable bullet's text in a single element with **no child elements** (a bare
-  `<span class="bullet-text">`) — text mixed with child markup inside a sync region silently stops
-  saving. Put the delete button as a *sibling* of the text span, not inside it.
-- A republish (same `file_path` + `url`) replaces the whole page; the sync-region edit journal
-  layered on top is a separate concern from that page content — see the `artifact-capabilities`
-  skill before changing anything here.
-- `#comment`'s `.comment-card` per brand holds **only** the 컨텐츠 및 기타 업무 진행사항 memo-list
-  now — the earlier static `광고 관련 코멘트 (n주차)` and `차주 운영 방향` `<ul class="prefill-list">`
-  blocks were removed (2026.08.26) because they duplicated the 핵심요약 quad-grid's "안좋았던 점"
-  and "개선이 필요한 것 (차주 운영방향)" lists verbatim — one editable source of truth (the
-  quad-grid) beats two copies that can drift. Don't reintroduce those two static lists in
-  `#comment`; narrative/number commentary and next-week direction live in the quad-grid only.
-- Viewers reached via the *shared link* can see a version pinned earlier than what's actually live
-  — if a user reports "my edit didn't show up" or "my fix isn't there," re-fetch the live artifact
-  content directly (`WebFetch` the artifact URL) before assuming the publish failed.
+`#comment`'s `.comment-card` per brand holds **only** the 컨텐츠 및 기타 업무 진행사항 list now —
+the earlier static `광고 관련 코멘트 (n주차)` and `차주 운영 방향` lists were removed (2026.08.26)
+because they duplicated the 핵심요약 quad-grid's "안좋았던 점" and "개선이 필요한 것 (차주
+운영방향)" lists verbatim — one source of truth (the quad-grid) beats two copies that can drift.
+Don't reintroduce those two lists in `#comment`; narrative/number commentary and next-week
+direction live in the quad-grid only.
 
 ## Data-sourcing & data-integrity workflow (established practice — follow it)
 
@@ -209,17 +200,25 @@ one ever-growing conversation only adds compaction risk and per-turn token overh
   leave `#mission` empty rather than carrying over a stale mission; if given, research as needed
   (WebSearch etc.) and write it in following the existing markup tone/structure, then
   publish/commit.
-- **Monthly, 1st of the month at 10:30 KST** — checks whether the calendar month that just ended
-  has every week archived under the raw-data pipeline (see "Weekly/monthly archive" below); if not
-  (a transition month, or a week still in progress), no-ops silently. If it does, builds
-  `reports/monthly/YYYY-MM.html` by summing that month's archived weekly `campaigns`, applies the
-  same 브랜드검색 threshold rule, publishes it as its own Artifact, and adds it to the front of
-  `MONTHLIES` in `reports/archive.html` — the **same page** the weekly archive already lives on, no
-  separate dashboard needed. Keep the monthly report numbers/trend-only — no `CREATIVE_IMAGES` —
-  the point is to stay lightweight, not duplicate the weekly reports' creative galleries. The actual
-  monthly page layout still needs to be designed the first time this fires for real (first eligible
-  month is 2026.09, so first real build is 2026.10.01) — use that month's archived weekly reports as
-  the reference content when designing it.
+- **Monthly, 1st of the month at 10:30 KST** — asks the user for a **fresh full-month raw data
+  pull** (Naver SA CSV, Naver GFA CSV, Meta xlsx pair — all covering the *entire* just-ended month,
+  1일–말일) rather than summing that month's archived weekly `campaigns` arrays. This is deliberate
+  (established 2026.09, per the user): ad-platform conversions attribute over a window (multi-day
+  click/view attribution), so a given week's numbers as captured *that week* keep climbing for days
+  afterward as more conversions attribute back to it — a weekly snapshot is real at the time it's
+  taken but is a floor, not a final number. A full-month pull requested once the month has closed
+  captures conversions that had time to fully attribute, so it's the more accurate source for the
+  monthly rollup even though it covers the same period the weekly archives already do. Aggregate it
+  exactly like the weekly pipeline (per brand/media/campaign, per the "Data-sourcing" workflow
+  above), apply the same 브랜드검색 threshold rule, build `reports/monthly/YYYY-MM.html`, publish it
+  as its own Artifact, and add it to the front of `MONTHLIES` in `reports/archive.html` — the
+  **same page** the weekly archive already lives on, no separate dashboard needed. Keep the monthly
+  report numbers/trend-only — no `CREATIVE_IMAGES` — the point is to stay lightweight, not
+  duplicate the weekly reports' creative galleries. Monthly reporting starts from **2026.08**
+  (first built once the user sends the full-month 8/1–8/31 pull) — since it's built from a fresh
+  full-month pull rather than summed weekly numbers, it isn't blocked on every week of the month
+  having gone through the raw-data pipeline, so August doesn't need to be treated as a transition
+  month to skip.
 
 No native KakaoTalk delivery is available. A fresh-session Routine firing shows up as a new session
 in the user's session list (Claude Code UI / Remote Control) rather than landing in one long-running
@@ -300,17 +299,11 @@ instead, and an index page ties them together:
   archived week (newest first), and every monthly report. The list data lives in two small
   hand-maintained arrays in its inline `<script>` (`WEEKLIES`, `MONTHLIES`) — add a new object to
   the front of the relevant array and republish; there's no build step or generator.
-- `reports/monthly/YYYY-MM.html` — a monthly rollup (future one per calendar month), also its own
-  Artifact, built by **summing that month's archived weekly `campaigns` arrays** (extract each
-  archived week's inline `<script>` the same way the `node --check` validation snippet does, sum
-  per brand/media across every week whose period falls in that month). This only works cleanly for
-  a month where **every** week in it was archived under the new raw-platform pipeline (3주차
-  8/17–8/23 onward) — 2026.08 is a transition month (1–2주차 predate this archive and used the old
-  agency-dashboard method; there's also no agency monthly-Excel figure for August yet to fall back
-  on), so don't force an August monthly rollup by silently mixing an incomplete weekly sum with old
-  data — the first clean auto-aggregated monthly report is 2026.09, once all of that month's weeks
-  have been archived. If the user asks for an approximate August number before then, say plainly
-  which weeks it's missing rather than presenting a number as complete.
+- `reports/monthly/YYYY-MM.html` — a monthly rollup (one per calendar month), also its own Artifact,
+  built from a **fresh full-month raw data pull the user sends after the month closes** — not by
+  summing the month's archived weekly `campaigns` arrays. See the "Monthly, 1st of the month" bullet
+  under "Weekly automation" above for why (attribution-window settling makes weekly-captured numbers
+  a floor, not a final figure). Monthly reporting starts from **2026.08**.
 
 ### Weekly workflow order (updated)
 
@@ -324,10 +317,18 @@ the same week twice. Otherwise:
 2. Publish the copy as its own new Artifact (`favicon: "📅"`; give it its own `<title>` so it
    reads as an archived week, not the live report — the live report's own `<title>` tag otherwise
    wins and both would show the same name in the gallery).
-3. Add an entry to the *front* of `WEEKLIES` in `reports/archive.html` and republish that page.
+3. Add an entry to the *front* of `WEEKLIES` in `reports/archive.html` and republish that page —
+   **also update `archive.html`'s "이번 주 리포트" hero card** (`.hero-card .period` text) to the
+   *new* week's dates/주차, not the outgoing week's. This was missed for the whole 3주차→4주차
+   transition (2026.09 bug fix) — the hero card kept showing "3주차" while the live report already
+   held 4주차 data, so don't let the two drift again.
 4. *Then* edit `reports/weekly-report.html` in place for the new week and continue the normal
    pipeline (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table → publish →
-   commit) as before.
+   commit) as before. **Also update `#summary`'s own `<p class="section-sub">` caption** (the
+   "전주(...) 대비 N주차(...) 비교 · ..." line right under "핵심 요약") to the current week's actual
+   dates — this is a single shared line (not per-brand) that's easy to forget since every other
+   per-brand text update draws attention away from it; it silently went stale for three weeks
+   running before being caught and fixed (2026.09).
 
 Both the live report and every archived snapshot link to `reports/archive.html` from the header's
 `.period` line (and an archived snapshot additionally links back to the live report), so a reader

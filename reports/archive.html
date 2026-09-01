@@ -1,66 +1,66 @@
 <title>주간·월간 리포트 아카이브</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 
 :root{
-  --bg-page:#f6f8f4;
+  --bg-page:#f6f6f7;
   --surface-1:#ffffff;
-  --surface-2:#eef1e9;
-  --border:#dde3d6;
-  --text-primary:#1a2420;
-  --text-secondary:#55625a;
-  --text-muted:#8b968e;
-  --accent:#12705f;
-  --accent-soft:#e3f1ec;
-  --accent-ink:#0c4a3f;
+  --surface-2:#eeeef0;
+  --border:#e0e0e3;
+  --text-primary:#18181b;
+  --text-secondary:#57575f;
+  --text-muted:#8d8d95;
+  --accent:#3d3096;
+  --accent-soft:#ebe8f9;
+  --accent-ink:#2c2270;
 
   --media-search:#1baf7a;
   --media-gfa:#d9762e;
   --media-meta:#2a78d6;
 
   --good:#0ca30c;
-  --gridline:#e4e7de;
-  --shadow: 0 1px 2px rgba(20,30,20,0.04), 0 4px 14px rgba(20,30,20,0.05);
+  --gridline:#e5e5e8;
+  --shadow: 0 1px 2px rgba(20,20,25,0.04), 0 4px 14px rgba(20,20,25,0.05);
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg-page:#101210;
-    --surface-1:#191b18;
-    --surface-2:#212420;
-    --border:#33362f;
-    --text-primary:#f3f5ef;
-    --text-secondary:#c3c7ba;
-    --text-muted:#8b9186;
-    --accent:#3fd6a8;
-    --accent-soft:#163329;
-    --accent-ink:#8ff0cf;
+    --bg-page:#0e0e10;
+    --surface-1:#19191c;
+    --surface-2:#212124;
+    --border:#2d2d31;
+    --text-primary:#f2f2f4;
+    --text-secondary:#bbbbc2;
+    --text-muted:#87878f;
+    --accent:#a99cf5;
+    --accent-soft:#241f47;
+    --accent-ink:#cabdfb;
     --media-search:#199e70;
     --media-gfa:#d9762e;
     --media-meta:#3987e5;
     --good:#39c239;
-    --gridline:#2c2f28;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+    --gridline:#2a2a2e;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.4);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg-page:#101210;
-  --surface-1:#191b18;
-  --surface-2:#212420;
-  --border:#33362f;
-  --text-primary:#f3f5ef;
-  --text-secondary:#c3c7ba;
-  --text-muted:#8b9186;
-  --accent:#3fd6a8;
-  --accent-soft:#163329;
-  --accent-ink:#8ff0cf;
+  --bg-page:#0e0e10;
+  --surface-1:#19191c;
+  --surface-2:#212124;
+  --border:#2d2d31;
+  --text-primary:#f2f2f4;
+  --text-secondary:#bbbbc2;
+  --text-muted:#87878f;
+  --accent:#a99cf5;
+  --accent-soft:#241f47;
+  --accent-ink:#cabdfb;
   --media-search:#199e70;
   --media-gfa:#d9762e;
   --media-meta:#3987e5;
   --good:#39c239;
-  --gridline:#2c2f28;
-  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+  --gridline:#2a2a2e;
+  --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.4);
   color-scheme: dark;
 }
 
@@ -69,13 +69,13 @@ html,body{margin:0;padding:0;}
 body{
   background:var(--bg-page);
   color:var(--text-primary);
-  font-family:'IBM Plex Sans KR', -apple-system, sans-serif;
+  font-family:'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', sans-serif;
   font-size:14px;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
 }
 .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
-.num{font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-variant-numeric:tabular-nums;}
+.num{font-variant-numeric:tabular-nums;}
 a{color:inherit;}
 
 header.top{
@@ -84,7 +84,7 @@ header.top{
   margin-bottom:28px;
 }
 header.top h1{
-  font-family:'Gowun Batang', serif;
+  font-family:'Noto Sans KR', sans-serif;
   font-size:28px;
   font-weight:700;
   margin:0 0 6px;
@@ -106,7 +106,7 @@ header.top p{
   margin-bottom:14px;
 }
 .section-head h2{
-  font-family:'Gowun Batang', serif;
+  font-family:'Noto Sans KR', sans-serif;
   font-size:17px;
   font-weight:700;
   margin:0;
@@ -143,7 +143,7 @@ header.top p{
 }
 .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block;}
 .hero-card .period{
-  font-family:'Gowun Batang', serif;
+  font-family:'Noto Sans KR', sans-serif;
   font-size:21px;
   font-weight:700;
   margin-bottom:4px;
@@ -172,7 +172,6 @@ header.top p{
 }
 .item-card:hover{border-color:var(--accent); background:var(--surface-2);}
 .item-week{
-  font-family:'IBM Plex Mono', monospace;
   font-weight:600;
   font-size:12.5px;
   color:var(--accent-ink);
@@ -229,7 +228,7 @@ footer.foot{
     <div class="section-head"><h2>이번 주 리포트</h2></div>
     <a class="hero-card" href="https://claude.ai/code/artifact/67f27114-2c32-47df-916b-3e02adffe6c5" target="_blank" rel="noopener">
       <span class="hero-eyebrow"><span class="dot"></span>최신 · 계속 갱신됨</span>
-      <div class="period">2026.08.17 – 08.23 · 3주차</div>
+      <div class="period">2026.08.24 – 08.30 · 4주차</div>
       <div class="desc">아넬라 · 로지오가닉 공통 — 브랜드 탭으로 전환해서 볼 수 있습니다.</div>
       <div class="go">리포트 열기 →</div>
     </a>
