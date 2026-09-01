@@ -64,7 +64,11 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
    reverted 2026.08.31 in favor of Google-Fonts-hosted Noto Sans KR once file size became a concern;
    don't reintroduce an inlined non-Google-Fonts face without weighing that cost again.)
    `[hidden]{display:none !important;}` backs the brand switcher's panel toggling; `.brand-chip` is a
-   clickable tab (not a link — no `target="_blank"`).
+   clickable tab (not a link — no `target="_blank"`). The `<title>` tag (browser-tab / Artifact-gallery
+   name) follows **"주간 리포트 N주차(M/D-M/D)"** for the live report and each archived weekly
+   snapshot, and **"월간 리포트 YYYY.MM"** for monthly rollups (established 2026.09, replacing an
+   earlier generic, never-updated "브랜드 주간 리포트" title) — update it every time the live
+   report's period changes, alongside the other per-week text (period line, footSource, section-subs).
 2. Static HTML sections, in source order top to bottom, matching the sticky top nav's link order:
    `#summary`, `#comment`, `#trend`, `#media`, `#creative`, `#mission` (`#comment` was moved to
    directly after `#summary` on 2026.08.31 — keep the nav's `<a href="#...">` order and the sections'
@@ -200,9 +204,13 @@ one ever-growing conversation only adds compaction risk and per-turn token overh
   leave `#mission` empty rather than carrying over a stale mission; if given, research as needed
   (WebSearch etc.) and write it in following the existing markup tone/structure, then
   publish/commit.
-- **Monthly, 1st of the month at 10:30 KST** — asks the user for a **fresh full-month raw data
-  pull** (Naver SA CSV, Naver GFA CSV, Meta xlsx pair — all covering the *entire* just-ended month,
-  1일–말일) rather than summing that month's archived weekly `campaigns` arrays. This is deliberate
+- **Monthly, first *working day* of the month, 10:30 KST** — the trigger's cron actually fires every
+  day 1st–5th at 10:30 KST (a plain "day 1" cron can't express "first weekday"), and the fired
+  session self-gates: no-op silently on a weekend, no-op silently if `reports/archive.html`'s
+  `MONTHLIES` already has last month's entry (built by an earlier weekday's firing), otherwise treat
+  today as the month's first working day and proceed. Asks the user for a **fresh full-month raw
+  data pull** (Naver SA CSV, Naver GFA CSV, Meta xlsx pair — all covering the *entire* just-ended
+  month, 1일–말일) rather than summing that month's archived weekly `campaigns` arrays. This is deliberate
   (established 2026.09, per the user): ad-platform conversions attribute over a window (multi-day
   click/view attribution), so a given week's numbers as captured *that week* keep climbing for days
   afterward as more conversions attribute back to it — a weekly snapshot is real at the time it's
@@ -292,7 +300,13 @@ instead, and an index page ties them together:
   Mon–Sun period-start date (e.g. `2026-08-17.html` for the 8/17–8/23 / 3주차 report). Each
   snapshot is published as its **own separate** Artifact (its own URL, never reusing the live
   report's URL) so old links keep working forever. Once a week is archived it's frozen — don't go
-  back and edit an old snapshot's numbers; corrections belong in the week they're discovered.
+  back and edit an old snapshot's numbers; corrections belong in the week they're discovered. The
+  **presentation layer is a narrow exception**: on 2026.09 every existing archived snapshot was
+  migrated to match the live report's then-current design system (palette/font/nav order/no
+  in-page editing UI) at the user's explicit request to unify the whole report family's look — this
+  changed no numbers or narrative text, only chrome. Don't treat that as license to casually restyle
+  old snapshots again; a newly-archived week already carries whatever the live design is at the
+  moment it's copied, so this should stay a one-time backfill, not a recurring task.
 - `reports/archive.html` — a lightweight index/gallery page (its own Artifact,
   `https://claude.ai/code/artifact/fb28ef03-ed69-46bf-a7f8-35f05fa9999c`, **no** `artifact`
   capability needed — it's static, nothing on it is user-editable) listing the live report, every

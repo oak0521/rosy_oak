@@ -1,18 +1,18 @@
 <title>주간 리포트 3주차(8/17-23)</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 
 :root{
-  --bg-page:#f6f8f4;
+  --bg-page:#f6f6f7;
   --surface-1:#ffffff;
-  --surface-2:#eef1e9;
-  --border:#dde3d6;
-  --text-primary:#1a2420;
-  --text-secondary:#55625a;
-  --text-muted:#8b968e;
-  --accent:#12705f;
-  --accent-soft:#e3f1ec;
-  --accent-ink:#0c4a3f;
+  --surface-2:#eeeef0;
+  --border:#e0e0e3;
+  --text-primary:#18181b;
+  --text-secondary:#57575f;
+  --text-muted:#8d8d95;
+  --accent:#3d3096;
+  --accent-soft:#ebe8f9;
+  --accent-ink:#2c2270;
 
   --media-search:#1baf7a;
   --media-search-soft:#e2f5ec;
@@ -30,22 +30,22 @@
   --critical:#d03b3b;
   --critical-soft:#fbe2e2;
 
-  --gridline:#e4e7de;
-  --shadow: 0 1px 2px rgba(20,30,20,0.04), 0 4px 14px rgba(20,30,20,0.05);
+  --gridline:#e5e5e8;
+  --shadow: 0 1px 2px rgba(20,20,25,0.04), 0 4px 14px rgba(20,20,25,0.05);
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg-page:#101210;
-    --surface-1:#191b18;
-    --surface-2:#212420;
-    --border:#33362f;
-    --text-primary:#f3f5ef;
-    --text-secondary:#c3c7ba;
-    --text-muted:#8b9186;
-    --accent:#3fd6a8;
-    --accent-soft:#163329;
-    --accent-ink:#8ff0cf;
+    --bg-page:#0e0e10;
+    --surface-1:#19191c;
+    --surface-2:#212124;
+    --border:#2d2d31;
+    --text-primary:#f2f2f4;
+    --text-secondary:#bbbbc2;
+    --text-muted:#87878f;
+    --accent:#a99cf5;
+    --accent-soft:#241f47;
+    --accent-ink:#cabdfb;
 
     --media-search:#199e70;
     --media-search-soft:#122a20;
@@ -63,22 +63,22 @@
     --critical:#e66767;
     --critical-soft:#331717;
 
-    --gridline:#2c2f28;
+    --gridline:#2a2a2e;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg-page:#101210;
-  --surface-1:#191b18;
-  --surface-2:#212420;
-  --border:#33362f;
-  --text-primary:#f3f5ef;
-  --text-secondary:#c3c7ba;
-  --text-muted:#8b9186;
-  --accent:#3fd6a8;
-  --accent-soft:#163329;
-  --accent-ink:#8ff0cf;
+  --bg-page:#0e0e10;
+  --surface-1:#19191c;
+  --surface-2:#212124;
+  --border:#2d2d31;
+  --text-primary:#f2f2f4;
+  --text-secondary:#bbbbc2;
+  --text-muted:#87878f;
+  --accent:#a99cf5;
+  --accent-soft:#241f47;
+  --accent-ink:#cabdfb;
 
   --media-search:#199e70;
   --media-search-soft:#122a20;
@@ -96,7 +96,7 @@
   --critical:#e66767;
   --critical-soft:#331717;
 
-  --gridline:#2c2f28;
+  --gridline:#2a2a2e;
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
   color-scheme: dark;
 }
@@ -106,13 +106,13 @@ html,body{margin:0;padding:0;}
 body{
   background:var(--bg-page);
   color:var(--text-primary);
-  font-family:'IBM Plex Sans KR', -apple-system, sans-serif;
+  font-family:'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', sans-serif;
   font-size:14px;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
 }
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px;}
-.num{font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-variant-numeric:tabular-nums;}
+.num{font-variant-numeric:tabular-nums;}
 [hidden]{display:none !important;}
 
 /* ---------- header ---------- */
@@ -127,7 +127,7 @@ header.top{
 }
 .brand-block{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
 .brand-title{
-  font-family:'Gowun Batang', serif; font-weight:700;
+  font-family:'Noto Sans KR', sans-serif; font-weight:700;
   font-size:26px; letter-spacing:-0.01em; color:var(--text-primary);
 }
 .brand-tabs{display:flex;gap:6px;}
@@ -169,27 +169,9 @@ h2.section-title{font-size:18px;font-weight:700;margin:0;letter-spacing:-0.01em;
 .quad-dot{width:9px;height:9px;border-radius:50%;flex:none;}
 .quad-title{font-size:13.5px;font-weight:700;}
 .quad ul,.memo-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;}
-.quad li,.memo-list li{font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:6px;list-style:disc;}
+.quad li,.memo-list li{font-size:13px;color:var(--text-secondary);list-style:disc;}
 .quad li b{color:var(--text-primary);font-weight:600;}
-.quad li .bullet-text,.memo-list li .bullet-text{flex:1;padding:4px 6px;border-radius:5px;outline:none;}
-.quad li .bullet-text:hover,.memo-list li .bullet-text:hover{background:var(--surface-2);}
-.quad li .bullet-text:focus,.memo-list li .bullet-text:focus{background:var(--surface-2);box-shadow:0 0 0 1.5px var(--accent) inset;}
-.quad li .del-btn,.memo-list li .del-btn{
-  flex:none;width:18px;height:18px;border-radius:50%;border:none;background:transparent;
-  color:var(--text-muted);font-size:14px;line-height:1;cursor:pointer;margin-top:5px;
-  opacity:0;transition:opacity .12s;
-}
-.quad li:hover .del-btn,.memo-list li:hover .del-btn{opacity:1;}
-.quad li .del-btn:hover,.memo-list li .del-btn:hover{background:var(--critical-soft);color:var(--critical);}
-.add-btn{
-  margin-top:8px;font-size:12px;color:var(--accent-ink);background:none;border:1px dashed var(--border);
-  border-radius:7px;padding:5px 10px;cursor:pointer;font-family:inherit;
-}
-.add-btn:hover{background:var(--accent-soft);border-color:var(--accent);}
-.edit-hint{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--text-muted);margin:-4px 0 12px;}
-.edit-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;}
-body.ro .bullet-text{pointer-events:none;user-select:none;}
-body.ro .del-btn,body.ro .add-btn{pointer-events:none;opacity:0 !important;visibility:hidden;}
+.quad li .bullet-text,.memo-list li .bullet-text{padding:2px 0;}
 .quad.good{border-left:3px solid var(--good);}
 .quad.bad{border-left:3px solid var(--serious);}
 .quad.doing{border-left:3px solid var(--warning);}
@@ -275,11 +257,11 @@ table.data tbody tr:hover{background:var(--surface-2);}
 }
 .rank-item .ri-main{min-width:0;display:flex;flex-direction:column;gap:4px;}
 .rank-item .ri-top{display:flex;align-items:baseline;gap:7px;min-width:0;}
-.rank-item .ri-rank{font-family:'IBM Plex Mono';font-size:11px;color:var(--text-muted);flex:none;}
+.rank-item .ri-rank{font-size:11px;color:var(--text-muted);flex:none;}
 .rank-item .ri-name{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .rank-item .ri-stats{display:flex;flex-wrap:wrap;gap:4px 12px;}
-.rank-item .ri-stat{font-size:11px;color:var(--text-muted);white-space:nowrap;font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;}
-.rank-item .ri-stat b{font-family:'IBM Plex Sans KR',sans-serif;font-weight:600;color:var(--text-secondary);margin-right:3px;}
+.rank-item .ri-stat{font-size:11px;color:var(--text-muted);white-space:nowrap;}
+.rank-item .ri-stat b{font-weight:600;color:var(--text-secondary);margin-right:3px;}
 .rank-item .ri-roas{font-size:14px;font-weight:700;text-align:right;min-width:66px;}
 @media (max-width:640px){
   .rank-item{grid-template-columns:40px 1fr auto;gap:9px;}
@@ -301,7 +283,7 @@ table.data tbody tr:hover{background:var(--surface-2);}
 /* chart */
 .chart-card{padding:18px 20px 22px;position:relative;}
 .chart-tabs{display:flex;gap:6px;margin-bottom:14px;}
-svg.chart{width:100%;height:auto;overflow:visible;font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;}
+svg.chart{width:100%;height:auto;overflow:visible;}
 .axis-label{font-size:10px;fill:var(--text-muted);}
 .tip-target{cursor:pointer;}
 .legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;}
@@ -311,7 +293,7 @@ svg.chart{width:100%;height:auto;overflow:visible;font-family:'IBM Plex Mono','I
 
 .chart-tooltip{
   position:absolute;pointer-events:none;z-index:5;background:var(--text-primary);color:var(--bg-page);
-  font-family:'IBM Plex Mono','IBM Plex Sans KR',monospace;font-size:11.5px;line-height:1.5;
+  font-size:11.5px;line-height:1.5;
   padding:7px 10px;border-radius:7px;box-shadow:var(--shadow);white-space:nowrap;
   transform:translate(-50%,-100%);margin-top:-10px;transition:opacity .08s;opacity:0;
 }
@@ -356,7 +338,7 @@ svg.chart{width:100%;height:auto;overflow:visible;font-family:'IBM Plex Mono','I
 @media (max-width:720px){.mission-grid{grid-template-columns:1fr;}}
 .mission-item{border:1px solid var(--border);border-radius:9px;padding:12px 14px;background:var(--surface-2);}
 .mission-item .who{font-size:11.5px;color:var(--text-muted);}
-.mission-item .what{font-size:15px;font-weight:700;font-family:'Gowun Batang',serif;margin:2px 0 4px;}
+.mission-item .what{font-size:15px;font-weight:700;font-family:'Noto Sans KR',sans-serif;margin:2px 0 4px;}
 .mission-item .why{font-size:12.5px;color:var(--text-secondary);}
 .mission-link{display:inline-block;margin-top:14px;font-size:13px;font-weight:600;color:#fff;background:var(--accent);
   border-radius:8px;padding:9px 16px;text-decoration:none;}
@@ -383,10 +365,10 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
   </div>
   <nav class="subnav wrap" style="padding-left:0;padding-right:0;">
     <a href="#summary" class="current">핵심요약</a>
+    <a href="#comment">코멘트</a>
     <a href="#trend">월별 추이</a>
     <a href="#media">매체별 성과</a>
     <a href="#creative">소재별 성과</a>
-    <a href="#comment">코멘트</a>
     <a href="#mission">주간 미션</a>
   </nav>
 </header>
@@ -402,46 +384,41 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       </div>
     </div>
 
-    <p class="edit-hint"><span class="edit-dot"></span>아래 항목을 클릭하면 바로 수정할 수 있어요 — 편집 내용은 이 페이지에 저장됩니다.</p>
 
     <!-- ===== 아넬라 ===== -->
     <div data-brand-panel="anela">
       <div class="quad-grid">
         <div class="quad good">
           <div class="quad-head"><span class="quad-dot" style="background:var(--good)"></span><span class="quad-title">👍 좋았던 점</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">아넬라 시크릿링크 매출 +68%(213만원, ROAS 376%→597%) — &lsquo;검색해도 안나와요&rsquo; 소재에서 매출 발생</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">이벤트 없던 1주차 대비로는 전 매체 효율 상승 — 객단가·전환율·매출액 모두 1주차보다 높음</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">아넬라 시크릿링크 매출 +68%(213만원, ROAS 376%→597%) — &lsquo;검색해도 안나와요&rsquo; 소재에서 매출 발생</span></li>
+            <li><span class="bullet-text">이벤트 없던 1주차 대비로는 전 매체 효율 상승 — 객단가·전환율·매출액 모두 1주차보다 높음</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
         <div class="quad bad">
           <div class="quad-head"><span class="quad-dot" style="background:var(--serious)"></span><span class="quad-title">👎 안좋았던 점</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">전체 매출 -42%, ROAS 700% — 오늘끝딜(2주차) 대비 라이프위크(3주차)는 유입·객단가·전환율 전반 감소</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">파워링크·쇼핑검색 모두 16% 감액 운영 — 라이프위크 경쟁 심화로 노출 점유율 하락 추정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">메타 카탈로그·파트너십영상 매출 각각 -53% — 전환율 하락이 원인</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">GFA 전환율 -14.6%p로 매출 -48%</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">전체 매출 -42%, ROAS 700% — 오늘끝딜(2주차) 대비 라이프위크(3주차)는 유입·객단가·전환율 전반 감소</span></li>
+            <li><span class="bullet-text">파워링크·쇼핑검색 모두 16% 감액 운영 — 라이프위크 경쟁 심화로 노출 점유율 하락 추정</span></li>
+            <li><span class="bullet-text">메타 카탈로그·파트너십영상 매출 각각 -53% — 전환율 하락이 원인</span></li>
+            <li><span class="bullet-text">GFA 전환율 -14.6%p로 매출 -48%</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
         <div class="quad doing">
           <div class="quad-head"><span class="quad-dot" style="background:var(--warning)"></span><span class="quad-title">🔧 개선하고 있는 것</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">파워링크 퓨레K, 쇼핑검색 퓨레·떡뻥 캠페인 키워드 입찰가 재조정 진행 중 — 노출 점유율 회복 목적</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">데이터 소싱을 raw data 직접 집계 + 대행사 코멘트 결합 방식으로 전환</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">파워링크 퓨레K, 쇼핑검색 퓨레·떡뻥 캠페인 키워드 입찰가 재조정 진행 중 — 노출 점유율 회복 목적</span></li>
+            <li><span class="bullet-text">데이터 소싱을 raw data 직접 집계 + 대행사 코멘트 결합 방식으로 전환</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
         <div class="quad need">
           <div class="quad-head"><span class="quad-dot" style="background:var(--critical)"></span><span class="quad-title">🎯 개선이 필요한 것 (차주 운영방향)</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">네이버 검색: 입찰가 조정 & 노출 매체별 효율 확인</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">메타: 시크릿링크 효율 모니터링 후 소재 교체 진행</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">시크릿링크 8월 성과 체크 후 컨셉 변경 논의 예정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">GFA: 상시 소재 기획</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">네이버 검색: 입찰가 조정 & 노출 매체별 효율 확인</span></li>
+            <li><span class="bullet-text">메타: 시크릿링크 효율 모니터링 후 소재 교체 진행</span></li>
+            <li><span class="bullet-text">시크릿링크 8월 성과 체크 후 컨셉 변경 논의 예정</span></li>
+            <li><span class="bullet-text">GFA: 상시 소재 기획</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
       </div>
 
@@ -462,37 +439,33 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       <div class="quad-grid">
         <div class="quad good">
           <div class="quad-head"><span class="quad-dot" style="background:var(--good)"></span><span class="quad-title">👍 좋았던 점</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">전주와 광고비 유사 소진, 유입(클릭수) +17%로 전체 매출 +9%, ROAS 491%</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">쇼핑검색 매출 +46%(ROAS 365%→511%) — 과자_브랜드K 캠페인 18~19일·22~23일 전환 집중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">메타 과자시크릿링크_10봉(신규, 8/18 런칭) ROAS 785%(매출 127.4만원) — 초기 반응 좋음</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">전주와 광고비 유사 소진, 유입(클릭수) +17%로 전체 매출 +9%, ROAS 491%</span></li>
+            <li><span class="bullet-text">쇼핑검색 매출 +46%(ROAS 365%→511%) — 과자_브랜드K 캠페인 18~19일·22~23일 전환 집중</span></li>
+            <li><span class="bullet-text">메타 과자시크릿링크_10봉(신규, 8/18 런칭) ROAS 785%(매출 127.4만원) — 초기 반응 좋음</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
         <div class="quad bad">
           <div class="quad-head"><span class="quad-dot" style="background:var(--serious)"></span><span class="quad-title">👎 안좋았던 점</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">전환율 -1.3%p — ROAS 증가 매체(쇼핑검색·파워링크·브랜드검색) vs 감소 매체(GFA·메타)로 명확히 갈림</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">GFA 카탈로그 ROAS 710%→133%(매출 11만원→3만원) 급락 — 웹전환은 ROAS 181%로 200% 목표 미달성</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">메타 매출 -15%(ROAS 686%→516%) — 네이버협력광고(과자 상시) 매출 -42%(약 240만원)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">전환율 -1.3%p — ROAS 증가 매체(쇼핑검색·파워링크·브랜드검색) vs 감소 매체(GFA·메타)로 명확히 갈림</span></li>
+            <li><span class="bullet-text">GFA 카탈로그 ROAS 710%→133%(매출 11만원→3만원) 급락 — 웹전환은 ROAS 181%로 200% 목표 미달성</span></li>
+            <li><span class="bullet-text">메타 매출 -15%(ROAS 686%→516%) — 네이버협력광고(과자 상시) 매출 -42%(약 240만원)</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
         <div class="quad doing">
           <div class="quad-head"><span class="quad-dot" style="background:var(--warning)"></span><span class="quad-title">🔧 개선하고 있는 것</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">금주 로지음료 시크릿링크 OFF, 과자 시크릿링크로 예산 이동 — 신규 3건(10봉·먼저사신·반값) 성과 모니터링 중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">스마트스토어 GFA 웹전환 성과 저조로 OFF 후 자사몰 GFA 웹전환으로 전환 운영 예정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">금주 로지음료 시크릿링크 OFF, 과자 시크릿링크로 예산 이동 — 신규 3건(10봉·먼저사신·반값) 성과 모니터링 중</span></li>
+            <li><span class="bullet-text">스마트스토어 GFA 웹전환 성과 저조로 OFF 후 자사몰 GFA 웹전환으로 전환 운영 예정</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
         <div class="quad need">
           <div class="quad-head"><span class="quad-dot" style="background:var(--critical)"></span><span class="quad-title">🎯 개선이 필요한 것 (차주 운영방향)</span></div>
-          <ul artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">네이버 검색: 효율 중심 운영, 확장검색 키워드 추가 및 키워드 효율 분석</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">메타 캠페인: 자사몰 추석 기획전 광고 소재 기획</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
+          <ul>
+            <li><span class="bullet-text">네이버 검색: 효율 중심 운영, 확장검색 키워드 추가 및 키워드 효율 분석</span></li>
+            <li><span class="bullet-text">메타 캠페인: 자사몰 추석 기획전 광고 소재 기획</span></li>
           </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
         </div>
       </div>
 
@@ -506,6 +479,48 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
           <tr><td>전주 대비</td><td class="num delta-up">+15%</td><td class="num delta-up">+32%</td><td class="num delta-up">+0.3%p</td><td class="num delta-up">-9%</td><td class="num delta-up">+21%</td><td class="num delta-up">+10%</td><td class="num delta-down">-3.0%p</td><td class="num delta-up">+12%</td><td class="num delta-down">-7%</td></tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ============ COMMENT ============ -->
+  <section id="comment">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">코멘트</h2>
+        <p class="section-sub">이번 주 이슈사항 · 데이터를 볼 때 참고할 내용을 자유롭게 기록하는 공간</p>
+      </div>
+    </div>
+
+    <!-- ===== 아넬라 ===== -->
+    <div data-brand-panel="anela">
+      <div class="card comment-card">
+        <h3>컨텐츠 및 기타 업무 진행사항</h3>
+        <div class="memo-block">
+          <ul class="memo-list">
+            <li><span class="bullet-text">허브 내 광고소재 데이터 순차별 업로드 중 / 추후 경쟁사 레퍼런스도 함께 업로드 예정 (디자인팀)</span></li>
+            <li><span class="bullet-text">자사몰 구매 증진을 위한 사은품 가격대별 정리 중</span></li>
+            <li><span class="bullet-text">CRM 마케팅 진행을 위한 채널톡 도입 검토 중</span></li>
+            <li><span class="bullet-text">자사몰 시크릿링크는 단기용으로 판단 — 장기 진행을 위해 컨셉·상품구성 변경 기획 중</span></li>
+            <li><span class="bullet-text">파트너십광고 추가를 위한 인플루언서 서치 / 파트너십 광고용 상품구성 기획 (영업팀)</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 로지오가닉 ===== -->
+    <div data-brand-panel="rosy" hidden>
+      <div class="card comment-card">
+        <h3>컨텐츠 및 기타 업무 진행사항</h3>
+        <div class="memo-block">
+          <ul class="memo-list">
+            <li><span class="bullet-text">자사몰 판매증진을 위한 사은품 가격대별 리스트 정리 및 리서치</span></li>
+            <li><span class="bullet-text">허브 내 집행 광고 소재 및 데이터 등록</span></li>
+            <li><span class="bullet-text">브랜드별 롤모델 리서치 및 선정</span></li>
+            <li><span class="bullet-text">인스타그램 피드 자동 업로드 개발 가능 여부 서치</span></li>
+            <li><span class="bullet-text">신제품 아이디어 등록</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -660,49 +675,6 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     </div>
   </section>
 
-  <!-- ============ COMMENT ============ -->
-  <section id="comment">
-    <div class="section-head">
-      <div>
-        <h2 class="section-title">코멘트</h2>
-        <p class="section-sub">이번 주 이슈사항 · 데이터를 볼 때 참고할 내용을 자유롭게 기록하는 공간</p>
-      </div>
-    </div>
-
-    <!-- ===== 아넬라 ===== -->
-    <div data-brand-panel="anela">
-      <div class="card comment-card">
-        <h3>컨텐츠 및 기타 업무 진행사항</h3>
-        <div class="memo-block">
-          <ul class="memo-list" artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">허브 내 광고소재 데이터 순차별 업로드 중 / 추후 경쟁사 레퍼런스도 함께 업로드 예정 (디자인팀)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">자사몰 구매 증진을 위한 사은품 가격대별 정리 중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">CRM 마케팅 진행을 위한 채널톡 도입 검토 중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">자사몰 시크릿링크는 단기용으로 판단 — 장기 진행을 위해 컨셉·상품구성 변경 기획 중</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">파트너십광고 추가를 위한 인플루언서 서치 / 파트너십 광고용 상품구성 기획 (영업팀)</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-          </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== 로지오가닉 ===== -->
-    <div data-brand-panel="rosy" hidden>
-      <div class="card comment-card">
-        <h3>컨텐츠 및 기타 업무 진행사항</h3>
-        <div class="memo-block">
-          <ul class="memo-list" artifact-sync>
-            <li><span class="bullet-text" contenteditable="true">자사몰 판매증진을 위한 사은품 가격대별 리스트 정리 및 리서치</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">허브 내 집행 광고 소재 및 데이터 등록</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">브랜드별 롤모델 리서치 및 선정</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">인스타그램 피드 자동 업로드 개발 가능 여부 서치</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-            <li><span class="bullet-text" contenteditable="true">신제품 아이디어 등록</span><button class="del-btn" type="button" aria-label="삭제">×</button></li>
-          </ul>
-          <button class="add-btn" type="button" data-add>+ 항목 추가</button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ============ MISSION ============ -->
   <section id="mission">
@@ -1211,69 +1183,4 @@ renderMedia();
 renderCreative();
 renderTrend('all');
 
-// ================= EDITABLE SUMMARY (핵심요약 직접 수정) =================
-(function(){
-  const hint = document.querySelector('.edit-hint');
-
-  function makeBullet(text){
-    const li = document.createElement('li');
-    const span = document.createElement('span');
-    span.className = 'bullet-text';
-    span.contentEditable = 'true';
-    span.textContent = text || '새 항목을 입력하세요';
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'del-btn';
-    btn.setAttribute('aria-label','삭제');
-    btn.textContent = '×';
-    li.appendChild(span);
-    li.appendChild(btn);
-    return li;
-  }
-
-  document.querySelectorAll('.quad, .memo-block').forEach(quad=>{
-    const ul = quad.querySelector('ul[artifact-sync]');
-    const addBtn = quad.querySelector('.add-btn');
-    ul.addEventListener('click', e=>{
-      const del = e.target.closest('.del-btn');
-      if(del){ del.closest('li').remove(); }
-    });
-    ul.addEventListener('keydown', e=>{
-      if(e.target.classList.contains('bullet-text') && e.key==='Enter'){
-        e.preventDefault(); e.target.blur();
-      }
-    });
-    addBtn.addEventListener('click', ()=>{
-      const li = makeBullet('');
-      ul.appendChild(li);
-      const span = li.querySelector('.bullet-text');
-      span.focus();
-      document.getSelection().selectAllChildren(span);
-    });
-  });
-
-  (async ()=>{
-    try{
-      if(!window.claude || typeof window.claude.use !== 'function'){
-        setReadOnly('공유 링크로 열람 중이거나 이 보기에서는 편집이 지원되지 않아요. Claude Code 아티팩트로 열어야 직접 수정할 수 있습니다.');
-        return;
-      }
-      const artifact = await window.claude.use('artifact');
-      if(!artifact){
-        setReadOnly('이 보기는 읽기 전용입니다 — 편집 내용이 저장되지 않아요.');
-      }
-    }catch(err){
-      // capability probing itself should never break the page
-    }
-  })();
-
-  function setReadOnly(msg){
-    document.body.classList.add('ro');
-    if(hint) hint.textContent = msg;
-  }
-
-  document.addEventListener('claude:sync-off', e=>{
-    if(hint) hint.textContent = '이 영역은 저장되지 않는 상태예요 — 새로고침 후 다시 시도해주세요.';
-  });
-})();
 </script>
