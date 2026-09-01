@@ -422,6 +422,95 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
         </div>
       </div>
 
+      <div class="sum-kpi-grid">
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">노출</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
+          <div class="sum-kpi-value num">335,591</div>
+          <span class="sum-kpi-delta down">▾ 23%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">클릭</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l11 6.5-4.8 1.6L18 16l-2.3 1.4-2.8-4.9L9 15.5V3z"/></svg></span></div>
+          <div class="sum-kpi-value num">4,403</div>
+          <span class="sum-kpi-delta down">▾ 25%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">광고비</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/><circle cx="17" cy="14.5" r="1.4" fill="currentColor" stroke="none"/></svg></span></div>
+          <div class="sum-kpi-value num">260.6<span class="unit">만원</span></div>
+          <span class="sum-kpi-delta down">▾ 18%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">구매</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8V6a6 6 0 0 1 12 0v2"/><rect x="3" y="8" width="18" height="13" rx="2"/></svg></span></div>
+          <div class="sum-kpi-value num">483</div>
+          <span class="sum-kpi-delta down">▾ 40%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">매출액</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span></div>
+          <div class="sum-kpi-value num">1,825.1<span class="unit">만원</span></div>
+          <span class="sum-kpi-delta down">▾ 43%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">ROAS</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span></div>
+          <div class="sum-kpi-value num">700.3<span class="unit">%</span></div>
+          <span class="sum-kpi-delta down">▾ 30%</span>
+        </div>
+      </div>
+
+      <div class="sum-split">
+        <div class="card sum-card">
+          <h4>광고비 비중</h4>
+          <p class="sum-card-sub">매체 합계 260.6만원</p>
+          <div class="donut-wrap">
+            <svg width="96" height="96" viewBox="0 0 104 104">
+              <g transform="translate(52,52) rotate(-90)">
+                <circle r="40" fill="none" stroke="var(--gridline)" stroke-width="14"/>
+                <circle r="40" fill="none" stroke="var(--media-search)" stroke-width="14" stroke-dasharray="120.1 251.3" stroke-dashoffset="0" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-meta)" stroke-width="14" stroke-dasharray="93.7 251.3" stroke-dashoffset="-120.1" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-gfa)" stroke-width="14" stroke-dasharray="37.4 251.3" stroke-dashoffset="-213.8" stroke-linecap="round"/>
+              </g>
+            </svg>
+            <div class="donut-legend">
+              <div class="row"><span class="swatch" style="background:var(--media-search)"></span><span class="lbl">네이버 검색</span><span class="pct num">47.8%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-meta)"></span><span class="lbl">메타</span><span class="pct num">37.3%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-gfa)"></span><span class="lbl">GFA</span><span class="pct num">14.9%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card sum-card">
+          <h4>매출액 비중</h4>
+          <p class="sum-card-sub">매체 합계 1,825.1만원</p>
+          <div class="donut-wrap">
+            <svg width="96" height="96" viewBox="0 0 104 104">
+              <g transform="translate(52,52) rotate(-90)">
+                <circle r="40" fill="none" stroke="var(--gridline)" stroke-width="14"/>
+                <circle r="40" fill="none" stroke="var(--media-search)" stroke-width="14" stroke-dasharray="138.7 251.3" stroke-dashoffset="0" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-meta)" stroke-width="14" stroke-dasharray="76.2 251.3" stroke-dashoffset="-138.7" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-gfa)" stroke-width="14" stroke-dasharray="36.4 251.3" stroke-dashoffset="-214.9" stroke-linecap="round"/>
+              </g>
+            </svg>
+            <div class="donut-legend">
+              <div class="row"><span class="swatch" style="background:var(--media-search)"></span><span class="lbl">네이버 검색</span><span class="pct num">55.2%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-meta)"></span><span class="lbl">메타</span><span class="pct num">30.3%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-gfa)"></span><span class="lbl">GFA</span><span class="pct num">14.5%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card sum-card">
+          <h4>캠페인 TOP 5 (매출액 순)</h4>
+          <p class="sum-card-sub">이번 주 매출 기준 상위 캠페인</p>
+          <table class="top-table">
+            <thead><tr><th>캠페인</th><th class="num">매출액</th><th class="num">ROAS</th></tr></thead>
+            <tbody>
+              <tr><td><span class="media-dot" style="background:var(--media-search)"></span>아넬라_브검_모바일</td><td class="num">423.0만</td><td class="num"><span class="status-pill good">2,060.3%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-gfa)"></span>아넬라_상시_테스트 운영</td><td class="num">246.5만</td><td class="num"><span class="status-pill good">721.1%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-search)"></span>SSA_아넬라_퓨레종합_브랜드K</td><td class="num">220.8만</td><td class="num"><span class="status-pill good">1,368.4%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-search)"></span>SSA_아넬라_퓨레종합_일반K</td><td class="num">219.0만</td><td class="num"><span class="status-pill warning">424.8%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-meta)"></span>260729_자사몰_시크릿링크_검색</td><td class="num">213.2만</td><td class="num"><span class="status-pill good">595.7%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="section-sub" style="margin-top:22px;">주간 비교 상세</p>
       <table class="wk-table card">
         <thead>
           <tr><th>기간</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>광고비</th><th>구매</th><th>CVR</th><th>매출액</th><th>ROAS</th></tr>
@@ -469,6 +558,95 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
         </div>
       </div>
 
+      <div class="sum-kpi-grid">
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">노출</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
+          <div class="sum-kpi-value num">127,986</div>
+          <span class="sum-kpi-delta up">▴ 15%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">클릭</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l11 6.5-4.8 1.6L18 16l-2.3 1.4-2.8-4.9L9 15.5V3z"/></svg></span></div>
+          <div class="sum-kpi-value num">2,453</div>
+          <span class="sum-kpi-delta up">▴ 32%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">광고비</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/><circle cx="17" cy="14.5" r="1.4" fill="currentColor" stroke="none"/></svg></span></div>
+          <div class="sum-kpi-value num">182.1<span class="unit">만원</span></div>
+          <span class="sum-kpi-delta up">▴ 21%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">구매</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8V6a6 6 0 0 1 12 0v2"/><rect x="3" y="8" width="18" height="13" rx="2"/></svg></span></div>
+          <div class="sum-kpi-value num">362</div>
+          <span class="sum-kpi-delta up">▴ 10%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">매출액</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span></div>
+          <div class="sum-kpi-value num">897.1<span class="unit">만원</span></div>
+          <span class="sum-kpi-delta up">▴ 12%</span>
+        </div>
+        <div class="sum-kpi-card">
+          <div class="sum-kpi-top"><span class="sum-kpi-label">ROAS</span><span class="sum-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span></div>
+          <div class="sum-kpi-value num">492.7<span class="unit">%</span></div>
+          <span class="sum-kpi-delta down">▾ 7%</span>
+        </div>
+      </div>
+
+      <div class="sum-split">
+        <div class="card sum-card">
+          <h4>광고비 비중</h4>
+          <p class="sum-card-sub">매체 합계 182.1만원</p>
+          <div class="donut-wrap">
+            <svg width="96" height="96" viewBox="0 0 104 104">
+              <g transform="translate(52,52) rotate(-90)">
+                <circle r="40" fill="none" stroke="var(--gridline)" stroke-width="14"/>
+                <circle r="40" fill="none" stroke="var(--media-search)" stroke-width="14" stroke-dasharray="120.6 251.3" stroke-dashoffset="0" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-meta)" stroke-width="14" stroke-dasharray="99.8 251.3" stroke-dashoffset="-120.6" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-gfa)" stroke-width="14" stroke-dasharray="30.9 251.3" stroke-dashoffset="-220.4" stroke-linecap="round"/>
+              </g>
+            </svg>
+            <div class="donut-legend">
+              <div class="row"><span class="swatch" style="background:var(--media-search)"></span><span class="lbl">네이버 검색</span><span class="pct num">48.0%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-meta)"></span><span class="lbl">메타</span><span class="pct num">39.7%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-gfa)"></span><span class="lbl">GFA</span><span class="pct num">12.3%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card sum-card">
+          <h4>매출액 비중</h4>
+          <p class="sum-card-sub">매체 합계 897.1만원</p>
+          <div class="donut-wrap">
+            <svg width="96" height="96" viewBox="0 0 104 104">
+              <g transform="translate(52,52) rotate(-90)">
+                <circle r="40" fill="none" stroke="var(--gridline)" stroke-width="14"/>
+                <circle r="40" fill="none" stroke="var(--media-search)" stroke-width="14" stroke-dasharray="135.5 251.3" stroke-dashoffset="0" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-meta)" stroke-width="14" stroke-dasharray="104.6 251.3" stroke-dashoffset="-135.5" stroke-linecap="round"/>
+                <circle r="40" fill="none" stroke="var(--media-gfa)" stroke-width="14" stroke-dasharray="11.3 251.3" stroke-dashoffset="-240.1" stroke-linecap="round"/>
+              </g>
+            </svg>
+            <div class="donut-legend">
+              <div class="row"><span class="swatch" style="background:var(--media-search)"></span><span class="lbl">네이버 검색</span><span class="pct num">53.9%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-meta)"></span><span class="lbl">메타</span><span class="pct num">41.6%</span></div>
+              <div class="row"><span class="swatch" style="background:var(--media-gfa)"></span><span class="lbl">GFA</span><span class="pct num">4.5%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card sum-card">
+          <h4>캠페인 TOP 5 (매출액 순)</h4>
+          <p class="sum-card-sub">이번 주 매출 기준 상위 캠페인</p>
+          <table class="top-table">
+            <thead><tr><th>캠페인</th><th class="num">매출액</th><th class="num">ROAS</th></tr></thead>
+            <tbody>
+              <tr><td><span class="media-dot" style="background:var(--media-meta)"></span>260506_로지오가닉_과자(상시)_할인</td><td class="num">232.8만</td><td class="num"><span class="status-pill good">494.1%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-search)"></span>로지오가닉_브검_모바일</td><td class="num">218.8만</td><td class="num"><span class="status-pill good">1,065.7%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-meta)"></span>260818_자사몰_과자시크릿링크_10봉</td><td class="num">127.4만</td><td class="num"><span class="status-pill good">784.6%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-search)"></span>SSA_로지오가닉_과자_브랜드K</td><td class="num">118.7만</td><td class="num"><span class="status-pill good">448.8%</span></td></tr>
+              <tr><td><span class="media-dot" style="background:var(--media-search)"></span>SSA_로지오가닉_음료_브랜드K</td><td class="num">52.8만</td><td class="num"><span class="status-pill good">997.0%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="section-sub" style="margin-top:22px;">주간 비교 상세</p>
       <table class="wk-table card">
         <thead>
           <tr><th>기간</th><th>노출</th><th>클릭</th><th>CTR</th><th>CPC</th><th>광고비</th><th>구매</th><th>CVR</th><th>매출액</th><th>ROAS</th></tr>
