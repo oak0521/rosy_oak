@@ -318,6 +318,32 @@ instead, and an index page ties them together:
   summing the month's archived weekly `campaigns` arrays. See the "Monthly, 1st of the month" bullet
   under "Weekly automation" above for why (attribution-window settling makes weekly-captured numbers
   a floor, not a final figure). Monthly reporting starts from **2026.08**.
+  As of 2026.09, the monthly report is structured with the **same top subnav/tab pattern as the
+  weekly report** (established when 2026-08.html was retrofitted) — a sticky `nav.subnav` with 5
+  anchor links matching the weekly report's naming: `#summary`(핵심요약) → `#comment`(코멘트) →
+  `#trend`(월별추이) → `#media`(매체별성과) → `#creative`(소재별성과) (no `#mission`, monthly has no
+  weekly-mission equivalent). Content per section:
+  - `#summary` — the KPI-tile row + cost/revenue donuts + TOP-5-campaign table (unchanged from the
+    original template).
+  - `#comment` — the factual, no-agency-narrative highlight list (`hlList`, respects the 브랜드검색
+    threshold rule same as weekly), now also including a 전월 대비 (cost/rev/ROAS delta vs. the
+    previous month) line pulled from `monthlyByMedia.all`.
+  - `#trend` — a **new** hand-rolled-SVG bar+line chart (same technique as the live weekly report's
+    `#trend`, ported directly: `renderTrend`/`monthlyFor`, `all`/`search`/`gfa`/`meta` tabs), fed by
+    a `monthlyByMedia` object per brand. Populate `monthlyByMedia.{search,gfa,meta}` with **1월
+    through the month *before* the current one**, copied verbatim from the live weekly report's own
+    `monthlyByMedia` (same agency-Excel-sourced numbers — don't re-derive them) — then append the
+    *current* month's own point by aggregating that month's own `campaigns` array by media (`agg()`
+    filtered per media), never hand-entering it, since campaigns is already the source of truth for
+    the month this report covers. `mb.all` and every row's `.roas` are derived the same way as the
+    weekly report (sum of search+gfa+meta, then `roasOf`). Each new month's report needs one more
+    point appended vs. the previous month's file — this is naturally repetitive; don't skip it.
+  - `#media` — the existing 매체별 성과 table (search/gfa/meta + total row), unchanged.
+  - `#creative` — a **new** full data table of every campaign/ad row (all of `campaigns`, not just
+    top 5), sorted by revenue descending, with a ROAS status pill per row. This is a **plain table,
+    deliberately no `CREATIVE_IMAGES` gallery** — keep it that way; the weekly report is where actual
+    creative thumbnails live, and duplicating those into the monthly report is exactly what the
+    "numbers/trend-only, stay lightweight" rule above is meant to prevent.
 
 ### Weekly workflow order (updated)
 
