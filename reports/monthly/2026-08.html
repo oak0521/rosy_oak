@@ -191,6 +191,27 @@ table.data-table tr:last-child td{border-bottom:0;}
 .hl-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;}
 .hl-list li{font-size:13px;color:var(--text-secondary);}
 
+/* comment accordion (agency monthly-report narrative) */
+.comment-overall{margin:0 0 14px;font-size:13.5px;line-height:1.6;color:var(--text-primary);}
+.trend-notes{display:flex;flex-direction:column;gap:8px;}
+.trend-notes details{
+  border:1px solid var(--border);border-radius:9px;background:var(--surface-1);overflow:hidden;
+}
+.trend-notes summary{
+  list-style:none;cursor:pointer;padding:11px 14px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:8px;user-select:none;
+}
+.trend-notes summary::-webkit-details-marker{display:none;}
+.trend-notes summary::before{
+  content:'';width:7px;height:7px;border-right:1.6px solid var(--text-muted);border-bottom:1.6px solid var(--text-muted);
+  transform:rotate(-45deg);transition:transform .15s;flex:none;
+}
+.trend-notes details[open] summary::before{transform:rotate(45deg);}
+.trend-notes .tn-body{padding:2px 16px 14px 29px;display:flex;flex-direction:column;gap:9px;}
+.tn-item b{font-size:12.5px;color:var(--text-primary);}
+.tn-item p{margin:3px 0 0;font-size:12.5px;color:var(--text-secondary);}
+.tn-tag{font-size:10.5px;color:var(--text-muted);background:var(--surface-2);border-radius:5px;padding:1px 6px;margin-left:6px;}
+
 footer.foot{
   border-top:1px solid var(--border);
   margin-top:36px;padding-top:16px;
@@ -257,8 +278,11 @@ footer.foot{
 
   <div class="section" id="comment">
     <h2 class="section-title">코멘트</h2>
-    <p class="section-sub">숫자로 확인된 사실만 — 대행사 서면 코멘트 없이 raw data 기준으로 자동 작성됩니다</p>
-    <ul class="hl-list" id="hlList"></ul>
+    <p class="section-sub">대행사 8월 월간 리포트 코멘트를 raw data 기준으로 교차 검증 후 정리했습니다</p>
+    <div class="card" style="padding:20px 22px;">
+      <p class="comment-overall" id="commentOverall"></p>
+      <div class="trend-notes" id="commentAccordion"></div>
+    </div>
   </div>
 
   <div class="section" id="trend">
@@ -384,6 +408,23 @@ const BRANDS = {
         {m:'7월', cost:3718186,  rev:21353290},
       ],
     },
+    comment: {
+      overall: '전체 광고비 전월대비 13.9% 증액 운영 → 쇼핑검색·메타·GFA(웹사이트 전환)에서 매출 볼륨이 확대되며 매출액 11.3% 상승, ROAS는 964.3% → 942.3%로 소폭 하락했습니다.',
+      groups: [
+        { title: '네이버 검색광고', tag: '파워링크 · 쇼핑검색 · 브랜드검색', items: [
+          { b: '파워링크', p: '광고비 38% 감액, 유입 34% 감소, 전환율 1.2%p 상승에도 매출액 20% 감소. 일예산 조정이 아닌 연휴 시즌 클릭 감소가 원인이며 28일부터 회복세로 전환.' },
+          { b: '쇼핑검색', p: '광고비 3% 증액, 유입 20% 증가, 전환율 1%p 상승하며 매출액 23% 증가 — 26년 중 최고 매출 달성. 퓨레 캠페인 전환율 상승(20.72%→22.6%)이 주요 요인, 특히 퓨레 브랜드K 그룹 전환율이 +6.2%p(30.7%) 상승.' },
+          { b: '브랜드검색', p: '유입 15% 감소, 매출 22% 감소하며 ROAS 3,860%대로 하락(MO 클릭 3,147→2,699). 파워링크·브랜드검색 유입은 줄고 쇼핑검색 유입은 늘어, 구매 고객이 쇼핑검색/네이버플러스스토어 지면에 집중되는 추세로 해석.' },
+        ]},
+        { title: 'GFA', items: [
+          { b: '카탈로그 + 웹사이트 전환', p: '7월 중순 시작된 웹사이트 전환 캠페인이 8월 상시 운영되며 광고비 61% 증가, 매출 68% 증가(전환율 12.3%→16.9%). 카탈로그 캠페인 전환율은 30.8%로 견조.' },
+        ]},
+        { title: '메타', items: [
+          { b: '전체', p: '퓨레 시크릿링크(자사몰) 신규 라이브 + 네이버협력광고(파트너십) 효율 상승으로 광고비 32% 증액, 매출 42% 증가.' },
+          { b: '9월 액션', p: '카탈로그 캠페인 빈도수가 3.3까지 상승해 피로도 관리가 필요한 시점 — 예산 10% 감액으로 빈도수를 낮춘 뒤 점진 증액할 예정.' },
+        ]},
+      ],
+    },
   },
   rosy: {
     label: '로지오가닉',
@@ -435,6 +476,23 @@ const BRANDS = {
         {m:'5월', cost:1025707,  rev:5135976},
         {m:'6월', cost:1514553,  rev:9657456},
         {m:'7월', cost:1883461,  rev:11202322},
+      ],
+    },
+    comment: {
+      overall: '광고비 전월대비 10% 증액, 유입(클릭수) 13% 증가하며 매출액 15% 상승. ROAS 465% → 489%로 개선됐습니다. 메타 중심의 유입·전환율 개선이 매출 증가의 주요 요인이며, 메타를 제외한 네이버 매체는 전반적으로 효율이 하락했습니다(다만 7월 대비로는 낮아졌어도 26년 1~8월 월평균과 비교하면 브랜드검색·쇼핑검색은 여전히 평균 이상).',
+      groups: [
+        { title: '네이버 검색광고', tag: '파워링크 · 쇼핑검색 · 브랜드검색', items: [
+          { b: '파워링크', p: '광고비 14% 감액, 유입 23% 감소, 매출 19% 감소. 연휴 기간 유입 감소 영향(25일부터 회복)에 더해, 7월 있었던 넾다세일 같은 대형 이벤트가 8월엔 없었던 기저효과.' },
+          { b: '쇼핑검색', p: '광고비 13% 감액, 유입 16% 증가했으나 전환율 6%p 하락하며 매출 22% 감소, ROAS 354%. 탐색K·대표K 그룹 전환율 하락이 주요 원인 — 라이프위크 주간(8/18~19)엔 구매가 크게 증가.' },
+          { b: '브랜드검색', p: '유입 4% 증가했으나 전환율 5%p 하락하며 매출 13% 감소 — 다만 매출볼륨(803만원)은 26년 중 상위권. 검색량 자체는 늘었으나 전환율 개선이 다음 과제로 지목됨.' },
+        ]},
+        { title: 'GFA', items: [
+          { b: '카탈로그 + 웹사이트 전환', p: '광고비 37% 증액, 매출 141% 증가했지만 웹사이트 전환 캠페인 효율이 기준(ROAS 200%) 미달로 저조(190%) — 9월부터 OFF 처리, 신규 유입 확보는 메타로 전환.' },
+        ]},
+        { title: '메타', items: [
+          { b: '전체', p: '음료·쌀과자 시크릿링크 신규 운영으로 광고비 48% 증액, 매출 67% 증가하며 ROAS 670%로 26년 중 최고치 기록.' },
+          { b: '견인 소재', p: '쌀과자 시크릿링크(ROAS 808%)가 매출 견인 — CTR이 전체 평균의 1.6배, CPC는 절반 수준. 음료 시크릿링크는 상품 구성 변경 이슈로 일시 중단 후 재개 예정.' },
+        ]},
       ],
     },
   },
@@ -548,21 +606,12 @@ function renderBrand(key){
       `<td class="num"><span class="status-pill ${cls}">${pct(roas)}</span></td></tr>`;
   }).join('');
 
-  // highlights (factual, no 브랜드검색 commentary per CLAUDE.md threshold rule)
-  const best = medias.reduce((a,b)=> mediaAgg[a].roas > mediaAgg[b].roas ? a : b);
-  const worst = medias.reduce((a,b)=> mediaAgg[a].roas < mediaAgg[b].roas ? a : b);
-  const hl = [];
-  hl.push(`이번 달 전체 광고비 ${fmt(Math.round(total.cost/10000))}만원 · 매출액 ${fmt(Math.round(total.rev/10000))}만원 · ROAS ${pct(total.roas)}`);
-  hl.push(`매체별 ROAS: ${mediaLabel[best]}이(가) 가장 높고(${pct(mediaAgg[best].roas)}), ${mediaLabel[worst]}이(가) 가장 낮음(${pct(mediaAgg[worst].roas)})`);
-  hl.push(`캠페인 ${rows.length}건 중 매출 상위 5건이 전체 매출의 ${pct(top5.reduce((s,r)=>s+r.rev,0)/total.rev*100)}를 차지`);
-  const mb = b.monthlyByMedia;
-  const prev = mb.all[mb.all.length-2], cur = mb.all[mb.all.length-1];
-  if(prev){
-    const costDelta = prev.cost ? (cur.cost-prev.cost)/prev.cost*100 : 0;
-    const revDelta = prev.rev ? (cur.rev-prev.rev)/prev.rev*100 : 0;
-    hl.push(`전월(${prev.m}) 대비 광고비 ${costDelta>=0?'+':''}${pct(costDelta)}, 매출액 ${revDelta>=0?'+':''}${pct(revDelta)}, ROAS ${pct(prev.roas)} → ${pct(cur.roas)}`);
-  }
-  document.getElementById('hlList').innerHTML = hl.map(t=>`<li>${t}</li>`).join('');
+  // comment (agency's monthly-report narrative, cross-checked against raw data above)
+  document.getElementById('commentOverall').textContent = b.comment.overall;
+  document.getElementById('commentAccordion').innerHTML = b.comment.groups.map((g,gi)=>{
+    const items = g.items.map(it=> `<div class="tn-item"><b>${it.b}</b><p>${it.p}</p></div>`).join('');
+    return `<details${gi===0?' open':''}><summary>${g.title}${g.tag?`<span class="tn-tag">${g.tag}</span>`:''}</summary><div class="tn-body">${items}</div></details>`;
+  }).join('');
 
   renderTrend(curTrend);
 }
