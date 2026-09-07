@@ -191,6 +191,21 @@ table.data-table tr:last-child td{border-bottom:0;}
 .hl-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;}
 .hl-list li{font-size:13px;color:var(--text-secondary);}
 
+/* ---- quadrant summary ---- */
+.quad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px;}
+@media (max-width:720px){.quad-grid{grid-template-columns:1fr;}}
+.quad{padding:18px 20px;border-radius:12px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow);}
+.quad-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.quad-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+.quad-title{font-size:13.5px;font-weight:700;}
+.quad ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;}
+.quad li{font-size:13px;color:var(--text-secondary);list-style:disc;}
+.quad li b{color:var(--text-primary);font-weight:600;}
+.quad.good{border-left:3px solid var(--good);}
+.quad.bad{border-left:3px solid var(--serious);}
+.quad.doing{border-left:3px solid var(--warning);}
+.quad.need{border-left:3px solid var(--critical);}
+
 /* comment accordion (agency monthly-report narrative) */
 .comment-overall{margin:0 0 14px;font-size:13.5px;line-height:1.6;color:var(--text-primary);}
 .trend-notes{display:flex;flex-direction:column;gap:8px;}
@@ -244,6 +259,7 @@ footer.foot{
   <div class="section" id="summary" style="padding-top:26px;">
     <h2 class="section-title">핵심 요약</h2>
     <p class="section-sub" id="kpiSub">2026.08.01 – 08.31</p>
+    <div class="quad-grid" id="quadGrid"></div>
     <div class="kpi-grid" id="kpiGrid"></div>
 
     <div class="split-row">
@@ -425,6 +441,27 @@ const BRANDS = {
         ]},
       ],
     },
+    quad: {
+      good: [
+        '전체 매출액 1억 2,627만원 — 광고비 13.9% 증액에도 ROAS 942.3% 유지하며 매출 11.3% 상승',
+        '쇼핑검색 매출 3,458만원(+23%)으로 26년 중 최고 매출 달성 — 퓨레 캠페인 전환율 20.72%→22.6% 개선이 견인',
+        'GFA 웹사이트 전환 캠페인 상시 운영되며 매출 2,099만원(+68%), 전환율 12.3%→16.9%로 크게 개선',
+        '메타 퓨레 시크릿링크 신규 라이브 + 파트너십 효율 상승으로 매출 3,026만원(+42%) 달성',
+      ],
+      bad: [
+        '파워링크 유입 34% 감소로 매출 534만원(-20%) — 연휴 시즌 클릭 감소 영향(28일부터 회복)',
+        '메타 카탈로그 캠페인 빈도수 3.3까지 상승하며 소재 피로도 누적 확인',
+      ],
+      doing: [
+        'GFA 웹사이트 전환 캠페인 신규 소구 소재 등록 준비 중 — 리타겟 중심에서 신규 유입 확대로 전환',
+        '메타 카탈로그 캠페인 예산 10% 감액으로 빈도수 관리 착수, 감소 확인 후 점진 증액 예정',
+      ],
+      need: [
+        '쇼핑검색 예산 비중을 일반 키워드로 확대해 유입·매출 확보 (유입 확대에 따라 ROAS는 600%대로 다소 낮아질 것으로 예상)',
+        '파워링크 9월 추석 기저효과 대비 2~3주차 예산 증액으로 유입 방어',
+        'GFA 웹사이트 전환 신규 소구 소재 등록 후 성과 모니터링',
+      ],
+    },
   },
   rosy: {
     label: '로지오가닉',
@@ -495,6 +532,28 @@ const BRANDS = {
         ]},
       ],
     },
+    quad: {
+      good: [
+        '전체 매출액 3,695만원 — 광고비 10% 증액으로 매출 15% 상승, ROAS 465%→489%로 개선',
+        '메타 광고비 48% 증액, 매출 1,874만원(+67%)하며 ROAS 669.9%로 26년 중 최고치 기록',
+        '메타 쌀과자 시크릿링크 신규 소재가 ROAS 808%로 매출 견인',
+        'GFA 카탈로그+웹사이트 전환 매출 150만원(+141%) — 볼륨은 작지만 성장세 뚜렷',
+      ],
+      bad: [
+        '파워링크 유입 23% 감소, 매출 299만원(-19%) — 7월 넾다세일 같은 대형 이벤트가 8월엔 없었던 기저효과',
+        '쇼핑검색 전환율 6%p 하락하며 매출 568만원(-22%), ROAS 353.5%로 하락',
+        'GFA 웹사이트 전환 캠페인 효율이 기준(ROAS 200%) 미달로 저조(190.5%)',
+      ],
+      doing: [
+        'GFA 웹사이트 전환 캠페인 9월부터 OFF 처리, 신규 유입 확보는 메타로 전환 중',
+        '메타 음료 시크릿링크 상품 구성 변경 후 재개 준비 중',
+      ],
+      need: [
+        '쇼핑검색 탐색K·대표K 그룹 전환율 개선 필요 — 라이프위크 같은 콘텐츠성 이벤트로 유입 강화 검토',
+        '파워링크 9월 추석 기저효과 대비 2~3주차 예산 증액 필요',
+        '메타 상시 전환 캠페인 할인 소재 피로도 점검 후 교체 검토',
+      ],
+    },
   },
 };
 
@@ -553,6 +612,18 @@ function renderBrand(key){
   ).join('');
   document.getElementById('kpiSub').textContent =
     `노출 ${fmt(total.imp)} · 클릭 ${fmt(total.clk)}(CTR ${pct(total.ctr)}) · CPC ${fmt(total.cpc)}원 · CVR ${pct(total.cvr)}`;
+
+  // quad-grid (GOOD / BAD / 개선하고 있는 것 / 개선이 필요한 것)
+  const quadDefs = [
+    { key:'good', cls:'good', dot:'var(--good)', title:'👍 좋았던 점' },
+    { key:'bad', cls:'bad', dot:'var(--serious)', title:'👎 안좋았던 점' },
+    { key:'doing', cls:'doing', dot:'var(--warning)', title:'🔧 개선하고 있는 것' },
+    { key:'need', cls:'need', dot:'var(--critical)', title:'🎯 개선이 필요한 것' },
+  ];
+  document.getElementById('quadGrid').innerHTML = quadDefs.map(q=>{
+    const lis = (b.quad[q.key]||[]).map(t=>`<li>${t}</li>`).join('');
+    return `<div class="quad ${q.cls}"><div class="quad-head"><span class="quad-dot" style="background:${q.dot}"></span><span class="quad-title">${q.title}</span></div><ul>${lis}</ul></div>`;
+  }).join('');
 
   // media breakdown
   const medias = ['search','gfa','meta'];

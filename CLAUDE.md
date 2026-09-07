@@ -323,8 +323,12 @@ instead, and an index page ties them together:
   anchor links matching the weekly report's naming: `#summary`(핵심요약) → `#comment`(코멘트) →
   `#trend`(월별추이) → `#media`(매체별성과) → `#creative`(소재별성과) (no `#mission`, monthly has no
   weekly-mission equivalent). Content per section:
-  - `#summary` — the KPI-tile row + cost/revenue donuts + TOP-5-campaign table (unchanged from the
-    original template).
+  - `#summary` — as of 2026.09 (2026-08.html retrofit), leads with the same weekly-style quad-grid
+    (👍 좋았던 점 / 👎 안좋았던 점 / 🔧 개선하고 있는 것 / 🎯 개선이 필요한 것) sourced from the
+    agency's monthly-report narrative, cross-checked against this report's own raw campaigns —
+    **excludes 브랜드검색-specific commentary**, per the 브랜드검색 threshold rule below which
+    explicitly applies to weekly *and* monthly. Below the quad-grid: the KPI-tile row + cost/revenue
+    donuts + TOP-5-campaign table (unchanged from the original template).
   - `#comment` — the factual, no-agency-narrative highlight list (`hlList`, respects the 브랜드검색
     threshold rule same as weekly), now also including a 전월 대비 (cost/rev/ROAS delta vs. the
     previous month) line pulled from `monthlyByMedia.all`.
