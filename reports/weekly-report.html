@@ -740,7 +740,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <div class="section-head">
       <div>
         <h2 class="section-title">월별 추이</h2>
-        <p class="section-sub">광고비 · 매출 · ROAS 흐름 — 2026년 1월~7월, 대행사 월간 리포트 기준</p>
+        <p class="section-sub">광고비 · 매출 · ROAS 흐름 — 2026년 1월~8월, 1~7월은 대행사 월간 리포트·8월은 8월 월간 리포트의 raw data 직접 집계 기준</p>
       </div>
     </div>
     <div class="card chart-card">
@@ -752,7 +752,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       </div>
       <div id="trendChart"></div>
       <div class="chart-tooltip" id="chartTooltip"></div>
-      <div class="ghost-note">8월은 아직 진행 중(4주차까지)이라 월 비교 왜곡을 피하기 위해 제외했습니다 — 마감 후 다음 갱신에 자동 반영됩니다</div>
+      <div class="ghost-note">8월 수치는 월간 리포트와 동일하게 8/1~8/31 전체 월 raw data 재집계 기준입니다(주간 스냅샷 합산이 아님) — 다음 달 마감 후 9월 포인트가 추가됩니다</div>
 
       <!-- ===== 아넬라 코멘트 ===== -->
       <div class="trend-notes" data-brand-panel="anela">
@@ -1032,6 +1032,7 @@ const BRANDS = {
         {m:'5월', cost:6163843,  rev:81571340},
         {m:'6월', cost:7368981,  rev:89219220},
         {m:'7월', cost:7089735,  rev:79653650},
+        {m:'8월', cost:6957467.33, rev:75020090},
       ],
       gfa: [
         {m:'1월', cost:231550,  rev:3498900},
@@ -1041,6 +1042,7 @@ const BRANDS = {
         {m:'5월', cost:275568,  rev:4349560},
         {m:'6월', cost:217586,  rev:5095160},
         {m:'7월', cost:960530,  rev:12477610},
+        {m:'8월', cost:1550249, rev:20986010},
       ],
       meta: [
         {m:'1월', cost:198887,   rev:933100},
@@ -1050,6 +1052,7 @@ const BRANDS = {
         {m:'5월', cost:6882115,  rev:26862039},
         {m:'6월', cost:4709247,  rev:14600300},
         {m:'7월', cost:3718186,  rev:21353290},
+        {m:'8월', cost:4891546, rev:30261680},
       ],
     },
   },
@@ -1105,6 +1108,7 @@ const BRANDS = {
         {m:'5월', cost:4222496,  rev:11223890},
         {m:'6월', cost:3474296,  rev:11323150},
         {m:'7월', cost:4031232,  rev:20196550},
+        {m:'8월', cost:3973354.33, rev:16709610},
       ],
       gfa: [
         {m:'1월', cost:196800,  rev:1568710},
@@ -1114,6 +1118,7 @@ const BRANDS = {
         {m:'5월', cost:125052,  rev:709500},
         {m:'6월', cost:193506,  rev:918580},
         {m:'7월', cost:575648,  rev:622670},
+        {m:'8월', cost:789077, rev:1503000},
       ],
       meta: [
         {m:'1월', cost:0, rev:0},
@@ -1123,6 +1128,7 @@ const BRANDS = {
         {m:'5월', cost:1025707,  rev:5135976},
         {m:'6월', cost:1514553,  rev:9657456},
         {m:'7월', cost:1883461,  rev:11202322},
+        {m:'8월', cost:2796824, rev:18736873},
       ],
     },
   },
