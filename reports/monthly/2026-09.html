@@ -374,7 +374,7 @@ footer.foot{
     <h3 class="sub-h">키워드 등록 후보 <span class="sub-h-note">파워링크 확장검색으로 전환됐지만 아직 키워드로 등록되지 않은 검색어</span></h3>
     <div class="card"><div style="overflow-x:auto;"><table class="data-table" id="termExtTable"></table></div></div>
 
-    <h3 class="sub-h">전환 없는 검색어 <span class="sub-h-note">클릭 6회 이상 · 구매 0 — 제외검색어·입찰 조정·컨텐츠 대응 후보</span></h3>
+    <h3 class="sub-h">전환 없는 검색어 <span class="sub-h-note">클릭 6회 이상 · 구매 0 — 제외검색어·입찰 조정·컨텐츠 대응 후보 (광고비·매출액 함께 표시)</span></h3>
     <div class="card"><div style="overflow-x:auto;"><table class="data-table" id="termCutTable"></table></div></div>
 
     <h3 class="sub-h">컨텐츠 제작 후보 <span class="sub-h-note">전환 검색어를 주제로 묶었습니다 · AI 검색·블로그용 컨텐츠 기획 참고</span></h3>
@@ -387,7 +387,7 @@ footer.foot{
     <div style="overflow-x:auto;">
     <table class="data-table" id="creativeTable">
       <thead>
-        <tr><th>캠페인/광고</th><th class="num">노출</th><th class="num">클릭</th><th class="num">광고비</th><th class="num">구매</th><th class="num">매출액</th><th class="num">ROAS</th></tr>
+        <tr><th>매체</th><th>캠페인/광고</th><th class="num">노출</th><th class="num">클릭</th><th class="num">광고비</th><th class="num">구매</th><th class="num">매출액</th><th class="num">ROAS</th></tr>
       </thead>
       <tbody></tbody>
     </table>
@@ -666,7 +666,8 @@ function renderBrand(key){
   document.querySelector('#creativeTable tbody').innerHTML = allSorted.map(r=>{
     const roas = r.cost ? r.rev/r.cost*100 : 0;
     const cls = !r.cost ? 'warning' : roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
-    return `<tr><td><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${r.name}</td>` +
+    const sub = r.media==='search' ? r.src : (r.chan==='mall' ? '자사몰' : '스마트스토어');
+    return `<tr><td style="white-space:nowrap;"><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${mediaLabel[r.media]}<div style="font-size:11px;color:var(--text-muted);margin-left:13px;">${sub}</div></td><td>${r.name}</td>` +
       `<td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${fmt(r.cost)}원</td>` +
       `<td class="num">${fmt(r.conv)}</td><td class="num">${fmt(r.rev)}원</td>` +
       `<td class="num"><span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></td></tr>`;
@@ -702,7 +703,7 @@ const man = n => fmt(Math.round(n/10000)) + '만';
 
 function kwTable(head, rows){
   if(!rows.length) return '<div class="kw-empty">해당 키워드가 없습니다.</div>';
-  return `<div style="overflow-x:auto;"><table class="data-table"><thead><tr>${head.map((h,i)=>`<th${i>=2?' class="num"':''}>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+  return `<div style="overflow-x:auto;"><table class="data-table"><thead><tr>${head.map((h,i)=>`<th${i>=2&&h!=='사유'?' class="num"':''}>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
 }
 function roasPill(roas){
   const cls = roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
@@ -754,8 +755,8 @@ function renderKeyword(){
   const fullHead = ['키워드','그룹','노출','클릭','CTR','평균순위','구매','전환율','광고비','매출액','ROAS'];
   const small = r => `<tr>${kwCell(r)}<td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${pct(r.ctr)}</td>${posTd(r)}<td class="num">${fmt(r.conv)}</td><td class="num"><b>${pct(r.cvr)}</b></td><td class="num">${fmt(r.rev)}원</td></tr>`;
   const smallHead = ['키워드','그룹','노출','클릭','CTR','평균순위','구매','전환율','매출액'];
-  const cutRow = r => `<tr>${kwCell(r)}<td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${pct(r.ctr)}</td>${posTd(r)}<td class="num">${fmt(r.conv)}</td><td class="num">${r.clk?pct(r.cvr):'–'}</td><td style="text-align:left;">${r.why.map(w=>`<span class="tag ${w[0]}">${w[1]}</span>`).join('')}</td></tr>`;
-  const cutHead = ['키워드','그룹','노출','클릭','CTR','평균순위','구매','전환율','사유'];
+  const cutRow = r => `<tr>${kwCell(r)}<td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${pct(r.ctr)}</td>${posTd(r)}<td class="num">${fmt(r.conv)}</td><td class="num">${r.clk?pct(r.cvr):'–'}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td><td style="text-align:left;">${r.why.map(w=>`<span class="tag ${w[0]}">${w[1]}</span>`).join('')}</td></tr>`;
+  const cutHead = ['키워드','그룹','노출','클릭','CTR','평균순위','구매','전환율','광고비','매출액','사유'];
 
   const card = (title, tag, tagCls, note, tableHtml) => `<div class="card kw-card"><h3>${title}<span class="tag ${tagCls}">${tag}</span></h3><p class="card-sub">${note}</p>${tableHtml}</div>`;
   document.getElementById('kwLists').innerHTML =
@@ -798,8 +799,8 @@ function renderKeyword(){
     return ['warning','쇼핑검색 일치 → 그룹 입찰·소재 점검'];
   };
   document.getElementById('termCutTable').innerHTML =
-    `<thead><tr><th>검색어</th><th>지면</th><th class="num">노출</th><th class="num">클릭</th><th class="num">CTR</th><th>분류</th></tr></thead><tbody>` +
-    zero.map(r=>{const z=zTag(r);return `<tr><td>${r.t}</td><td style="color:var(--text-muted);font-size:11.5px;">${kindLabel(r.kinds)}</td><td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${pct(r.imp?r.clk/r.imp*100:0)}</td><td style="text-align:left;"><span class="tag ${z[0]}">${z[1]}</span></td></tr>`;}).join('') + '</tbody>';
+    `<thead><tr><th>검색어</th><th>지면</th><th class="num">노출</th><th class="num">클릭</th><th class="num">CTR</th><th class="num">광고비</th><th class="num">매출액</th><th>분류</th></tr></thead><tbody>` +
+    zero.map(r=>{const z=zTag(r);return `<tr><td>${r.t}</td><td style="color:var(--text-muted);font-size:11.5px;">${kindLabel(r.kinds)}</td><td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${pct(r.imp?r.clk/r.imp*100:0)}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td><td style="text-align:left;"><span class="tag ${z[0]}">${z[1]}</span></td></tr>`;}).join('') + '</tbody>';
 
   // ---- content themes (전환 검색어 → 주제 묶음)
   const themeDefs = [
