@@ -708,6 +708,7 @@ const KW_RULE = {
   relImp: 300, relCtr: 0.5,
   lowCvrClk: 30, lowCvrMaxConv: 2, lowCvr: 5,
   termClkCheck: 15, termClkRef: 6,
+  monthCostCapPct: 5,   // 월령 키워드는 유지하되, 한 키워드 광고비가 파워링크 비브랜드 광고비의 이 비율(%) 이상이면 비용 점검
 };
 const INFO_RE = /언제부터|종류|추천|먹이는|먹는\s*(시기|양|법)|시기|방법|변비|차이|몇\s*개월/;
 const EVENT_RE = /메가위크|쿠폰|세일|이벤트/;
@@ -737,26 +738,29 @@ function renderKeyword(){
   rows.forEach(r=>{ r.ctr = r.imp? r.clk/r.imp*100 : 0; r.cvr = cvrOf(r.conv,r.clk); r.roas = r.cost? r.rev/r.cost*100 : 0; });
   const brandKw = rows.filter(r=>b.brandRe.test(r.kw));
   const pool = rows.filter(r=>!b.brandRe.test(r.kw));
+  const isMonthKw = r => MONTH_RE.test(r.kw);   // 월령 키워드: 초보 부모 질문 1순위 — 브랜드 인지를 위해 전환이 없어도 유지
   const pa = agg(pool.map(r=>({imp:r.imp,clk:r.clk,cost:r.cost,conv:r.conv,rev:r.rev})));
   const avgCvr = pa.cvr, avgCtr = pa.ctr;
   const top5 = [...pool].sort((a,c)=>c.rev-a.rev).slice(0,5).reduce((s,r)=>s+r.rev,0) / (pa.rev||1) * 100;
   const withConv = pool.filter(r=>r.conv>0).length;
   const pZero = n => Math.pow(1-avgCvr/100, n)*100;   // 평균 전환율에서 클릭 n회 동안 구매 0일 확률
 
+  const monthCost0 = pool.filter(isMonthKw).reduce((s,r)=>s+r.cost,0);
   document.getElementById('kwRules').innerHTML = `<ul>
     <li><b>손익분기 ROAS</b> = 1 ÷ 마진율 — ${b.label} 마진 ${b.marginNote} → 약 <b>${pct(BE)}</b> (${b.margin*100}% 가정). <b>증액 후보</b>는 구매 ${R.minConv}건 이상 · ROAS ${R.upMult}배(<b>${pct(upLine)}</b>) 이상, 손익분기~${pct(upLine)}는 <b>유지</b>, 손익분기 미만은 <b>효율 점검</b>. 마진율은 대략값이라 확정되면 갱신합니다.</li>
     <li><b>구매 1~${R.minConv-1}건(소표본)</b> — ROAS 대신 CTR·전환율로 판단: 클릭 ${R.watchMinClk}회 이상 · 전환율 비브랜드 평균(${pct(avgCvr)}) 이상이면 <b>관찰 후보</b>(평균 CTR ${pct(avgCtr)}). 표본이 작아 증액이 아니라 입찰 +10~20% 테스트 후 2~4주 관찰합니다.</li>
     <li><b>제외·입찰하향</b> — 광고비가 아니라 노출·클릭 기준: 구매 0 · 클릭 ${R.cutClkHard}회 이상 → <b>제외 후보</b>, 클릭 ${R.cutClkSoft}~${R.cutClkHard-1}회 → <b>입찰 하향 후 관찰</b>(평균 전환율에서 클릭 ${R.cutClkSoft}회 무전환 확률 ${pct(pZero(R.cutClkSoft))}, ${R.cutClkHard}회 ${pct(pZero(R.cutClkHard))}), 클릭 ${R.lowCvrClk}회 이상 · 구매 ${R.lowCvrMaxConv}건 이하 · 전환율 ${R.lowCvr}% 미만 → <b>입찰 하향</b>. 노출 ${R.relImp} 이상 · CTR ${R.relCtr}% 미만 · 구매 0은 비용 영향이 거의 없어 <b>연관성 점검</b>으로만 분류합니다.</li>
+    <li><b>월령 키워드 예외</b> — "○개월·돌아기·두돌" 등 월령 키워드는 정보성이지만 초보 부모가 가장 먼저 찾는 질문이라, 구매가 없어도 제외·입찰하향 대상에서 빼고 브랜드 인지용으로 유지합니다. 단 한 키워드 광고비가 파워링크 비브랜드 광고비의 ${R.monthCostCapPct}% 이상이면 비용만 점검합니다(월령 키워드 합계 ${pct(pa.cost?monthCost0/pa.cost*100:0)}).</li>
     <li><b>운영 원칙</b> — 한 달 데이터라 구매가 일부 키워드에 집중됩니다(구매 발생 ${withConv}/${pool.length}개 키워드, 상위 5개가 매출의 ${top5.toFixed(0)}%). 제외 확정은 2개월 연속 부진 시, 9월은 추석 시즌이 포함되어 있습니다. 일 예산 소진 여부와 월 검색량은 이 보고서 데이터에 없어 증액 전에 별도 확인이 필요합니다.</li>
   </ul>`;
 
   // ---- lists
   const up = pool.filter(r=>r.conv>=R.minConv && r.roas>=upLine).sort((a,c)=>c.rev-a.rev);
   const keep = pool.filter(r=>r.conv>=R.minConv && r.roas>=BE && r.roas<upLine).sort((a,c)=>c.rev-a.rev);
-  const fix = pool.filter(r=>r.conv>=R.minConv && r.roas<BE).sort((a,c)=>contrib(a)-contrib(c));
+  const fix = pool.filter(r=>!isMonthKw(r) && r.conv>=R.minConv && r.roas<BE).sort((a,c)=>contrib(a)-contrib(c));
   const watch = pool.filter(r=>r.conv>=1 && r.conv<R.minConv && r.clk>=R.watchMinClk && r.cvr>=avgCvr).sort((a,c)=>c.cvr-a.cvr);
   const cut = [], rel = [];
-  pool.forEach(r=>{
+  pool.filter(r=>!isMonthKw(r)).forEach(r=>{
     const why = [];
     if(r.conv===0 && r.clk>=R.cutClkHard) why.push(['critical','제외 후보 (클릭 많고 구매 0)']);
     else if(r.conv===0 && r.clk>=R.cutClkSoft) why.push(['warning','입찰 하향 후 관찰']);
@@ -767,11 +771,13 @@ function renderKeyword(){
   cut.sort((a,c)=>c.clk-a.clk || c.imp-a.imp);
   rel.sort((a,c)=>c.imp-a.imp);
 
+  const monthKw = pool.filter(isMonthKw).sort((a,c)=>c.cost-a.cost);
+  const monthCost = monthKw.reduce((s,r)=>s+r.cost,0);
   const brandTot = agg(brandKw.map(r=>({imp:r.imp,clk:r.clk,cost:r.cost,conv:r.conv,rev:r.rev})));
   const chip = (l,n) => `<span class="kw-chip">${l} <b>${n}</b></span>`;
   document.getElementById('kwSummary').innerHTML =
     chip(`분석 대상 (파워링크, 비브랜드)`, pool.length) + chip('증액 후보', up.length) + chip('유지', keep.length) + chip('관찰 후보', watch.length) +
-    chip('효율 점검', fix.length) + chip('제외·입찰하향', cut.length) + chip('연관성 점검', rel.length) +
+    chip('효율 점검', fix.length) + chip('제외·입찰하향', cut.length) + chip('연관성 점검', rel.length) + chip('월령 키워드(유지)', monthKw.length) +
     `<span class="kw-chip">브랜드명 키워드 ${brandKw.length}개는 유지 — 매출 ${man(brandTot.rev)}원 · ROAS ${pct(brandTot.roas)}</span>`;
 
   const posTd = r => `<td class="num">${r.pos.toFixed(1)}</td>`;
@@ -785,6 +791,12 @@ function renderKeyword(){
   const cutHead = ['키워드','그룹','노출','클릭','CTR','평균순위','구매','전환율','광고비','매출액','사유'];
   const relRow = r => `<tr>${basic(r)}<td class="num">${r.clk?pct(r.cvr):'–'}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td></tr>`;
 
+  const monthRow = r => {
+    const share = pa.cost ? r.cost/pa.cost*100 : 0;
+    const v = share>=R.monthCostCapPct ? ['warning',`비용 점검 (파워링크 광고비의 ${share.toFixed(1)}%)`] : ['info','유지 (브랜드 인지)'];
+    return `<tr>${basic(r)}<td class="num">${r.clk?pct(r.cvr):'–'}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td><td style="text-align:left;"><span class="tag ${v[0]}">${v[1]}</span></td></tr>`;
+  };
+  const monthHead = ['키워드','그룹','노출','클릭','CTR','평균순위','구매','전환율','광고비','매출액','판정'];
   const card = (title, tag, tagCls, note, tableHtml) => `<div class="card kw-card"><h3>${title}<span class="tag ${tagCls}">${tag}</span></h3><p class="card-sub">${note}</p>${tableHtml}</div>`;
   document.getElementById('kwLists').innerHTML =
     card('증액 후보',`구매 ${R.minConv}건↑ · ROAS ${pct(upLine)}↑`,'good','매출순 — 평균순위가 1.0에 가까우면 이미 상단 노출이라 입찰 상향 효과가 작고, 2.0 이상이면 순위 개선 여지가 있습니다. 추정 공헌이익 = 매출 × 마진율(가정) − 광고비', kwTable(fullHead, up.map(full))) +
@@ -792,6 +804,7 @@ function renderKeyword(){
     card('관찰 후보 (소표본)',`구매 1~${R.minConv-1}건 · 전환율 평균↑`,'info','구매가 적어 ROAS 대신 CTR·전환율로 판단 — 증액이 아니라 입찰 +10~20% 테스트 후 2~4주 관찰', kwTable(smallHead, watch.map(small))) +
     card('효율 점검 (손익분기 미달)',`구매 ${R.minConv}건↑ · ROAS ${pct(BE)}↓`,'warning','구매는 꾸준하지만 손익분기에 못 미침 — 추정 공헌이익이 큰 마이너스부터 입찰 하향 또는 문구 점검', kwTable(fullHead, fix.map(full))) +
     card('제외·입찰하향 후보',`클릭 ${R.cutClkSoft}회↑ · 구매 0`,'critical','광고비가 아니라 클릭 반응으로 선별 — 제외는 클릭 30회 이상일 때, 15~29회는 입찰 하향 후 관찰, 제외 확정은 2개월 연속 부진 시', kwTable(cutHead, cut.map(cutRow))) +
+    card('월령 키워드 (브랜드 인지 유지)', '전환 없어도 유지', 'info', `월령·연령 질문은 초보 부모의 1순위 검색이라 구매가 없어도 노출을 유지합니다 — 월령 키워드 ${monthKw.length}개 광고비 ${fmt(monthCost)}원 (파워링크 비브랜드 광고비의 ${pct(pa.cost?monthCost/pa.cost*100:0)}) · 한 키워드가 광고비의 ${R.monthCostCapPct}% 이상을 쓰면 비용 점검`, kwTable(monthHead, monthKw.map(monthRow))) +
     card('연관성 점검',`노출 ${R.relImp}↑ · CTR ${R.relCtr}%↓ · 구매 0`,'','광고비 영향이 거의 없음(파워링크는 노출에 과금되지 않음) — 비용 절감이 아니라 키워드·문구 연관성 정리용', kwTable(cutHead.slice(0,-1), rel.map(relRow)));
 
   renderKeyword3m({BE, upLine, roasPill});
@@ -824,6 +837,7 @@ function renderKeyword(){
   // 전환 없는 검색어 — 클릭 15회 이상은 점검 대상, 6~14회는 표본 부족(참고)
   const zero = terms.filter(r=>r.conv===0 && r.clk>=R.termClkRef).sort((a,c)=>c.clk-a.clk);
   const zTag = r => {
+    if(MONTH_RE.test(r.t)) return ['info','월령 정보형 → 유지 (브랜드 인지)'];
     if(INFO_RE.test(r.t)) return ['info','정보 탐색형 → 컨텐츠로 대응'];
     if(EVENT_RE.test(r.t)) return ['warning','이벤트·쿠폰형 → 제외검색어 검토'];
     if(r.reg) return ['critical','등록 키워드 → 입찰 하향·OFF 검토'];
@@ -860,7 +874,7 @@ function renderKeyword(){
 
 // ================= 3개월 검증 (7~9월) =================
 // 한 달 데이터의 우연·시즌 효과를 걸러내기 위해 7·8·9월 월별 키워드·검색어 보고서를 합쳐서 판정
-const M3_RULE = { leakClk: 30, upConv: 10, chkConv: 5, lowClk: 40, lowConv: 2, lowCvr: 5, dropRatio: 0.3, dropBase: 10, termSteady: 3 };
+const M3_RULE = { leakClk: 30, upConv: 10, chkConv: 5, lowClk: 40, lowConv: 2, lowCvr: 5, dropRatio: 0.3, dropBase: 10, termSteady: 3, monthCostCapPct: KW_RULE.monthCostCapPct };
 const MON3 = ['7월','8월','9월'];
 function renderKeyword3m(ctx){
   const b = BRANDS[curBrand], M = b.m3, R = M3_RULE;
@@ -900,6 +914,13 @@ function renderKeyword3m(ctx){
       r.v = ['warning','입찰 하향 (3개월 전환율 낮음)'];
     }
   });
+  const poolCost3 = mons.reduce((s,m)=>s+m.cost,0);
+  rows.forEach(r=>{
+    if(!MONTH_RE.test(r.kw) || (r.v && r.v[0]==='good')) return;
+    const share = poolCost3 ? r.cost/poolCost3*100 : 0;
+    if(r.mm[1].clk===0 && r.mm[2].clk===0) return;
+    r.v = share>=R.monthCostCapPct ? ['warning',`월령 키워드 — 비용 점검 (3개월 광고비의 ${share.toFixed(1)}%)`] : ['info','월령 키워드 — 브랜드 인지 유지'];
+  });
   const order = {'good':0,'critical':1,'warning':2,'info':3,'':4};
   const shown = rows.filter(r=>r.v).sort((a,c)=>order[a.v[0]]-order[c.v[0]] || contrib(a)-contrib(c));
   const cnt = k => rows.filter(r=>r.v && r.v[1].startsWith(k)).length;
@@ -935,6 +956,7 @@ function renderKeyword3m(ctx){
   const zr = trs.filter(r=>r.convT===0 && r.clkT>=R.leakClk).sort((a,c)=>c.clkT-a.clkT);
   const ztag = r => {
     if(r.months<2) return ['','단발(한 달만) — 참고'];
+    if(MONTH_RE.test(r.t)) return ['info','월령 정보형 → 유지 (브랜드 인지)'];
     if(INFO_RE.test(r.t)) return ['info','정보 탐색형 → 컨텐츠로 대응'];
     return ['critical','3개월 지속 무전환 → 제외검색어·입찰 조정'];
   };
