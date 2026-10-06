@@ -343,6 +343,14 @@ instead, and an index page ties them together:
     weekly report (sum of search+gfa+meta, then `roasOf`). Each new month's report needs one more
     point appended vs. the previous month's file — this is naturally repetitive; don't skip it.
   - `#media` — the existing 매체별 성과 table (search/gfa/meta + total row), unchanged.
+  - `#keyword` (added 2026.09, 9월 report onward; nav link between 매체별성과 and 소재별성과) — 네이버
+    키워드·검색어 보고서를 **7~9월 3개월 합산**으로 판정: ① 파워링크 키워드(증액 필요 / 효율 낮음 /
+    제외 후보 / 9월 급변, 확장 미등록 검색어 → 신규 키워드 제안) ② 쇼핑검색 검색어(효율 좋음·낮음, 단어
+    패턴별 효율, 제외 제안, 경쟁 전략 제안). 기준: 효율은 ROAS 200%·브랜드 평균×1.2 (손익분기/마진 기반
+    판정은 쓰지 않음 — 사용자가 마진 기준을 확정하지 않았다), 구매 5건 미만은 CTR·전환율, 제외는 광고비가
+    아니라 클릭 기준(3개월 클릭 30회+ 무전환). **월령·질문형 키워드/검색어("○개월", "돌아기", "언제부터",
+    "추천" 등)는 전환이 없어도 제외하지 않는다**(사용자 방침: 초보 부모 1순위 검색 → 브랜드 인지). 다음
+    달 리포트는 직전 3개월 월별 키워드·검색어 CSV를 새로 받아 `m3` 데이터를 갱신한다.
   - `#creative` — a **new** full data table of every campaign/ad row (all of `campaigns`, not just
     top 5), sorted by revenue descending, with a ROAS status pill per row. This is a **plain table,
     deliberately no `CREATIVE_IMAGES` gallery** — keep it that way; the weekly report is where actual

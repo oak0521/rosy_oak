@@ -1,0 +1,939 @@
+<title>월간 리포트 2026.09</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg-page:#f6f6f7;
+  --surface-1:#ffffff;
+  --surface-2:#eeeef0;
+  --border:#e0e0e3;
+  --text-primary:#18181b;
+  --text-secondary:#57575f;
+  --text-muted:#8d8d95;
+  --accent:#3d3096;
+  --accent-soft:#ebe8f9;
+  --accent-ink:#2c2270;
+
+  --media-search:#1baf7a;
+  --media-search-soft:#e2f5ec;
+  --media-gfa:#d9762e;
+  --media-gfa-soft:#fbead9;
+  --media-meta:#2a78d6;
+  --media-meta-soft:#e3edfb;
+
+  --good:#0ca30c;
+  --good-soft:#e5f6e2;
+  --warning:#b8790a;
+  --warning-soft:#fdefd8;
+  --serious:#c85a34;
+  --serious-soft:#fbe6dc;
+  --critical:#d03b3b;
+  --critical-soft:#fbe2e2;
+
+  --gridline:#e5e5e8;
+  --shadow: 0 1px 2px rgba(20,20,25,0.04), 0 4px 14px rgba(20,20,25,0.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-page:#0e0e10; --surface-1:#19191c; --surface-2:#212124; --border:#2d2d31;
+    --text-primary:#f2f2f4; --text-secondary:#bbbbc2; --text-muted:#87878f;
+    --accent:#a99cf5; --accent-soft:#241f47; --accent-ink:#cabdfb;
+    --media-search:#199e70; --media-search-soft:#122a20;
+    --media-gfa:#d9762e; --media-gfa-soft:#2e2013;
+    --media-meta:#3987e5; --media-meta-soft:#152439;
+    --good:#39c239; --good-soft:#123317;
+    --warning:#e7ab35; --warning-soft:#332711;
+    --serious:#e58a5f; --serious-soft:#33201a;
+    --critical:#e66767; --critical-soft:#331717;
+    --gridline:#2a2a2e;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg-page:#0e0e10; --surface-1:#19191c; --surface-2:#212124; --border:#2d2d31;
+  --text-primary:#f2f2f4; --text-secondary:#bbbbc2; --text-muted:#87878f;
+  --accent:#a99cf5; --accent-soft:#241f47; --accent-ink:#cabdfb;
+  --media-search:#199e70; --media-search-soft:#122a20;
+  --media-gfa:#d9762e; --media-gfa-soft:#2e2013;
+  --media-meta:#3987e5; --media-meta-soft:#152439;
+  --good:#39c239; --good-soft:#123317;
+  --warning:#e7ab35; --warning-soft:#332711;
+  --serious:#e58a5f; --serious-soft:#33201a;
+  --critical:#e66767; --critical-soft:#331717;
+  --gridline:#2a2a2e;
+  --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg-page);
+  color:var(--text-primary);
+  font-family:'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px;}
+.num{font-variant-numeric:tabular-nums;}
+a{color:inherit;}
+[hidden]{display:none !important;}
+
+header.top{
+  border-bottom:1px solid var(--border);
+  background:var(--surface-1);
+  position:sticky; top:0; z-index:40;
+}
+.top-inner{
+  max-width:1120px;margin:0 auto;padding:18px 20px;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.brand-block{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+.brand-title{font-weight:700;font-size:22px;letter-spacing:-0.01em;}
+.brand-tabs{display:flex;gap:6px;}
+.brand-chip{
+  border:1px solid var(--border); background:var(--surface-1); color:var(--text-secondary);
+  padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:600; cursor:pointer;
+  font-family:inherit;
+}
+.brand-chip.active{background:var(--accent-ink); border-color:var(--accent-ink); color:#fff;}
+.period{font-size:12.5px;color:var(--text-secondary);}
+.period b{color:var(--text-primary);font-weight:600;}
+.period a{color:var(--accent-ink); text-decoration:none;}
+.period a:hover{text-decoration:underline;}
+
+nav.subnav{display:flex;gap:2px;max-width:1120px;margin:0 auto;padding:0 20px;overflow-x:auto;}
+nav.subnav a{
+  white-space:nowrap; font-size:13px; padding:10px 14px; color:var(--text-secondary);
+  text-decoration:none; border-bottom:2px solid transparent;
+}
+nav.subnav a:hover{color:var(--text-primary);}
+nav.subnav a.current{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:600;}
+
+.section{padding-top:30px;border-bottom:1px solid var(--border);padding-bottom:30px;}
+.section:last-of-type{border-bottom:none;}
+.section-title{font-size:19px;font-weight:700;margin:0 0 4px;}
+.section-sub{color:var(--text-muted);font-size:12.5px;margin:0 0 16px;}
+
+/* ---- tabs (trend) ---- */
+.tabbar{display:flex;gap:6px;flex-wrap:wrap;}
+.tabbtn{
+  font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface-1);color:var(--text-secondary);cursor:pointer;font-family:inherit;
+}
+.tabbtn.active{background:var(--text-primary);color:var(--bg-page);border-color:var(--text-primary);font-weight:600;}
+.tabbtn[data-media="search"].active{background:var(--media-search);border-color:var(--media-search);color:#fff;}
+.tabbtn[data-media="gfa"].active{background:var(--media-gfa);border-color:var(--media-gfa);color:#fff;}
+.tabbtn[data-media="meta"].active{background:var(--media-meta);border-color:var(--media-meta);color:#fff;}
+
+.chart-card{padding:18px 20px 22px;position:relative;}
+.chart-tabs{display:flex;gap:6px;margin-bottom:14px;}
+svg.chart{width:100%;height:auto;overflow:visible;}
+.axis-label{font-size:10px;fill:var(--text-muted);}
+.tip-target{cursor:pointer;}
+.legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);}
+.legend-swatch{width:10px;height:10px;border-radius:2px;}
+.ghost-note{font-size:11.5px;color:var(--text-muted);text-align:center;margin-top:6px;}
+.chart-tooltip{
+  position:absolute;pointer-events:none;z-index:5;background:var(--text-primary);color:var(--bg-page);
+  font-size:11.5px;line-height:1.5;
+  padding:7px 10px;border-radius:7px;box-shadow:var(--shadow);white-space:nowrap;
+  transform:translate(-50%,-100%);margin-top:-10px;transition:opacity .08s;opacity:0;
+}
+.chart-tooltip.show{opacity:1;}
+.chart-tooltip b{display:block;font-weight:600;margin-bottom:2px;color:var(--bg-page);}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+.kpi-card{
+  background:var(--surface-1);border:1px solid var(--border);border-radius:14px;
+  box-shadow:var(--shadow);padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;
+}
+.kpi-label{font-size:12px;color:var(--text-secondary);font-weight:600;}
+.kpi-value{font-size:21px;font-weight:700;letter-spacing:-0.01em;}
+.kpi-value .unit{font-size:11.5px;font-weight:500;color:var(--text-muted);margin-left:2px;}
+@media (max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:560px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+
+.split-row{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:14px;margin-top:16px;}
+@media (max-width:900px){.split-row{grid-template-columns:1fr;}}
+.card{
+  background:var(--surface-1);border:1px solid var(--border);border-radius:14px;
+  box-shadow:var(--shadow);padding:18px 20px;
+}
+.card h3{font-size:13px;font-weight:600;margin:0 0 2px;}
+.card .card-sub{font-size:11.5px;color:var(--text-muted);margin:0 0 14px;}
+
+.donut-wrap{display:flex;align-items:center;gap:16px;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;font-size:12px;flex:1;}
+.donut-legend .row{display:flex;align-items:center;gap:7px;}
+.donut-legend .swatch{width:8px;height:8px;border-radius:50%;flex:none;}
+.donut-legend .lbl{color:var(--text-secondary);flex:1;}
+.donut-legend .pct{font-weight:600;}
+
+table.data-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.data-table th{
+  text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--text-muted);font-weight:600;padding:0 8px 8px;border-bottom:1px solid var(--gridline);
+}
+table.data-table th.num,table.data-table td.num{text-align:right;}
+table.data-table td{padding:9px 8px;border-bottom:1px solid var(--gridline);vertical-align:middle;}
+table.data-table tr:last-child td{border-bottom:0;}
+.media-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;}
+.status-pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;}
+.status-pill.good{background:var(--good-soft);color:var(--good);}
+.status-pill.warning{background:var(--warning-soft);color:var(--warning);}
+.status-pill.critical{background:var(--critical-soft);color:var(--critical);}
+
+.hl-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.hl-list li{font-size:13px;color:var(--text-secondary);}
+
+/* ---- quadrant summary ---- */
+.quad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px;}
+@media (max-width:720px){.quad-grid{grid-template-columns:1fr;}}
+.quad{padding:18px 20px;border-radius:12px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow);}
+.quad-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.quad-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+.quad-title{font-size:13.5px;font-weight:700;}
+.quad ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;}
+.quad li{font-size:13px;color:var(--text-secondary);list-style:disc;}
+.quad li b{color:var(--text-primary);font-weight:600;}
+.quad.good{border-left:3px solid var(--good);}
+.quad.bad{border-left:3px solid var(--serious);}
+.quad.doing{border-left:3px solid var(--warning);}
+.quad.need{border-left:3px solid var(--critical);}
+
+/* comment accordion (agency monthly-report narrative) */
+.comment-overall{margin:0 0 14px;font-size:13.5px;line-height:1.6;color:var(--text-primary);}
+.trend-notes{display:flex;flex-direction:column;gap:8px;}
+.trend-notes details{
+  border:1px solid var(--border);border-radius:9px;background:var(--surface-1);overflow:hidden;
+}
+.trend-notes summary{
+  list-style:none;cursor:pointer;padding:11px 14px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:8px;user-select:none;
+}
+.trend-notes summary::-webkit-details-marker{display:none;}
+.trend-notes summary::before{
+  content:'';width:7px;height:7px;border-right:1.6px solid var(--text-muted);border-bottom:1.6px solid var(--text-muted);
+  transform:rotate(-45deg);transition:transform .15s;flex:none;
+}
+.trend-notes details[open] summary::before{transform:rotate(45deg);}
+.trend-notes .tn-body{padding:2px 16px 14px 29px;display:flex;flex-direction:column;gap:9px;}
+.tn-item b{font-size:12.5px;color:var(--text-primary);}
+.tn-item p{margin:3px 0 0;font-size:12.5px;color:var(--text-secondary);}
+.tn-tag{font-size:10.5px;color:var(--text-muted);background:var(--surface-2);border-radius:5px;padding:1px 6px;margin-left:6px;}
+
+
+/* ---- keyword / search-term section ---- */
+.sub-h{font-size:15px;font-weight:700;margin:26px 0 10px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.sub-h-note{font-size:11.5px;font-weight:400;color:var(--text-muted);}
+.rule-card{padding:16px 20px;}
+.rule-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;}
+.rule-card li{font-size:12.5px;color:var(--text-secondary);}
+.rule-card li b{color:var(--text-primary);font-weight:600;}
+.kw-summary{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;}
+.kw-chip{font-size:12px;border:1px solid var(--border);background:var(--surface-1);border-radius:999px;padding:4px 12px;color:var(--text-secondary);}
+.kw-chip b{color:var(--text-primary);}
+.kw-stack{display:flex;flex-direction:column;gap:14px;}
+.kw-card h3{display:flex;align-items:center;gap:8px;}
+.kw-empty{font-size:12.5px;color:var(--text-muted);padding:4px 0;}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap;background:var(--surface-2);color:var(--text-secondary);margin-right:4px;}
+.tag.good{background:var(--good-soft);color:var(--good);}
+.tag.warning{background:var(--warning-soft);color:var(--warning);}
+.tag.critical{background:var(--critical-soft);color:var(--critical);}
+.tag.info{background:var(--accent-soft);color:var(--accent-ink);}
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media (max-width:720px){.theme-grid{grid-template-columns:1fr;}}
+.theme-card h3{font-size:13.5px;margin-bottom:2px;}
+.theme-stat{font-size:11.5px;color:var(--text-muted);margin:0 0 10px;}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.term-chip{font-size:12px;background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:3px 10px;}
+.term-chip i{font-style:normal;color:var(--text-muted);margin-left:4px;font-size:11px;}
+details.fold{border:1px solid var(--border);border-radius:10px;background:var(--surface-1);margin-top:12px;padding:0 16px;}
+details.fold > summary{cursor:pointer;padding:12px 0;font-size:13px;font-weight:600;list-style:none;}
+details.fold > summary::-webkit-details-marker{display:none;}
+details.fold > summary::before{content:'▸';margin-right:8px;color:var(--text-muted);}
+details.fold[open] > summary::before{content:'▾';}
+details.fold[open]{padding-bottom:14px;}
+.alert-box{border:1px solid var(--critical);background:var(--critical-soft);border-radius:10px;padding:12px 16px;margin-bottom:12px;}
+.alert-box > b{display:block;margin-bottom:8px;color:var(--critical);}
+.theme-idea{font-size:12.5px;color:var(--text-secondary);margin:0;}
+
+footer.foot{
+  border-top:1px solid var(--border);
+  margin-top:36px;padding-top:16px;
+  color:var(--text-muted);font-size:12px;
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-block">
+      <span class="brand-title" id="brandTitle">아넬라 월간 리포트</span>
+      <div class="brand-tabs" id="brandSwitch">
+        <button type="button" class="brand-chip active" data-brand="anela">아넬라</button>
+        <button type="button" class="brand-chip" data-brand="rosy">로지오가닉</button>
+      </div>
+    </div>
+    <div class="period">리포트 기간 <b>2026.09.01 – 09.30</b> · 9월 · 전체 월 raw data 직접 집계 · <a href="https://claude.ai/code/artifact/fb28ef03-ed69-46bf-a7f8-35f05fa9999c" target="_blank" rel="noopener">리포트 아카이브 →</a></div>
+  </div>
+  <nav class="subnav">
+    <a href="#summary" class="current">핵심요약</a>
+    <a href="#comment">코멘트</a>
+    <a href="#trend">월별 추이</a>
+    <a href="#media">매체별 성과</a>
+    <a href="#keyword">키워드·검색어</a>
+    <a href="#creative">소재별 성과</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="section" id="summary" style="padding-top:26px;">
+    <h2 class="section-title">핵심 요약</h2>
+    <p class="section-sub" id="kpiSub">2026.09.01 – 09.30</p>
+    <div class="quad-grid" id="quadGrid"></div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <div class="split-row">
+      <div class="card">
+        <h3>광고비 비중</h3>
+        <p class="card-sub" id="costSub"></p>
+        <div class="donut-wrap">
+          <svg width="104" height="104" viewBox="0 0 104 104" id="costDonut"></svg>
+          <div class="donut-legend" id="costLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>매출액 비중</h3>
+        <p class="card-sub" id="revSub"></p>
+        <div class="donut-wrap">
+          <svg width="104" height="104" viewBox="0 0 104 104" id="revDonut"></svg>
+          <div class="donut-legend" id="revLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>캠페인 TOP 5 (매출액 순)</h3>
+        <p class="card-sub">이번 달 매출 기준 상위 캠페인</p>
+        <div style="overflow-x:auto;">
+        <table class="data-table" id="topTable">
+          <thead><tr><th>캠페인</th><th class="num">매출액</th><th class="num">ROAS</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="comment">
+    <h2 class="section-title">코멘트</h2>
+    <p class="section-sub">9월 매체별 주요 지표와 전월 대비 변화를 raw data 기준으로 정리했습니다</p>
+    <div class="card" style="padding:20px 22px;">
+      <p class="comment-overall" id="commentOverall"></p>
+      <div class="trend-notes" id="commentAccordion"></div>
+    </div>
+  </div>
+
+  <div class="section" id="trend">
+    <h2 class="section-title">월별 추이</h2>
+    <p class="section-sub">광고비 · 매출 · ROAS 흐름 — 2026년 1월~9월</p>
+    <div class="card chart-card">
+      <div class="tabbar chart-tabs" id="trendTabs">
+        <button class="tabbtn active" data-t="all">전체</button>
+        <button class="tabbtn" data-t="search" data-media="search">네이버 검색광고</button>
+        <button class="tabbtn" data-t="gfa" data-media="gfa">GFA</button>
+        <button class="tabbtn" data-t="meta" data-media="meta">메타</button>
+      </div>
+      <div id="trendChart"></div>
+      <div class="chart-tooltip" id="chartTooltip"></div>
+      <div class="ghost-note">1~7월은 대행사 월간 리포트 기준, 8~9월은 전체 월 raw data 직접 집계 기준입니다</div>
+    </div>
+  </div>
+
+  <div class="section" id="media">
+    <h2 class="section-title">매체별 성과</h2>
+    <p class="section-sub">네이버 검색광고 · GFA · 메타 — 이번 달 합계</p>
+    <div style="overflow-x:auto;">
+    <table class="data-table" id="mediaTable">
+      <thead>
+        <tr><th>매체</th><th class="num">노출</th><th class="num">클릭</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">광고비</th><th class="num">구매</th><th class="num">CVR</th><th class="num">매출액</th><th class="num">ROAS</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="section" id="keyword">
+    <h2 class="section-title">키워드·검색어</h2>
+    <p class="section-sub">네이버 검색광고 키워드·검색어 보고서 7~9월 3개월 합산 기준 — 키워드는 증액·제외 판단, 쇼핑검색은 검색어별 효율과 제외 제안. 브랜드검색광고 캠페인은 제외합니다</p>
+    <div class="card rule-card" id="kwBasis"></div>
+
+    <h3 class="sub-h">① 파워링크 키워드 <span class="sub-h-note">현재 집행 중인 비브랜드 키워드 · 3개월 판정</span></h3>
+    <div id="kwSummary" class="kw-summary"></div>
+    <div id="kwAlert"></div>
+    <div class="card kw-card"><h3>증액 필요 <span class="tag good">3개월 안정적으로 효율 좋음</span></h3><div id="kwUp"></div></div>
+    <div class="card kw-card" style="margin-top:12px;"><h3>효율 낮음 <span class="tag warning">입찰 하향·문구 점검</span></h3><div id="kwLow"></div></div>
+    <div class="card kw-card" style="margin-top:12px;"><h3>제외 후보 <span class="tag critical">2개월 이상 클릭·구매 0</span></h3><div id="kwCut"></div></div>
+    <details class="fold"><summary>월령·질문형 키워드 — 전환 없어도 유지 <span class="sub-h-note" id="kwMonthSum"></span></summary><div id="kwMonthList"></div></details>
+    <details class="fold"><summary>월별 추이 (파워링크 비브랜드 합계)</summary><div style="overflow-x:auto;"><table class="data-table" id="kwMonth"></table></div></details>
+
+    <h3 class="sub-h">신규 키워드 제안 <span class="sub-h-note">확장·미지정 검색어에서 매출이 나온 것</span></h3>
+    <div class="card"><p class="card-sub" id="kwExtSub"></p><div id="kwExt"></div></div>
+
+    <h3 class="sub-h">② 쇼핑검색 검색어 <span class="sub-h-note">3개월 판정 · 쇼핑검색은 키워드가 아니라 검색어(제외검색어 등록)로 관리</span></h3>
+    <p class="section-sub" id="shopSub" style="margin-top:-4px;"></p>
+    <div class="card kw-card"><h3>효율 좋은 검색어 <span class="tag good">3개월 모두 구매 · ROAS 상위</span></h3><div id="shopGood"></div></div>
+    <div class="card kw-card" style="margin-top:12px;"><h3>효율 낮은 검색어 <span class="tag warning">클릭 30회 이상 · ROAS 200% 미만</span></h3><div id="shopLow"></div></div>
+    <div class="card kw-card" style="margin-top:12px;"><h3>단어(패턴)별 효율 <span class="tag">겹치는 검색어 포함 · 개별 검색어는 클릭이 적어 단어 단위로 합산</span></h3><div id="shopPat"></div></div>
+    <div class="card kw-card" style="margin-top:12px;"><h3>제외 제안 <span class="tag critical">진짜 효율 없는 검색어 · 월령·질문형 제외</span></h3><p class="card-sub" style="margin:2px 0 8px;">쇼핑검색은 제외검색어 등록으로 차단합니다 — 등록 방식(완전일치·구문일치)에 따라 차단 범위가 달라 대행사 확인이 필요하고, 해당 단어를 쓰는 판매 상품이 없는지 확인한 뒤 적용하세요.</p><div id="shopCut"></div></div>
+    <details class="fold"><summary>제외 검토 후보 (표본 부족) <span class="sub-h-note" id="shopCandSum"></span></summary><div id="shopCand"></div></details>
+    <div class="card" style="margin-top:12px;"><h3>경쟁사를 이기는 전략 제안</h3><div class="trend-notes" style="margin-top:10px;" id="shopStrategy"></div></div>
+
+    <details class="fold"><summary>컨텐츠 제작 후보 — 3개월 연속 전환 검색어 <span class="sub-h-note" id="contentSub"></span></summary><div class="theme-grid" id="themeGrid" style="margin-top:10px;"></div></details>
+  </div>
+
+  <div class="section" id="creative">
+    <h2 class="section-title">소재별 성과</h2>
+    <p class="section-sub">캠페인/광고 단위 전체 성과 — 매출액 순 (이미지 갤러리는 포함하지 않습니다, 주간 리포트 참고)</p>
+    <div style="overflow-x:auto;">
+    <table class="data-table" id="creativeTable">
+      <thead>
+        <tr><th>매체</th><th>캠페인/광고</th><th class="num">노출</th><th class="num">클릭</th><th class="num">광고비</th><th class="num">구매</th><th class="num">매출액</th><th class="num">ROAS</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span id="footSource">데이터 출처: 네이버 검색광고 시스템(일별 리포트·키워드 보고서·검색어 보고서) · 네이버 GFA · Meta 광고관리자 raw export 직접 집계(전체 월), 2026.09.01–09.30 기준 · 브랜드검색 비용은 정액제 2,640,000원/90일(VAT 포함)을 30일분(880,000원)으로 안분</span>
+    <span>상단 브랜드 탭을 눌러 아넬라 ↔ 로지오가닉 전환</span>
+  </footer>
+</div>
+
+<script>
+const fmt = n => Math.round(n).toLocaleString('ko-KR');
+const pct = n => (Math.round(n*10)/10).toLocaleString('ko-KR') + '%';
+const mediaColor = {search:'var(--media-search)', gfa:'var(--media-gfa)', meta:'var(--media-meta)'};
+const mediaLabel = {search:'네이버 검색', gfa:'GFA', meta:'메타'};
+
+function agg(rows){
+  const a = {imp:0,clk:0,cost:0,conv:0,rev:0};
+  rows.forEach(r=>{a.imp+=r.imp;a.clk+=r.clk;a.cost+=r.cost;a.conv+=r.conv;a.rev+=r.rev;});
+  a.roas = a.cost ? a.rev/a.cost*100 : 0;
+  a.ctr = a.imp ? a.clk/a.imp*100 : 0;
+  a.cpc = a.clk ? a.cost/a.clk : 0;
+  a.cvr = a.clk ? a.conv/a.clk*100 : 0;
+  return a;
+}
+const roasOf = (cost,rev) => cost ? rev/cost*100 : 0;
+
+const BRANDS = {
+  anela: {
+    label: '아넬라',
+    title: '아넬라 월간 리포트',
+    brandRe: /아넬라|anela|아델라/i,
+    campaigns: [
+      {media: "search", src: "브랜드검색", chan: "store", name: "아넬라_브검_모바일", imp: 4754, clk: 2251, cost: 880000.0, conv: 644, rev: 27641670},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_과자(떡뻥)_브랜드K", imp: 12710, clk: 92, cost: 12561, conv: 27, rev: 490530},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_과자(떡뻥)_일반K", imp: 53842, clk: 1181, cost: 1783386, conv: 228, rev: 3586900},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레개별_통합k", imp: 63107, clk: 286, cost: 251939, conv: 43, rev: 1660100},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레종합_브랜드K", imp: 38100, clk: 1341, cost: 854865, conv: 426, rev: 20004840},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레종합_일반K", imp: 1084638, clk: 2172, cost: 2594859, conv: 364, rev: 13560600},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_과자k(브랜드)", imp: 9593, clk: 33, cost: 23231, conv: 2, rev: 48600},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_베이비바우처", imp: 8492, clk: 26, cost: 11931, conv: 3, rev: 138200},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_브랜드K", imp: 4941, clk: 183, cost: 135214, conv: 43, rev: 2153260},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_퓨레K", imp: 87649, clk: 1056, cost: 1097797, conv: 112, rev: 4958760},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_상시_테스트 운영", imp: 42343, clk: 959, cost: 649799, conv: 228, rev: 11213610},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_카탈로그_리타겟기반", imp: 16210, clk: 132, cost: 187221, conv: 24, rev: 1014260},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_프로모_추석세일", imp: 25100, clk: 743, cost: 544139, conv: 137, rev: 7011920},
+      {media: "meta", src: "메타", chan: "store", name: "260305_아넬라_베이비바우처(파트너십영상)_2", imp: 51298, clk: 1571, cost: 757766, conv: 109, rev: 3931660},
+      {media: "meta", src: "메타", chan: "store", name: "260519_아넬라_웰컴박스_0원", imp: 1307, clk: 61, cost: 21356, conv: 0, rev: 0},
+      {media: "meta", src: "메타", chan: "store", name: "260519_아넬라_웰컴박스_공짜", imp: 20746, clk: 1290, cost: 328001, conv: 3, rev: 87400},
+      {media: "meta", src: "메타", chan: "mall", name: "260729_자사몰_시크릿링크_7일뒤", imp: 1727, clk: 56, cost: 20512, conv: 4, rev: 107500},
+      {media: "meta", src: "메타", chan: "mall", name: "260729_자사몰_시크릿링크_검색", imp: 128236, clk: 2374, cost: 1370360, conv: 179, rev: 7569100},
+      {media: "meta", src: "메타", chan: "mall", name: "260901_자사몰_미리추석_감사제", imp: 7256, clk: 155, cost: 114694, conv: 3, rev: 60700},
+      {media: "meta", src: "메타", chan: "mall", name: "260901_자사몰_미리추석_까까", imp: 534, clk: 7, cost: 8178, conv: 0, rev: 0},
+      {media: "meta", src: "메타", chan: "mall", name: "260909_자사몰_미리추석_마감임박", imp: 7162, clk: 164, cost: 139662, conv: 9, rev: 305100},
+      {media: "meta", src: "메타", chan: "mall", name: "260909_자사몰_미리추석_최저가", imp: 13377, clk: 275, cost: 211713, conv: 10, rev: 292300},
+      {media: "meta", src: "메타", chan: "store", name: "아넬라_카탈로그_260629", imp: 105686, clk: 2697, cost: 1208970, conv: 246, rev: 8849500},
+    ],
+    monthlyByMedia: {
+      search: [
+        {m:'1월', cost:3208467,  rev:64495280},
+        {m:'2월', cost:4249286,  rev:72921260},
+        {m:'3월', cost:5412057,  rev:87593040},
+        {m:'4월', cost:4764353,  rev:103271540},
+        {m:'5월', cost:6163843,  rev:81571340},
+        {m:'6월', cost:7368981,  rev:89219220},
+        {m:'7월', cost:7089735,  rev:79653650},
+        {m:'8월', cost:6957467.33, rev:75020090},
+      ],
+      gfa: [
+        {m:'1월', cost:231550,  rev:3498900},
+        {m:'2월', cost:251498,  rev:4804890},
+        {m:'3월', cost:278941,  rev:5578350},
+        {m:'4월', cost:263049,  rev:6776020},
+        {m:'5월', cost:275568,  rev:4349560},
+        {m:'6월', cost:217586,  rev:5095160},
+        {m:'7월', cost:960530,  rev:12477610},
+        {m:'8월', cost:1550249, rev:20986010},
+      ],
+      meta: [
+        {m:'1월', cost:198887,   rev:933100},
+        {m:'2월', cost:4092839,  rev:16795458},
+        {m:'3월', cost:6751162,  rev:32583155},
+        {m:'4월', cost:5540846,  rev:47053618},
+        {m:'5월', cost:6882115,  rev:26862039},
+        {m:'6월', cost:4709247,  rev:14600300},
+        {m:'7월', cost:3718186,  rev:21353290},
+        {m:'8월', cost:4891546, rev:30261680},
+      ],
+    },
+    // 3개월(7~9월) 키워드·검색어 분석 데이터: mon=파워링크 비브랜드 월 합계, kw=[그룹,키워드,[노출,클릭,광고비,구매,매출]×3], ext=확장 미등록 검색어, shop=쇼핑검색 검색어·패턴·그룹, terms=전환 검색어
+    m3: {"mon": {"07": {"imp": 33718, "clk": 842, "cost": 1242816, "conv": 98, "rev": 3934920}, "08": {"imp": 18772, "clk": 631, "cost": 863073, "conv": 79, "rev": 2955100}, "09": {"imp": 21337, "clk": 710, "cost": 887449, "conv": 85, "rev": 3957060}}, "kw": [["자사몰", "사과퓨레", [1003, 16, 19782, 0, 0], [25, 0, 0, 0, 0], [0, 0, 0, 0, 0]], ["자사몰", "아기사과퓨레", [558, 19, 15415, 1, 4200], [116, 4, 3033, 0, 0], [0, 0, 0, 0, 0]], ["자사몰", "아기퓨레", [1823, 51, 104536, 1, 51800], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], ["자사몰", "아기퓨레추천", [203, 17, 38418, 1, 27000], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], ["자사몰", "이유식체험팩", [1306, 32, 15064, 0, 0], [131, 6, 2939, 1, 5400], [0, 0, 0, 0, 0]], ["자사몰", "퓨레", [2805, 31, 43527, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], ["퓨레K", "6개월아기이유식", [735, 17, 23465, 0, 0], [740, 18, 24337, 0, 0], [788, 23, 28060, 0, 0]], ["퓨레K", "HOP퓨레", [60, 2, 802, 1, 58500], [57, 3, 1150, 3, 104200], [74, 9, 2222, 2, 87500]], ["퓨레K", "과일퓨레", [856, 42, 50453, 7, 322460], [860, 45, 54869, 11, 417990], [879, 48, 74759, 9, 697700]], ["퓨레K", "사과퓨레", [1065, 28, 38056, 4, 201500], [1089, 32, 40028, 7, 179600], [1239, 35, 36649, 6, 333800]], ["퓨레K", "아기과일퓨레", [1076, 68, 99760, 5, 185400], [1099, 66, 90509, 3, 79000], [924, 69, 84041, 4, 188200]], ["퓨레K", "아기바나나퓨레", [400, 4, 2504, 1, 5400], [410, 11, 5553, 1, 21500], [497, 4, 2220, 0, 0]], ["퓨레K", "아기사과퓨레", [472, 3, 2084, 0, 0], [638, 16, 12650, 5, 152400], [910, 14, 10052, 0, 0]], ["퓨레K", "아기퓨레", [2781, 167, 355539, 35, 1343960], [2686, 172, 355702, 21, 878680], [2486, 153, 310462, 22, 954860]], ["퓨레K", "아기퓨레추천", [288, 13, 26779, 2, 77000], [215, 7, 15409, 0, 0], [203, 10, 20765, 2, 70800]], ["퓨레K", "이유식사과퓨레", [284, 3, 1751, 1, 22900], [354, 9, 4917, 2, 28000], [449, 3, 1113, 0, 0]], ["퓨레K", "이유식체험팩", [1011, 11, 4153, 0, 0], [591, 11, 4079, 0, 0], [1029, 50, 20030, 1, 11500]], ["퓨레K", "이유식퓨레", [201, 8, 11254, 4, 161900], [180, 7, 8830, 0, 0], [158, 5, 5777, 0, 0]], ["퓨레K", "짜먹는퓨레", [76, 5, 6486, 1, 17900], [81, 3, 2429, 0, 0], [87, 8, 6832, 1, 45900]], ["퓨레K", "푸룬퓨레", [156, 15, 29277, 3, 76700], [200, 10, 7433, 3, 88900], [197, 15, 25899, 5, 121600]], ["퓨레K", "퓨레", [4098, 143, 200289, 24, 1245400], [4126, 146, 175350, 17, 801130], [4417, 184, 200792, 25, 1154400]]], "terms": [["6개월과일퓨레", "쇼핑/파워링크", [1, 2, 3], [0, 2, 1], [0, 43800, 33000], 8067], ["6개월아기과일퓨레", "쇼핑/파워링크", [4, 6, 7], [0, 0, 1], [0, 0, 22400], 19303], ["6개월아기이유식", "쇼핑/파워링크", [20, 16, 14], [0, 0, 0], [0, 0, 0], 66285], ["6개월아기퓨레", "쇼핑/파워링크", [15, 4, 9], [2, 0, 1], [49300, 0, 50900], 43998], ["7개월아기퓨레", "쇼핑/파워링크", [2, 11, 2], [0, 1, 0], [0, 33000, 0], 20612], ["8개월아기퓨레", "파워링크", [8, 2, 4], [3, 0, 3], [73100, 0, 123700], 9335], ["HOP퓨레", "쇼핑/파워링크", [22, 25, 32], [3, 6, 7], [113600, 223100, 355500], 95586], ["과일퓌레", "쇼핑/파워링크", [4, 5, 2], [2, 1, 0], [56900, 26900, 0], 17550], ["과일퓨레", "쇼핑/파워링크", [169, 194, 207], [41, 44, 42], [1486860, 1614610, 1917500], 879291], ["돌아기퓨레", "쇼핑/파워링크", [3, 7, 8], [0, 0, 2], [0, 0, 70200], 19836], ["떡뻥", "쇼핑", [187, 267, 513], [49, 53, 99], [687200, 717100, 1411370], 1441686], ["떡뻥추천", "쇼핑", [8, 4, 13], [2, 0, 3], [22600, 0, 78000], 38378], ["떡뻥퍼프", "쇼핑", [4, 2, 2], [2, 1, 0], [26400, 14500, 0], 3509], ["롱떡뻥", "쇼핑", [67, 60, 110], [16, 19, 32], [217310, 286000, 532830], 289192], ["배퓨레", "파워링크", [8, 8, 6], [0, 0, 0], [0, 0, 0], 20649], ["베이비바우처", "쇼핑/파워링크", [1, 6, 5], [0, 2, 1], [0, 48500, 59500], 17420], ["베이비바우처아넬라", "쇼핑/파워링크", [1, 3, 4], [0, 0, 4], [0, 0, 116600], 5675], ["사과퓨레", "쇼핑/파워링크", [66, 57, 52], [9, 10, 8], [328500, 247900, 436100], 190614], ["시판이유식체험", "파워링크", [13, 3, 0], [0, 0, 0], [0, 0, 0], 15567], ["쌀떡뻥", "쇼핑", [4, 6, 6], [1, 1, 1], [11900, 9700, 9700], 23837], ["아기간식", "쇼핑", [23, 20, 27], [3, 1, 5], [35700, 11900, 87800], 111114], ["아기과일퓨레", "쇼핑/파워링크", [227, 321, 255], [42, 54, 50], [1333900, 1687190, 1746510], 1218249], ["아기과자", "쇼핑", [36, 65, 87], [6, 14, 17], [74000, 244300, 268300], 302535], ["아기떡뻥", "쇼핑", [78, 87, 144], [20, 13, 27], [374200, 152700, 374600], 426009], ["아기롱떡뻥", "쇼핑", [4, 6, 11], [1, 2, 3], [12700, 32200, 61500], 30726], ["아기바나나퓨레", "쇼핑/파워링크", [7, 11, 4], [1, 1, 0], [5400, 21500, 0], 11634], ["아기배퓨레", "쇼핑/파워링크", [5, 6, 5], [0, 0, 1], [0, 0, 59500], 23544], ["아기사과퓨레", "쇼핑/파워링크", [26, 23, 17], [2, 5, 1], [26600, 152400, 20600], 50976], ["아기쌀과자", "쇼핑", [12, 12, 5], [2, 3, 1], [47700, 52000, 10700], 42640], ["아기이유식언제부터", "파워링크", [5, 17, 15], [0, 0, 0], [0, 0, 0], 28640], ["아기퍼프과자", "쇼핑/파워링크", [7, 11, 15], [4, 2, 5], [84800, 58300, 117300], 34517], ["아기푸룬퓨레", "쇼핑/파워링크", [11, 2, 2], [0, 0, 0], [0, 0, 0], 8940], ["아기퓨레", "쇼핑/파워링크", [719, 808, 667], [162, 166, 140], [5666120, 5701990, 4951660], 3793672], ["아기퓨레추천", "쇼핑/파워링크", [66, 37, 45], [11, 3, 9], [335500, 68000, 381600], 263224], ["아넬라", "쇼핑/파워링크", [497, 646, 586], [190, 219, 220], [8733720, 9648020, 10463630], 1149146], ["아넬라HOP", "쇼핑/파워링크", [4, 3, 10], [1, 1, 0], [26900, 42610, 0], 9889], ["아넬라과일퓨레", "쇼핑/파워링크", [34, 92, 94], [5, 17, 14], [155600, 632060, 630700], 160561], ["아넬라떡뻥", "쇼핑/파워링크", [8, 10, 9], [1, 2, 3], [40800, 102700, 53600], 3111], ["아넬라롱떡뻥", "쇼핑/파워링크", [22, 30, 36], [13, 12, 15], [281100, 223600, 221430], 6685], ["아넬라퍼프", "쇼핑/파워링크", [7, 10, 12], [2, 6, 1], [41600, 146500, 20700], 2407], ["아넬라퓨레", "쇼핑/파워링크", [582, 662, 609], [120, 179, 173], [5563620, 7200420, 8057850], 1495315], ["아넬라퓨레핫딜", "쇼핑/파워링크", [4, 4, 8], [0, 0, 2], [0, 0, 129400], 12659], ["아넬라핫딜", "쇼핑/파워링크", [4, 9, 2], [3, 2, 0], [113800, 74000, 0], 10900], ["아델라퓨레", "쇼핑/파워링크", [9, 17, 22], [2, 3, 5], [104400, 88500, 171000], 37206], ["유기농과자", "쇼핑/파워링크", [10, 5, 11], [0, 1, 1], [0, 21900, 19800], 36968], ["유기농떡뻥", "쇼핑", [19, 28, 23], [2, 5, 2], [26200, 105000, 32600], 92351], ["유기농쌀떡뻥", "쇼핑/파워링크", [4, 4, 7], [1, 0, 1], [21900, 0, 20700], 20287], ["유기농퓨레", "쇼핑/파워링크", [2, 7, 24], [0, 1, 3], [0, 26900, 131200], 35490], ["유아간식", "쇼핑", [4, 10, 5], [1, 1, 2], [21900, 21900, 40400], 30238], ["유아과자", "쇼핑", [7, 2, 10], [2, 2, 1], [41600, 22800, 10700], 31854], ["이유식무료체험", "파워링크", [57, 30, 5], [0, 1, 0], [0, 14500, 0], 89609], ["이유식사과퓨레", "쇼핑/파워링크", [8, 11, 3], [3, 4, 0], [33700, 57400, 0], 12866], ["이유식체험", "쇼핑/파워링크", [44, 5, 16], [0, 0, 1], [0, 0, 21400], 61070], ["이유식체험팩", "파워링크", [33, 15, 43], [0, 1, 1], [0, 5400, 11500], 38517], ["이유식퓨레", "쇼핑/파워링크", [14, 11, 10], [4, 1, 0], [161900, 22000, 0], 43742], ["짜먹는퓨레", "쇼핑/파워링크", [17, 16, 23], [1, 2, 4], [17900, 57400, 107100], 47027], ["키즈메가위크", "파워링크", [0, 1, 18], [0, 0, 0], [0, 0, 0], 11611], ["퍼프과자", "쇼핑/파워링크", [9, 4, 1], [4, 0, 1], [88400, 0, 19700], 13386], ["퍼프떡뻥", "쇼핑", [6, 6, 5], [2, 2, 1], [33200, 33800, 14500], 13741], ["푸룬퓨레", "쇼핑/파워링크", [18, 12, 16], [3, 3, 5], [76700, 88900, 121600], 69103], ["퓨레", "쇼핑/파워링크", [206, 165, 361], [31, 22, 72], [1471200, 926030, 3119670], 956962], ["퓨레아넬라", "쇼핑/파워링크", [1, 6, 2], [0, 3, 0], [0, 115500, 0], 5888], ["프레벨롱퓨레", "쇼핑", [2, 5, 4], [3, 1, 1], [94200, 49900, 22400], 18453], ["홉퓨레", "쇼핑/파워링크", [8, 18, 16], [3, 4, 3], [94200, 189900, 152700], 57497]], "monthSum": {"n": 73, "cost": 170798, "conv": 6, "rev": 152400, "byMonth": [{"cost": 77238, "conv": 2}, {"cost": 46336, "conv": 1}, {"cost": 47224, "conv": 3}]}, "ext": {"rows": [["아넬라퍼프로지퍼프", 1, 2, 161000, 538, [0, 2, 0]], ["아넬라1+1", 3, 2, 100700, 881, [0, 2, 0]], ["아넬라떡뻥먹는시기", 1, 2, 74800, 670, [0, 0, 2]], ["아넬라실온퓨레", 1, 2, 66000, 722, [2, 0, 0]], ["퓨레사과", 1, 2, 64300, 764, [1, 1, 0]], ["애기푸룬과자", 1, 2, 42800, 759, [0, 2, 0]], ["이유식푸룬퓨레", 4, 2, 35100, 2759, [0, 2, 0]], ["퓨레체험", 6, 2, 10800, 4297, [2, 0, 0]]], "tot": {"terms": 81, "conv": 89, "rev": 2981200, "cost": 1163796}}, "shop": {"terms": [["6개월과일퓨레", 157, [1, 2, 1], [0, 2, 0], 6677, 43800], ["6개월아기과일퓨레", 330, [1, 3, 4], [0, 0, 0], 12341, 0], ["6개월아기퓨레", 482, [1, 1, 5], [1, 0, 1], 11831, 77800], ["7개월아기퓨레", 173, [1, 6, 0], [0, 1, 0], 11431, 33000], ["9개월아기과일", 733, [2, 3, 1], [0, 0, 1], 9678, 25200], ["9개월아기퓨레", 203, [2, 2, 1], [1, 0, 0], 7972, 31400], ["ANELA", 232, [1, 0, 8], [1, 0, 1], 6427, 96400], ["HOP퓨레", 824, [20, 22, 23], [2, 3, 5], 91412, 442000], ["과일퓌레", 431, [3, 5, 2], [2, 1, 0], 16918, 83800], ["과일퓨레", 14544, [123, 149, 159], [34, 33, 33], 693819, 3580820], ["과일퓨레추천", 263, [3, 4, 1], [0, 1, 0], 12545, 23000], ["돌아기퓨레", 145, [0, 5, 5], [0, 0, 1], 16125, 26300], ["떡뻥", 34418, [187, 267, 513], [49, 53, 99], 1441686, 2815670], ["떡뻥추천", 774, [8, 4, 13], [2, 0, 3], 38378, 100600], ["떡뻥퍼프", 89, [4, 2, 2], [2, 1, 0], 3509, 40900], ["롱떡뻥", 2734, [67, 60, 110], [16, 19, 32], 289192, 1036140], ["베이비바우처", 250, [0, 6, 5], [0, 2, 1], 16491, 108000], ["베이비바우처아넬라", 75, [1, 3, 4], [0, 0, 4], 5675, 116600], ["사과퓨레", 2774, [22, 25, 17], [5, 3, 2], 56099, 297600], ["상하목장퓨레", 72, [0, 1, 1], [0, 1, 1], 2857, 53200], ["시판퓨레", 137, [2, 2, 4], [0, 1, 1], 12471, 64400], ["쌀과자퍼프", 107, [2, 0, 3], [0, 0, 1], 3326, 19700], ["쌀떡뻥", 964, [4, 6, 6], [1, 1, 1], 23837, 31300], ["아기간식", 5313, [23, 20, 27], [3, 1, 5], 111114, 135400], ["아기과일퓨레", 12849, [147, 255, 187], [37, 51, 45], 928794, 4292000], ["아기과자", 6706, [36, 65, 87], [6, 14, 17], 302535, 586600], ["아기떡뻥", 7216, [78, 87, 144], [20, 13, 27], 426009, 901500], ["아기떡뻥추천", 485, [6, 1, 3], [2, 0, 0], 14503, 22600], ["아기롱떡뻥", 190, [4, 6, 11], [1, 2, 3], 30726, 106400], ["아기사과퓨레", 1418, [5, 3, 3], [1, 0, 1], 8536, 43000], ["아기쌀과자", 1171, [12, 12, 5], [2, 3, 1], 42640, 110400], ["아기유기농과자", 393, [3, 6, 5], [0, 1, 0], 20046, 21900], ["아기유기농떡뻥", 105, [1, 4, 1], [0, 0, 0], 8195, 0], ["아기퍼프", 145, [3, 2, 3], [1, 1, 0], 7167, 22600], ["아기퍼프과자", 477, [7, 11, 15], [4, 2, 5], 34517, 260400], ["아기퓌레", 135, [2, 5, 4], [0, 0, 1], 16601, 22400], ["아기퓨레", 39430, [501, 636, 513], [126, 145, 118], 2666464, 13090470], ["아기퓨레언제부터", 1478, [2, 0, 1], [2, 0, 0], 5149, 71800], ["아기퓨레추천", 2195, [37, 30, 34], [9, 3, 7], 163848, 657700], ["아넬라", 36725, [433, 552, 510], [175, 204, 205], 1006570, 27008350], ["아넬라HOP", 222, [3, 2, 8], [1, 0, 0], 8851, 26900], ["아넬라과일퓨레", 4492, [33, 88, 94], [4, 17, 14], 155509, 1395660], ["아넬라떡뻥", 160, [7, 9, 8], [1, 2, 3], 1584, 197100], ["아넬라롱떡뻥", 608, [20, 29, 36], [13, 12, 15], 5335, 726130], ["아넬라사과퓨레", 114, [3, 2, 3], [0, 1, 1], 4381, 66200], ["아넬라아기과자", 11, [1, 0, 1], [1, 0, 1], 110, 20400], ["아넬라퍼프", 243, [7, 8, 12], [2, 5, 1], 1485, 180900], ["아넬라퓨레", 37993, [452, 565, 513], [101, 167, 146], 1089679, 18026590], ["아넬라퓨레10팩+10팩", 6, [1, 0, 0], [2, 0, 0], 817, 45900], ["아넬라퓨레공구", 239, [0, 7, 5], [0, 0, 0], 8872, 0], ["아넬라퓨레변비", 24, [0, 0, 1], [0, 0, 2], 940, 74700], ["아넬라퓨레팩", 19, [0, 1, 0], [0, 2, 0], 778, 29000], ["아넬라퓨레핫딜", 234, [3, 4, 6], [0, 0, 2], 9544, 129400], ["아넬라핫딜", 189, [3, 6, 2], [2, 2, 0], 8410, 161900], ["아넬라호프퓨레", 59, [1, 1, 3], [0, 1, 1], 3975, 81000], ["아넬라홉", 268, [5, 1, 4], [1, 0, 0], 7170, 35900], ["아넬라홉퓨레", 38, [2, 0, 2], [1, 0, 1], 3614, 72800], ["아델라퓨레", 463, [9, 17, 22], [2, 3, 5], 37206, 363900], ["애기떡뻥", 193, [2, 2, 1], [0, 0, 0], 7321, 0], ["유기농간식", 5322, [1, 3, 5], [0, 0, 0], 12384, 0], ["유기농과일퓨레", 150, [1, 2, 3], [0, 1, 1], 7259, 42700], ["유기농과자", 1751, [10, 5, 11], [0, 1, 1], 36968, 41700], ["유기농떡뻥", 1911, [19, 28, 23], [2, 5, 2], 92351, 163800], ["유기농쌀과자", 842, [2, 5, 5], [0, 0, 0], 16744, 0], ["유기농쌀떡뻥", 441, [4, 4, 7], [1, 0, 1], 20287, 42600], ["유기농아기간식", 127, [1, 1, 4], [0, 0, 0], 8157, 0], ["유기농아기과자", 367, [4, 4, 6], [0, 1, 1], 20851, 22600], ["유기농퍼프", 122, [0, 2, 3], [0, 0, 2], 4156, 35200], ["유기농퓨레", 463, [2, 7, 12], [0, 1, 3], 27062, 158100], ["유아간식", 1498, [4, 10, 5], [1, 1, 2], 30238, 84200], ["유아과자", 891, [7, 2, 10], [2, 2, 1], 31854, 75100], ["이유식사과퓨레", 619, [0, 2, 0], [0, 2, 0], 1957, 29400], ["이유식퓨레", 378, [0, 4, 5], [0, 1, 0], 8800, 22000], ["지후떡뻥", 582, [0, 2, 5], [0, 1, 1], 9295, 35600], ["짜먹는이유식", 2045, [1, 2, 6], [0, 0, 0], 6983, 0], ["짜먹는퓨레", 597, [10, 12, 15], [0, 2, 3], 26781, 118600], ["퍼프간식", 25, [0, 1, 1], [0, 0, 2], 2625, 23200], ["퍼프과자", 352, [9, 4, 1], [4, 0, 1], 13386, 108100], ["퍼프떡뻥", 282, [6, 6, 5], [2, 2, 1], 13741, 81500], ["퍼프아기떡뻥", 2, [0, 1, 0], [0, 1, 1], 916, 22600], ["퓨레", 6268, [32, 19, 166], [7, 5, 44], 330236, 2191870], ["퓨레아기", 217, [2, 5, 2], [0, 1, 1], 14128, 59300], ["퓨레아넬라", 119, [1, 6, 2], [0, 3, 0], 5888, 115500], ["퓨레핫딜", 160, [1, 3, 4], [0, 1, 1], 11100, 82400], ["프레벨롱", 471, [3, 2, 4], [1, 0, 1], 15675, 49300], ["프레벨롱퓨레", 320, [2, 5, 4], [3, 1, 1], 18453, 166500], ["홉퓨레", 312, [8, 16, 16], [3, 4, 3], 57190, 436800], ["힙퓨레", 213, [1, 0, 5], [0, 0, 2], 9958, 76400]], "patterns": [["퓨레", 2999, 110676, 3586, 5570970, 801, 27248660], ["아기", 6036, 116162, 3407, 5320589, 726, 21534130], ["떡뻥", 2840, 62128, 1819, 2572743, 376, 5528470], ["과자", 3145, 22184, 469, 694884, 84, 1624500], ["유기농", 1351, 16899, 279, 381765, 33, 766600], ["간식", 1749, 18915, 173, 267457, 23, 412100], ["유아", 549, 5007, 72, 116148, 11, 204500], ["퍼프", 255, 2748, 118, 110832, 35, 695600], ["쌀과자", 1384, 5713, 75, 100968, 9, 173800], ["이유식", 806, 10229, 52, 50051, 7, 144600], ["짜먹는", 222, 3659, 54, 39372, 6, 154500], ["개월", 1292, 10150, 100, 158745, 15, 454360], ["추천", 406, 6068, 171, 271570, 32, 924360]], "all": {"terms": 14047, "imp": 242278, "clk": 6200, "cost": 9309881, "conv": 1302, "rev": 35294930}, "groups": [["SSA_아넬라_과자(떡뻥)_브랜드K", [3571, 48, 6416, 19, 417200, 7.9], [4173, 62, 6370, 22, 485800, 7.6], [12710, 92, 12559, 27, 490530, 6.9]], ["SSA_아넬라_과자(떡뻥)_일반K", [22791, 578, 763561, 122, 1979970, 2.6], [31987, 719, 993942, 130, 1963700, 2.4], [53842, 1181, 1783386, 228, 3586900, 2.7]], ["SSA_아넬라_퓨레개별_통합k", [19317, 158, 133634, 25, 1046900, 3.3], [44511, 220, 183509, 41, 1365980, 3.0], [63107, 286, 251940, 43, 1660100, 2.9]], ["SSA_아넬라_퓨레종합_브랜드K", [124847, 970, 668496, 238, 11099640, 3.7], [91703, 1408, 944346, 432, 18488940, 5.1], [38100, 1341, 854867, 426, 20004840, 2.9]], ["SSA_아넬라_퓨레종합_일반K", [585955, 1489, 2312662, 238, 8426560, 2.3], [875163, 2036, 2579001, 355, 12276030, 3.6], [1084638, 2172, 2594866, 364, 13560600, 2.8]]]}},
+    strategy: [{"t": "일반 검색어 지면(퓨레종합_일반K): 노출은 늘었지만 순위·CTR은 밀리는 중", "p": "7월→9월 노출 585,955→1,084,638(+85%), 평균노출순위 2.3→2.8위, CTR 0.3%→0.2%, ROAS 364%→523%. 클릭당 전환은 좋아 노출 확대는 성과로 이어지지만 순위가 낮아지고 있어, 대표 검색어(아기퓨레·퓨레·아기과일퓨레) 입찰을 올리는 것과 함께 상품명·대표이미지·할인 표기를 정비해 CTR을 높이는 쪽이 경쟁에서 이기는 방법입니다. 경쟁 상품 가격·리뷰 비교가 필요합니다."}, {"t": "브랜드 검색어 지면(퓨레종합_브랜드K): 순위 1위 확보 여력", "p": "퓨레종합_브랜드K 평균노출순위 3.7→2.9위로 개선됐지만 아직 2.9위입니다(이 그룹이 브랜드명 검색어 중심이라는 전제 — 브랜드를 직접 검색한 고객 앞에 다른 상품이 노출될 수 있음). ROAS 2,340%로 효율이 가장 높은 지면이라 입찰을 올려 1위를 확보하면 추가 전환 여지가 큽니다(클릭 970→1,341회)."}, {"t": "과자(떡뻥): 일반 지면 확대는 효율 희석 — 롱테일로 우회", "p": "과자(떡뻥)_일반K 광고비 76만원→178만원(+134%) 증액에 ROAS 259%→201%로 낮아졌고, 검색어 ‘떡뻥’은 3개월 ROAS 195%(144만원 사용). 경쟁이 센 대표 단어에서 무리하게 올리기보다 효율이 높은 롱테일로 우회하는 것이 유리합니다."}, {"t": "고효율 롱테일 선점: 퍼프·롱떡뻥·홉퓨레", "p": "‘퍼프’ 포함 검색어 255개는 전환율 30%·ROAS 628%로 평균보다 훨씬 높고 클릭 규모(118회)가 작아 경쟁이 상대적으로 약할 가능성이 있는 틈새입니다. 롱떡뻥(클릭 237회에 구매 67건)과 홉퓨레(ROAS 764%)도 전환 효율이 좋아, 소액 증액으로 점유율을 먼저 확보해 보는 것을 권합니다."}, {"t": "경쟁 비교에 필요한 자료", "p": "경쟁사 직접 비교(가격·리뷰 수·노출 순위)는 이 데이터에 없어서, 자사 순위·CTR·전환 데이터로 추정한 제안입니다. 실제 경쟁 우위를 보려면 네이버 쇼핑 검색 결과의 경쟁 상품 가격·리뷰 수·혜택과 쇼핑인사이트 클릭량 순위를 함께 확인해야 합니다."}],
+    comment: {"overall": "전체 광고비 1,321만원(-1.4%), 매출액 1억 1,469만원(-9.2%), ROAS 868.3%(전월 942.3%). 광고비는 전월과 비슷했지만 추석 연휴 전 광고 축소와 연휴 중 주요 캠페인 OFF로 클릭이 16% 줄어 매출이 감소했고, 9/28 주요 캠페인 재개 후 월말 유입과 전환이 회복됐습니다.", "groups": [{"title": "9월 주차별 운영", "tag": "이벤트·연휴", "items": [{"b": "흐름", "p": "1주차 키즈메가위크·자사몰 미리추석(메타 라이브) → 2주차 스마트스토어 추석세일(광고비 증액으로 매출 볼륨 확대) → 3주차 추석세일 + 오늘끝딜 + 1+1 이벤트(전환율·객단가 상승) → 4주차 추석 연휴·배송 마감에 맞춘 광고 축소 → 5주차 9/28 주요 캠페인 재개, 9/29~30 라스트 스페셜 빅딜 이벤트(9/29 높은 전환·매출)."}, {"b": "연휴 운영 제안", "p": "대부분의 매체에서 연휴 마지막 날부터 전환 회복이 확인됩니다. 차기 연휴에는 연휴 마지막 날부터 광고를 원복해 고객 회복 흐름을 선점하는 방안을 대행사가 제안했습니다."}]}, {"title": "네이버 검색광고", "tag": "파워링크 · 쇼핑검색", "items": [{"b": "쇼핑검색", "p": "광고비 550만원(+16.8%), 클릭 5,072(+14.1%), 매출액 3,930만원(+13.7%), ROAS 714.9%(전월 734.6%). 연휴에 대비해 1~3주차 예산을 선제 증액했고 추석세일 기간과 맞물려 일반 키워드 유입이 크게 늘었습니다. 퓨레 캠페인이 월 매출 3,523만원으로 견인했고 주간 매출은 884만→993만→1,026만원(1·2·3주차)으로 3주차 오늘끝딜·1+1 이벤트 구간에서 가장 컸습니다. 일반K ROAS 476.0%→522.6%, 브랜드K 1,957.9%→2,340.1%로 개선됐고 통합K는 매출이 늘었지만 ROAS가 744.4%→658.9%로 소폭 낮아졌습니다. 과자 캠페인은 유입이 늘었으나 효율 개선이 제한적이었습니다(과자(떡뻥)_일반K ROAS 201.1%). 10월에는 쌀과자 캠페인 지면 효율·검색어를 점검하고 입찰가를 조정하며, 10월 초 연휴 주간은 일예산 5~10% 감액 후 넾다세일 기간에 집중 투여할 계획입니다."}, {"b": "파워링크", "p": "광고비 127만원(-5.4%), 클릭 1,298(+3.3%), 전환율 12.3%(+1.4%p), 매출액 730만원(+36.7%), ROAS 575.5%(전월 398.2%). 연휴 전 1~3주차 예산 증액으로 유입 볼륨을 먼저 확보해 연휴 유입 감소를 방어했습니다. 전환율 상승은 5주차(9/29~30) 스페셜 빅딜 이벤트(전환율 24%) 영향이며, 이벤트 제외 1~4주차 전환율은 11%대로 8월 주차별 평균 수준입니다. 퓨레K 그룹이 광고비 110만원·매출 496만원(ROAS 451.7%)으로 파워링크 매출의 68%를 차지했습니다. 9월 액션으로 전환 검색어 등록, 고비용 무전환 키워드 입찰가 하향, 추석 전후 예산 유동 집행을 진행했습니다."}]}, {"title": "GFA", "items": [{"b": "전체", "p": "광고비 138만원(-10.9%), 매출액 1,924만원(-8.3%), ROAS 1,393.0%(전월 1,353.7%), 전환율 21.2%(+3.4%p). 광고비 감소는 연휴에 웹사이트 전환 캠페인을 OFF하고 카탈로그만 운영한 영향입니다. 웹사이트 전환 캠페인은 월 매출 약 1,823만원, ROAS 1,527%의 높은 효율을 유지했고(상시 테스트 운영 ROAS 1,725.7%, 9/11~9/22 추석세일 1,288.6%), 9/28부터 재개했습니다. 10월에는 신규 타겟 유입 확보를 위해 신규 소구 5종 소재(맛·성분안전성·휴대간편성·재구매·식이섬유함량)를 제작 중이며 차주 라이브 예정입니다."}]}, {"title": "메타", "items": [{"b": "전체", "p": "광고비 418만원(-14.5%), 매출액 2,120만원(-29.9%), ROAS 507.1%(전월 618.7%). 연휴 전 광고 축소로 매출 볼륨이 줄었지만 카탈로그와 시크릿링크 효율은 안정적으로 유지됐습니다. 자사몰은 미리추석 캠페인이 효율 저조(ROAS 52.9%~218.5%)로 조기 종료되고 시크릿링크 중심으로 운영됐습니다(시크릿링크_검색 매출 757만원, ROAS 552.3%)."}, {"b": "카탈로그", "p": "9/1부터 예산을 10% 감액해 빈도수가 8월 3.3에서 9월 2.87로 낮아졌고 ROAS가 671.1%→732.0%로 개선됐습니다. 점진적 증액이 가능하다는 판단이지만 광고비 이슈로 10월에도 현 예산을 동일하게 운영할 계획입니다."}, {"b": "파트너십", "p": "전환율과 매출이 감소했고 효율이 993.7%→518.8%로 낮아졌습니다(매출 930만원→393만원). 장기 노출에 따른 소재 피로도를 개선하기 위해, 만들어 먹이다 제품 퓨레로 전환한 고객의 목소리를 담은 자체 제작 영상(외부 파트너십 없이도 메타 집행 가능)을 대행사가 제안했습니다. 9/28부터 카탈로그·파트너십 운영을 재개했습니다."}]}]},
+    quad: {"good": ["전체 매출액 1억 1,469만원, ROAS 868.3% — 연휴 광고 축소에도 광고비 1,321만원(-1.4%) 수준으로 800%대 ROAS 유지", "쇼핑검색 연휴 전 1~3주차 선제 증액(광고비 +16.8%)으로 매출 3,930만원(+13.7%) — 퓨레 캠페인 월 매출 3,523만원, 일반K ROAS 476.0%→522.6%·브랜드K 1,957.9%→2,340.1%로 개선", "파워링크 매출 730만원(+36.7%), 전환율 12.3%(+1.4%p) — 9/29~30 스페셜 빅딜 이벤트 구간 전환율 24%, 이벤트 제외 1~4주차는 11%대로 8월 평균 수준", "GFA 웹사이트 전환 캠페인 ROAS 1,527%(카탈로그 포함 합계 1,393.0%) 유지 — 연휴 OFF·9/28 재개에도 전환율 21.2%(+3.4%p) 상승"], "bad": ["추석 연휴 광고 축소로 클릭 -16%, 전체 매출 -9.2%(1억 2,627만원→1억 1,469만원) — 네이버 SA는 9/18경부터, GFA·메타는 9/23부터 광고비가 줄었고 9/28 재개", "메타 매출 3,026만원→2,120만원(-29.9%) — 미리추석 캠페인 효율 저조(ROAS 52.9%~218.5%)로 조기 종료, 웰컴박스_공짜 ROAS 26.6%", "메타 파트너십 영상 효율 993.7%→518.8%, 매출 -57.7% — 장기 노출에 따른 소재 피로도", "쇼핑검색 과자 캠페인은 유입이 늘었지만 효율 개선이 제한적(과자(떡뻥)_일반K ROAS 201.1%)"], "doing": ["메타 카탈로그 9/1부터 예산 10% 감액 — 빈도수 3.3→2.87로 낮아지고 ROAS 671.1%→732.0%로 개선(10월에도 동일 예산 운영)", "파워링크 전환 검색어 등록·주력 키워드 노출 모니터링, 고비용 무전환 키워드 입찰가 하향, 추석 전후 예산 유동 집행", "GFA 추석세일 프로모(9/11~9/22) 운영 — 광고비 54만원으로 매출 701만원, 연휴엔 웹사이트 전환 OFF 후 카탈로그만 운영하고 9/28 재개", "네이버 키워드·검색어 3개월 분석 기반 증액·제외 후보 선별을 이번 달부터 리포트에 반영(#키워드·검색어)"], "need": ["10월 초 연휴 주간 일예산 5~10% 감액 운영, 확보한 예산은 10월 넾다세일 기간에 집중 투여 (파워링크·쇼핑검색)", "쌀과자·과자 캠페인 지면 효율과 검색어 점검 후 입찰가 조정 (과자(떡뻥)_일반K ROAS 201.1%, 광고비 178만원)", "GFA 신규 타겟 유입용 신규 소구 소재 5종(맛·성분안전성·휴대간편성·재구매·식이섬유함량) 차주 라이브 예정", "메타 파트너십 소재 피로도 개선 — 파트너십 없이 자체 제작한 고객 후기형 영상(만들어 먹이다 제품 퓨레로 전환한 고객의 목소리) 제안, 연휴엔 마지막 날부터 광고를 원복해 회복 흐름 선점"]},
+  },
+  rosy: {
+    label: '로지오가닉',
+    title: '로지오가닉 월간 리포트',
+    brandRe: /로지|rosy|목소리도맑음/i,
+    campaigns: [
+      {media: "search", src: "브랜드검색", chan: "store", name: "로지오가닉_브검_모바일", imp: 2811, clk: 1272, cost: 880000.0, conv: 411, rev: 9818930},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_과자 캠페인_신제품", imp: 37746, clk: 391, cost: 575833, conv: 62, rev: 1208540},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_과자_브랜드K", imp: 94308, clk: 1301, cost: 1701502, conv: 358, rev: 7376960},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_음료_브랜드K", imp: 50586, clk: 835, cost: 883071, conv: 118, rev: 4154250},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_구매K", imp: 29102, clk: 449, cost: 526775, conv: 52, rev: 1202710},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_그외K", imp: 16976, clk: 142, cost: 78773, conv: 12, rev: 370820},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_대표K", imp: 37210, clk: 528, cost: 548794, conv: 42, rev: 956700},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_신제품K", imp: 13040, clk: 69, cost: 53859, conv: 5, rev: 85840},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_탐색K", imp: 64624, clk: 585, cost: 451972, conv: 37, rev: 619740},
+      {media: "gfa", src: "GFA", chan: "store", name: "로지오가닉_상시_테스트 운영", imp: 0, clk: 0, cost: 0, conv: 8, rev: 298300},
+      {media: "gfa", src: "GFA", chan: "store", name: "로지오가닉_카탈로그_리타겟기반", imp: 9630, clk: 126, cost: 173028, conv: 32, rev: 684050},
+      {media: "meta", src: "메타", chan: "store", name: "260506_로지오가닉_과자(상시)_ 간식고민", imp: 39475, clk: 544, cost: 478247, conv: 96, rev: 2882306},
+      {media: "meta", src: "메타", chan: "store", name: "260506_로지오가닉_과자(상시)_할인", imp: 99310, clk: 1459, cost: 1301406, conv: 272, rev: 6819239},
+      {media: "meta", src: "메타", chan: "mall", name: "260818_자사몰_과자시크릿링크_10봉", imp: 149754, clk: 3098, cost: 1355066, conv: 350, rev: 8682700},
+      {media: "meta", src: "메타", chan: "mall", name: "260818_자사몰_과자시크릿링크_먼저사신", imp: 152, clk: 5, cost: 1887, conv: 0, rev: 0},
+      {media: "meta", src: "메타", chan: "mall", name: "260918_자사몰_로지음료시크릿링크_사라져요", imp: 13894, clk: 136, cost: 125303, conv: 2, rev: 57500},
+      {media: "meta", src: "메타", chan: "mall", name: "260918_자사몰_로지음료시크릿링크_삼쁠원", imp: 8115, clk: 87, cost: 67961, conv: 1, rev: 29700},
+    ],
+    monthlyByMedia: {
+      search: [
+        {m:'1월', cost:3022577,  rev:13346120},
+        {m:'2월', cost:3852828,  rev:14517640},
+        {m:'3월', cost:4937097,  rev:18320440},
+        {m:'4월', cost:4547781,  rev:15883840},
+        {m:'5월', cost:4222496,  rev:11223890},
+        {m:'6월', cost:3474296,  rev:11323150},
+        {m:'7월', cost:4031232,  rev:20196550},
+        {m:'8월', cost:3973354.33, rev:16709610},
+      ],
+      gfa: [
+        {m:'1월', cost:196800,  rev:1568710},
+        {m:'2월', cost:396397,  rev:1086510},
+        {m:'3월', cost:274375,  rev:1225160},
+        {m:'4월', cost:228045,  rev:1207640},
+        {m:'5월', cost:125052,  rev:709500},
+        {m:'6월', cost:193506,  rev:918580},
+        {m:'7월', cost:575648,  rev:622670},
+        {m:'8월', cost:789077, rev:1503000},
+      ],
+      meta: [
+        {m:'1월', cost:0, rev:0},
+        {m:'2월', cost:0, rev:0},
+        {m:'3월', cost:726457,   rev:1227500},
+        {m:'4월', cost:576455,   rev:990785},
+        {m:'5월', cost:1025707,  rev:5135976},
+        {m:'6월', cost:1514553,  rev:9657456},
+        {m:'7월', cost:1883461,  rev:11202322},
+        {m:'8월', cost:2796824, rev:18736873},
+      ],
+    },
+    // 3개월(7~9월) 키워드·검색어 분석 데이터: mon=파워링크 비브랜드 월 합계, kw=[그룹,키워드,[노출,클릭,광고비,구매,매출]×3], ext=확장 미등록 검색어, shop=쇼핑검색 검색어·패턴·그룹, terms=전환 검색어
+    m3: {"mon": {"07": {"imp": 36282, "clk": 761, "cost": 1037176, "conv": 85, "rev": 1821630}, "08": {"imp": 33231, "clk": 726, "cost": 991932, "conv": 86, "rev": 1889080}, "09": {"imp": 57345, "clk": 899, "cost": 1104542, "conv": 70, "rev": 1427960}}, "kw": [["구매K", "9개월아기간식", [821, 8, 12494, 1, 20200], [792, 17, 24724, 2, 86500], [1084, 24, 32709, 0, 0]], ["구매K", "돌아기간식", [1475, 19, 25832, 1, 20400], [1395, 14, 19138, 4, 112900], [1968, 20, 28776, 1, 29880]], ["구매K", "떡뻥", [6995, 193, 262573, 26, 646330], [6970, 181, 252422, 27, 586930], [15686, 61, 78614, 2, 65600]], ["구매K", "아기과자", [1859, 34, 62181, 4, 99600], [1399, 25, 45821, 5, 106800], [2776, 87, 148450, 10, 211860]], ["구매K", "아기떡뻥", [1601, 102, 146766, 18, 347100], [1453, 88, 112326, 14, 301200], [2838, 101, 132935, 15, 303670]], ["구매K", "아기쌀과자", [242, 6, 7594, 0, 0], [250, 4, 3858, 0, 0], [535, 8, 9816, 2, 34500]], ["구매K", "아기유기농과자", [68, 5, 5550, 1, 13200], [55, 6, 6293, 1, 19800], [51, 4, 3362, 0, 0]], ["구매K", "유아과자", [223, 7, 12931, 1, 20200], [46, 4, 7214, 1, 28600], [398, 22, 38090, 0, 0]], ["그외K", "PUFFS과자", [21, 2, 437, 0, 0], [34, 6, 1061, 0, 0], [62, 9, 1851, 0, 0]], ["그외K", "PUFFS쌀과자", [10, 2, 917, 0, 0], [43, 11, 3635, 5, 86700], [23, 2, 579, 0, 0]], ["대표K", "10개월아기간식", [712, 7, 10239, 1, 19800], [519, 11, 14667, 0, 0], [795, 11, 14548, 2, 30400]], ["대표K", "6개월떡뻥", [208, 3, 3446, 0, 0], [193, 5, 4565, 0, 0], [293, 8, 5118, 1, 16400]], ["대표K", "6개월아기간식", [563, 6, 10236, 1, 25100], [474, 11, 16358, 0, 0], [713, 9, 15191, 2, 71300]], ["대표K", "6개월아기떡뻥", [247, 7, 7929, 0, 0], [212, 6, 5765, 2, 27800], [363, 14, 10611, 1, 17400]], ["대표K", "7개월아기간식", [1160, 30, 44849, 1, 23100], [1030, 24, 36216, 2, 34700], [1065, 34, 49125, 2, 29830]], ["대표K", "8개월아기간식", [954, 19, 34010, 0, 0], [770, 14, 24073, 1, 20300], [1030, 21, 31562, 0, 0]], ["대표K", "돌아기과자", [317, 9, 14573, 1, 9900], [286, 10, 15615, 2, 55400], [472, 22, 31384, 3, 56830]], ["대표K", "쌀과자종류", [462, 7, 4173, 0, 0], [482, 10, 6698, 0, 0], [653, 9, 5703, 0, 0]], ["대표K", "아기간식", [1862, 34, 96713, 1, 27400], [1642, 55, 158009, 4, 82000], [1415, 22, 61687, 0, 0]], ["대표K", "아기뻥튀기", [621, 2, 1922, 0, 0], [580, 5, 4991, 0, 0], [1003, 10, 10483, 1, 13500]], ["대표K", "아기쌀튀밥", [353, 7, 10376, 2, 30900], [281, 2, 3176, 1, 14800], [487, 6, 7141, 0, 0]], ["대표K", "아기퍼프과자", [112, 2, 681, 0, 0], [104, 2, 830, 1, 38900], [174, 15, 4179, 3, 55240]], ["대표K", "아이간식", [650, 5, 14926, 1, 21900], [578, 4, 11817, 0, 0], [752, 6, 16999, 0, 0]], ["대표K", "어린이간식", [636, 2, 5133, 0, 0], [505, 8, 20525, 1, 33200], [708, 6, 15452, 0, 0]], ["대표K", "유아간식", [278, 7, 13116, 0, 0], [363, 10, 19337, 0, 0], [1077, 18, 31603, 0, 0]], ["대표K", "퍼프떡뻥", [63, 6, 2090, 2, 45500], [22, 3, 1315, 0, 0], [86, 12, 4978, 4, 69000]], ["탐색K", "떡뻥언제부터", [2970, 16, 6899, 1, 16200], [2714, 17, 7680, 1, 18500], [3868, 26, 6276, 0, 0]], ["탐색K", "아기간식", [21, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1309, 22, 53246, 2, 33300]], ["탐색K", "아기떡뻥언제부터", [852, 1, 1073, 0, 0], [762, 3, 2333, 0, 0], [1172, 12, 5907, 1, 14900]], ["탐색K", "유기농과자", [410, 9, 12293, 0, 0], [483, 8, 10639, 0, 0], [586, 9, 11222, 0, 0]], ["탐색K", "유기농떡뻥", [359, 31, 25158, 4, 87400], [404, 24, 19373, 3, 55050], [725, 39, 31603, 5, 74800]], ["탐색K", "유기농아기간식", [86, 11, 7662, 1, 9900], [52, 5, 3859, 0, 0], [95, 7, 5671, 0, 0]], ["탐색K", "유아간식추천", [140, 7, 7794, 0, 0], [114, 7, 7701, 0, 0], [197, 9, 10036, 0, 0]]], "terms": [["10개월아기간식", "쇼핑/파워링크", [8, 11, 14], [1, 0, 3], [19800, 0, 45100], 44562], ["12개월아기간식", "쇼핑/파워링크", [5, 7, 5], [0, 0, 2], [0, 0, 32930], 21221], ["15개월아기간식", "쇼핑/파워링크", [6, 6, 5], [0, 1, 1], [0, 19800, 66700], 21030], ["18개월아기과자", "쇼핑/파워링크", [3, 13, 4], [1, 1, 0], [13200, 41200, 0], 25049], ["20개월아기과자", "쇼핑/파워링크", [1, 7, 8], [0, 1, 4], [0, 14500, 85960], 16094], ["6개월떡뻥", "쇼핑/파워링크", [3, 6, 10], [0, 0, 1], [0, 0, 16400], 15712], ["6개월아기간식", "쇼핑/파워링크", [6, 13, 11], [1, 1, 2], [25100, 13400, 71300], 46958], ["6개월아기떡뻥", "쇼핑/파워링크", [9, 12, 16], [0, 2, 1], [0, 27800, 17400], 32493], ["7개월간식", "쇼핑/파워링크", [5, 3, 7], [1, 0, 0], [14700, 0, 0], 17241], ["7개월아기간식", "쇼핑/파워링크", [34, 28, 42], [1, 2, 3], [23100, 34700, 49630], 147975], ["7개월아기과자", "쇼핑/파워링크", [7, 8, 7], [0, 3, 1], [0, 53600, 19800], 23385], ["7개월아기떡뻥", "쇼핑/파워링크", [8, 2, 5], [1, 1, 0], [45900, 20400, 0], 12086], ["8개월아기간식", "쇼핑/파워링크", [26, 15, 21], [0, 1, 0], [0, 20300, 0], 99449], ["9개월아기간식", "쇼핑/파워링크", [15, 19, 26], [1, 2, 0], [20200, 86500, 0], 83492], ["9개월아기과자", "쇼핑/파워링크", [7, 6, 4], [0, 0, 0], [0, 0, 0], 18864], ["PUFFS과자", "파워링크", [3, 6, 9], [0, 0, 0], [0, 0, 0], 3604], ["PUFFS쌀과자", "파워링크", [2, 11, 2], [0, 5, 0], [0, 86700, 0], 5131], ["PUFFS아기과자", "쇼핑/파워링크", [7, 0, 1], [3, 0, 0], [64200, 0, 0], 8335], ["PUFF과자", "쇼핑/파워링크", [4, 1, 4], [3, 1, 2], [56500, 28000, 26630], 7165], ["PUFF아기과자", "쇼핑/파워링크", [1, 3, 2], [1, 2, 1], [19800, 39600, 14700], 6683], ["ROSYORGANIC", "쇼핑/파워링크", [2, 4, 6], [1, 1, 2], [27400, 21900, 41300], 11051], ["과자", "쇼핑/파워링크", [21, 19, 26], [0, 0, 0], [0, 0, 0], 66682], ["넾다세일", "파워링크", [93, 0, 0], [0, 0, 0], [0, 0, 0], 82028], ["돌아기간식", "쇼핑/파워링크", [22, 14, 23], [1, 4, 1], [20400, 112900, 29880], 83209], ["돌아기과자", "쇼핑/파워링크", [14, 11, 21], [2, 2, 3], [18900, 55400, 56830], 67729], ["떡뻥", "쇼핑/파워링크", [208, 196, 78], [29, 31, 6], [692530, 655730, 158830], 675521], ["떡뻥언제부터", "파워링크", [25, 36, 33], [1, 1, 0], [16200, 18500, 0], 37594], ["로지과자", "파워링크", [0, 1, 3], [0, 1, 2], [0, 14500, 33300], 861], ["로지아기과자", "쇼핑/파워링크", [4, 0, 3], [2, 1, 1], [34700, 14900, 29360], 4679], ["로지오가닉", "쇼핑/파워링크", [308, 286, 412], [132, 94, 181], [2895560, 2231840, 4099740], 907547], ["로지오가닉과자", "쇼핑/파워링크", [5, 0, 2], [3, 0, 1], [42800, 0, 14900], 7233], ["로지오가닉도라지", "쇼핑/파워링크", [0, 1, 2], [0, 1, 2], [0, 22900, 64050], 2815], ["로지오가닉떡뻥", "쇼핑/파워링크", [4, 8, 4], [2, 0, 1], [40200, 0, 20500], 6751], ["로지오가닉로지팝", "쇼핑/파워링크", [6, 8, 2], [0, 0, 0], [0, 0, 0], 1209], ["로지오가닉몰", "파워링크", [0, 3, 20], [0, 0, 2], [0, 0, 56700], 7992], ["로지오가닉배도라지", "쇼핑/파워링크", [9, 14, 40], [2, 2, 11], [49800, 159800, 427700], 59846], ["로지오가닉배도라지즙", "쇼핑/파워링크", [42, 87, 89], [12, 7, 12], [671100, 385700, 896020], 145894], ["로지오가닉배도라지즙진한", "쇼핑/파워링크", [0, 0, 1], [0, 0, 3], [0, 0, 110700], 1489], ["로지오가닉보리차", "쇼핑/파워링크", [10, 37, 57], [3, 8, 6], [44200, 155200, 113540], 27188], ["로지오가닉퍼프", "쇼핑/파워링크", [2, 1, 4], [1, 1, 2], [29200, 19800, 37160], 1543], ["로지팝", "쇼핑/파워링크", [3, 4, 42], [2, 1, 11], [55500, 49900, 282000], 3713], ["롱뻥", "쇼핑/파워링크", [5, 7, 7], [0, 0, 0], [0, 0, 0], 14032], ["목소리도맑음", "쇼핑/파워링크", [8, 9, 16], [1, 1, 6], [80900, 31200, 313500], 5262], ["쌀과자종류", "파워링크", [15, 17, 11], [0, 0, 0], [0, 0, 0], 29392], ["아기간식", "쇼핑/파워링크", [111, 123, 141], [10, 12, 16], [261960, 259500, 300470], 785682], ["아기과자", "쇼핑/파워링크", [233, 171, 355], [48, 34, 69], [1096050, 629700, 1442360], 1308117], ["아기과자떡뻥", "쇼핑/파워링크", [4, 6, 5], [2, 0, 0], [15000, 0, 0], 8834], ["아기과자추천", "쇼핑/파워링크", [7, 3, 5], [3, 0, 1], [51900, 0, 16400], 25829], ["아기도라지배즙", "쇼핑", [6, 4, 14], [1, 0, 1], [40850, 0, 25500], 31908], ["아기떡뻥", "쇼핑/파워링크", [115, 95, 103], [20, 15, 16], [388600, 323100, 336270], 426669], ["아기떡뻥언제부터", "파워링크", [1, 3, 12], [0, 0, 1], [0, 0, 14900], 9313], ["아기배도라지", "쇼핑", [3, 14, 16], [2, 1, 4], [51000, 22900, 92150], 40851], ["아기배도라지즙", "쇼핑", [44, 61, 164], [2, 6, 23], [54300, 172200, 727560], 339062], ["아기보리차", "쇼핑", [3, 54, 161], [1, 6, 13], [9900, 77400, 204680], 208744], ["아기보리차배즙", "쇼핑", [0, 0, 1], [0, 0, 3], [0, 0, 83400], 55], ["아기보리차추천", "쇼핑", [0, 2, 13], [0, 0, 1], [0, 0, 9900], 16090], ["아기뻥튀기", "파워링크", [1, 8, 10], [0, 0, 1], [0, 0, 13500], 18863], ["아기쌀과자", "쇼핑/파워링크", [15, 22, 18], [0, 4, 2], [0, 106000, 34500], 66086], ["아기쌀튀밥", "쇼핑/파워링크", [8, 2, 5], [2, 1, 0], [30900, 14800, 0], 21540], ["아기요거트과자", "쇼핑/파워링크", [1, 4, 10], [0, 0, 1], [0, 0, 16700], 17412], ["아기유기농과자", "쇼핑/파워링크", [6, 8, 5], [1, 1, 0], [13200, 19800, 0], 18562], ["아기퍼프과자", "쇼핑/파워링크", [3, 3, 20], [0, 1, 3], [0, 38900, 55240], 10160], ["아기한입과자", "쇼핑/파워링크", [3, 1, 3], [1, 1, 1], [14900, 19800, 14700], 4816], ["애기과자", "쇼핑/파워링크", [14, 3, 6], [0, 0, 0], [0, 0, 0], 40004], ["어린이간식", "파워링크", [1, 8, 6], [0, 1, 0], [0, 33200, 0], 38666], ["오가닉떡뻥", "쇼핑/파워링크", [1, 2, 1], [0, 2, 1], [0, 57600, 19800], 1431], ["유기농과자", "쇼핑/파워링크", [11, 9, 9], [0, 0, 0], [0, 0, 0], 35899], ["유기농떡뻥", "쇼핑/파워링크", [32, 26, 39], [4, 3, 5], [87400, 55050, 74800], 80622], ["유기농아기간식", "쇼핑/파워링크", [7, 6, 3], [1, 0, 0], [9900, 0, 0], 11708], ["유아간식", "쇼핑/파워링크", [24, 29, 47], [1, 2, 1], [14900, 56200, 19800], 179022], ["유아간식추천", "쇼핑/파워링크", [12, 13, 15], [0, 1, 1], [0, 15000, 14900], 55341], ["유아과자", "쇼핑/파워링크", [18, 6, 29], [3, 0, 1], [70200, 0, 16700], 97629], ["유아과자추천", "쇼핑/파워링크", [6, 4, 6], [0, 1, 0], [0, 21900, 0], 14948], ["유아배도라지즙", "쇼핑", [0, 8, 13], [0, 0, 3], [0, 0, 193800], 27755], ["첨가물없는떡뻥", "쇼핑/파워링크", [2, 1, 1], [2, 1, 0], [66000, 22900, 0], 2307], ["퍼프떡뻥", "쇼핑/파워링크", [7, 4, 12], [4, 1, 4], [89100, 14900, 69000], 9175]], "monthSum": {"n": 75, "cost": 727397, "conv": 43, "rev": 983540, "byMonth": [{"cost": 223942, "conv": 11}, {"cost": 215690, "conv": 17}, {"cost": 287765, "conv": 15}]}, "ext": {"rows": [["로지아기과자", 6, 3, 49600, 3763, [2, 1, 0]], ["로지과자", 4, 3, 47800, 861, [0, 1, 2]], ["로지오가닉PUFFS", 2, 2, 92900, 495, [1, 0, 1]], ["로지오가닉몰", 23, 2, 56700, 7992, [0, 0, 2]], ["무첨가쌀과자", 4, 2, 41700, 2602, [0, 2, 0]], ["애기떡뻥", 13, 2, 37700, 14780, [1, 0, 1]], ["1살아기간식", 6, 2, 36000, 4596, [0, 0, 2]], ["8개월아가가먹을수있는까까", 1, 2, 32200, 348, [0, 2, 0]], ["로지팝과자", 4, 2, 29900, 2291, [2, 0, 0]], ["두돌아기요거트과다", 1, 2, 25840, 777, [0, 0, 2]]], "tot": {"terms": 133, "conv": 145, "rev": 3130550, "cost": 1462657}}, "shop": {"terms": [["12개월아기간식", 393, [1, 0, 1], [0, 0, 2], 3335, 32930], ["14개월과자", 44, [0, 1, 1], [0, 2, 0], 3475, 32700], ["20개월아기과자", 131, [0, 1, 4], [0, 0, 3], 9245, 66260], ["2살아기과자", 57, [1, 0, 1], [0, 0, 2], 3672, 58930], ["4세간식", 217, [1, 2, 2], [0, 0, 0], 9668, 0], ["7개월간식", 647, [3, 2, 4], [1, 0, 0], 10286, 14700], ["7개월아기간식", 2380, [4, 1, 6], [0, 0, 1], 13557, 19800], ["7개월아기과자", 198, [5, 2, 5], [0, 2, 1], 14531, 53600], ["PUFFS아기과자", 11, [2, 0, 0], [2, 0, 0], 3675, 33600], ["PUFF아기과자", 18, [1, 3, 2], [1, 2, 1], 6683, 74100], ["ROSYORGANIC", 155, [2, 4, 5], [1, 1, 1], 10978, 62800], ["두돌과자", 243, [2, 2, 1], [0, 0, 1], 7757, 14700], ["두돌아기과자", 46, [0, 0, 5], [0, 0, 1], 9004, 14850], ["떡뻥", 2759, [15, 15, 17], [3, 4, 4], 81912, 208230], ["로지쌀과자", 29, [0, 3, 2], [0, 1, 0], 4226, 35300], ["로지오가닉", 18354, [278, 251, 342], [126, 88, 170], 872106, 8617490], ["로지오가닉과자", 70, [4, 0, 2], [3, 0, 1], 6899, 57700], ["로지오가닉도라지", 47, [0, 1, 2], [0, 1, 2], 2815, 86950], ["로지오가닉로지팝", 76, [5, 7, 2], [0, 0, 0], 770, 0], ["로지오가닉배도라지", 708, [9, 14, 39], [2, 2, 10], 59093, 624400], ["로지오가닉배도라지즙", 2159, [41, 87, 89], [12, 7, 12], 145018, 1952820], ["로지오가닉배도라지즙진한", 4, [0, 0, 1], [0, 0, 3], 1489, 110700], ["로지오가닉배즙", 65, [0, 3, 6], [0, 1, 1], 7396, 161800], ["로지오가닉보리차", 883, [10, 36, 54], [3, 8, 6], 26116, 312940], ["로지오가닉쌀과자", 230, [3, 3, 1], [0, 0, 0], 5735, 0], ["로지오가닉아기보리차", 75, [0, 4, 1], [0, 0, 0], 1331, 0], ["로지팝", 153, [0, 2, 41], [0, 1, 11], 2365, 331900], ["롱뻥", 665, [0, 4, 5], [0, 0, 0], 9120, 0], ["목소리도맑음", 274, [7, 9, 16], [1, 1, 6], 4838, 425600], ["목소리도맑음배도라지", 45, [3, 0, 4], [0, 0, 1], 1213, 101400], ["목소리맑음", 36, [2, 1, 1], [1, 1, 0], 462, 108300], ["배도라지", 657, [0, 0, 7], [0, 0, 0], 8452, 0], ["배도라지즙로지오가닉", 28, [3, 1, 1], [0, 0, 0], 3276, 0], ["배도라지즙아기", 507, [1, 1, 5], [0, 1, 1], 8365, 48400], ["보리차아기", 140, [0, 1, 4], [0, 1, 0], 5582, 31900], ["보리차파우치", 115, [0, 1, 4], [0, 0, 0], 4556, 0], ["신생아보리차", 823, [1, 2, 3], [0, 0, 0], 1169, 0], ["아기간식", 17192, [77, 67, 96], [9, 8, 14], 414103, 679230], ["아기간식과자", 57, [2, 0, 2], [1, 0, 1], 7820, 59600], ["아기과자", 21371, [191, 145, 266], [43, 28, 59], 1041623, 2720150], ["아기과자17개월", 1, [0, 0, 1], [0, 0, 2], 1870, 40760], ["아기과자추천", 496, [2, 2, 4], [3, 0, 1], 14118, 68300], ["아기도라지배즙", 1394, [6, 4, 14], [1, 0, 1], 31908, 66350], ["아기딸기과자", 158, [2, 2, 2], [0, 0, 0], 10681, 0], ["아기떡뻥", 764, [13, 7, 2], [2, 1, 1], 34642, 96000], ["아기배도라지", 2407, [3, 14, 16], [2, 1, 4], 40851, 166050], ["아기배도라지즙", 18293, [44, 61, 164], [2, 6, 23], 339062, 954060], ["아기배도라지즙추천", 523, [3, 0, 6], [0, 0, 0], 11724, 0], ["아기배즙", 2161, [2, 4, 7], [0, 0, 2], 16759, 49500], ["아기보리차", 14632, [3, 54, 161], [1, 6, 13], 208744, 291980], ["아기보리차배즙", 4, [0, 0, 1], [0, 0, 3], 55, 83400], ["아기보리차추천", 712, [0, 2, 13], [0, 0, 1], 16090, 9900], ["아기보리차파우치", 295, [0, 2, 9], [0, 0, 1], 10475, 9900], ["아기쌀과자", 1521, [4, 6, 8], [0, 1, 0], 27158, 21900], ["아기옹알이과자", 29, [0, 0, 2], [0, 0, 2], 3503, 28200], ["아기요거트과자", 402, [0, 3, 4], [0, 0, 0], 11076, 0], ["아기첫과자", 101, [1, 2, 3], [0, 1, 0], 9247, 20800], ["아이베넷보리차", 29, [0, 0, 1], [0, 0, 2], 1202, 49500], ["애기과자", 569, [10, 2, 1], [0, 0, 0], 21532, 0], ["애기들간식", 157, [1, 4, 1], [0, 0, 0], 9808, 0], ["애기쌀과자", 59, [1, 1, 3], [0, 0, 0], 7633, 0], ["어린이배즙", 572, [0, 0, 9], [0, 0, 2], 9667, 25800], ["어린이보리차", 776, [0, 1, 8], [0, 0, 0], 9099, 0], ["어린이음료", 1599, [0, 0, 8], [0, 0, 0], 9451, 0], ["영아간식", 243, [2, 2, 1], [0, 0, 0], 8926, 0], ["영아과자", 181, [4, 0, 6], [0, 0, 0], 17883, 0], ["오가닉과자", 162, [2, 4, 1], [0, 0, 0], 9978, 0], ["요거트과자", 646, [2, 2, 4], [0, 0, 0], 13753, 0], ["유아간식", 4640, [17, 19, 29], [1, 2, 1], 114966, 90900], ["유아간식추천", 552, [5, 6, 4], [0, 1, 0], 27790, 15000], ["유아과자", 1222, [11, 5, 9], [2, 0, 1], 49188, 66700], ["유아도라지배즙", 258, [0, 0, 5], [0, 0, 0], 6403, 0], ["유아배도라지즙", 1060, [0, 8, 13], [0, 0, 3], 27755, 193800], ["유아보리차", 604, [0, 5, 4], [0, 0, 0], 7610, 0], ["유아용과자", 250, [3, 3, 5], [0, 1, 0], 18474, 21900], ["지후떡뻥", 419, [1, 1, 1], [2, 0, 0], 5244, 55000], ["파우치보리차", 62, [0, 1, 4], [0, 0, 1], 5398, 9900]], "patterns": [["아기", 8344, 136740, 1942, 2920027, 310, 6611090], ["과자", 5462, 47646, 1059, 1800566, 198, 4027990], ["간식", 3376, 49155, 535, 906350, 57, 1206870], ["도라지", 1067, 32442, 443, 552078, 52, 1540510], ["보리차", 1015, 24344, 339, 320085, 37, 602480], ["유아", 1175, 14119, 203, 333728, 19, 558310], ["개월", 1720, 15967, 148, 230775, 31, 567180], ["떡뻥", 262, 5133, 89, 148046, 19, 398830], ["배즙", 149, 5434, 70, 86123, 13, 307550], ["쌀과자", 1909, 7150, 70, 103200, 6, 127900], ["요거트", 1588, 11244, 44, 73120, 0, 0], ["애기", 447, 2180, 41, 65642, 0, 0], ["어린이", 500, 4957, 42, 45999, 3, 38700], ["음료", 608, 5936, 25, 27532, 1, 9900], ["추천", 616, 5841, 80, 123640, 10, 180300]], "all": {"terms": 16956, "imp": 199558, "clk": 2629, "cost": 3933427, "conv": 378, "rev": 8239580}, "groups": [["SSA_로지오가닉_과자 캠페인_신제품", [22659, 220, 349239, 26, 511560, 2.3], [21044, 212, 325606, 28, 708000, 2.5], [37746, 391, 575833, 62, 1208540, 2.7]], ["SSA_로지오가닉_과자_브랜드K", [54284, 742, 1024153, 195, 4161140, 2.5], [54041, 770, 1033908, 161, 3410700, 2.6], [94308, 1301, 1701502, 358, 7376960, 2.6]], ["SSA_로지오가닉_음료_브랜드K", [8868, 157, 103774, 25, 1056800, 5.5], [21695, 374, 248174, 45, 1564700, 5.7], [50586, 835, 883070, 118, 4154250, 5.2]]]}},
+    strategy: [{"t": "음료 그룹(음료_브랜드K): 평균노출순위 5위권, 확대하며 효율 희석", "p": "음료_브랜드K 평균노출순위 5.5→5.2위로 5위 안팎입니다(아기배도라지즙·아기보리차 등 일반 검색어 비중이 커서 순위가 낮은 편으로 추정). 광고비 10만원→88만원(+751%) 확대에 ROAS는 1,018%→470%로 희석됐지만 아직 높은 편입니다. 대표 검색어의 순위를 끌어올리려면 입찰 조정과 함께 상품명·대표이미지·가격 혜택을 정비해야 합니다."}, {"t": "새로 크는 음료 카테고리 선점: 배도라지즙·보리차", "p": "‘아기배도라지즙’ 구매 2→6→23건, ‘아기보리차’ 1→6→13건으로 빠르게 늘고 있습니다. 경쟁이 자리 잡기 전에 점유율을 늘릴 시기지만, 3개월 ROAS는 배도라지즙 281%, 보리차 140%로 보리차 효율이 낮아 가격·혜택 표기와 이미지 개선을 먼저 하고 확대하는 순서를 권합니다."}, {"t": "예산 재배분: 효율 없는 패턴을 줄이고 전환 좋은 검색어로", "p": "제외 제안한 ‘요거트’(44회, 7만원)와 ‘애기’(41회, 7만원) 패턴은 3개월 구매가 0건입니다. 이 예산을 대표 단어 ‘아기과자’(3개월 104만원, ROAS 261%)의 순위 방어와 전환율이 높은 월령·퍼프 계열 롱테일로 옮기는 것이 좋습니다."}, {"t": "과자 신제품 그룹: 소재·가격 경쟁력 점검", "p": "신제품 그룹은 광고비 35만원→58만원(+65%) 확대하며 ROAS가 146%→210%로 개선됐지만 아직 200%대 초반입니다. 신제품은 브랜드 인지가 낮아 경쟁 상품에 밀리기 쉬우니 대표이미지·리뷰·가격 혜택을 점검한 뒤 입찰을 조정하세요."}, {"t": "경쟁 비교에 필요한 자료", "p": "경쟁사 직접 비교(가격·리뷰 수·노출 순위)는 이 데이터에 없어서, 자사 순위·CTR·전환 데이터로 추정한 제안입니다. 실제 경쟁 우위를 보려면 네이버 쇼핑 검색 결과의 경쟁 상품 가격·리뷰 수·혜택과 쇼핑인사이트 클릭량 순위를 함께 확인해야 합니다."}],
+    comment: {"overall": "전체 광고비 920만원(+21.8%), 매출액 4,525만원(+22.5%), ROAS 491.6%(전월 488.8%). 쇼핑검색과 메타 자사몰이 성장을 이끌었고, GFA 웹사이트 전환 캠페인 OFF로 GFA 비중은 크게 줄었습니다. 주차별로는 3주차 매출이 가장 높았고(1,407만원, ROAS 562%), 추석 연휴가 낀 4주차는 광고 축소로 광고비·매출이 함께 감소했습니다(ROAS 519%). 9/28 운영 재개 후 광고비와 매출이 회복되는 흐름입니다. 10월은 파워링크 효율 개선과 메타 음료 시크릿링크 소재 교체 후 운영 재개를 중심으로 진행합니다.", "groups": [{"title": "9월 주차별 운영", "tag": "이벤트·연휴", "items": [{"b": "흐름", "p": "1주차 광고비 증액(매출 1,005만원, ROAS 469%) → 2주차 9/7 추석세일 시작, 연휴 전 예산 확대(메타 전환율 감소·검색광고 비용 증가로 ROAS 416%) → 3주차 추석세일 2주차, 쇼핑검색 음료 캠페인과 메타 협력광고 매출 증가로 ROAS 562% → 4주차 추석 연휴·배송 마감으로 광고 축소(추석맞이 아기간식 빅세일, 매출은 줄었으나 ROAS 519%) → 5주차 가을 나들이 아기간식 기획(배도라지즙·젤리), 9/28 운영 재개 후 광고비·매출 회복."}]}, {"title": "네이버 검색광고", "tag": "파워링크 · 쇼핑검색", "items": [{"b": "쇼핑검색", "p": "광고비 316만원(+96.6%), 클릭 2,527(+86.4%), 전환율 21.3%(+4.0%p), 매출액 1,274만원(+124.2%), ROAS 403.1%(전월 353.5%). 과자_브랜드K 매출 738만원(ROAS 433.6%), 음료_브랜드K 매출 415만원(ROAS 470.4%), 신제품 그룹 ROAS 209.9%. 증액은 추석 연휴 대비 1~3주차 선제 증액과, 9월 예정이던 GFA(자사몰 첫구매) 캠페인을 메타로 진행하기로 하면서 남은 예산을 재배정한 결과입니다. 매출은 2~3주차 음료·과자 캠페인 전환이 이끌었고, 8월에 떨어졌던 콘텐츠 지면이 회복됐습니다(콘텐츠 지면 전환 7월 63건→8월 32건→9월 113건, ROAS 283%→210%→291%, 핵심 지면은 네이버플러스 스토어탭 추천-모바일 69건·61%). 9월 액션: 추석 전후 예산 유동 집행, 제외키워드 관리·확장문구 변경. 10월에는 현재 콘텐츠 지면을 운영하지 않는 음료 캠페인(검색지면 효율 470%)에 콘텐츠 지면 운영을 대행사가 제안했으며, 과자 캠페인 효율 상위 4개 지면부터 우선 적용합니다."}, {"b": "파워링크", "p": "광고비 166만원(+14.0%), 클릭 1,773(+20.7%), 전환율 8.3%(-1.3%p), 매출액 324만원(+8.2%), ROAS 194.9%(전월 205.4%). 구매K ROAS 228.3%, 대표K 174.3%, 탐색K 137.1%. 효율 하락 요인은 ① 광고비 증가 대비 매출 증가 폭이 작았던 점(3주차 전환율은 11%였지만 3주차 제외 시 7~8%대), ② 대표K 그룹 PC 지면이 7~9월 계속 ROAS 100% 이하였던 점입니다. 9월 액션: 추석 전후 예산 유동 집행, 전환 검색어 등록, 고비용 무전환 키워드 관리. 10월에는 대표K 그룹의 PC 노출 입찰비중을 100%→80%로 줄였고 10월 중순에 효율 변화를 확인합니다. 또한 9월 전환의 약 56%가 브랜드+제품·롱테일 검색어였고('브랜드명+제품/구매처', '연령+간식/과자' 형태 증가), 관련 검색어를 신규 키워드로 등록해 10월 추가 전환을 확인합니다."}]}, {"title": "GFA", "items": [{"b": "전체", "p": "광고비 17만원(-78.1%), 매출액 98만원(-34.6%), ROAS 568%(전월 190%). 웹사이트 전환(상시 테스트 운영) 캠페인은 9월 집행이 없고(광고비 0원, 이전 노출분의 후속 구매 8건만 반영), 카탈로그 리타겟 광고비 17만원·ROAS 395.3%. 광고비 감소폭(-78%)보다 매출 감소폭(-35%)이 작아 ROAS가 개선됐습니다. 10월에도 이 흐름이 이어지면 ROAS 200%를 목표로 웹전환 캠페인 재운영을 대행사가 제안했으며, 9월 쇼핑검색에서 확인한 신규 유입 전환 검색어와 제품 USP를 활용한 신규 소재를 제작합니다."}]}, {"title": "메타", "items": [{"b": "전체", "p": "광고비 333만원(+19.1%), 매출액 1,847만원(-1.4%), ROAS 554.7%(전월 669.9%). 자사몰 매출 877만원(+145.3%), 스마트스토어(상시) 매출 970만원(-36.0%). 광고비 증액은 8월 중순 시작한 쌀과자 시크릿링크 캠페인이 9월 상시 운영된 영향입니다."}, {"b": "캠페인별", "p": "과자시크릿링크_10봉 매출 868만원(ROAS 640.8%), 상시 할인 소재 ROAS 524.0%, 간식고민 소재 ROAS 602.7%. 음료 시크릿링크 신규 소재 2종은 ROAS 43.7%~45.9%. 매출 감소 요인은 ① 자사몰 음료 시크릿링크 전환율 저조, ② 네이버협력광고 전환 캠페인 매출 감소(광고비 감액, 간식고민 소재로 소진 비중이 옮겨가며 기존 할인 소재 매출이 줄어듦 — 간식고민은 8월 대비 전환율 +5.23%p, ROAS 450%→603%로 올랐으나 전월 매출을 보완하진 못함)입니다."}, {"b": "9월 액션·10월 계획", "p": "추석 연휴에는 협력광고와 음료 시크릿링크를 중단하고 과자 시크릿링크 예산을 감액했으며, 9/28 운영을 재개했습니다(협력광고·과자 시크릿링크 예산 원복). 음료 시크릿링크는 효율 저조로 현재 OFF 상태입니다. 10월에는 음료 시크릿링크를 신규 소재로 교체해 재운영하고, 네이버협력광고 할인 소재는 효율을 모니터링하며 신규 소재를 제작합니다."}]}]},
+    quad: {"good": ["전체 광고비 920만원(+21.8%) 증액에 매출액 4,525만원(+22.5%), ROAS 491.6%(전월 488.8%) 유지 — 추석 연휴가 있었음에도 3주차 매출이 가장 높았음(ROAS 562%)", "쇼핑검색 광고비 +96.6%, 매출 1,274만원(+124.2%), ROAS 403.1%(전월 353.5%) — 과자_브랜드K 매출 738만원, 음료_브랜드K 매출 415만원, 콘텐츠 지면 전환 32건→113건 회복", "메타 자사몰 매출 877만원(+145.3%) — 과자시크릿링크_10봉이 매출 868만원, ROAS 640.8%로 메타 1위", "메타 간식고민 소재 전환율 +5.23%p·ROAS 450%→603% 개선, GFA 카탈로그 리타겟 ROAS 395.3%·전환율 25.4%"], "bad": ["파워링크 ROAS 194.9%(전월 205.4%) — 탐색K 137.1%, 대표K 174.3%, 대표K PC 지면은 7~9월 내내 ROAS 100% 이하", "메타 ROAS 669.9%→554.7% — 광고비 +19%에 매출 -1.4%, 스마트스토어(상시)·협력광고 전환 캠페인 매출 감소(970만원, -36.0%)", "메타 음료 시크릿링크 ROAS 43.7%~45.9%로 저조해 현재 OFF (광고비 19만원, 매출 9만원)"], "doing": ["파워링크 대표K 그룹 PC 노출 입찰비중 100%→80% 축소(10월 중순 효율 확인), 전환 검색어(브랜드+제품·롱테일, 전환의 약 56%)를 신규 키워드로 등록", "추석 연휴 협력광고·음료 시크릿링크 중단, 과자 시크릿링크 감액 후 9/28 원복", "GFA 웹사이트 전환 캠페인 9월 집행 없음(OFF) — GFA 광고비 17만원(카탈로그만)으로 전월 79만원 대비 -78.1%", "네이버 키워드·검색어 보고서 기반 증액·제외 후보 선별을 이번 달부터 리포트에 반영(#키워드·검색어)"], "need": ["파워링크 효율 개선 — ROAS가 낮은 그룹(구매K·대표K·탐색K·신제품K) 키워드 정리, 효율 낮음·제외 후보 적용 (#키워드·검색어 참고)", "쇼핑검색 음료 캠페인 콘텐츠 지면 운영(과자 효율 상위 4개 지면 우선 적용) 및 신제품 그룹 ROAS 209.9% 검색어 점검", "메타 음료 시크릿링크 신규 소재 교체 후 재운영, 협력광고 할인 소재 효율 모니터링·신규 소재 제작", "GFA 웹전환 캠페인 재운영(ROAS 200% 목표) — 쇼핑검색 신규 전환 검색어·제품 USP 기반 신규 소재 제작, 전환 검색어(월령별 간식·배도라지즙·보리차 계열) 컨텐츠화"]},
+  },
+};
+
+// derive 9월 point from this report's own campaigns + 'all' series + roas for every brand
+Object.values(BRANDS).forEach(b=>{
+  const mb = b.monthlyByMedia;
+  ['search','gfa','meta'].forEach(m=>{
+    const a = agg(b.campaigns.filter(r=>r.media===m));
+    mb[m].push({m:'9월', cost:a.cost, rev:a.rev});
+  });
+  mb.all = mb.search.map((r,i)=>({
+    m:r.m,
+    cost:r.cost+mb.gfa[i].cost+mb.meta[i].cost,
+    rev:r.rev+mb.gfa[i].rev+mb.meta[i].rev,
+  }));
+  [...mb.search,...mb.gfa,...mb.meta,...mb.all].forEach(r=> r.roas = roasOf(r.cost,r.rev));
+});
+
+let curBrand = 'anela';
+let curTrend = 'all';
+
+function donutSvg(shares){
+  // shares: [{key, pct, color}], pct in 0..100, sums ~100
+  const r = 40, C = 2*Math.PI*r;
+  let offset = 0;
+  let out = `<g transform="translate(52,52) rotate(-90)"><circle r="${r}" fill="none" stroke="var(--gridline)" stroke-width="14"/>`;
+  shares.forEach(s=>{
+    const len = s.pct/100*C;
+    out += `<circle r="${r}" fill="none" stroke="${s.color}" stroke-width="14" stroke-dasharray="${len.toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(-offset).toFixed(1)}" stroke-linecap="round"/>`;
+    offset += len;
+  });
+  out += `</g>`;
+  return out;
+}
+
+function renderBrand(key){
+  curBrand = key;
+  const b = BRANDS[key];
+  document.getElementById('brandTitle').textContent = b.title;
+  document.querySelectorAll('#brandSwitch .brand-chip').forEach(el=> el.classList.toggle('active', el.dataset.brand===key));
+
+  const rows = b.campaigns;
+  const total = agg(rows);
+
+  // KPI tiles
+  const kpis = [
+    ['노출', fmt(total.imp), ''],
+    ['클릭', fmt(total.clk), ''],
+    ['광고비', fmt(Math.round(total.cost/10000)), '만원'],
+    ['구매', fmt(total.conv), ''],
+    ['매출액', fmt(Math.round(total.rev/10000)), '만원'],
+    ['ROAS', pct(total.roas).replace('%',''), '%'],
+  ];
+  document.getElementById('kpiGrid').innerHTML = kpis.map(([label,val,unit])=>
+    `<div class="kpi-card"><span class="kpi-label">${label}</span><div class="kpi-value num">${val}<span class="unit">${unit}</span></div></div>`
+  ).join('');
+  document.getElementById('kpiSub').textContent =
+    `노출 ${fmt(total.imp)} · 클릭 ${fmt(total.clk)}(CTR ${pct(total.ctr)}) · CPC ${fmt(total.cpc)}원 · CVR ${pct(total.cvr)}`;
+
+  // quad-grid (GOOD / BAD / 개선하고 있는 것 / 개선이 필요한 것)
+  const quadDefs = [
+    { key:'good', cls:'good', dot:'var(--good)', title:'👍 좋았던 점' },
+    { key:'bad', cls:'bad', dot:'var(--serious)', title:'👎 안좋았던 점' },
+    { key:'doing', cls:'doing', dot:'var(--warning)', title:'🔧 개선하고 있는 것' },
+    { key:'need', cls:'need', dot:'var(--critical)', title:'🎯 개선이 필요한 것' },
+  ];
+  document.getElementById('quadGrid').innerHTML = quadDefs.map(q=>{
+    const lis = (b.quad[q.key]||[]).map(t=>`<li>${t}</li>`).join('');
+    return `<div class="quad ${q.cls}"><div class="quad-head"><span class="quad-dot" style="background:${q.dot}"></span><span class="quad-title">${q.title}</span></div><ul>${lis}</ul></div>`;
+  }).join('');
+
+  // media breakdown
+  const medias = ['search','gfa','meta'];
+  const mediaAgg = {};
+  medias.forEach(m=> mediaAgg[m] = agg(rows.filter(r=>r.media===m)));
+
+  // cost / rev donuts
+  function buildDonut(field, svgId, legendId, subId, totalVal){
+    const shares = medias.map(m=>({
+      key:m, pct: totalVal ? mediaAgg[m][field]/totalVal*100 : 0, color: mediaColor[m]
+    }));
+    document.getElementById(svgId).innerHTML = donutSvg(shares);
+    document.getElementById(legendId).innerHTML = shares.map(s=>
+      `<div class="row"><span class="swatch" style="background:${s.color}"></span><span class="lbl">${mediaLabel[s.key]}</span><span class="pct num">${pct(s.pct)}</span></div>`
+    ).join('');
+    document.getElementById(subId).textContent = `매체 합계 ${fmt(Math.round(totalVal/10000))}만원`;
+  }
+  buildDonut('cost', 'costDonut', 'costLegend', 'costSub', total.cost);
+  buildDonut('rev', 'revDonut', 'revLegend', 'revSub', total.rev);
+
+  // top 5 campaigns by revenue
+  const top5 = [...rows].sort((a,b)=>b.rev-a.rev).slice(0,5);
+  document.querySelector('#topTable tbody').innerHTML = top5.map(r=>{
+    const roas = r.cost ? r.rev/r.cost*100 : 0;
+    const cls = !r.cost ? 'warning' : roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
+    return `<tr><td><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${r.name}</td>` +
+           `<td class="num">${fmt(Math.round(r.rev/10000))}만</td>` +
+           `<td class="num"><span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></td></tr>`;
+  }).join('');
+
+  // media table
+  document.querySelector('#mediaTable tbody').innerHTML = medias.map(m=>{
+    const a = mediaAgg[m];
+    return `<tr><td><span class="media-dot" style="background:${mediaColor[m]}"></span>${mediaLabel[m]}</td>` +
+      `<td class="num">${fmt(a.imp)}</td><td class="num">${fmt(a.clk)}</td><td class="num">${pct(a.ctr)}</td>` +
+      `<td class="num">${fmt(a.cpc)}원</td><td class="num">${fmt(a.cost)}원</td><td class="num">${fmt(a.conv)}</td>` +
+      `<td class="num">${pct(a.cvr)}</td><td class="num">${fmt(a.rev)}원</td><td class="num">${pct(a.roas)}</td></tr>`;
+  }).join('') + `<tr style="font-weight:600;"><td>합계</td>` +
+    `<td class="num">${fmt(total.imp)}</td><td class="num">${fmt(total.clk)}</td><td class="num">${pct(total.ctr)}</td>` +
+    `<td class="num">${fmt(total.cpc)}원</td><td class="num">${fmt(total.cost)}원</td><td class="num">${fmt(total.conv)}</td>` +
+    `<td class="num">${pct(total.cvr)}</td><td class="num">${fmt(total.rev)}원</td><td class="num">${pct(total.roas)}</td></tr>`;
+
+  // full creative/campaign table (매출액 순)
+  const allSorted = [...rows].sort((a,b)=>b.rev-a.rev);
+  document.querySelector('#creativeTable tbody').innerHTML = allSorted.map(r=>{
+    const roas = r.cost ? r.rev/r.cost*100 : 0;
+    const cls = !r.cost ? 'warning' : roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
+    const sub = r.media==='search' ? r.src : (r.chan==='mall' ? '자사몰' : '스마트스토어');
+    return `<tr><td style="white-space:nowrap;"><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${mediaLabel[r.media]}<div style="font-size:11px;color:var(--text-muted);margin-left:13px;">${sub}</div></td><td>${r.name}</td>` +
+      `<td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${fmt(r.cost)}원</td>` +
+      `<td class="num">${fmt(r.conv)}</td><td class="num">${fmt(r.rev)}원</td>` +
+      `<td class="num"><span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></td></tr>`;
+  }).join('');
+
+  // comment (agency's monthly-report narrative, cross-checked against raw data above)
+  document.getElementById('commentOverall').textContent = b.comment.overall;
+  document.getElementById('commentAccordion').innerHTML = b.comment.groups.map((g,gi)=>{
+    const items = g.items.map(it=> `<div class="tn-item"><b>${it.b}</b><p>${it.p}</p></div>`).join('');
+    return `<details${gi===0?' open':''}><summary>${g.title}${g.tag?`<span class="tn-tag">${g.tag}</span>`:''}</summary><div class="tn-body">${items}</div></details>`;
+  }).join('');
+
+  renderKeyword();
+  renderTrend(curTrend);
+}
+
+
+// ================= KEYWORD / SEARCH-TERM SECTION (7~9월 3개월 데이터 기준) =================
+// 목적: 파워링크 키워드는 증액/효율 낮음/제외를, 쇼핑검색은 검색어(패턴)별 효율과 제외 제안을 3개월 데이터로 판단
+const KW = {
+  roasFloor: 200, upMult: 1.2,           // 효율 기준: ROAS 200% 이상, 증액은 브랜드 평균 ROAS의 1.2배 이상
+  upConv: 10, lowConv: 5,                // 증액 후보 최소 구매(3개월), 효율 낮음 판단 최소 구매
+  leakClk: 30,                           // 3개월 클릭 30회 이상 · 구매 0 → 제외 후보
+  lowClk: 40, lowConv2: 2, lowCvr: 5,    // 클릭 40회 이상 · 구매 2건 이하 · 전환율 5% 미만 → 입찰 하향
+  dropBase: 10, dropRatio: 0.3,          // 7~8월 월평균 구매 10건 이상 → 9월 30% 이하 = 급변
+  monthCapPct: 5,                        // 월령 키워드 한 개 광고비가 파워링크 비브랜드 광고비의 5% 이상이면 비용 점검
+  shopClkMin: 30, shopCandClk: 5,        // 쇼핑 패턴 판정 최소 클릭, 제외 검토 최소 클릭
+};
+const MONTH_RE = /개월|돌아기|두돌|살|[0-9]+세/;
+const INFO_RE = /언제부터|종류|추천|먹이는|먹는\s*(시기|양|법)|시기|방법|변비|차이|몇\s*개월/;
+const isProtected = t => MONTH_RE.test(t) || INFO_RE.test(t);   // 월령·질문형: 초보 부모 1순위 검색 — 전환 없어도 브랜드 인지용으로 유지
+const MON3 = ['7월','8월','9월'];
+const cvrOf = (conv,clk) => clk ? conv/clk*100 : 0;
+const man = n => fmt(Math.round(n/10000)) + '만';
+const roasPill = roas => { const cls = roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical'; return `<span class="status-pill ${cls}">${pct(roas)}</span>`; };
+const tagH = (cls, txt) => `<span class="tag ${cls}">${txt}</span>`;
+const sumK = (a,k) => a.reduce((s,r)=>s+r[k],0);
+function tbl(head, rows, empty){
+  if(!rows.length) return `<div class="kw-empty">${empty||'해당 항목이 없습니다.'}</div>`;
+  return `<div style="overflow-x:auto;"><table class="data-table"><thead><tr>${head.map(h=>`<th${/^(클릭|구매|ROAS|광고비|매출|노출|전환|검색어 수|3개월|CTR)/.test(h)?' class="num"':''}>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
+}
+const grey = t => `<span style="color:var(--text-muted);font-size:11.5px;">${t}</span>`;
+
+function renderKeyword(){
+  const b = BRANDS[curBrand], M = b.m3, R = KW;
+  // ---------- 파워링크 키워드 (3개월) ----------
+  const mons = ['07','08','09'].map((m,i)=>{ const a = M.mon[m]; return {label:MON3[i], ...a, roas:a.cost?a.rev/a.cost*100:0, cvr:cvrOf(a.conv,a.clk)}; });
+  const poolCost = sumK(mons,'cost'), poolRev = sumK(mons,'rev');
+  const avgRoas = poolCost ? poolRev/poolCost*100 : 0;
+  const upLine = Math.max(R.roasFloor, avgRoas*R.upMult);
+  document.getElementById('kwBasis').innerHTML = `<ul>
+    <li><b>파워링크 키워드</b> (비브랜드, 3개월 합산) — <b>증액</b>: 구매 ${R.upConv}건 이상 · 3개월 모두 구매 · ROAS ${pct(upLine)} 이상(200% 또는 브랜드 평균 ${pct(avgRoas)}의 1.2배 중 큰 값) / <b>효율 낮음</b>: 구매 ${R.lowConv}건 이상인데 ROAS 200% 미만, 또는 클릭 ${R.lowClk}회 이상 · 구매 ${R.lowConv2}건 이하 · 전환율 ${R.lowCvr}% 미만 / <b>제외 후보</b>: 클릭 ${R.leakClk}회 이상 · 구매 0 · 2개월 이상 클릭</li>
+    <li><b>월령·질문형 키워드</b>("○개월", "돌아기", "언제부터", "추천" 등)는 구매가 없어도 제외하지 않습니다 — 초보 부모 1순위 검색이라 노출 자체가 브랜드 인지가 됩니다. 한 키워드 광고비가 파워링크 광고비의 ${R.monthCapPct}% 이상일 때만 비용을 점검합니다.</li>
+    <li><b>쇼핑검색 검색어</b> — 검색어와 패턴(단어)별로 효율 구분: 효율 좋음은 ROAS가 200%와 브랜드 평균×1.2 중 큰 값 이상, 효율 낮음은 ROAS 200% 미만, <b>제외 제안</b>은 클릭 ${R.shopClkMin}회 이상 · 구매 0(월령·질문형 제외). 한 달 우연을 거르려고 7~9월 합산으로만 판단합니다.</li>
+  </ul>`;
+  document.getElementById('kwMonth').innerHTML =
+    `<thead><tr><th>월</th><th class="num">클릭</th><th class="num">광고비</th><th class="num">구매</th><th class="num">전환율</th><th class="num">매출액</th><th class="num">ROAS</th></tr></thead><tbody>` +
+    mons.map(r=>`<tr><td>${r.label}</td><td class="num">${fmt(r.clk)}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.conv)}</td><td class="num">${pct(r.cvr)}</td><td class="num">${fmt(r.rev)}원</td><td class="num">${roasPill(r.roas)}</td></tr>`).join('') + '</tbody>';
+
+  const rows = M.kw.map(r=>{
+    const mm = [2,3,4].map(i=>({clk:r[i][1], cost:r[i][2], conv:r[i][3], rev:r[i][4]}));
+    const o = {grp:r[0], kw:r[1], mm};
+    ['clk','cost','conv','rev'].forEach(k=> o[k] = mm.reduce((s,x)=>s+x[k],0));
+    o.roas = o.cost ? o.rev/o.cost*100 : 0; o.cvr = cvrOf(o.conv,o.clk);
+    o.months = mm.filter(x=>x.clk>0).length; o.convMonths = mm.filter(x=>x.conv>0).length;
+    o.prot = isProtected(o.kw);
+    return o;
+  });
+  const up=[], low=[], cut=[], alert=[];
+  rows.forEach(r=>{
+    if(r.mm[1].clk===0 && r.mm[2].clk===0) return;                  // 7월만 집행되고 종료된 키워드는 제외
+    const base = (r.mm[0].conv + r.mm[1].conv)/2;
+    if(!r.prot && base>=R.dropBase && r.mm[2].conv <= base*R.dropRatio){ alert.push(r); return; }
+    if(r.conv===0){ if(!r.prot && r.clk>=R.leakClk && r.months>=2) cut.push(r); return; }
+    if(r.conv>=R.upConv && r.convMonths===3 && r.roas>=upLine){ up.push(r); return; }
+    if(!r.prot && ((r.conv>=R.lowConv && r.roas<R.roasFloor) || (r.clk>=R.lowClk && r.conv<=R.lowConv2 && r.cvr<R.lowCvr))) low.push(r);
+  });
+  up.sort((a,c)=>c.rev-a.rev); low.sort((a,c)=>c.cost-a.cost); cut.sort((a,c)=>c.clk-a.clk);
+  const mcell = (r,k) => r.mm.map(x=>fmt(x[k])).join(' / ');
+  const mroas = r => r.mm.map(x=>x.cost? Math.round(x.rev/x.cost*100)+'%' : '–').join(' / ');
+  const kwHead = ['키워드','그룹','클릭 7/8/9월','구매 7/8/9월','월별 ROAS','3개월 광고비','3개월 매출','3개월 ROAS'];
+  const kwRow = (r,extra) => `<tr><td>${r.kw}</td><td>${grey(r.grp)}</td><td class="num">${mcell(r,'clk')}</td><td class="num">${mcell(r,'conv')}</td><td class="num">${grey(mroas(r))}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td><td class="num">${roasPill(r.roas)}</td>${extra||''}</tr>`;
+  const chip = (l,n) => `<span class="kw-chip">${l} <b>${n}</b></span>`;
+  const protRows = rows.filter(r=>r.prot);
+  document.getElementById('kwSummary').innerHTML = chip('증액 필요', up.length) + chip('효율 낮음', low.length) + chip('제외 후보', cut.length) + chip('9월 급변(확인)', alert.length);
+  document.getElementById('kwUp').innerHTML = tbl(kwHead, up.map(r=>kwRow(r)), '조건을 충족한 증액 키워드가 없습니다.');
+  document.getElementById('kwLow').innerHTML = tbl(kwHead, low.map(r=>kwRow(r)), '효율 낮은 키워드가 없습니다.');
+  document.getElementById('kwCut').innerHTML = tbl(kwHead, cut.map(r=>kwRow(r)), '제외 후보가 없습니다 — 3개월 클릭 30회 이상 · 구매 0인 비월령 키워드가 없습니다.');
+  document.getElementById('kwAlert').innerHTML = alert.length ? `<div class="alert-box"><b>9월 급변 — 대행사 확인 필요</b>${tbl(kwHead, alert.map(r=>kwRow(r)))}<p class="card-sub" style="margin:8px 0 0;">7~8월에는 월평균 구매 ${R.dropBase}건 이상이던 키워드의 9월 구매가 30% 이하로 줄었습니다. 입찰·매칭·노출 지면이 바뀌었는지 확인하세요.</p></div>` : '';
+  // 월령 키워드 (유지)
+  const ms = M.monthSum, msCost = ms.cost, msShare = poolCost ? msCost/poolCost*100 : 0;
+  const mHigh = protRows.filter(r=>poolCost && r.cost/poolCost*100>=R.monthCapPct);
+  document.getElementById('kwMonthSum').innerHTML = `월령 키워드 <b>${ms.n}개</b> · 3개월 광고비 ${fmt(msCost)}원(파워링크 비브랜드의 ${pct(msShare)}) · 구매 ${ms.conv}건 · 매출 ${fmt(ms.rev)}원 · ${mHigh.length? `비용 점검 대상 ${mHigh.length}개` : `한 키워드가 광고비의 ${R.monthCapPct}% 이상인 곳은 없음`}`;
+  document.getElementById('kwMonthList').innerHTML = tbl(['키워드','그룹','클릭 7/8/9월','구매 7/8/9월','3개월 광고비','3개월 매출','판정'],
+    [...protRows].sort((a,c)=>c.cost-a.cost).map(r=>{ const sh = poolCost ? r.cost/poolCost*100 : 0; return `<tr><td>${r.kw}</td><td>${grey(r.grp)}</td><td class="num">${mcell(r,'clk')}</td><td class="num">${mcell(r,'conv')}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td><td style="text-align:left;">${sh>=R.monthCapPct?tagH('warning',`비용 점검 (${sh.toFixed(1)}%)`):tagH('info','유지 (브랜드 인지)')}</td></tr>`; }),
+    '표시할 월령·질문형 키워드가 없습니다.');
+
+  // ---------- 신규 키워드 제안 ----------
+  const E = M.ext, kwCat = t => b.brandRe.test(t) ? ['info','브랜드 조합'] : MONTH_RE.test(t) ? ['good','월령'] : INFO_RE.test(t) ? ['good','질문형'] : ['','제품·성분'];
+  document.getElementById('kwExtSub').textContent = `파워링크 확장검색·유사검색어 중 아직 키워드로 등록되지 않은 검색어에서 3개월간 전환 검색어 ${E.tot.terms}개 · 구매 ${E.tot.conv}건 · 매출 ${fmt(E.tot.rev)}원이 발생했습니다(광고비 ${fmt(E.tot.cost)}원). 대부분 1건짜리 롱테일이라 3개월 구매 2건 이상만 추려 등록을 제안합니다`;
+  document.getElementById('kwExt').innerHTML = tbl(['검색어','분류','클릭','구매 7/8/9월','3개월 구매','3개월 매출'],
+    E.rows.map(r=>{ const c = kwCat(r[0]); return `<tr><td>${r[0]}</td><td style="text-align:left;">${tagH(c[0],c[1])}</td><td class="num">${fmt(r[1])}</td><td class="num">${r[5].join(' / ')}</td><td class="num">${r[2]}</td><td class="num">${fmt(r[3])}원</td></tr>`; }),
+    '제안할 검색어가 없습니다.');
+
+  // ---------- 쇼핑검색 검색어 (3개월) ----------
+  const SH = M.shop, A = SH.all;
+  const shopRoas = A.cost ? A.rev/A.cost*100 : 0, shopCvr = cvrOf(A.conv,A.clk);
+  const shopUp = Math.max(R.roasFloor, shopRoas*R.upMult);
+  const pZero = n => Math.pow(1-shopCvr/100, n)*100;
+  const trs = SH.terms.map(r=>{
+    const o = {t:r[0], imp:r[1], clk:r[2], conv:r[3], cost:r[4], rev:r[5]};
+    o.clkT = o.clk.reduce((s,x)=>s+x,0); o.convT = o.conv.reduce((s,x)=>s+x,0);
+    o.roas = o.cost ? o.rev/o.cost*100 : 0; o.cvr = cvrOf(o.convT,o.clkT); o.steady = o.conv.every(x=>x>0);
+    o.prot = isProtected(o.t); o.brand = b.brandRe.test(o.t); return o;
+  }).filter(r=>!r.brand);
+  const sGood = trs.filter(r=>r.convT>=10 && r.steady && r.roas>=shopUp).sort((a,c)=>c.rev-a.rev).slice(0,8);
+  const sLow = trs.filter(r=>!r.prot && r.clkT>=R.shopClkMin && r.convT>0 && r.roas<R.roasFloor).sort((a,c)=>c.cost-a.cost).slice(0,8);
+  const termHead = ['검색어','클릭 7/8/9월','구매 7/8/9월','3개월 광고비','3개월 매출','전환율','3개월 ROAS'];
+  const termRow = r => `<tr><td>${r.t}</td><td class="num">${r.clk.map(fmt).join(' / ')}</td><td class="num">${r.conv.join(' / ')}</td><td class="num">${fmt(r.cost)}원</td><td class="num">${fmt(r.rev)}원</td><td class="num">${pct(r.cvr)}</td><td class="num">${roasPill(r.roas)}</td></tr>`;
+  document.getElementById('shopSub').textContent = `쇼핑검색 비브랜드 검색어 ${A.terms.toLocaleString('ko-KR')}개 · 3개월 광고비 ${fmt(A.cost)}원 · 구매 ${fmt(A.conv)}건 · 평균 ROAS ${pct(shopRoas)} · 평균 전환율 ${pct(shopCvr)} (검색어 보고서 제공분 기준)`;
+  document.getElementById('shopGood').innerHTML = tbl(termHead, sGood.map(termRow), '조건을 충족한 검색어가 없습니다.');
+  document.getElementById('shopLow').innerHTML = tbl(termHead, sLow.map(termRow), '효율 낮은 검색어가 없습니다.');
+
+  // 패턴(단어)별 판정 — 개별 검색어는 클릭이 적어 단어 단위로 합산
+  const pats = SH.patterns.map(p=>{ const o={tok:p[0], n:p[1], imp:p[2], clk:p[3], cost:p[4], conv:p[5], rev:p[6]}; o.roas = o.cost? o.rev/o.cost*100:0; o.cvr = cvrOf(o.conv,o.clk); o.prot = isProtected(o.tok); return o; }).sort((a,c)=>c.cost-a.cost);
+  const patV = p => {
+    if(p.prot) return ['info','유지 (월령·질문형)'];
+    if(p.clk<R.shopClkMin) return ['','표본 부족'];
+    if(p.conv===0) return ['critical',`제외 제안 (구매 0 · 우연일 확률 ${pct(pZero(p.clk))})`];
+    if(p.roas<R.roasFloor) return ['warning','효율 낮음 → 입찰 하향'];
+    if(p.roas>=shopUp) return ['good','효율 좋음'];
+    return ['','보통'];
+  };
+  document.getElementById('shopPat').innerHTML = tbl(['단어(패턴)','검색어 수','클릭','구매','전환율','광고비','매출액','ROAS','판정'],
+    pats.map(p=>{ const v=patV(p); return `<tr><td>${p.tok}</td><td class="num">${fmt(p.n)}</td><td class="num">${fmt(p.clk)}</td><td class="num">${fmt(p.conv)}</td><td class="num">${p.clk?pct(p.cvr):'–'}</td><td class="num">${fmt(p.cost)}원</td><td class="num">${fmt(p.rev)}원</td><td class="num">${p.cost?roasPill(p.roas):'–'}</td><td style="text-align:left;">${tagH(v[0],v[1])}</td></tr>`; }));
+
+  // 제외 제안 — 패턴(구매 0) + 개별 검색어(평균 전환율 기준 우연일 확률 10% 이하)
+  const nStrong = Math.ceil(Math.log(0.1)/Math.log(1-shopCvr/100));
+  const cutPat = pats.filter(p=>!p.prot && p.clk>=R.shopClkMin && p.conv===0);
+  const cutTerm = trs.filter(r=>!r.prot && r.convT===0 && r.clkT>=nStrong).sort((a,c)=>c.cost-a.cost);
+  const cutRows = [
+    ...cutPat.map(p=>`<tr><td>단어 “${p.tok}” 포함 검색어 ${fmt(p.n)}개</td><td class="num">${fmt(p.clk)}</td><td class="num">${fmt(p.cost)}원</td><td style="text-align:left;">${tagH('critical','제외 제안')}${grey(`구매 0 · 우연일 확률 ${pct(pZero(p.clk))}`)}</td></tr>`),
+    ...cutTerm.map(r=>`<tr><td>${r.t}</td><td class="num">${fmt(r.clkT)}</td><td class="num">${fmt(r.cost)}원</td><td style="text-align:left;">${tagH('critical','제외 제안')}${grey(`구매 0 · 우연일 확률 ${pct(pZero(r.clkT))}`)}</td></tr>`),
+  ];
+  document.getElementById('shopCut').innerHTML = tbl(['제외 대상','클릭','3개월 광고비','근거'], cutRows, '제외 제안할 검색어·패턴이 없습니다.');
+  const cand = trs.filter(r=>!r.prot && r.convT===0 && r.clkT>=R.shopCandClk && !(r.clkT>=nStrong)).sort((a,c)=>c.cost-a.cost);
+  const candSum = {n:cand.length, cost:sumK(cand,'cost')};
+  document.getElementById('shopCandSum').textContent = `3개월 구매 0 · 클릭 ${R.shopCandClk}~${nStrong-1}회 비월령 검색어 ${candSum.n}개 · 광고비 ${fmt(candSum.cost)}원 — 표본이 적어 확정은 아니고, 위 패턴 제외 후 남는 것을 관찰합니다`;
+  document.getElementById('shopCand').innerHTML = tbl(['검색어','클릭 7/8/9월','3개월 광고비'], cand.slice(0,15).map(r=>`<tr><td>${r.t}</td><td class="num">${r.clk.map(fmt).join(' / ')}</td><td class="num">${fmt(r.cost)}원</td></tr>`));
+
+  // 경쟁 전략 제안 (자사 순위·CTR·전환 데이터 기반)
+  document.getElementById('shopStrategy').innerHTML = b.strategy.map(s=>`<div class="tn-item" style="margin-bottom:10px;"><b>${s.t}</b><p>${s.p}</p></div>`).join('');
+
+  // ---------- 컨텐츠 후보 (접힘) ----------
+  const tr3 = M.terms.map(r=>{ const o={t:r[0],kinds:r[1],clk:r[2],conv:r[3],rev:r[4],cost:r[5]}; o.convT=o.conv.reduce((s,x)=>s+x,0); o.revT=o.rev.reduce((s,x)=>s+x,0); o.steady=o.conv.every(x=>x>0); return o; }).filter(r=>!b.brandRe.test(r.t));
+  const steady = tr3.filter(r=>r.steady).sort((a,c)=>c.convT-a.convT);
+  const sTot = steady.reduce((s,r)=>({conv:s.conv+r.convT, rev:s.rev+r.revT}),{conv:0,rev:0});
+  document.getElementById('contentSub').textContent = `3개월 내내 구매가 발생한 비브랜드 검색어 ${steady.length}개 — 구매 ${fmt(sTot.conv)}건 · 매출 ${man(sTot.rev)}원. 월 검색량은 이 보고서에 없어 주제 선정 시 네이버 데이터랩·키워드도구로 확인이 필요합니다`;
+  const themeDefs = [
+    {title:'질문·정보형', test:t=>INFO_RE.test(t), idea:'“언제부터·추천·먹는 시기” 질문형 제목 + 첫 문단 핵심 답 → 제품 정보 연결'},
+    {title:'월령·연령별', test:t=>MONTH_RE.test(t), idea:'월령(6·7·10·12개월…)별 간식·이유식 가이드 시리즈'},
+    {title:'제품군·성분', test:()=>true, idea:'제품군별 비교·성분 설명 컨텐츠 — 대표 검색어 한 편씩'},
+  ];
+  const buckets = themeDefs.map(d=>({...d, items:[]}));
+  steady.forEach(r=>{ buckets.find(x=>x.test(r.t)).items.push(r); });
+  document.getElementById('themeGrid').innerHTML = buckets.map(bk=>{
+    const chips = bk.items.slice(0,10).map(r=>`<span class="term-chip">${r.t}<i>구매 ${r.convT}</i></span>`).join('');
+    return `<div class="card theme-card"><h3>${bk.title}</h3><p class="theme-stat">검색어 ${bk.items.length}개 · 구매 ${fmt(sumK(bk.items,'convT'))}건</p><div class="chip-row">${chips||'<span class="kw-empty">해당 검색어 없음</span>'}</div><p class="theme-idea">${bk.idea}</p></div>`;
+  }).join('');
+}
+
+// ================= MONTHLY TREND CHART =================
+function monthlyFor(mediaKey){ return BRANDS[curBrand].monthlyByMedia[mediaKey]; }
+
+function renderTrend(mediaKey){
+  curTrend = mediaKey;
+  document.querySelectorAll('#trendTabs .tabbtn').forEach(x=>x.classList.toggle('active', x.dataset.t===mediaKey));
+  const data = monthlyFor(mediaKey);
+  const color = mediaKey==='all' ? 'var(--accent)' : mediaColor[mediaKey];
+  const W=1040,H=300,padL=64,padT=20,padB=34;
+  const plotW = W-padL-40, plotH = H-padT-padB;
+  const n = data.length;
+  const groupW = plotW/n;
+  const maxVal = Math.max(1,...data.map(d=>Math.max(d.cost||0,d.rev||0)));
+  const maxRoas = Math.max(1,...data.map(d=>d.roas||0));
+  const y = v => padT + plotH - (v/maxVal)*plotH;
+  const yR = v => padT + plotH - (v/maxRoas)*plotH;
+
+  let bars='', gridlines='', roasPts=[], labels='';
+  const ticks=4;
+  for(let i=0;i<=ticks;i++){
+    const v = maxVal/ticks*i;
+    const yy = y(v);
+    gridlines += `<line x1="${padL}" y1="${yy}" x2="${padL+plotW}" y2="${yy}" stroke="var(--gridline)" stroke-width="1"/>`;
+    gridlines += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="axis-label">${v>=10000?Math.round(v/10000)+'만':Math.round(v)}</text>`;
+  }
+  data.forEach((d,i)=>{
+    const cx = padL + groupW*i + groupW/2;
+    labels += `<text x="${cx}" y="${H-10}" text-anchor="middle" class="axis-label">${d.m}</text>`;
+    if(d.cost===0 && d.rev===0){
+      roasPts.push(null);
+      bars += `<text x="${cx}" y="${padT+plotH/2}" text-anchor="middle" class="axis-label" opacity="0.6">미운영</text>`;
+      return;
+    }
+    const bw = 22;
+    const x1 = cx-bw-3, x2 = cx+3;
+    const hCost = plotH-(y(d.cost)-padT), hRev = plotH-(y(d.rev)-padT);
+    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 광고비" data-value="${fmt(d.cost)}원" x="${x1}" y="${y(d.cost)}" width="${bw}" height="${hCost}" rx="3" fill="${color}" opacity="0.55"/>`;
+    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 매출액" data-value="${fmt(d.rev)}원" x="${x2}" y="${y(d.rev)}" width="${bw}" height="${hRev}" rx="3" fill="${color}"/>`;
+    roasPts.push([cx, yR(d.roas)]);
+  });
+  let roasLine='', roasDots='';
+  const validPts = roasPts.filter(Boolean);
+  if(validPts.length){
+    roasLine = `<polyline points="${validPts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--critical)" stroke-width="2"/>`;
+    roasDots = validPts.map(([x,yy],idx)=>`<circle cx="${x}" cy="${yy}" r="4" fill="var(--critical)"/><text x="${x}" y="${yy-10}" text-anchor="middle" class="axis-label" font-weight="700" fill="var(--critical)">${pct(data.filter(d=>!(d.cost===0&&d.rev===0))[idx].roas)}</text>`).join('');
+  }
+
+  document.getElementById('trendChart').innerHTML = `
+    <svg class="chart" viewBox="0 0 ${W} ${H}">
+      ${gridlines}
+      ${bars}
+      ${roasLine}${roasDots}
+      ${labels}
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:${color};opacity:0.55"></span>광고비(원)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:${color}"></span>매출액(원)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--critical)"></span>ROAS(%, 우측 참고선)</div>
+    </div>`;
+
+  const tip = document.getElementById('chartTooltip');
+  const cardEl = document.getElementById('trendChart').closest('.chart-card');
+  document.querySelectorAll('#trendChart rect[data-tip]').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{
+      tip.innerHTML = `<b>${el.dataset.label}</b>${el.dataset.value}`;
+      tip.classList.add('show');
+    });
+    el.addEventListener('mousemove', e=>{
+      const box = cardEl.getBoundingClientRect();
+      tip.style.left = (e.clientX - box.left) + 'px';
+      tip.style.top = (e.clientY - box.top) + 'px';
+    });
+    el.addEventListener('mouseleave', ()=> tip.classList.remove('show'));
+  });
+}
+document.getElementById('trendTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.tabbtn'); if(!b) return;
+  renderTrend(b.dataset.t);
+});
+
+document.getElementById('brandSwitch').addEventListener('click', e=>{
+  const b = e.target.closest('.brand-chip'); if(!b) return;
+  renderBrand(b.dataset.brand);
+});
+
+renderBrand('anela');
+</script>
