@@ -147,16 +147,18 @@ svg.chart{width:100%;height:auto;overflow:visible;}
 .chart-tooltip.show{opacity:1;}
 .chart-tooltip b{display:block;font-weight:600;margin-bottom:2px;color:var(--bg-page);}
 
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px;}
 .kpi-card{
   background:var(--surface-1);border:1px solid var(--border);border-radius:14px;
-  box-shadow:var(--shadow);padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;
+  box-shadow:var(--shadow);padding:20px 18px 16px;display:flex;flex-direction:column;gap:6px;
 }
-.kpi-label{font-size:12px;color:var(--text-secondary);font-weight:600;}
-.kpi-value{font-size:21px;font-weight:700;letter-spacing:-0.01em;}
-.kpi-value .unit{font-size:11.5px;font-weight:500;color:var(--text-muted);margin-left:2px;}
+.kpi-label{font-size:12.5px;color:var(--text-secondary);font-weight:600;}
+.kpi-card.hero{border-top:3px solid var(--accent);}
+.kpi-sub{font-size:11.5px;color:var(--text-muted);}
+.kpi-value{font-size:30px;line-height:1.15;font-weight:700;letter-spacing:-0.01em;}
+.kpi-value .unit{font-size:13px;font-weight:500;color:var(--text-muted);margin-left:2px;}
 @media (max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
-@media (max-width:560px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.kpi-value{font-size:24px;}}
 
 .split-row{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:14px;margin-top:16px;}
 @media (max-width:900px){.split-row{grid-template-columns:1fr;}}
@@ -295,9 +297,9 @@ footer.foot{
 <div class="wrap">
   <div class="section" id="summary" style="padding-top:26px;">
     <h2 class="section-title">핵심 요약</h2>
-    <p class="section-sub" id="kpiSub">2026.09.01 – 09.30</p>
-    <div class="quad-grid" id="quadGrid"></div>
+    <p class="section-sub">2026.09.01 – 09.30 · 전체 월 합계</p>
     <div class="kpi-grid" id="kpiGrid"></div>
+    <div class="quad-grid" id="quadGrid"></div>
 
     <div class="split-row">
       <div class="card">
@@ -606,18 +608,16 @@ function renderBrand(key){
 
   // KPI tiles
   const kpis = [
-    ['노출', fmt(total.imp), ''],
-    ['클릭', fmt(total.clk), ''],
-    ['광고비', fmt(Math.round(total.cost/10000)), '만원'],
-    ['구매', fmt(total.conv), ''],
-    ['매출액', fmt(Math.round(total.rev/10000)), '만원'],
-    ['ROAS', pct(total.roas).replace('%',''), '%'],
+    ['노출', fmt(total.imp), '', ''],
+    ['클릭', fmt(total.clk), '', `CTR ${pct(total.ctr)} · CPC ${fmt(total.cpc)}원`],
+    ['광고비', fmt(Math.round(total.cost/10000)), '만원', ''],
+    ['구매', fmt(total.conv), '건', `CVR ${pct(total.cvr)}`],
+    ['매출액', fmt(Math.round(total.rev/10000)), '만원', ''],
+    ['ROAS', pct(total.roas).replace('%',''), '%', ''],
   ];
-  document.getElementById('kpiGrid').innerHTML = kpis.map(([label,val,unit])=>
-    `<div class="kpi-card"><span class="kpi-label">${label}</span><div class="kpi-value num">${val}<span class="unit">${unit}</span></div></div>`
+  document.getElementById('kpiGrid').innerHTML = kpis.map(([label,val,unit,sub])=>
+    `<div class="kpi-card${label==='ROAS'||label==='매출액'?' hero':''}"><span class="kpi-label">${label}</span><div class="kpi-value num">${val}<span class="unit">${unit}</span></div><span class="kpi-sub">${sub||'&nbsp;'}</span></div>`
   ).join('');
-  document.getElementById('kpiSub').textContent =
-    `노출 ${fmt(total.imp)} · 클릭 ${fmt(total.clk)}(CTR ${pct(total.ctr)}) · CPC ${fmt(total.cpc)}원 · CVR ${pct(total.cvr)}`;
 
   // quad-grid (GOOD / BAD / 개선하고 있는 것 / 개선이 필요한 것)
   const quadDefs = [
