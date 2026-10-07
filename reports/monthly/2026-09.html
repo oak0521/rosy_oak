@@ -178,6 +178,9 @@ svg.chart{width:100%;height:auto;overflow:visible;}
 .mm-nums .v{font-size:19px;font-weight:700;letter-spacing:-0.01em;}
 .mm-nums .v small{font-size:11px;font-weight:500;color:var(--text-muted);margin-left:2px;}
 .mm-svg{width:100%;height:auto;display:block;}
+.mm-legend2{display:flex;gap:14px;font-size:11px;color:var(--text-secondary);margin:2px 0 2px;}
+.mm-legend2 i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;}
+.mm-legend2 i.ln{width:14px;height:2px;border-radius:0;background:var(--critical);vertical-align:3px;}
 .mm-sub{font-size:11px;color:var(--text-muted);margin:4px 0 0;}
 .mm-roas{display:grid;margin-top:2px;font-size:11px;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;position:relative;}
 .mm-roas .cur{font-weight:800;}
@@ -666,33 +669,25 @@ function renderBrand(key){
     const cards = defs.map(([k,label,col])=>{
       const all = mb[k], d = all.slice(-N), n = d.length, cur = d[n-1], color = col || 'var(--accent)';
       const W=520, padL=48, padR=34, gw=(W-padL-padR)/(n-1), X = i => padL + gw*i;
-      // (1) 광고비·매출 꺾은선 (같은 축)
-      const H1=150, pT=22, pB=22, ph=H1-pT-pB;
+      // 광고비·매출 막대(왼쪽 축, 하단 영역) + ROAS 꺾은선(자체 스케일, 상단 영역 · 점마다 값 표기)
+      const H1=230, pT=12, pB=22, ph=H1-pT-pB, barArea=ph*0.62, bw=Math.min(16, gw*0.22);
       const mx = Math.max(1,...d.map(x=>Math.max(x.cost,x.rev)));
-      const Y = v => pT + ph - v/mx*ph;
-      let s1 = '';
-      [0,0.5,1].forEach(t=>{ const yy = pT+ph-t*ph; s1 += `<line x1="${padL-6}" x2="${W-padR+10}" y1="${yy}" y2="${yy}" stroke="var(--gridline)"/><text x="${padL-10}" y="${yy+3}" text-anchor="end" class="axis-label">${t?man(mx*t):0}</text>`; });
-      s1 += `<rect x="${X(n-1)-gw/2}" y="2" width="${gw}" height="${H1-6}" rx="6" fill="${color}" opacity="0.08"/>`;
-      const line = (key,dash,op,w) => `<polyline points="${d.map((x,i)=>X(i)+','+Y(x[key])).join(' ')}" fill="none" stroke="${color}" stroke-width="${w}" ${dash?'stroke-dasharray="5 4"':''} opacity="${op}" stroke-linejoin="round" stroke-linecap="round"/>`;
-      s1 += line('cost',true,0.7,2) + line('rev',false,1,2.6);
+      const base = pT+ph, YB = v => base - v/mx*barArea;
+      const rmin = Math.min(...d.map(x=>x.roas)), rmax = Math.max(...d.map(x=>x.roas)), rr = (rmax-rmin)||1;
+      const YR = v => pT + 14 + (1-(v-rmin)/rr)*(ph*0.24);
+      let s1 = `<rect x="${X(n-1)-gw/2}" y="2" width="${gw}" height="${H1-6}" rx="6" fill="${color}" opacity="0.08"/>`;
+      [0,0.5,1].forEach(t=>{ const yy = base-t*barArea; s1 += `<line x1="${padL-6}" x2="${W-padR+10}" y1="${yy}" y2="${yy}" stroke="var(--gridline)"/><text x="${padL-10}" y="${yy+3}" text-anchor="end" class="axis-label">${t?man(mx*t):0}</text>`; });
       d.forEach((x,i)=>{
         const tip = `${x.m} · 광고비 ${fmt(x.cost)}원 · 매출 ${fmt(x.rev)}원 · ROAS ${pct(x.roas)}`;
-        s1 += `<circle cx="${X(i)}" cy="${Y(x.cost)}" r="3" fill="var(--surface-1)" stroke="${color}" stroke-width="1.6"><title>${tip}</title></circle>`;
-        s1 += `<circle cx="${X(i)}" cy="${Y(x.rev)}" r="${i===n-1?5:3.5}" fill="${color}"><title>${tip}</title></circle>`;
-        s1 += `<text x="${X(i)}" y="${Y(x.rev)-9}" text-anchor="middle" class="axis-label" font-weight="${i===n-1?800:600}" fill="var(--text-primary)">${man(x.rev)}</text>`;
+        s1 += `<rect x="${X(i)-bw-1}" y="${YB(x.cost)}" width="${bw}" height="${base-YB(x.cost)}" rx="2" fill="${color}" opacity="0.38"><title>${tip}</title></rect>`;
+        s1 += `<rect x="${X(i)+1}" y="${YB(x.rev)}" width="${bw}" height="${base-YB(x.rev)}" rx="2" fill="${color}"><title>${tip}</title></rect>`;
+        s1 += `<text x="${X(i)+1+bw/2}" y="${YB(x.rev)-4}" text-anchor="middle" class="axis-label" font-weight="${i===n-1?800:600}" fill="var(--text-primary)">${man(x.rev)}</text>`;
         s1 += `<text x="${X(i)}" y="${H1-7}" text-anchor="middle" class="axis-label"${i===n-1?' font-weight="700"':''}>${x.m}</text>`;
       });
-      // (2) ROAS 꺾은선 (별도 축, 200%/500% 기준선)
-      const H2=84, q=14, rh=H2-q*2;
-      const rmax = Math.max(550,...d.map(x=>x.roas))*1.05;
-      const YR = v => q + rh - v/rmax*rh;
-      let s2 = '';
-      [[200,'var(--warning)'],[500,'var(--good)']].forEach(([v,c])=>{ s2 += `<line x1="${padL-6}" x2="${W-padR+10}" y1="${YR(v)}" y2="${YR(v)}" stroke="${c}" stroke-dasharray="3 4" opacity=".55"/><text x="${padL-10}" y="${YR(v)+3}" text-anchor="end" class="axis-label" fill="${c}">${v}</text>`; });
-      s2 += `<rect x="${X(n-1)-gw/2}" y="2" width="${gw}" height="${H2-4}" rx="6" fill="${color}" opacity="0.08"/>`;
-      s2 += `<polyline points="${d.map((x,i)=>X(i)+','+YR(x.roas)).join(' ')}" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linejoin="round"/>`;
+      s1 += `<polyline points="${d.map((x,i)=>X(i)+','+YR(x.roas)).join(' ')}" fill="none" stroke="var(--critical)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;
       d.forEach((x,i)=>{
-        s2 += `<circle cx="${X(i)}" cy="${YR(x.roas)}" r="${i===n-1?5:3.5}" fill="${roasCls(x.roas)}"/>`;
-        s2 += `<text x="${X(i)}" y="${YR(x.roas)-8}" text-anchor="middle" class="axis-label" font-weight="${i===n-1?800:600}" fill="${roasCls(x.roas)}">${Math.round(x.roas)}%</text>`;
+        s1 += `<circle cx="${X(i)}" cy="${YR(x.roas)}" r="${i===n-1?5:3.5}" fill="var(--surface-1)" stroke="var(--critical)" stroke-width="2"/>`;
+        s1 += `<text x="${X(i)}" y="${YR(x.roas)-9}" text-anchor="middle" class="axis-label" font-weight="${i===n-1?800:700}" fill="var(--critical)">${Math.round(x.roas)}%</text>`;
       });
       return `<div class="mm-card">
         <div class="mm-head"><span class="mm-title">${col?`<span class="media-dot" style="background:${col}"></span>`:''}${label}</span><span class="mm-note">최근 ${n}개월 · 9월 강조</span></div>
@@ -701,13 +696,11 @@ function renderBrand(key){
           <div><span class="l">매출액</span><span class="v num">${man(cur.rev)}<small>만원</small></span></div>
           <div><span class="l">ROAS</span><span class="v num" style="color:${roasCls(cur.roas)}">${pct(cur.roas).replace('%','')}<small>%</small></span></div>
         </div>
-        <div class="mm-sub">광고비(점선) · 매출액(실선) · 단위 만원</div>
+        <div class="mm-legend2"><span><i style="background:${color};opacity:.38"></i>광고비</span><span><i style="background:${color}"></i>매출액 (만원)</span><span><i class="ln"></i>ROAS (%)</span></div>
         <svg viewBox="0 0 ${W} ${H1}" class="mm-svg">${s1}</svg>
-        <div class="mm-sub">ROAS 추이 · 점선: 200% / 500% 기준</div>
-        <svg viewBox="0 0 ${W} ${H2}" class="mm-svg">${s2}</svg>
       </div>`;
     }).join('');
-    document.getElementById('momCard').innerHTML = `<div class="mom-head"><h3>월별 · 매체별 광고비 / 매출 / ROAS</h3><div class="mom-legend"><span>점 색(ROAS): <b style="color:var(--good)">500%↑</b> · <b style="color:var(--warning)">200%↑</b> · <b style="color:var(--critical)">200%↓</b></span></div></div><div class="mm-grid">${cards}</div>`;
+    document.getElementById('momCard').innerHTML = `<div class="mom-head"><h3>월별 · 매체별 광고비 / 매출 / ROAS</h3><div class="mom-legend"><span>막대 = 광고비·매출액(왼쪽 축) · 빨간 선 = ROAS(별도 스케일, 값 표기)</span></div></div><div class="mm-grid">${cards}</div>`;
   })();
 
   // quad-grid (GOOD / BAD / 개선하고 있는 것 / 개선이 필요한 것)
