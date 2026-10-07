@@ -155,6 +155,37 @@ svg.chart{width:100%;height:auto;overflow:visible;}
 .kpi-label{font-size:12.5px;color:var(--text-secondary);font-weight:600;}
 .kpi-card.hero{border-top:3px solid var(--accent);}
 .kpi-sub{font-size:11.5px;color:var(--text-muted);}
+.dchip{white-space:nowrap;display:inline-flex;align-items:center;gap:3px;width:fit-content;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;}
+.dchip.up{color:var(--good);background:var(--good-soft);}
+.dchip.down{color:var(--critical);background:var(--critical-soft);}
+.dchip.neutral{color:var(--text-secondary);background:var(--surface-2);}
+.dchip small{font-weight:500;opacity:.75;}
+/* ---- 전월 대비 비주얼 ---- */
+.mom-card{padding:20px 22px;margin-bottom:22px;}
+.mom-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.mom-head h3{font-size:15px;font-weight:700;margin:0;}
+.mom-head .sub{font-size:12px;color:var(--text-muted);}
+.mom-legend{display:flex;gap:14px;font-size:11.5px;color:var(--text-secondary);}
+.mom-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
+.mom-row{display:grid;grid-template-columns:96px 1fr 270px;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--gridline);}
+.mom-row:first-of-type{border-top:0;}
+.mom-row.total{padding-bottom:16px;}
+.mom-label{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;}
+.mom-bars{display:flex;flex-direction:column;gap:5px;}
+.bar-line{display:flex;align-items:center;gap:8px;}
+.bar-line .mo{width:22px;font-size:10.5px;color:var(--text-muted);flex:none;}
+.bar-track{flex:1;height:14px;border-radius:4px;background:var(--surface-2);overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;}
+.bar-val{width:74px;text-align:right;font-size:12px;font-weight:600;flex:none;}
+.mom-side{display:flex;flex-direction:column;gap:5px;align-items:flex-start;font-size:11.5px;color:var(--text-secondary);}
+.mom-side .roas-line{white-space:nowrap;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--text-primary);}
+.mom-side .roas-line span.arrow{color:var(--text-muted);font-weight:400;}
+@media (max-width:760px){.mom-row{grid-template-columns:1fr;gap:8px;}}
+.camp-list{display:flex;flex-direction:column;gap:9px;}
+.camp-item .top{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:3px;}
+.camp-item .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary);}
+.camp-item .nm b{color:var(--text-primary);font-weight:600;}
+.camp-item .rv{white-space:nowrap;font-weight:700;display:flex;align-items:center;gap:6px;}
 .kpi-value{font-size:30px;line-height:1.15;font-weight:700;letter-spacing:-0.01em;}
 .kpi-value .unit{font-size:13px;font-weight:500;color:var(--text-muted);margin-left:2px;}
 @media (max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
@@ -299,6 +330,7 @@ footer.foot{
     <h2 class="section-title">핵심 요약</h2>
     <p class="section-sub">2026.09.01 – 09.30 · 전체 월 합계</p>
     <div class="kpi-grid" id="kpiGrid"></div>
+    <div class="card mom-card" id="momCard"></div>
     <div class="quad-grid" id="quadGrid"></div>
 
     <div class="split-row">
@@ -319,14 +351,9 @@ footer.foot{
         </div>
       </div>
       <div class="card">
-        <h3>캠페인 TOP 5 (매출액 순)</h3>
-        <p class="card-sub">이번 달 매출 기준 상위 캠페인</p>
-        <div style="overflow-x:auto;">
-        <table class="data-table" id="topTable">
-          <thead><tr><th>캠페인</th><th class="num">매출액</th><th class="num">ROAS</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        </div>
+        <h3>캠페인 TOP 8 (매출액 순)</h3>
+        <p class="card-sub">막대 = 매출액 · 색 = 매체 · 배지 = ROAS</p>
+        <div class="camp-list" id="topList"></div>
       </div>
     </div>
   </div>
@@ -439,6 +466,7 @@ const BRANDS = {
     label: '아넬라',
     title: '아넬라 월간 리포트',
     brandRe: /아넬라|anela|아델라/i,
+    prev: {imp:1729702, clk:22847, cost:13399262, conv:3163, rev:126267780},   // 8월 (2026-08 리포트 raw 집계)
     campaigns: [
       {media: "search", src: "브랜드검색", chan: "store", name: "아넬라_브검_모바일", imp: 4754, clk: 2251, cost: 880000.0, conv: 644, rev: 27641670},
       {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_과자(떡뻥)_브랜드K", imp: 12710, clk: 92, cost: 12561, conv: 27, rev: 490530},
@@ -506,6 +534,7 @@ const BRANDS = {
     label: '로지오가닉',
     title: '로지오가닉 월간 리포트',
     brandRe: /로지|rosy|목소리도맑음/i,
+    prev: {imp:557360, clk:9549, cost:7559255, conv:1536, rev:36949483},   // 8월 (2026-08 리포트 raw 집계)
     campaigns: [
       {media: "search", src: "브랜드검색", chan: "store", name: "로지오가닉_브검_모바일", imp: 2811, clk: 1272, cost: 880000.0, conv: 411, rev: 9818930},
       {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_과자 캠페인_신제품", imp: 37746, clk: 391, cost: 575833, conv: 62, rev: 1208540},
@@ -606,18 +635,50 @@ function renderBrand(key){
   const rows = b.campaigns;
   const total = agg(rows);
 
-  // KPI tiles
+  // KPI tiles (전월 대비 증감 배지 포함)
+  const pv = b.prev, pRoas = roasOf(pv.cost, pv.rev);
+  const dchip = (cur, prev, kind) => {
+    if(!prev) return '';
+    const d = (cur/prev-1)*100, up = d>=0;
+    const cls = kind==='neutral' ? 'neutral' : (up?'up':'down');
+    return `<span class="dchip ${cls}">${up?'▲':'▼'} ${Math.abs(d).toFixed(1)}%<small>전월비</small></span>`;
+  };
+  const rd = total.roas - pRoas;
   const kpis = [
-    ['노출', fmt(total.imp), '', ''],
-    ['클릭', fmt(total.clk), '', `CTR ${pct(total.ctr)} · CPC ${fmt(total.cpc)}원`],
-    ['광고비', fmt(Math.round(total.cost/10000)), '만원', ''],
-    ['구매', fmt(total.conv), '건', `CVR ${pct(total.cvr)}`],
-    ['매출액', fmt(Math.round(total.rev/10000)), '만원', ''],
-    ['ROAS', pct(total.roas).replace('%',''), '%', ''],
+    ['노출', fmt(total.imp), '', '', dchip(total.imp,pv.imp)],
+    ['클릭', fmt(total.clk), '', `CTR ${pct(total.ctr)} · CPC ${fmt(total.cpc)}원`, dchip(total.clk,pv.clk)],
+    ['광고비', fmt(Math.round(total.cost/10000)), '만원', '', dchip(total.cost,pv.cost,'neutral')],
+    ['구매', fmt(total.conv), '건', `CVR ${pct(total.cvr)}`, dchip(total.conv,pv.conv)],
+    ['매출액', fmt(Math.round(total.rev/10000)), '만원', '', dchip(total.rev,pv.rev)],
+    ['ROAS', pct(total.roas).replace('%',''), '%', `전월 ${pct(pRoas)}`, `<span class="dchip ${rd>=0?'up':'down'}">${rd>=0?'▲':'▼'} ${Math.abs(rd).toFixed(1)}%p<small>전월비</small></span>`],
   ];
-  document.getElementById('kpiGrid').innerHTML = kpis.map(([label,val,unit,sub])=>
-    `<div class="kpi-card${label==='ROAS'||label==='매출액'?' hero':''}"><span class="kpi-label">${label}</span><div class="kpi-value num">${val}<span class="unit">${unit}</span></div><span class="kpi-sub">${sub||'&nbsp;'}</span></div>`
+  document.getElementById('kpiGrid').innerHTML = kpis.map(([label,val,unit,sub,chip])=>
+    `<div class="kpi-card${label==='ROAS'||label==='매출액'?' hero':''}"><span class="kpi-label">${label}</span><div class="kpi-value num">${val}<span class="unit">${unit}</span></div>${chip}<span class="kpi-sub">${sub||'&nbsp;'}</span></div>`
   ).join('');
+
+  // 전월 대비 매체별 비주얼 (8월 vs 9월 매출 막대 + ROAS 변화)
+  (function(){
+    const mb = b.monthlyByMedia;
+    const rowsDef = [['all','전체',null],['search','네이버 검색',mediaColor.search],['gfa','GFA',mediaColor.gfa],['meta','메타',mediaColor.meta]];
+    const get = k => { const d = mb[k], n = d.length; return {p:d[n-2], c:d[n-1]}; };
+    const mediaMax = Math.max(...['search','gfa','meta'].map(k=>{const x=get(k); return Math.max(x.p.rev,x.c.rev);}));
+    const html = rowsDef.map(([k,label,col])=>{
+      const {p,c} = get(k);
+      const mx = k==='all' ? Math.max(p.rev,c.rev) : mediaMax;
+      const color = col || 'var(--accent)';
+      const line = (mo,v,op) => `<div class="bar-line"><span class="mo">${mo}</span><div class="bar-track"><div class="bar-fill" style="width:${mx?(v/mx*100).toFixed(1):0}%;background:${color};opacity:${op}"></div></div><span class="bar-val num">${fmt(Math.round(v/10000))}만원</span></div>`;
+      const dr = p.rev ? (c.rev/p.rev-1)*100 : 0, dRoas = c.roas - p.roas;
+      return `<div class="mom-row${k==='all'?' total':''}">
+        <div class="mom-label">${col?`<span class="media-dot" style="background:${col}"></span>`:''}${label}</div>
+        <div class="mom-bars">${line('8월',p.rev,0.38)}${line('9월',c.rev,1)}</div>
+        <div class="mom-side">
+          <div class="roas-line num">ROAS ${pct(p.roas)} <span class="arrow">→</span> ${pct(c.roas)} <span class="dchip ${dRoas>=0?'up':'down'}">${dRoas>=0?'▲':'▼'} ${Math.abs(dRoas).toFixed(0)}%p</span></div>
+          <div>매출 <span class="dchip ${dr>=0?'up':'down'}">${dr>=0?'▲':'▼'} ${Math.abs(dr).toFixed(1)}%</span></div>
+          <div class="num">광고비 ${fmt(Math.round(p.cost/10000))}만 → ${fmt(Math.round(c.cost/10000))}만원</div>
+        </div></div>`;
+    }).join('');
+    document.getElementById('momCard').innerHTML = `<div class="mom-head"><h3>전월 대비 매출 · ROAS</h3><div class="mom-legend"><span><i style="background:var(--text-muted);opacity:.5"></i>8월</span><span><i style="background:var(--accent)"></i>9월</span></div></div>${html}`;
+  })();
 
   // quad-grid (GOOD / BAD / 개선하고 있는 것 / 개선이 필요한 것)
   const quadDefs = [
@@ -650,14 +711,12 @@ function renderBrand(key){
   buildDonut('cost', 'costDonut', 'costLegend', 'costSub', total.cost);
   buildDonut('rev', 'revDonut', 'revLegend', 'revSub', total.rev);
 
-  // top 5 campaigns by revenue
-  const top5 = [...rows].sort((a,b)=>b.rev-a.rev).slice(0,5);
-  document.querySelector('#topTable tbody').innerHTML = top5.map(r=>{
+  // top 8 campaigns by revenue (bar list)
+  const top8 = [...rows].sort((a,b)=>b.rev-a.rev).slice(0,8), topMax = top8[0] ? top8[0].rev : 1;
+  document.getElementById('topList').innerHTML = top8.map(r=>{
     const roas = r.cost ? r.rev/r.cost*100 : 0;
     const cls = !r.cost ? 'warning' : roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
-    return `<tr><td><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${r.name}</td>` +
-           `<td class="num">${fmt(Math.round(r.rev/10000))}만</td>` +
-           `<td class="num"><span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></td></tr>`;
+    return `<div class="camp-item"><div class="top"><span class="nm" title="${r.name}"><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${r.name}</span><span class="rv num">${fmt(Math.round(r.rev/10000))}만 <span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></span></div><div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:${(r.rev/topMax*100).toFixed(1)}%;background:${mediaColor[r.media]}"></div></div></div>`;
   }).join('');
 
   // media table
