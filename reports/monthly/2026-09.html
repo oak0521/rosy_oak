@@ -861,8 +861,8 @@ function renderKeyword(){
   // ---------- 신규 키워드 제안 ----------
   const E = M.ext, kwCat = t => b.brandRe.test(t) ? ['info','브랜드 조합'] : MONTH_RE.test(t) ? ['good','월령'] : INFO_RE.test(t) ? ['good','질문형'] : ['','제품·성분'];
   document.getElementById('kwExtSub').textContent = `파워링크 확장검색·유사검색어 중 아직 키워드로 등록되지 않은 검색어에서 3개월간 전환 검색어 ${E.tot.terms}개 · 구매 ${E.tot.conv}건 · 매출 ${fmt(E.tot.rev)}원이 발생했습니다(광고비 ${fmt(E.tot.cost)}원). 대부분 1건짜리 롱테일이라 3개월 구매 2건 이상만 추려 등록을 제안합니다`;
-  document.getElementById('kwExt').innerHTML = tbl(['검색어','분류','클릭','구매 7/8/9월','3개월 구매','3개월 매출'],
-    E.rows.map(r=>{ const c = kwCat(r[0]); return `<tr><td>${r[0]}</td><td style="text-align:left;">${tagH(c[0],c[1])}</td><td class="num">${fmt(r[1])}</td><td class="num">${r[5].join(' / ')}</td><td class="num">${r[2]}</td><td class="num">${fmt(r[3])}원</td></tr>`; }),
+  document.getElementById('kwExt').innerHTML = tbl(['검색어','분류','클릭','구매 7/8/9월','3개월 구매','3개월 광고비','3개월 매출'],
+    E.rows.map(r=>{ const c = kwCat(r[0]); return `<tr><td>${r[0]}</td><td style="text-align:left;">${tagH(c[0],c[1])}</td><td class="num">${fmt(r[1])}</td><td class="num">${r[5].join(' / ')}</td><td class="num">${r[2]}</td><td class="num">${r[4]>0?fmt(r[4])+'원':'–'}</td><td class="num">${fmt(r[3])}원</td></tr>`; }),
     '제안할 검색어가 없습니다.');
 
   // ---------- 쇼핑검색 검색어 (3개월) ----------
