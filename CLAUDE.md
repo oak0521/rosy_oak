@@ -349,7 +349,7 @@ instead, and an index page ties them together:
     패턴별 효율, 제외 제안, 경쟁 전략 제안). 기준: 효율은 ROAS 200%·브랜드 평균×1.2 (손익분기/마진 기반
     판정은 쓰지 않음 — 사용자가 마진 기준을 확정하지 않았다), 구매 5건 미만은 CTR·전환율, 제외는 광고비가
     아니라 클릭 기준(3개월 클릭 30회+ 무전환). **월령·질문형 키워드/검색어("○개월", "돌아기", "언제부터",
-    "추천" 등)는 전환이 없어도 제외하지 않는다**(사용자 방침: 초보 부모 1순위 검색 → 브랜드 인지). 다음
+    "추천" 등)는 전환이 없어도 제외하지 않는다**(사용자 방침: 초보 부모 1순위 검색 → 브랜드 인지). **사용자 지정 유지 키워드**(`KEEP` 배열, 현재 `유기농쌀과자` — 과자 카테고리 메인 키워드)는 구매 0이어도 제외 제안에서 빼고 "유지 결정"으로 표기한다. 다음
     달 리포트는 직전 3개월 월별 키워드·검색어 CSV를 새로 받아 `m3` 데이터를 갱신한다.
   - `#creative` — a **new** full data table of every campaign/ad row (all of `campaigns`, not just
     top 5), sorted by revenue descending, with a ROAS status pill per row. This is a **plain table,
