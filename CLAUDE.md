@@ -357,6 +357,13 @@ instead, and an index page ties them together:
     creative thumbnails live, and duplicating those into the monthly report is exactly what the
     "numbers/trend-only, stay lightweight" rule above is meant to prevent.
 
+### 주차 표기 규칙 (established 2026.10.13 — follow it)
+라이브 리포트의 주차 표기는 연번(N주차)이 아니라 **대행사 코멘트가 쓰는 "n월 n주차"** 를 그대로 따른다
+(예: 10/5–10/11 = "10월 2주차", 9/28–10/4 = "10월 1주차"). `<title>`, `.period`, `section-sub`, 주간 비교
+표의 행 라벨, `archive.html` 히어로 카드에 적용한다. 이미 아카이브된 과거 스냅샷(9주차 이전)은 소급 변경하지 않는다.
+화요일 세션은 먼저 `git branch -r`/`git log --all`로 월요일 루틴이 다른 브랜치에 남긴 집계 커밋을 찾아 병합한
+뒤 시작한다(월요일 세션이 별도 브랜치에 푸시한 적 있음).
+
 ### Weekly workflow order (updated)
 
 Each Monday, **before** overwriting `campaigns`/`mediaNotes` for the new week, first check
