@@ -171,7 +171,7 @@ old pattern as license to apply the same division to new raw-platform numbers; i
 
 ### Weekly automation (fresh-session-per-fire, established 2026.09 — follow it)
 The user's work hours are **10:00–19:00 KST** — don't schedule triggers outside that window.
-Four Routines drive the Mon-upload → Tue-finalize → Thu-mission → monthly-rollup cadence. As of
+Three Routines drive the Tue-build-and-publish → Thu-mission → monthly-rollup cadence (Monday and Tuesday were merged 2026.10.19). As of
 2026.09 they all use `create_new_session_on_fire: true` — **each firing spawns a brand-new session
 with no memory of any prior conversation**, so every Routine prompt is written as a complete,
 standalone instruction, and every fired session must re-derive current state from the repo (git
@@ -180,25 +180,28 @@ with whichever session did last week's work. This is deliberate: CLAUDE.md plus 
 carry everything a fresh session needs to pick the work back up correctly — piling every week into
 one ever-growing conversation only adds compaction risk and per-turn token overhead with no benefit
 (this project's own long-running session hit its first auto-compaction well before this change).
-(See `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit any of the four.)
+(See `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit any of the three.)
 
-- **Monday 10:30 KST** — starts the week. First archives last week's report if it isn't already in
-  `reports/archive.html`'s `WEEKLIES` array (see "Weekly workflow order" below), then asks the user
-  for that week's raw files (Naver SA CSV, Naver GFA CSV with a revenue column, the Meta xlsx pair,
-  any new creative zip). Once the files land (same session, same day or later), aggregates by brand
-  and rebuilds `campaigns`/the weekly comparison table's numbers, then **commits that to git but
-  does not publish yet** — the quad-grid/`mediaNotes` narrative needs the agency's comment, which
-  hasn't arrived yet, and the live Artifact should keep showing last week's *complete* report rather
-  than a half-written draft in the meantime.
-- **The agency's free-text weekly comment arrives separately from the client**, usually by Tuesday
-  10:30 KST.
-- **Tuesday 14:00 KST — this is where the week's report actually gets finalized and published.**
-  Reads the current repo state (Monday's numbers-only commit, if it landed) and asks for the
-  agency's comment if it hasn't been given yet. Once received: cross-check every number against the
-  raw platform data (per the workflow above), apply the 브랜드검색 commentary threshold above,
-  write the quad-grid 핵심요약 and `mediaNotes` for both brands, then publish + commit the final
-  version — this publish is the one the CEO actually reads. If Monday's raw data never arrived at
-  all, re-request it here instead, with a reminder that Thursday 2pm is the CEO meeting.
+- **Tuesday 14:00 KST (merged Monday+Tuesday routine, 2026.10.19 — one session does everything)** —
+  the former Monday "numbers-only" routine and Tuesday "finalize" routine are one Routine now. The
+  split caused real problems (Monday's session pushed to a different branch than Tuesday's, and the
+  Tuesday session initially reported "no data"), and the agency comment arrives by Tuesday 10:30
+  anyway, so there is nothing to gain from a numbers-only intermediate commit. One fresh session:
+  1. `git fetch` + `git branch -r`/`git log --all` to re-derive state (a stray earlier-routine
+     branch may still hold work — merge it if so), then archive the outgoing week if it isn't in
+     `WEEKLIES` yet (see "Weekly workflow order").
+  2. Ask the user — in one message — for *all* inputs: Naver SA CSV, Naver GFA CSV (with revenue
+     column), the Meta xlsx pair, any new creative zip, **and** the agency's free-text weekly
+     comment for both brands, plus the 컨텐츠/기타 업무 진행사항 bullets. Remind them Thursday 2pm is
+     the CEO meeting.
+  3. Aggregate by brand → rebuild `campaigns`/KPI/weekly comparison numbers; cross-check every
+     number in the comment against the aggregate (chat-only notes on mismatches, report carries the
+     raw-derived numbers); apply the 브랜드검색 threshold; write quad-grid + `mediaNotes` +
+     컨텐츠 list; update every per-week string (`<title>`, `.period`, `#summary` section-sub, other
+     section-subs, footSource, comparison-table row labels, archive hero card) in the "n월 n주차"
+     format; `node --check`; publish live report + archive; commit/push to the designated branch.
+  If the files/comment haven't arrived, the session notifies the user (PushNotification) and stops
+  without editing or publishing — the live Artifact keeps showing the last complete week.
 - **Thursday 18:00 KST** — after the Thursday 2pm CEO meeting, asks the user whether there's
   content for *next* week's `#mission` section (single shared block, not per-brand). If nothing,
   leave `#mission` empty rather than carrying over a stale mission; if given, research as needed
@@ -366,7 +369,7 @@ instead, and an index page ties them together:
 
 ### Weekly workflow order (updated)
 
-Each Monday, **before** overwriting `campaigns`/`mediaNotes` for the new week, first check
+Each week (in the merged Tuesday routine), **before** overwriting `campaigns`/`mediaNotes` for the new week, first check
 `reports/archive.html`'s `WEEKLIES` array for the *outgoing* week's period-start date — if it's
 already listed (e.g. it was archived out-of-cycle, as happened for 3주차/`2026-08-17` when this
 whole archive system was bootstrapped on 2026.08.31), skip straight to overwriting; don't archive
