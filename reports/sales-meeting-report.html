@@ -463,6 +463,87 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
 @media (max-width:520px){.vz-cols{grid-template-columns:1fr;}}
 .vz-state{font-size:11px;font-weight:700;margin:0 0 4px;display:flex;align-items:center;gap:6px;}
 .vz-state .vz-dot{width:8px;height:8px;}
+
+/* ---------- product purposes (expandable) ---------- */
+.pp-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--text-muted);margin-bottom:4px;align-items:center;}
+.pp-legend i{display:inline-block;width:10px;height:6px;border-radius:3px;margin-right:6px;vertical-align:1px;}
+.pp-hint{margin-left:auto;}
+@media (max-width:720px){.pp-hint{margin-left:0;flex-basis:100%;}}
+.pp{border:1px solid var(--border);border-radius:12px;background:var(--surface-1);box-shadow:var(--shadow);margin-top:10px;overflow:hidden;}
+.pp>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(130px,.9fr) 2.2fr 92px 18px;gap:18px;align-items:center;padding:14px 18px;}
+.pp>summary::-webkit-details-marker{display:none;}
+.pp>summary:hover{background:var(--surface-2);}
+.pp[open]>summary{background:var(--surface-2);border-bottom:1px solid var(--border);}
+.pp-name b{font-size:14px;font-weight:700;display:block;}
+.pp-name small{font-size:11px;color:var(--text-muted);}
+.pp-bars{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.pp-b{display:grid;grid-template-columns:1fr 128px;gap:10px;align-items:center;font-size:11px;color:var(--text-muted);}
+.pp-b .trk{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden;}
+.pp[open] .pp-b .trk{background:var(--surface-1);}
+.pp-b .fill{height:100%;border-radius:4px;}
+.pp-b .v{text-align:right;white-space:nowrap;}
+.pp-b .v b{font-weight:600;color:var(--text-secondary);}
+.pp-roas{text-align:right;}
+.pp-roas .status-pill{font-size:12px;padding:3px 10px;}
+.pp .chev{width:8px;height:8px;border-right:1.6px solid var(--text-muted);border-bottom:1.6px solid var(--text-muted);transform:rotate(-45deg);transition:transform .15s;justify-self:end;}
+.pp[open] .chev{transform:rotate(45deg);}
+@media (max-width:720px){
+  .pp>summary{grid-template-columns:1fr auto 18px;gap:10px 12px;}
+  .pp-bars{grid-column:1 / -1;order:3;}
+}
+.pp-grp{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--text-secondary);padding:12px 18px 6px;}
+.pp-grp .media-dot{margin:0;}
+.pp-grp span.sub{font-weight:500;color:var(--text-muted);}
+.ad{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid var(--gridline);}
+.ad.nothumb{grid-template-columns:1fr auto;}
+.ad-thumb{width:64px;height:64px;border-radius:9px;object-fit:cover;border:1px solid var(--border);display:block;}
+.ad-thumb-wrap{position:relative;width:64px;height:64px;}
+.ad-thumb.empty{display:flex;align-items:center;justify-content:center;text-align:center;background:var(--surface-2);color:var(--text-muted);font-size:10px;line-height:1.3;}
+.ad-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;background:rgba(0,0,0,.28);border-radius:9px;pointer-events:none;}
+.ad-main{min-width:0;display:flex;flex-direction:column;gap:6px;}
+.ad-name{font-size:13px;font-weight:600;overflow-wrap:anywhere;}
+.ad-meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:11.5px;color:var(--text-muted);}
+.ad-prod b{color:var(--text-primary);font-weight:600;}
+.ad-flag{font-size:10px;font-weight:700;color:var(--warning);background:var(--warning-soft);border-radius:5px;padding:1px 6px;}
+.ad-stats{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:11.5px;color:var(--text-muted);}
+.ad-stats b{color:var(--text-secondary);font-weight:600;margin-right:3px;}
+.ad-roas{text-align:right;min-width:78px;}
+.ad-roas .big{font-size:16px;font-weight:700;display:block;}
+.ad-roas .st{font-size:10.5px;font-weight:700;}
+@media (max-width:560px){.ad{grid-template-columns:48px 1fr;}.ad-thumb,.ad-thumb-wrap{width:48px;height:48px;}.ad-roas{grid-column:1 / -1;text-align:left;display:flex;gap:8px;align-items:baseline;}.ad.nothumb{grid-template-columns:1fr;}}
+.pp-note{font-size:11.5px;color:var(--text-muted);margin:12px 0 0;}
+
+/* ---------- media overview ---------- */
+.mo-card{padding:18px 20px 14px;margin-top:4px;}
+.mo-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px;align-items:center;}
+.mo-title{font-size:13.5px;font-weight:700;margin:0;}
+.mo-leg{display:flex;gap:14px;font-size:11.5px;color:var(--text-muted);}
+.mo-leg i{display:inline-block;width:10px;height:6px;border-radius:3px;margin-right:6px;vertical-align:1px;background:var(--text-muted);}
+.mo-leg i.c{opacity:.4;}
+.mo-row{display:grid;grid-template-columns:116px 1fr 150px;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--gridline);}
+.mo-row:first-of-type{border-top:0;}
+@media (max-width:640px){.mo-row{grid-template-columns:1fr auto;gap:8px 12px;}.mo-row .mo-bars{grid-column:1 / -1;order:3;}}
+.mo-lbl{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:7px;}
+.mo-lbl .media-dot{margin:0;width:8px;height:8px;}
+.mo-lbl small{display:block;font-weight:400;font-size:10.5px;color:var(--text-muted);}
+.mo-bars{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.mo-bar{display:flex;align-items:center;gap:8px;height:14px;}
+.mo-bar .b{height:12px;border-radius:2px 5px 5px 2px;flex:none;min-width:2px;}
+.mo-bar .t{font-size:11px;color:var(--text-secondary);white-space:nowrap;}
+.mo-roas{text-align:right;}
+.mo-roas .big{font-size:18px;font-weight:700;display:block;line-height:1.2;}
+.mo-roas .prev{font-size:11px;color:var(--text-muted);display:block;}
+.mo-roas .pill{display:inline-block;margin-top:3px;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;}
+.mo-roas .pill.up{background:var(--good-soft);color:var(--good);}
+.mo-roas .pill.dn{background:var(--critical-soft);color:var(--critical);}
+.mo-roas .pill.flat{background:var(--warning-soft);color:var(--warning);}
+.mc-wrap{display:flex;flex-direction:column;gap:10px;margin-top:12px;}
+.mc-title{font-size:12px;font-weight:700;color:var(--text-muted);margin:6px 0 0;letter-spacing:.02em;}
+.mc{border:1px solid var(--border);border-left-width:3px;border-radius:10px;background:var(--surface-1);padding:12px 16px;}
+.mc.warn{background:var(--warning-soft);border-color:var(--warning);}
+.mc-h{font-size:12.5px;font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:7px;}
+.mc ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:3px;}
+.mc li{font-size:12.5px;color:var(--text-secondary);list-style:disc;}
 </style>
 
 <header class="top">
@@ -481,8 +562,6 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <a href="#product">광고·상품</a>
     <a href="#customers">신규·재구매</a>
     <a href="#voucher">베이비바우처</a>
-    <a href="#comment">코멘트</a>
-    <a href="#trend">월별 추이</a>
     <a href="#media">매체별 성과</a>
     <a href="#creative">소재별 성과</a>
   </nav>
@@ -789,17 +868,10 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
   <!-- ============ SALES DRAFT: PRODUCT / ADS ============ -->
   <section id="product">
     <div class="section-head"><div><h2 class="section-title">광고 · 상품 현황</h2>
-      <p class="section-sub">어떤 상품·목적으로 광고를 집행 중이고 성과가 어떤가 · 10월 3주차(10/12–10/18) · 목적·상품 분류는 초안(확인 필요)</p></div></div>
+      <p class="section-sub">광고 목적을 누르면 해당 목적의 광고가 성과 데이터·소재 이미지와 함께 펼쳐집니다 · 네이버 검색광고는 광고세트, GFA·메타는 광고소재 단위 · 10월 3주차(10/12–10/18)</p></div></div>
     <div data-brand-panel="anela">
-      <h3 class="sub-h">광고 목적별 성과</h3>
-      <div class="tbl-wrap"><table class="data"><thead><tr><th>광고 목적(안)</th><th>광고비</th><th>매출액</th><th>구매</th><th>ROAS</th><th>매출 비중</th></tr></thead><tbody><tr><td>신규 확보</td><td class="num">1,056,381원</td><td class="num">10,409,651원</td><td class="num">210</td><td class="num"><span class="status-pill good">985%</span></td><td class="num">30.1%</td></tr><tr><td>상품 검색</td><td class="num">886,030원</td><td class="num">8,602,220원</td><td class="num">203</td><td class="num"><span class="status-pill good">971%</span></td><td class="num">24.9%</td></tr><tr><td>리타겟·재구매</td><td class="num">360,071원</td><td class="num">3,629,900원</td><td class="num">87</td><td class="num"><span class="status-pill good">1,008%</span></td><td class="num">10.5%</td></tr><tr><td>브랜드</td><td class="num">224,019원</td><td class="num">11,307,370원</td><td class="num">227</td><td class="num"><span class="status-pill good">5,048%</span></td><td class="num">32.7%</td></tr><tr><td>프로모</td><td class="num">0원</td><td class="num">650,900원</td><td class="num">14</td><td class="num"><span class="status-pill warning">–</span></td><td class="num">1.9%</td></tr><tr><td><b>합계</b></td><td class="num"><b>2,526,501원</b></td><td class="num"><b>34,600,041원</b></td><td class="num"><b>741</b></td><td class="num"><span class="status-pill good">1,369%</span></td><td class="num">100%</td></tr></tbody></table></div>
-      <h3 class="sub-h">광고별 상세</h3>
-      <div class="tbl-wrap"><table class="data ad-table"><thead><tr><th>목적(안)</th><th>매체</th><th>광고(그룹)</th><th>상품(안)</th><th>광고비</th><th>매출액</th><th>구매</th><th>ROAS</th></tr></thead><tbody><tr><td>신규 확보</td><td>GFA</td><td>아넬라_상시_테스트 운영</td><td>웹전환(상품 확인 필요)</td><td class="num">328,368원</td><td class="num">6,994,890원</td><td class="num">130</td><td class="num"><span class="status-pill good">2,130%</span></td></tr><tr><td>신규 확보</td><td>메타</td><td>260729_자사몰_시크릿링크_검색</td><td>자사몰 시크릿링크</td><td class="num">307,569원</td><td class="num">1,668,200원</td><td class="num">39</td><td class="num"><span class="status-pill good">542%</span></td></tr><tr><td>신규 확보</td><td>메타</td><td>260305_아넬라_베이비바우처(파트너십영상)_2</td><td>베이비바우처 파트너십</td><td class="num">212,326원</td><td class="num">1,252,461원</td><td class="num">29</td><td class="num"><span class="status-pill good">590%</span></td></tr><tr><td>신규 확보</td><td>메타</td><td>260729_자사몰_시크릿링크_7일뒤</td><td>자사몰 시크릿링크</td><td class="num">45,658원</td><td class="num">394,300원</td><td class="num">10</td><td class="num"><span class="status-pill good">864%</span></td></tr><tr><td>신규 확보</td><td>GFA</td><td>아넬라_신규타겟_소구5종</td><td>신규 타겟 소재 5종(OFF)</td><td class="num">117,360원</td><td class="num">53,900원</td><td class="num">1</td><td class="num"><span class="status-pill critical">46%</span></td></tr><tr><td>신규 확보</td><td>파워링크</td><td>SA_아넬라 캠페인_베이비바우처</td><td>베이비바우처</td><td class="num">1,971원</td><td class="num">45,900원</td><td class="num">1</td><td class="num"><span class="status-pill good">2,329%</span></td></tr><tr><td>신규 확보</td><td>메타</td><td>260519_아넬라_웰컴박스_0원</td><td>웰컴박스</td><td class="num">211원</td><td class="num">0원</td><td class="num">0</td><td class="num"><span class="status-pill critical">0%</span></td></tr><tr><td>신규 확보</td><td>메타</td><td>260519_아넬라_웰컴박스_공짜</td><td>웰컴박스</td><td class="num">42,918원</td><td class="num">0원</td><td class="num">0</td><td class="num"><span class="status-pill critical">0%</span></td></tr><tr><td>상품 검색</td><td>쇼핑검색</td><td>SSA_아넬라_퓨레종합_브랜드K</td><td>과일퓨레</td><td class="num">123,581원</td><td class="num">3,900,090원</td><td class="num">81</td><td class="num"><span class="status-pill good">3,156%</span></td></tr><tr><td>상품 검색</td><td>쇼핑검색</td><td>SSA_아넬라_퓨레종합_일반K</td><td>과일퓨레</td><td class="num">359,447원</td><td class="num">2,405,200원</td><td class="num">58</td><td class="num"><span class="status-pill good">669%</span></td></tr><tr><td>상품 검색</td><td>파워링크</td><td>SA_아넬라 캠페인_퓨레K</td><td>과일퓨레</td><td class="num">149,524원</td><td class="num">1,003,900원</td><td class="num">24</td><td class="num"><span class="status-pill good">671%</span></td></tr><tr><td>상품 검색</td><td>쇼핑검색</td><td>SSA_아넬라_퓨레개별_통합k</td><td>과일퓨레</td><td class="num">45,837원</td><td class="num">719,600원</td><td class="num">14</td><td class="num"><span class="status-pill good">1,570%</span></td></tr><tr><td>상품 검색</td><td>쇼핑검색</td><td>SSA_아넬라_과자(떡뻥)_일반K</td><td>쌀과자</td><td class="num">206,588원</td><td class="num">467,300원</td><td class="num">21</td><td class="num"><span class="status-pill warning">226%</span></td></tr><tr><td>상품 검색</td><td>쇼핑검색</td><td>SSA_아넬라_과자(떡뻥)_브랜드K</td><td>쌀과자</td><td class="num">1,053원</td><td class="num">106,130원</td><td class="num">5</td><td class="num"><span class="status-pill good">10,079%</span></td></tr><tr><td>리타겟·재구매</td><td>메타</td><td>아넬라_카탈로그_260629</td><td>카탈로그</td><td class="num">314,394원</td><td class="num">2,966,500원</td><td class="num">75</td><td class="num"><span class="status-pill good">944%</span></td></tr><tr><td>리타겟·재구매</td><td>GFA</td><td>아넬라_카탈로그_리타겟기반</td><td>카탈로그</td><td class="num">45,677원</td><td class="num">663,400원</td><td class="num">12</td><td class="num"><span class="status-pill good">1,452%</span></td></tr><tr><td>브랜드</td><td>브랜드검색</td><td>아넬라_브검_모바일</td><td>브랜드 전체</td><td class="num">205,333원</td><td class="num">10,766,370원</td><td class="num">218</td><td class="num"><span class="status-pill good">5,243%</span></td></tr><tr><td>브랜드</td><td>파워링크</td><td>SA_아넬라 캠페인_브랜드K</td><td>브랜드 키워드</td><td class="num">16,642원</td><td class="num">541,000원</td><td class="num">9</td><td class="num"><span class="status-pill good">3,251%</span></td></tr><tr><td>브랜드</td><td>파워링크</td><td>SA_아넬라 캠페인_과자k(브랜드)</td><td>쌀과자</td><td class="num">2,044원</td><td class="num">0원</td><td class="num">0</td><td class="num"><span class="status-pill critical">0%</span></td></tr><tr><td>프로모</td><td>GFA</td><td>아넬라_프로모_추석세일</td><td>추석 프로모(OFF)</td><td class="num">0원</td><td class="num">650,900원</td><td class="num">14</td><td class="num"><span class="status-pill warning">–</span></td></tr></tbody></table></div>
-      <h3 class="sub-h">스마트스토어 상품군별 판매(아넬라 스토어 전체)</h3>
-      <div class="tbl-wrap"><table class="data"><thead><tr><th>상품군</th><th>결제건수</th><th>전주 결제건수</th><th>판매금액</th><th>전주 판매금액</th><th>증감</th></tr></thead><tbody><tr><td>아넬라 과일퓨레</td><td class="num">2,401</td><td class="num">609</td><td class="num">52,008,750원</td><td class="num">13,550,800원</td><td class="num">+284%</td></tr><tr><td>아넬라 쌀과자</td><td class="num">284</td><td class="num">80</td><td class="num">2,966,920원</td><td class="num">1,066,310원</td><td class="num">+178%</td></tr><tr><td>로지오가닉 상품(아넬라 스토어 판매)</td><td class="num">48</td><td class="num">41</td><td class="num">1,035,760원</td><td class="num">947,350원</td><td class="num">+9%</td></tr><tr><td><b>합계(상품별 집계)</b></td><td class="num"><b>2,733</b></td><td class="num"><b>730</b></td><td class="num"><b>56,011,430원</b></td><td class="num"><b>15,564,460원</b></td><td class="num"><b>+260%</b></td></tr></tbody></table></div>
-      <h3 class="sub-h">스마트스토어 상품별 판매(상품 단위, 3주차 매출순)</h3>
-      <div class="tbl-wrap"><table class="data sku-table"><thead><tr><th>상품(약칭, 초안)</th><th>상품번호</th><th>결제건수</th><th>전주</th><th>판매금액</th><th>전주</th><th>증감</th></tr></thead><tbody><tr><td>퓨레 10+10 (시작과일A)</td><td class="num">6567763298</td><td class="num">711</td><td class="num">83</td><td class="num">30,824,200원</td><td class="num">4,587,300원</td><td class="num">+572%</td></tr><tr><td>퓨레 HOP 낱팩 1팩 외</td><td class="num">4699796793</td><td class="num">1,162</td><td class="num">24</td><td class="num">10,956,570원</td><td class="num">155,400원</td><td class="num">+6951%</td></tr><tr><td>퓨레 5+3 첫과일 세트</td><td class="num">397517974</td><td class="num">83</td><td class="num">62</td><td class="num">2,456,840원</td><td class="num">1,919,300원</td><td class="num">+28%</td></tr><tr><td>퓨레 HOP 20팩 골라담기</td><td class="num">5594143615</td><td class="num">137</td><td class="num">118</td><td class="num">1,729,640원</td><td class="num">1,416,400원</td><td class="num">+22%</td></tr><tr><td>쌀과자 퍼프&롱떡뻥 4+4</td><td class="num">9526176049</td><td class="num">86</td><td class="num">34</td><td class="num">1,589,730원</td><td class="num">836,420원</td><td class="num">+90%</td></tr><tr><td>쌀과자 롱떡뻥 골라담기</td><td class="num">9530726438</td><td class="num">183</td><td class="num">43</td><td class="num">1,255,090원</td><td class="num">192,600원</td><td class="num">+552%</td></tr><tr><td>퓨레 10팩+HOP2</td><td class="num">3839735885</td><td class="num">30</td><td class="num">23</td><td class="num">1,151,040원</td><td class="num">923,300원</td><td class="num">+25%</td></tr><tr><td>퓨레 15팩+HOP3</td><td class="num">397517703</td><td class="num">13</td><td class="num">10</td><td class="num">814,500원</td><td class="num">674,000원</td><td class="num">+21%</td></tr><tr><td>[로지] 쌀과자 시작퍼프 8봉</td><td class="num">6606201032</td><td class="num">33</td><td class="num">32</td><td class="num">770,760원</td><td class="num">738,550원</td><td class="num">+4%</td></tr><tr><td>퓨레 6팩 골라담기</td><td class="num">4940248654</td><td class="num">106</td><td class="num">110</td><td class="num">660,000원</td><td class="num">838,500원</td><td class="num">-21%</td></tr><tr><td>퓨레 HOP 16팩+3</td><td class="num">4719903930</td><td class="num">9</td><td class="num">3</td><td class="num">530,100원</td><td class="num">121,500원</td><td class="num">+336%</td></tr><tr><td>퓨레 HOP 8팩+2</td><td class="num">4719900633</td><td class="num">14</td><td class="num">24</td><td class="num">486,600원</td><td class="num">669,900원</td><td class="num">-27%</td></tr></tbody></table></div><details class="tbl-details"><summary>나머지 상품 보기</summary><div class="tbl-wrap"><table class="data sku-table"><thead><tr><th>상품(약칭, 초안)</th><th>상품번호</th><th>결제건수</th><th>전주</th><th>판매금액</th><th>전주</th><th>증감</th></tr></thead><tbody><tr><td>퓨레 12팩 골라담기</td><td class="num">5028323731</td><td class="num">44</td><td class="num">80</td><td class="num">454,000원</td><td class="num">709,500원</td><td class="num">-36%</td></tr><tr><td>퓨레 첫만남 혜택</td><td class="num">9622747073</td><td class="num">31</td><td class="num">21</td><td class="num">339,800원</td><td class="num">254,700원</td><td class="num">+33%</td></tr><tr><td>퓨레 떠짜세트 6+6</td><td class="num">2547816653</td><td class="num">7</td><td class="num">5</td><td class="num">320,700원</td><td class="num">249,500원</td><td class="num">+29%</td></tr><tr><td>생푸룬 20일플랜(20개입)</td><td class="num">5614562542</td><td class="num">7</td><td class="num">3</td><td class="num">306,900원</td><td class="num">177,700원</td><td class="num">+73%</td></tr><tr><td>생푸룬 HOP 14팩+3</td><td class="num">5760449772</td><td class="num">4</td><td class="num">0</td><td class="num">209,800원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>생푸룬 10일플랜(10개입)</td><td class="num">4820696894</td><td class="num">6</td><td class="num">7</td><td class="num">148,400원</td><td class="num">187,300원</td><td class="num">-21%</td></tr><tr><td>퓨레 15팩(100g×30)</td><td class="num">5594144766</td><td class="num">2</td><td class="num">1</td><td class="num">124,800원</td><td class="num">129,800원</td><td class="num">-4%</td></tr><tr><td>쌀과자 첫만남 혜택</td><td class="num">9742409615</td><td class="num">11</td><td class="num">1</td><td class="num">108,900원</td><td class="num">9,900원</td><td class="num">+1000%</td></tr><tr><td>떠먹는 퓨레 1팩 외</td><td class="num">397524959</td><td class="num">15</td><td class="num">14</td><td class="num">97,060원</td><td class="num">118,800원</td><td class="num">-18%</td></tr><tr><td>퓨레 5팩(100g×10)</td><td class="num">397524952</td><td class="num">4</td><td class="num">4</td><td class="num">92,000원</td><td class="num">92,000원</td><td class="num">+0%</td></tr><tr><td>[로지] 보리차 10팩</td><td class="num">13688203669</td><td class="num">9</td><td class="num">3</td><td class="num">89,000원</td><td class="num">23,700원</td><td class="num">+276%</td></tr><tr><td>[로지] 배도라지즙 진한 90팩</td><td class="num">7318305171</td><td class="num">1</td><td class="num">1</td><td class="num">80,900원</td><td class="num">80,900원</td><td class="num">+0%</td></tr><tr><td>퓨레 5팩 선물세트</td><td class="num">474511716</td><td class="num">3</td><td class="num">4</td><td class="num">69,500원</td><td class="num">86,000원</td><td class="num">-19%</td></tr><tr><td>생푸룬 HOP 7팩+1</td><td class="num">5760438067</td><td class="num">2</td><td class="num">4</td><td class="num">58,000원</td><td class="num">121,000원</td><td class="num">-52%</td></tr><tr><td>떠먹는 퓨레 3+3</td><td class="num">397517726</td><td class="num">2</td><td class="num">3</td><td class="num">56,000원</td><td class="num">86,500원</td><td class="num">-35%</td></tr><tr><td>맛남 HOP5팩+퍼프2봉</td><td class="num">9911976447</td><td class="num">2</td><td class="num">0</td><td class="num">39,800원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>퓨레 4팩</td><td class="num">422318064</td><td class="num">2</td><td class="num">0</td><td class="num">38,000원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>[로지] 젤리 혼합 40포</td><td class="num">4573223456</td><td class="num">1</td><td class="num">0</td><td class="num">30,900원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>[로지] 유산균 젤리 30포</td><td class="num">4847549927</td><td class="num">1</td><td class="num">0</td><td class="num">26,900원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>맛남 퍼프5봉+HOP3팩</td><td class="num">9911984857</td><td class="num">1</td><td class="num">0</td><td class="num">22,900원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>[로지] 배도라지즙 진한 10팩</td><td class="num">13688209998</td><td class="num">2</td><td class="num">5</td><td class="num">19,800원</td><td class="num">104,200원</td><td class="num">-81%</td></tr><tr><td>[로지] 배도라지즙 30팩(비노출)</td><td class="num">6906249912</td><td class="num">1</td><td class="num">0</td><td class="num">17,500원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>퓨레 1팩 11종 택1</td><td class="num">385804040</td><td class="num">3</td><td class="num">6</td><td class="num">16,200원</td><td class="num">32,400원</td><td class="num">-50%</td></tr><tr><td>쌀과자 푸룬퍼프 1봉</td><td class="num">9580394743</td><td class="num">2</td><td class="num">1</td><td class="num">6,600원</td><td class="num">20,790원</td><td class="num">-68%</td></tr><tr><td>퓨레 1팩 당근</td><td class="num">397518031</td><td class="num">1</td><td class="num">0</td><td class="num">5,400원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>쌀과자 롱떡뻥 브로콜리 1봉</td><td class="num">9579657213</td><td class="num">1</td><td class="num">0</td><td class="num">3,300원</td><td class="num">0원</td><td class="num">–</td></tr><tr><td>쌀과자 ABC퍼프 1봉</td><td class="num">9580398988</td><td class="num">1</td><td class="num">1</td><td class="num">3,300원</td><td class="num">6,600원</td><td class="num">-50%</td></tr></tbody></table></div></details>
-      <p class="section-sub" style="margin-top:8px;">상품별 집계는 스마트스토어 상품 판매 내역 기준이며 광고 유입 외 자연 유입·이벤트 판매를 포함합니다. 광고 매출은 각 매체가 보고한 구매 전환 값입니다.</p>
+      <div class="pp-legend"><span><i style="background:var(--accent)"></i>광고비 비중</span><span><i style="background:var(--good)"></i>매출 비중</span><span class="pp-hint">광고 목적·연결 상품은 초안입니다(확인 필요 표시 항목은 연결 상품 확정 전).</span></div>
+      <div id="purposeList"></div>
     </div>
     <div data-brand-panel="rosy" hidden><div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;">로지오가닉은 아넬라 형식 확정 후 같은 방식으로 진행합니다.</p></div></div>
   </section>
@@ -830,150 +902,13 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       <p class="section-sub">바우처 고객 = 베이비바우처 쿠폰을 내려받고 구매한 고객(쿠폰은 1회만 사용, 쿠폰 사용 이후 구매는 재구매로 분류) · 최근 13주</p></div></div>
     <div data-brand-panel="anela">
       <div class="sum-kpi-grid"><div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">바우처 고객 결제</span></div><div class="sum-kpi-value num">979<span class="unit">명</span></div><span class="sum-kpi-delta up">▴ 251%</span></div><div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">바우처 고객 매출</span></div><div class="sum-kpi-value num">4,598<span class="unit">만원</span></div><span class="sum-kpi-delta up">▴ 315%</span></div><div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">바우처 고객 객단가</span></div><div class="sum-kpi-value num">46,966<span class="unit">원</span></div><span class="sum-kpi-delta up">▴ 18%</span></div><div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">일반 고객 결제</span></div><div class="sum-kpi-value num">198<span class="unit">명</span></div><span class="sum-kpi-delta up">▴ 77%</span></div><div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">바우처 고객 구매전환율</span></div><div class="sum-kpi-value num">23.5<span class="unit">%</span></div><span class="sum-kpi-delta up">▴ 90%</span></div><div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">바우처 매출 비중</span></div><div class="sum-kpi-value num">82.1<span class="unit">%</span></div><span class="sum-kpi-delta up">▴ 19%</span></div></div>
-      <div class="chart-pair"><div class="card chart-card tipchart"><h4 class="chart-title">주간 결제 고객 수 — 바우처 고객 vs 일반 고객</h4><p class="section-sub" style="margin:0 0 10px;">스마트스토어(아넬라) 고객분류 기준 · 위=일반, 아래=바우처</p>
+      <div class="chart-pair" style="grid-template-columns:1fr;"><div class="card chart-card tipchart"><h4 class="chart-title">주간 결제 고객 수 — 바우처 고객 vs 일반 고객</h4><p class="section-sub" style="margin:0 0 10px;">스마트스토어(아넬라) 고객분류 기준 · 위=일반, 아래=바우처</p>
       <div class="legend" style="margin:0 0 6px;"><div class="legend-item"><span class="legend-swatch" style="background:var(--cust-new)"></span>바우처 고객</div><div class="legend-item"><span class="legend-swatch" style="background:var(--cust-rep)"></span>일반 고객</div></div>
-      <svg class="chart" viewBox="0 0 1000 270" role="img" aria-label="바우처 고객·일반 고객 주간 추이"><line x1="56" x2="984" y1="236.0" y2="236.0" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="239.0" text-anchor="end">0</text><line x1="56" x2="984" y1="211.6" y2="211.6" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="214.6" text-anchor="end">200</text><line x1="56" x2="984" y1="187.1" y2="187.1" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="190.1" text-anchor="end">400</text><line x1="56" x2="984" y1="162.7" y2="162.7" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="165.7" text-anchor="end">600</text><line x1="56" x2="984" y1="138.2" y2="138.2" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="141.2" text-anchor="end">800</text><line x1="56" x2="984" y1="113.8" y2="113.8" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="116.8" text-anchor="end">1,000</text><line x1="56" x2="984" y1="89.3" y2="89.3" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="92.3" text-anchor="end">1,200</text><line x1="56" x2="984" y1="64.9" y2="64.9" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="67.9" text-anchor="end">1,400</text><line x1="56" x2="984" y1="40.4" y2="40.4" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="43.4" text-anchor="end">1,600</text><line x1="56" x2="984" y1="16.0" y2="16.0" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="19.0" text-anchor="end">1,800</text><rect class="tip-target" data-tip data-label="7/20 주 (시작일)" data-value="바우처 고객 597명<br>일반 고객 164명<br>합계 761명" x="69.6" y="163.0" width="44.3" height="73.0" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="7/20 주 (시작일)" data-value="바우처 고객 597명<br>일반 고객 164명<br>합계 761명" x="69.6" y="143.0" width="44.3" height="18.0" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="91.7" y="258" text-anchor="middle">7/20</text><text class="axis-label" x="91.7" y="138.0" text-anchor="middle" style="fill:var(--text-primary);font-weight:600">761</text><rect class="tip-target" data-tip data-label="7/27 주 (시작일)" data-value="바우처 고객 1,197명<br>일반 고객 267명<br>합계 1,464명" x="140.9" y="89.7" width="44.3" height="146.3" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="7/27 주 (시작일)" data-value="바우처 고객 1,197명<br>일반 고객 267명<br>합계 1,464명" x="140.9" y="57.1" width="44.3" height="30.6" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="163.1" y="258" text-anchor="middle">7/27</text><rect class="tip-target" data-tip data-label="8/3 주 (시작일)" data-value="바우처 고객 547명<br>일반 고객 129명<br>합계 676명" x="212.3" y="169.1" width="44.3" height="66.9" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/3 주 (시작일)" data-value="바우처 고객 547명<br>일반 고객 129명<br>합계 676명" x="212.3" y="153.4" width="44.3" height="13.8" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="234.5" y="258" text-anchor="middle">8/3</text><rect class="tip-target" data-tip data-label="8/10 주 (시작일)" data-value="바우처 고객 1,176명<br>일반 고객 189명<br>합계 1,365명" x="283.7" y="92.3" width="44.3" height="143.7" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/10 주 (시작일)" data-value="바우처 고객 1,176명<br>일반 고객 189명<br>합계 1,365명" x="283.7" y="69.2" width="44.3" height="21.1" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="305.8" y="258" text-anchor="middle">8/10</text><rect class="tip-target" data-tip data-label="8/17 주 (시작일)" data-value="바우처 고객 566명<br>일반 고객 133명<br>합계 699명" x="355.1" y="166.8" width="44.3" height="69.2" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/17 주 (시작일)" data-value="바우처 고객 566명<br>일반 고객 133명<br>합계 699명" x="355.1" y="150.6" width="44.3" height="14.3" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="377.2" y="258" text-anchor="middle">8/17</text><rect class="tip-target" data-tip data-label="8/24 주 (시작일)" data-value="바우처 고객 1,354명<br>일반 고객 273명<br>합계 1,627명" x="426.5" y="70.5" width="44.3" height="165.5" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/24 주 (시작일)" data-value="바우처 고객 1,354명<br>일반 고객 273명<br>합계 1,627명" x="426.5" y="37.1" width="44.3" height="31.4" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="448.6" y="258" text-anchor="middle">8/24</text><rect class="tip-target" data-tip data-label="8/31 주 (시작일)" data-value="바우처 고객 739명<br>일반 고객 152명<br>합계 891명" x="497.9" y="145.7" width="44.3" height="90.3" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/31 주 (시작일)" data-value="바우처 고객 739명<br>일반 고객 152명<br>합계 891명" x="497.9" y="127.1" width="44.3" height="16.6" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="520.0" y="258" text-anchor="middle">8/31</text><rect class="tip-target" data-tip data-label="9/7 주 (시작일)" data-value="바우처 고객 504명<br>일반 고객 137명<br>합계 641명" x="569.3" y="174.4" width="44.3" height="61.6" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/7 주 (시작일)" data-value="바우처 고객 504명<br>일반 고객 137명<br>합계 641명" x="569.3" y="157.7" width="44.3" height="14.7" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="591.4" y="258" text-anchor="middle">9/7</text><rect class="tip-target" data-tip data-label="9/14 주 (시작일)" data-value="바우처 고객 1,159명<br>일반 고객 262명<br>합계 1,421명" x="640.6" y="94.3" width="44.3" height="141.7" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/14 주 (시작일)" data-value="바우처 고객 1,159명<br>일반 고객 262명<br>합계 1,421명" x="640.6" y="62.3" width="44.3" height="30.0" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="662.8" y="258" text-anchor="middle">9/14</text><rect class="tip-target" data-tip data-label="9/21 주 (시작일)" data-value="바우처 고객 474명<br>일반 고객 107명<br>합계 581명" x="712.0" y="178.1" width="44.3" height="57.9" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/21 주 (시작일)" data-value="바우처 고객 474명<br>일반 고객 107명<br>합계 581명" x="712.0" y="165.0" width="44.3" height="11.1" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="734.2" y="258" text-anchor="middle">9/21</text><rect class="tip-target" data-tip data-label="9/28 주 (시작일)" data-value="바우처 고객 588명<br>일반 고객 143명<br>합계 731명" x="783.4" y="164.1" width="44.3" height="71.9" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/28 주 (시작일)" data-value="바우처 고객 588명<br>일반 고객 143명<br>합계 731명" x="783.4" y="146.7" width="44.3" height="15.5" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="805.5" y="258" text-anchor="middle">9/28</text><rect class="tip-target" data-tip data-label="10/5 주 (시작일)" data-value="바우처 고객 279명<br>일반 고객 112명<br>합계 391명" x="854.8" y="201.9" width="44.3" height="34.1" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="10/5 주 (시작일)" data-value="바우처 고객 279명<br>일반 고객 112명<br>합계 391명" x="854.8" y="188.2" width="44.3" height="11.7" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="876.9" y="258" text-anchor="middle">10/5</text><rect class="tip-target" data-tip data-label="10/12 주 (시작일)" data-value="바우처 고객 979명<br>일반 고객 198명<br>합계 1,177명" x="926.2" y="116.3" width="44.3" height="119.7" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="10/12 주 (시작일)" data-value="바우처 고객 979명<br>일반 고객 198명<br>합계 1,177명" x="926.2" y="92.1" width="44.3" height="22.2" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="948.3" y="258" text-anchor="middle">10/12</text><text class="axis-label" x="948.3" y="87.1" text-anchor="middle" style="fill:var(--text-primary);font-weight:600">1,177</text></svg><div class="chart-tooltip"></div></div><div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;"><b>쿠폰 발급·사용 건수</b> — 쿠폰 사용 건수(일별)와 사용 주문 매출 내역을 받으면 "바우처 고객"과 별도로 사용 건수 추이를 추가합니다.</p></div></div>
+      <svg class="chart" viewBox="0 0 1000 270" role="img" aria-label="바우처 고객·일반 고객 주간 추이"><line x1="56" x2="984" y1="236.0" y2="236.0" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="239.0" text-anchor="end">0</text><line x1="56" x2="984" y1="211.6" y2="211.6" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="214.6" text-anchor="end">200</text><line x1="56" x2="984" y1="187.1" y2="187.1" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="190.1" text-anchor="end">400</text><line x1="56" x2="984" y1="162.7" y2="162.7" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="165.7" text-anchor="end">600</text><line x1="56" x2="984" y1="138.2" y2="138.2" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="141.2" text-anchor="end">800</text><line x1="56" x2="984" y1="113.8" y2="113.8" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="116.8" text-anchor="end">1,000</text><line x1="56" x2="984" y1="89.3" y2="89.3" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="92.3" text-anchor="end">1,200</text><line x1="56" x2="984" y1="64.9" y2="64.9" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="67.9" text-anchor="end">1,400</text><line x1="56" x2="984" y1="40.4" y2="40.4" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="43.4" text-anchor="end">1,600</text><line x1="56" x2="984" y1="16.0" y2="16.0" stroke="var(--gridline)" stroke-width="1"/><text class="axis-label" x="48" y="19.0" text-anchor="end">1,800</text><rect class="tip-target" data-tip data-label="7/20 주 (시작일)" data-value="바우처 고객 597명<br>일반 고객 164명<br>합계 761명" x="69.6" y="163.0" width="44.3" height="73.0" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="7/20 주 (시작일)" data-value="바우처 고객 597명<br>일반 고객 164명<br>합계 761명" x="69.6" y="143.0" width="44.3" height="18.0" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="91.7" y="258" text-anchor="middle">7/20</text><text class="axis-label" x="91.7" y="138.0" text-anchor="middle" style="fill:var(--text-primary);font-weight:600">761</text><rect class="tip-target" data-tip data-label="7/27 주 (시작일)" data-value="바우처 고객 1,197명<br>일반 고객 267명<br>합계 1,464명" x="140.9" y="89.7" width="44.3" height="146.3" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="7/27 주 (시작일)" data-value="바우처 고객 1,197명<br>일반 고객 267명<br>합계 1,464명" x="140.9" y="57.1" width="44.3" height="30.6" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="163.1" y="258" text-anchor="middle">7/27</text><rect class="tip-target" data-tip data-label="8/3 주 (시작일)" data-value="바우처 고객 547명<br>일반 고객 129명<br>합계 676명" x="212.3" y="169.1" width="44.3" height="66.9" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/3 주 (시작일)" data-value="바우처 고객 547명<br>일반 고객 129명<br>합계 676명" x="212.3" y="153.4" width="44.3" height="13.8" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="234.5" y="258" text-anchor="middle">8/3</text><rect class="tip-target" data-tip data-label="8/10 주 (시작일)" data-value="바우처 고객 1,176명<br>일반 고객 189명<br>합계 1,365명" x="283.7" y="92.3" width="44.3" height="143.7" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/10 주 (시작일)" data-value="바우처 고객 1,176명<br>일반 고객 189명<br>합계 1,365명" x="283.7" y="69.2" width="44.3" height="21.1" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="305.8" y="258" text-anchor="middle">8/10</text><rect class="tip-target" data-tip data-label="8/17 주 (시작일)" data-value="바우처 고객 566명<br>일반 고객 133명<br>합계 699명" x="355.1" y="166.8" width="44.3" height="69.2" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/17 주 (시작일)" data-value="바우처 고객 566명<br>일반 고객 133명<br>합계 699명" x="355.1" y="150.6" width="44.3" height="14.3" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="377.2" y="258" text-anchor="middle">8/17</text><rect class="tip-target" data-tip data-label="8/24 주 (시작일)" data-value="바우처 고객 1,354명<br>일반 고객 273명<br>합계 1,627명" x="426.5" y="70.5" width="44.3" height="165.5" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/24 주 (시작일)" data-value="바우처 고객 1,354명<br>일반 고객 273명<br>합계 1,627명" x="426.5" y="37.1" width="44.3" height="31.4" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="448.6" y="258" text-anchor="middle">8/24</text><rect class="tip-target" data-tip data-label="8/31 주 (시작일)" data-value="바우처 고객 739명<br>일반 고객 152명<br>합계 891명" x="497.9" y="145.7" width="44.3" height="90.3" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="8/31 주 (시작일)" data-value="바우처 고객 739명<br>일반 고객 152명<br>합계 891명" x="497.9" y="127.1" width="44.3" height="16.6" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="520.0" y="258" text-anchor="middle">8/31</text><rect class="tip-target" data-tip data-label="9/7 주 (시작일)" data-value="바우처 고객 504명<br>일반 고객 137명<br>합계 641명" x="569.3" y="174.4" width="44.3" height="61.6" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/7 주 (시작일)" data-value="바우처 고객 504명<br>일반 고객 137명<br>합계 641명" x="569.3" y="157.7" width="44.3" height="14.7" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="591.4" y="258" text-anchor="middle">9/7</text><rect class="tip-target" data-tip data-label="9/14 주 (시작일)" data-value="바우처 고객 1,159명<br>일반 고객 262명<br>합계 1,421명" x="640.6" y="94.3" width="44.3" height="141.7" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/14 주 (시작일)" data-value="바우처 고객 1,159명<br>일반 고객 262명<br>합계 1,421명" x="640.6" y="62.3" width="44.3" height="30.0" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="662.8" y="258" text-anchor="middle">9/14</text><rect class="tip-target" data-tip data-label="9/21 주 (시작일)" data-value="바우처 고객 474명<br>일반 고객 107명<br>합계 581명" x="712.0" y="178.1" width="44.3" height="57.9" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/21 주 (시작일)" data-value="바우처 고객 474명<br>일반 고객 107명<br>합계 581명" x="712.0" y="165.0" width="44.3" height="11.1" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="734.2" y="258" text-anchor="middle">9/21</text><rect class="tip-target" data-tip data-label="9/28 주 (시작일)" data-value="바우처 고객 588명<br>일반 고객 143명<br>합계 731명" x="783.4" y="164.1" width="44.3" height="71.9" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="9/28 주 (시작일)" data-value="바우처 고객 588명<br>일반 고객 143명<br>합계 731명" x="783.4" y="146.7" width="44.3" height="15.5" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="805.5" y="258" text-anchor="middle">9/28</text><rect class="tip-target" data-tip data-label="10/5 주 (시작일)" data-value="바우처 고객 279명<br>일반 고객 112명<br>합계 391명" x="854.8" y="201.9" width="44.3" height="34.1" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="10/5 주 (시작일)" data-value="바우처 고객 279명<br>일반 고객 112명<br>합계 391명" x="854.8" y="188.2" width="44.3" height="11.7" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="876.9" y="258" text-anchor="middle">10/5</text><rect class="tip-target" data-tip data-label="10/12 주 (시작일)" data-value="바우처 고객 979명<br>일반 고객 198명<br>합계 1,177명" x="926.2" y="116.3" width="44.3" height="119.7" fill="var(--cust-new)"/><rect class="tip-target" data-tip data-label="10/12 주 (시작일)" data-value="바우처 고객 979명<br>일반 고객 198명<br>합계 1,177명" x="926.2" y="92.1" width="44.3" height="22.2" rx="3" fill="var(--cust-rep)"/><text class="axis-label" x="948.3" y="258" text-anchor="middle">10/12</text><text class="axis-label" x="948.3" y="87.1" text-anchor="middle" style="fill:var(--text-primary);font-weight:600">1,177</text></svg><div class="chart-tooltip"></div></div></div>
       <details class="tbl-details"><summary>주간 표로 보기</summary><div class="tbl-wrap"><table class="data"><thead><tr><th>주(시작일)</th><th>바우처 고객 결제</th><th>일반 고객 결제</th><th>바우처 비중(고객)</th><th>바우처 고객 매출</th><th>바우처 매출 비중</th><th>바우처 고객 객단가</th><th>바우처 구매전환율</th></tr></thead><tbody><tr><td>10/12</td><td class="num">979</td><td class="num">198</td><td class="num">83.2%</td><td class="num">45,979,270원</td><td class="num">82.1%</td><td class="num">46,966원</td><td class="num">23.5%</td></tr><tr><td>10/5</td><td class="num">279</td><td class="num">112</td><td class="num">71.4%</td><td class="num">11,078,760원</td><td class="num">69.0%</td><td class="num">39,709원</td><td class="num">12.4%</td></tr><tr><td>9/28</td><td class="num">588</td><td class="num">143</td><td class="num">80.4%</td><td class="num">24,349,590원</td><td class="num">76.8%</td><td class="num">41,411원</td><td class="num">19.7%</td></tr><tr><td>9/21</td><td class="num">474</td><td class="num">107</td><td class="num">81.6%</td><td class="num">18,930,050원</td><td class="num">77.7%</td><td class="num">39,937원</td><td class="num">25.0%</td></tr><tr><td>9/14</td><td class="num">1,159</td><td class="num">262</td><td class="num">81.6%</td><td class="num">49,328,950원</td><td class="num">78.5%</td><td class="num">42,562원</td><td class="num">26.8%</td></tr><tr><td>9/7</td><td class="num">504</td><td class="num">137</td><td class="num">78.6%</td><td class="num">16,927,930원</td><td class="num">73.8%</td><td class="num">33,587원</td><td class="num">18.2%</td></tr><tr><td>8/31</td><td class="num">739</td><td class="num">152</td><td class="num">82.9%</td><td class="num">23,098,200원</td><td class="num">77.1%</td><td class="num">31,256원</td><td class="num">20.3%</td></tr><tr><td>8/24</td><td class="num">1,354</td><td class="num">273</td><td class="num">83.2%</td><td class="num">60,343,440원</td><td class="num">81.8%</td><td class="num">44,567원</td><td class="num">25.6%</td></tr><tr><td>8/17</td><td class="num">566</td><td class="num">133</td><td class="num">81.0%</td><td class="num">18,543,730원</td><td class="num">76.1%</td><td class="num">32,763원</td><td class="num">16.7%</td></tr><tr><td>8/10</td><td class="num">1,176</td><td class="num">189</td><td class="num">86.2%</td><td class="num">44,522,190원</td><td class="num">83.6%</td><td class="num">37,859원</td><td class="num">23.0%</td></tr><tr><td>8/3</td><td class="num">547</td><td class="num">129</td><td class="num">80.9%</td><td class="num">17,099,440원</td><td class="num">74.7%</td><td class="num">31,260원</td><td class="num">16.5%</td></tr><tr><td>7/27</td><td class="num">1,197</td><td class="num">267</td><td class="num">81.8%</td><td class="num">50,925,910원</td><td class="num">79.8%</td><td class="num">42,545원</td><td class="num">24.3%</td></tr><tr><td>7/20</td><td class="num">597</td><td class="num">164</td><td class="num">78.4%</td><td class="num">18,993,800원</td><td class="num">71.0%</td><td class="num">31,815원</td><td class="num">17.2%</td></tr></tbody></table></div></details>
       <p class="section-sub" style="margin-top:12px;">신규 고객 중 쿠폰을 쓴 고객과 기존 고객이 쿠폰을 쓴 경우가 모두 포함되어 "바우처 고객"과 "신규 고객"은 같은 값이 아닙니다. 쿠폰 사용 이후의 구매는 재구매로 집계됩니다.</p>
     </div>
     <div data-brand-panel="rosy" hidden><div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;">로지오가닉에는 베이비바우처가 없다면 이 섹션은 아넬라 전용으로 둡니다.</p></div></div>
-  </section>
-
-  <!-- ============ COMMENT ============ -->
-  <section id="comment">
-    <div class="section-head">
-      <div>
-        <h2 class="section-title">코멘트</h2>
-        <p class="section-sub">이번 주 이슈사항 · 데이터를 볼 때 참고할 내용을 자유롭게 기록하는 공간</p>
-      </div>
-    </div>
-
-    <!-- ===== 아넬라 ===== -->
-    <div data-brand-panel="anela">
-      <div class="card comment-card">
-        <h3>컨텐츠 및 기타 업무 진행사항</h3>
-        <div class="memo-block">
-          <ul class="memo-list">
-            <li><span class="bullet-text">자사몰 옵션명 정리 및 수정</span></li>
-            <li><span class="bullet-text">자사몰 시크릿코드 썸네일 기획 및 수정</span></li>
-            <li><span class="bullet-text">자사몰 웰컴박스 당첨자 발표 및 발송</span></li>
-            <li><span class="bullet-text">네이버 키워드, 검색어 기준 픽스</span></li>
-            <li><span class="bullet-text">영업팀·마케팅팀 광고 관련 주간 회의</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== 로지오가닉 ===== -->
-    <div data-brand-panel="rosy" hidden>
-      <div class="card comment-card">
-        <h3>컨텐츠 및 기타 업무 진행사항</h3>
-        <div class="memo-block">
-          <ul class="memo-list">
-            <li><span class="bullet-text">스마트스토어 썸네일 기획</span></li>
-            <li><span class="bullet-text">자사몰 옵션명 정리 및 수정</span></li>
-            <li><span class="bullet-text">웰컴박스 제외 타겟 생성 및 광고 재정비</span></li>
-            <li><span class="bullet-text">영업팀·마케팅팀 광고 관련 주간 회의</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ MONTHLY TREND ============ -->
-  <section id="trend">
-    <div class="section-head">
-      <div>
-        <h2 class="section-title">월별 추이</h2>
-        <p class="section-sub">광고비 · 매출 · ROAS 흐름 — 2026년 1월~8월, 1~7월은 대행사 월간 리포트·8월은 8월 월간 리포트의 raw data 직접 집계 기준</p>
-      </div>
-    </div>
-    <div class="card chart-card">
-      <div class="tabbar chart-tabs" id="trendTabs">
-        <button class="tabbtn active" data-t="all">전체 브랜드</button>
-        <button class="tabbtn" data-t="search" data-media="search">네이버 검색광고</button>
-        <button class="tabbtn" data-t="gfa" data-media="gfa">GFA</button>
-        <button class="tabbtn" data-t="meta" data-media="meta">메타</button>
-      </div>
-      <div id="trendChart"></div>
-      <div class="chart-tooltip" id="chartTooltip"></div>
-      <div class="ghost-note">8월 수치는 월간 리포트와 동일하게 8/1~8/31 전체 월 raw data 재집계 기준입니다(주간 스냅샷 합산이 아님) — 다음 달 마감 후 9월 포인트가 추가됩니다</div>
-
-      <!-- ===== 아넬라 코멘트 ===== -->
-      <div class="trend-notes" data-brand-panel="anela">
-        <details>
-          <summary>전체 코멘트<span class="tn-tag">8월 전월대비</span></summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>8월 총평</b><p>전체 광고비 전월대비 13.9% 증액 운영 → 쇼핑검색·메타·GFA(웹사이트 전환)에서 매출 볼륨이 확대되며 매출액 11.3% 상승, ROAS는 964.3% → 942.3%로 소폭 하락했습니다.</p></div>
-          </div>
-        </details>
-        <details>
-          <summary>네이버 검색광고 코멘트<span class="tn-tag">파워링크 · 쇼핑검색 · 브랜드검색</span></summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>파워링크 — 상반기 총평</b><p>예산을 지속적으로 증액하여 4월 최대 매출 달성 후 5~6월은 유입 볼륨을 확장했으나 전환율이 감소하며 효율 350%대로 마감.</p></div>
-            <div class="tn-item"><b>파워링크 — 8월 전월대비</b><p>광고비 134만원(-38%), 유입 1,256(-34%), 전환율 10.91%(+1.2%p)에도 매출액 534만원(-20%), ROAS 398.2%로 마감. 감액은 일예산 조정이 아니라 연휴 시즌 클릭 감소가 원인(연휴 이후에도 감소 흐름이 이어지다 28일부터 회복세). 전환율 상승은 자사몰 캠페인 OFF의 영향. 9월엔 전환 검색어 등록·제외 검색어 관리·품질지수 관리를 지속하고, 추석 기저효과에 대비해 2~3주차 예산을 증액할 계획.</p></div>
-            <div class="tn-item"><b>쇼핑검색 — 상반기 총평</b><p>상반기 평균 ROAS 1,100%에 달하는 고효율 매체. 6월은 전환율 감소에도 유입 증가로 상반기 중 최고 매출 달성.</p></div>
-            <div class="tn-item"><b>쇼핑검색 — 8월 전월대비</b><p>광고비 471만원(+3%), 유입 4,445(+20%), 전환율 22.05%(+1%p)하며 매출액 3,458만원(+23%), ROAS 734.6%로 26년 중 최고 매출 달성. 7월 30일부터 콘텐츠 입찰 비중을 50% 낮춘 효과가 8월에 반영되며 CPC가 감소하고 ROAS가 269%→864%로 크게 개선됐고, 낮아진 입찰가에서도 확보 가능한 검색 지면 노출이 늘며 유입(클릭수)도 함께 증가해 일평균 매출이 64% 늘었습니다. 노출 증가폭이 가장 컸던 지면은 네이버플러스 스토어 모바일·통합검색 모바일 순으로, 상위 3개 지면이 전체 노출 증가분의 약 81%를 차지.</p></div>
-            <div class="tn-item"><b>브랜드검색 — 상반기 총평</b><p>평균 전환율 31.54%, 평균 ROAS 3,442%. 4월 10주년 이벤트, 6월 넷다세일 이벤트로 높은 효율 달성.</p></div>
-            <div class="tn-item"><b>브랜드검색 — 8월 전월대비</b><p>유입 15% 감소, 매출 3,510만원(-22%)하며 ROAS 3,859.9%로 하락(MO 클릭 3,147→2,699). 파워링크·브랜드검색 유입은 줄고 쇼핑검색 유입은 늘어, 구매 고객이 쇼핑검색·네이버플러스스토어 지면에 집중되는 추세로 해석 — 정액제 비용(90만원대) 대비 여전히 최고 효율 매체이며, 이 지면을 GFA 운영으로 뒷받침할 필요.</p></div>
-          </div>
-        </details>
-        <details>
-          <summary>GFA 코멘트</summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>상반기 총평</b><p>리타겟팅(카탈로그) 중심으로 운영, 브랜드검색광고와 유사한 흐름을 보임.</p></div>
-            <div class="tn-item"><b>8월 전월대비</b><p>7월 중순 시작된 웹사이트 전환 캠페인이 8월 상시 운영되며 광고비 155만원(+61%), 매출 2,099만원(+68%), ROAS 1,353.7%. 전환율 12.3%→16.9% 상승이 매출 증가의 핵심이며, 카탈로그 캠페인 전환율도 5.6%p 낮아졌지만 30.8%로 여전히 견조. 웹사이트 전환 캠페인을 확대 운영했음에도 ROAS가 함께 오른 것은 해당 지면에서 추가 매출 확보 가능성이 높다는 의미로 해석 — 쇼핑지면·네이버플러스스토어 지면의 검색량 증가는 아넬라 구매 고객이 해당 매체에 집중되어 있음을 보여주는 신호로, GFA가 이 지면을 계속 뒷받침할 필요.</p></div>
-          </div>
-        </details>
-        <details>
-          <summary>메타 코멘트</summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>상반기 총평</b><p>2월부터 본격 운영 시작. 4월 최고 전환율(12.2%)로 매출 4,700만원·ROAS 849% 달성했으나, 5~6월은 유입은 유지된 채 전환율이 감소하며 매출·ROAS 하락.</p></div>
-            <div class="tn-item"><b>8월 전월대비</b><p>퓨레 시크릿링크(자사몰) 신규 라이브 + 네이버협력광고(파트너십) 효율 상승으로 광고비 489만원(+32%), 매출 3,026만원(+42%), ROAS 618.7% 달성. 자사몰 기획전은 평균 2개→1개로 줄었지만 퓨레 시크릿링크 신규 라이브로 매출 약 960만원을 추가 확보했고, 협력광고(파트너십)는 노출 확대와 전환율 동반 상승으로 매출을 약 440만원 더 확보(7월 약 440만원→8월 약 930만원). 반면 카탈로그 캠페인은 빈도수가 3.3까지 오르며 피로도가 쌓여 매출이 약 330만원 감소.</p></div>
-            <div class="tn-item"><b>9월 액션</b><p>카탈로그 캠페인 빈도수가 3.3까지 상승해 피로도 관리가 필요한 시점 — 예산 10% 감액으로 빈도수를 낮춘 뒤 점진 증액할 예정.</p></div>
-            <div class="tn-item"><b>추석 연휴 운영</b><p>9월 추석 연휴 기간에는 소비 트렌드 위축을 고려해 광고비 OFF 또는 감액 운영할 예정.</p></div>
-          </div>
-        </details>
-      </div>
-
-      <!-- ===== 로지오가닉 코멘트 ===== -->
-      <div class="trend-notes" data-brand-panel="rosy" hidden>
-        <details>
-          <summary>전체 코멘트<span class="tn-tag">8월 전월대비</span></summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>8월 총평</b><p>광고비 전월대비 10% 증액, 유입(클릭수) 13% 증가하며 매출액 15% 상승. ROAS 465% → 489%로 개선됐습니다. 메타 중심의 유입·전환율 개선이 매출 증가의 주요 요인이며, 메타를 제외한 네이버 매체는 전반적으로 효율이 하락했습니다(다만 7월 대비로는 낮아졌어도 26년 1~8월 월평균과 비교하면 브랜드검색·쇼핑검색은 여전히 평균 이상).</p></div>
-          </div>
-        </details>
-        <details>
-          <summary>네이버 검색광고 코멘트<span class="tn-tag">파워링크 · 쇼핑검색 · 브랜드검색</span></summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>파워링크 — 3~4월 정점 이후</b><p>3~4월 매출 정점 기록 후 5~6월은 효율 중심 운영으로 전환, 6월 최고 ROAS 265%로 마감.</p></div>
-            <div class="tn-item"><b>파워링크 — 8월 전월대비</b><p>광고비 146만원(-14%), 유입 1,469(-23%)하며 매출 299만원(-19%), ROAS 205.4%로 마감. 일예산 설정은 전월과 비슷했으나 연휴 기간 진입으로 유입이 감소했고(25일부터 회복), 7월 있었던 넾다세일 같은 대형 이벤트가 8월엔 없었던 기저효과도 겹침. 오늘끝딜 화력 자체는 7월보다 강했지만 연휴 기저효과로 전체 매출은 감소. 9월엔 추석에도 유입 감소가 예상돼 2~3주차 일예산을 증액해 매출 볼륨을 방어할 계획.</p></div>
-            <div class="tn-item"><b>쇼핑검색 — 상반기 흐름</b><p>3월 예산 증액으로 1차 매출 정점 달성 후, 6월 구매전환율 상승으로 예산 절감에도 상반기 최대 매출 달성.</p></div>
-            <div class="tn-item"><b>쇼핑검색 — 8월 전월대비</b><p>광고비 161만원(-13%), 유입 1,356(+16%)했으나 전환율 17.26%(-6%p)로 하락하며 매출 568만원(-22%), ROAS 353.5%. 클릭률·CPC·CPM 등 트래픽 지표는 개선됐지만 탐색K·대표K 그룹의 전환율 하락이 매출 감소의 주요 원인(구매K·그 외·신제품K 그룹은 오히려 소폭 상승). 연휴 기간에도 전환수는 거의 변동 없이 꾸준했고, 연휴가 끝난 8/18~19(라이프위크)엔 확장 소재 문구 변경과 맞물려 구매가 크게 증가. 9월엔 추석 진입 전 유입을 확대해 매출 볼륨을 방어할 예정.</p></div>
-            <div class="tn-item"><b>브랜드검색 — 상반기 흐름</b><p>3~4월 브랜드 유입 폭발로 3월 ROAS 969% 달성했으나, 5~6월은 유입은 유지된 채 전환율 하락하며 효율 감소 — <b>5~6월 전환 데이터 추적 유실 가능성 高</b>(대행사 코멘트).</p></div>
-            <div class="tn-item"><b>브랜드검색 — 8월 전월대비</b><p>유입 1,156(+4%)했으나 전환율 27.77%(-5%p)로 하락하며 매출 803만원(-13%) — 그래도 26년 중 상위권 매출볼륨이며 ROAS 883.6%로 정액제 비용(90만원대) 대비 견조. 노출량 증가는 로지오가닉 검색량 자체가 늘었다는 뜻이지만 클릭률 감소에도 CPC가 낮아지며 유입 볼륨만 확대된 상태라 전환율을 높이는 게 다음 과제 — 타이틀 문구를 "유기농 쌀과자 인기구성!"에서 상시할인 소구로 9월 중 테스트 운영해볼 계획.</p></div>
-          </div>
-        </details>
-        <details>
-          <summary>GFA 코멘트</summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>상반기 흐름</b><p>리타겟팅(카탈로그) 중심 운영. 2월 유입 고점 이후 하락 흐름이었으나 6월 유입 반등, 2분기 전환율 20%대 유지하며 ROAS는 상승 유지.</p></div>
-            <div class="tn-item"><b>8월 전월대비</b><p>광고비 79만원(+37%), 매출 150만원(+141%)로 크게 늘었지만 웹사이트 전환 캠페인 효율이 기준(ROAS 200%) 미달로 저조해 전체 ROAS 190.5% 마감. 7월 신규 운영된 웹사이트 전환 캠페인은 8월 들어 전환율(+5.2%p)과 ROAS(70%→180%)가 개선되는 흐름을 보였지만 기준에는 못 미쳐 9월부터 OFF 처리하고, 신규 유입 확보는 메타로 전환. 카탈로그 캠페인도 전환율이 25.8%→16.1%로 하락하며 매출 20.5% 감소, ROAS 316.5%→278%로 낮아짐.</p></div>
-          </div>
-        </details>
-        <details>
-          <summary>메타 코멘트<span class="tn-tag">3월부터 운영</span></summary>
-          <div class="tn-body">
-            <div class="tn-item"><b>운영 개요</b><p>3월 광고 시작 후 월별 유입·전환율 증가 흐름, 매출·ROAS 모두 상승 추세.</p></div>
-            <div class="tn-item"><b>8월 전월대비</b><p>음료·쌀과자 시크릿링크 신규 운영으로 광고비 280만원(+48%), 매출 1,874만원(+67%)하며 ROAS 669.9%로 26년 중 최고치 기록.</p></div>
-            <div class="tn-item"><b>견인 소재</b><p>쌀과자 시크릿링크는 CTR이 전체 평균의 1.6배, CPC는 절반 수준으로 유입을 넓혀 광고비 약 40만원으로 매출 약 328만원(ROAS 808%)을 만들어낸 것이 매출·ROAS 개선의 핵심. 기존 협력광고(할인·간식고민 소재)도 전환율 10% 이상으로 안정적인 ROAS를 유지 중(1주차 할인 소재는 ROAS 710%). 음료 시크릿링크는 상품 구성 변경 이슈로 일시 중단 후 재개 예정이며, 9월엔 할인 소재 피로도를 점검해 필요 시 교체할 계획.</p></div>
-            <div class="tn-item"><b>추석 연휴 운영</b><p>9월 추석 연휴 기간에는 소비 트렌드 위축을 고려해 광고비 OFF 또는 감액 운영할 예정.</p></div>
-            <div class="tn-item"><b>⚠ 데이터 주의</b><p>로지오가닉 전환캠페인의 랜딩페이지가 <b>아넬라 스마트스토어 URL</b>로 연결되고 있어, 해당 링크를 통한 아넬라 상품 구매도 로지오가닉 전환으로 집계될 수 있습니다 — 순수 로지오가닉 구매건수로 보기 어려운 부분이 있습니다.</p></div>
-          </div>
-        </details>
-      </div>
-    </div>
   </section>
 
   <!-- ============ MEDIA PERFORMANCE ============ -->
@@ -981,10 +916,14 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <div class="section-head">
       <div>
         <h2 class="section-title">매체별 성과</h2>
-        <p class="section-sub">2026.10.12 – 10.18 (10월 3주차, 네이버·메타 raw data 직접 집계) · 매체 → 판매채널(스마트스토어/자사몰) 순으로 확인</p>
+        <p class="section-sub">2026.10.12 – 10.18 (10월 3주차, 네이버·메타 raw data 직접 집계) · 광고비·매출은 같은 축, ROAS는 전주 대비 · 코멘트는 그래프 하단</p>
       </div>
     </div>
 
+    <div class="card mo-card" id="mediaOverview"></div>
+    <div id="mediaComments" class="mc-wrap"></div>
+
+    <h3 class="sub-h" style="margin-top:30px;">매체별 캠페인 상세</h3>
     <div class="tabbar" id="mediaTabs">
       <button class="tabbtn active" data-media="search">네이버 검색광고<span style="opacity:.7;font-weight:400"> · 쇼핑검색/파워링크/브랜드검색</span></button>
       <button class="tabbtn" data-media="gfa">GFA</button>
@@ -998,7 +937,6 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
 
     <div class="kpi-row" id="kpiRow"></div>
 
-    <div id="mediaNotes" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;"></div>
 
     <div class="split-row" id="splitRow"></div>
 
@@ -1283,11 +1221,6 @@ function renderMedia(){
   ].map(([l,v])=>`<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div></div>`).join('') +
   `<div class="kpi" style="grid-column:span 6;background:${mediaSoft[curMedia]};border-color:${mediaColor[curMedia]}"><div class="l">ROAS</div><div class="v num" style="color:${mediaColor[curMedia]};font-size:22px">${pct(a.roas)}</div></div>`;
 
-  const notesBox = document.getElementById('mediaNotes');
-  notesBox.innerHTML = (mediaNotes[curMedia]||[]).map(n=>
-    `<div class="mnote" style="border-left-color:${mediaColor[curMedia]}"><b class="mnote-label">${n.label}</b>${n.text}</div>`
-  ).join('');
-
   const splitRow = document.getElementById('splitRow');
   if(curChan==='total' && mall.length){
     const s = agg(store), m = agg(mall);
@@ -1405,85 +1338,163 @@ document.getElementById('creativeTabs').addEventListener('click', e=>{
   curCreative = b.dataset.media; renderCreative();
 });
 
-// ================= MONTHLY TREND CHART =================
-function monthlyFor(mediaKey){ return BRANDS[curBrand].monthlyByMedia[mediaKey]; }
+// ================= MEDIA OVERVIEW (bars + comments) =================
+const PREV = {
+  anela:{쇼핑검색:{roas:490,g:105},파워링크:{roas:224,g:188},브랜드검색:{roas:1446,g:263},GFA:{roas:500,g:344},메타:{roas:378,g:87}},
+  rosy:{쇼핑검색:{roas:371,g:39},파워링크:{roas:310,g:22},브랜드검색:{roas:1007,g:31},GFA:{roas:813,g:0},메타:{roas:322,g:53}}
+};
+const OV_ROWS = [
+  {key:'쇼핑검색', label:'네이버 쇼핑검색', sub:'광고세트', media:'search'},
+  {key:'파워링크', label:'네이버 파워링크', sub:'광고세트', media:'search'},
+  {key:'브랜드검색', label:'네이버 브랜드검색', sub:'정액제', media:'search'},
+  {key:'GFA', label:'네이버 GFA', sub:'광고소재', media:'gfa'},
+  {key:'메타', label:'메타', sub:'광고소재', media:'meta'},
+];
+const man = n => (n/10000).toLocaleString('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1})+'만';
+function bulletsOf(text){
+  return text.split(/\s\/\s|\.\s+/).map(t=>t.trim().replace(/\.$/,'')).filter(Boolean);
+}
+function renderMediaOverview(){
+  const b = BRANDS[curBrand], prev = PREV[curBrand]||{};
+  const rows = OV_ROWS.map(r=>({...r, a:agg(b.campaigns.filter(c=>c.src===r.key))})).filter(r=>r.a.cost>0||r.a.rev>0);
+  const max = Math.max(1,...rows.map(r=>Math.max(r.a.cost,r.a.rev)));
+  const w = v => Math.max(v/max*78, v>0?0.6:0);
+  const el = document.getElementById('mediaOverview');
+  el.innerHTML = `<div class="mo-head"><h4 class="mo-title">매체별 광고비 · 매출액 · ROAS</h4>
+      <div class="mo-leg"><span><i class="c"></i>광고비</span><span><i></i>매출액 (같은 축)</span></div></div>` +
+    rows.map(r=>{
+      const p = prev[r.key], col = mediaColor[r.media];
+      let pill='';
+      if(p){
+        const cls = p.g===0?'flat':(p.g>0?'up':'dn');
+        pill = `<span class="pill ${cls}">${p.g===0?'매출 전주 유사':'매출 '+(p.g>0?'+':'')+p.g+'%'}</span>`;
+      }
+      return `<div class="mo-row">
+        <div class="mo-lbl"><span class="media-dot" style="background:${col}"></span><span>${r.label}<small>${r.sub}</small></span></div>
+        <div class="mo-bars" title="광고비 ${fmt(r.a.cost)}원 · 매출액 ${fmt(r.a.rev)}원">
+          <div class="mo-bar"><span class="b" style="width:${w(r.a.cost)}%;background:${col};opacity:.4"></span><span class="t">광고비 ${man(r.a.cost)}원</span></div>
+          <div class="mo-bar"><span class="b" style="width:${w(r.a.rev)}%;background:${col}"></span><span class="t"><b>매출 ${man(r.a.rev)}원</b></span></div>
+        </div>
+        <div class="mo-roas"><span class="big num">${pct(r.a.roas)}</span>${p?`<span class="prev num">전주 ${fmt(p.roas)}%</span>`:''}${pill}</div>
+      </div>`;
+    }).join('');
 
-function renderTrend(mediaKey){
-  curTrend = mediaKey;
-  document.querySelectorAll('#trendTabs .tabbtn').forEach(x=>x.classList.toggle('active', x.dataset.t===mediaKey));
-  const data = monthlyFor(mediaKey);
-  const color = mediaKey==='all' ? 'var(--accent)' : mediaColor[mediaKey];
-  const W=1040,H=300,padL=64,padT=20,padB=34;
-  const plotW = W-padL-40, plotH = H-padT-padB;
-  const n = data.length;
-  const groupW = plotW/n;
-  const maxVal = Math.max(1,...data.map(d=>Math.max(d.cost||0,d.rev||0)));
-  const maxRoas = Math.max(1,...data.map(d=>d.roas||0));
-  const y = v => padT + plotH - (v/maxVal)*plotH;
-  const yR = v => padT + plotH - (v/maxRoas)*plotH;
-
-  let bars='', gridlines='', roasPts=[], labels='';
-  const ticks=4;
-  for(let i=0;i<=ticks;i++){
-    const v = maxVal/ticks*i;
-    const yy = y(v);
-    gridlines += `<line x1="${padL}" y1="${yy}" x2="${padL+plotW}" y2="${yy}" stroke="var(--gridline)" stroke-width="1"/>`;
-    gridlines += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="axis-label">${v>=10000?Math.round(v/10000)+'만':Math.round(v)}</text>`;
-  }
-  data.forEach((d,i)=>{
-    const cx = padL + groupW*i + groupW/2;
-    labels += `<text x="${cx}" y="${H-10}" text-anchor="middle" class="axis-label">${d.m}</text>`;
-    if(d.cost===0 && d.rev===0){
-      roasPts.push(null);
-      bars += `<text x="${cx}" y="${padT+plotH/2}" text-anchor="middle" class="axis-label" opacity="0.6">미운영</text>`;
-      return;
-    }
-    const bw = 22;
-    const x1 = cx-bw-3, x2 = cx+3;
-    const hCost = plotH-(y(d.cost)-padT), hRev = plotH-(y(d.rev)-padT);
-    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 광고비" data-value="${fmt(d.cost)}원" x="${x1}" y="${y(d.cost)}" width="${bw}" height="${hCost}" rx="3" fill="${color}" opacity="0.55"/>`;
-    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 매출액" data-value="${fmt(d.rev)}원" x="${x2}" y="${y(d.rev)}" width="${bw}" height="${hRev}" rx="3" fill="${color}"/>`;
-    roasPts.push([cx, yR(d.roas)]);
+  const groups = [['search','네이버 검색광고'],['gfa','GFA'],['meta','메타']];
+  const html = ['<p class="mc-title">코멘트</p>'];
+  groups.forEach(([m,name])=>{
+    (b.mediaNotes[m]||[]).forEach(n=>{
+      const warn = n.label.indexOf('⚠')===0;
+      html.push(`<div class="mc${warn?' warn':''}" style="${warn?'':'border-left-color:'+mediaColor[m]}">
+        <p class="mc-h"><span class="media-dot" style="background:${mediaColor[m]};margin:0"></span>${name}${n.label===name?'':' · '+n.label}</p>
+        <ul>${bulletsOf(n.text).map(t=>`<li>${t}</li>`).join('')}</ul></div>`);
+    });
   });
-  let roasLine='', roasDots='';
-  const validPts = roasPts.filter(Boolean);
-  if(validPts.length){
-    roasLine = `<polyline points="${validPts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--critical)" stroke-width="2"/>`;
-    roasDots = validPts.map(([x,yy],idx)=>`<circle cx="${x}" cy="${yy}" r="4" fill="var(--critical)"/><text x="${x}" y="${yy-10}" text-anchor="middle" class="axis-label" font-weight="700" fill="var(--critical)">${pct(data.filter(d=>!(d.cost===0&&d.rev===0))[idx].roas)}</text>`).join('');
+  document.getElementById('mediaComments').innerHTML = html.join('');
+}
+
+// ================= PRODUCT / PURPOSE (expandable) =================
+// 목적·연결 상품은 초안. chk=true → "확인 필요" 표시
+const AD_MAP = {
+  anela:{
+    '아넬라_상시_테스트 운영':{p:'신규 확보',prod:'웹전환 (연결 상품 미확정)',chk:1},
+    '260729_자사몰_시크릿링크_검색':{p:'신규 확보',prod:'자사몰 시크릿링크'},
+    '260305_아넬라_베이비바우처(파트너십영상)_2':{p:'신규 확보',prod:'베이비바우처 파트너십'},
+    '260729_자사몰_시크릿링크_7일뒤':{p:'신규 확보',prod:'자사몰 시크릿링크'},
+    '아넬라_신규타겟_소구5종':{p:'신규 확보',prod:'신규 타겟 소재 5종 (OFF)',chk:1},
+    'SA_아넬라 캠페인_베이비바우처':{p:'신규 확보',prod:'베이비바우처'},
+    '260519_아넬라_웰컴박스_0원':{p:'신규 확보',prod:'웰컴박스'},
+    '260519_아넬라_웰컴박스_공짜':{p:'신규 확보',prod:'웰컴박스'},
+    'SSA_아넬라_퓨레종합_브랜드K':{p:'상품 검색',prod:'과일퓨레'},
+    'SSA_아넬라_퓨레종합_일반K':{p:'상품 검색',prod:'과일퓨레'},
+    'SA_아넬라 캠페인_퓨레K':{p:'상품 검색',prod:'과일퓨레'},
+    'SSA_아넬라_퓨레개별_통합k':{p:'상품 검색',prod:'과일퓨레'},
+    'SSA_아넬라_과자(떡뻥)_일반K':{p:'상품 검색',prod:'쌀과자'},
+    'SSA_아넬라_과자(떡뻥)_브랜드K':{p:'상품 검색',prod:'쌀과자'},
+    '아넬라_카탈로그_260629':{p:'리타겟·재구매',prod:'카탈로그 (구성 상품 미확정)',chk:1},
+    '아넬라_카탈로그_리타겟기반':{p:'리타겟·재구매',prod:'카탈로그 (구성 상품 미확정)',chk:1},
+    '아넬라_브검_모바일':{p:'브랜드',prod:'브랜드 전체'},
+    'SA_아넬라 캠페인_브랜드K':{p:'브랜드',prod:'브랜드 키워드'},
+    'SA_아넬라 캠페인_과자k(브랜드)':{p:'브랜드',prod:'쌀과자'},
+    '아넬라_프로모_추석세일':{p:'프로모',prod:'추석 프로모 (OFF)'}
   }
-
-  document.getElementById('trendChart').innerHTML = `
-    <svg class="chart" viewBox="0 0 ${W} ${H}">
-      ${gridlines}
-      ${bars}
-      ${roasLine}${roasDots}
-      ${labels}
-    </svg>
-    <div class="legend">
-      <div class="legend-item"><span class="legend-swatch" style="background:${color};opacity:0.55"></span>광고비(원)</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:${color}"></span>매출액(원)</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--critical)"></span>ROAS(%, 우측 참고선)</div>
-    </div>`;
-
-  const tip = document.getElementById('chartTooltip');
-  const cardEl = document.getElementById('trendChart').closest('.chart-card');
-  document.querySelectorAll('#trendChart rect[data-tip]').forEach(el=>{
-    el.addEventListener('mouseenter', ()=>{
-      tip.innerHTML = `<b>${el.dataset.label}</b>${el.dataset.value}`;
-      tip.classList.add('show');
+};
+const PURPOSES = ['신규 확보','상품 검색','리타겟·재구매','브랜드','프로모'];
+const GRP = [
+  {test:r=>r.media==='search', name:'네이버 검색광고', sub:'광고세트', color:'var(--media-search)'},
+  {test:r=>r.media==='gfa', name:'GFA', sub:'광고소재', color:'var(--media-gfa)'},
+  {test:r=>r.media==='meta', name:'메타', sub:'광고소재', color:'var(--media-meta)'}
+];
+function roasStatus(roas,cost){
+  if(!cost) return ['warning','–'];
+  return [roas>=300?'good':(roas<100?'critical':'warning'), pct(roas)];
+}
+function adCard(r, mapEntry){
+  const roas = r.cost? r.rev/r.cost*100 : 0, ctr = r.imp? r.clk/r.imp*100 : 0;
+  const st = roasStatus(roas,r.cost);
+  const isSearch = r.media==='search';
+  const img = CREATIVE_IMAGES[r.name];
+  const thumb = isSearch ? '' : (img
+    ? `<span class="ad-thumb-wrap"><img class="ad-thumb" src="${img.thumb}" data-large="${img.large}" data-video="${img.video||''}" alt="${r.name} 소재" loading="lazy">${img.video?'<span class="ad-play">▶</span>':''}</span>`
+    : '<div class="ad-thumb empty">이미지<br>준비중</div>');
+  const chan = `<span class="chan-tag ${r.chan==='store'?'chan-store':'chan-mall'}">${r.chan==='store'?'스마트스토어':'자사몰'}</span>`;
+  const tag = isSearch ? `<span class="chan-tag" style="background:var(--media-search-soft);color:var(--media-search)">${r.src}</span>` : '';
+  return `<div class="ad${isSearch?' nothumb':''}">
+    ${thumb}
+    <div class="ad-main">
+      <div class="ad-name">${r.name}</div>
+      <div class="ad-meta">${tag}${chan}<span class="ad-prod">연결 상품 <b>${mapEntry.prod}</b></span>${mapEntry.chk?'<span class="ad-flag">확인 필요</span>':''}</div>
+      <div class="ad-stats num"><span><b>광고비</b>${fmt(r.cost)}원</span><span><b>매출액</b>${fmt(r.rev)}원</span><span><b>구매</b>${fmt(r.conv)}건</span><span><b>클릭</b>${fmt(r.clk)}</span><span><b>CTR</b>${ctr.toFixed(2)}%</span></div>
+    </div>
+    <div class="ad-roas"><span class="big num status-${st[0]}" style="color:var(--${st[0]==='good'?'good':st[0]==='critical'?'critical':'text-primary'})">${st[1]}</span><span class="st" style="color:var(--text-muted)">ROAS</span></div>
+  </div>`;
+}
+function bindPreview(root){
+  const preview = document.getElementById('imgPreview');
+  const pImg = document.getElementById('imgPreviewImg');
+  const pVid = document.getElementById('imgPreviewVid');
+  root.querySelectorAll('.ad-thumb[data-large]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      if(el.dataset.video){pImg.hidden=true;pVid.hidden=false;pVid.src=el.dataset.video;pVid.currentTime=0;pVid.play().catch(()=>{});}
+      else{pVid.hidden=true;pVid.pause();pImg.hidden=false;pImg.src=el.dataset.large;}
+      preview.classList.add('show');
     });
-    el.addEventListener('mousemove', e=>{
-      const box = cardEl.getBoundingClientRect();
-      tip.style.left = (e.clientX - box.left) + 'px';
-      tip.style.top = (e.clientY - box.top) + 'px';
+    el.addEventListener('mousemove',e=>{
+      const pad=16,pw=360,ph=480;let x=e.clientX+pad,y=e.clientY+pad;
+      if(x+pw>window.innerWidth)x=e.clientX-pw-pad;
+      if(y+ph>window.innerHeight)y=e.clientY-ph-pad;
+      preview.style.left=Math.max(0,x)+'px';preview.style.top=Math.max(0,y)+'px';
     });
-    el.addEventListener('mouseleave', ()=> tip.classList.remove('show'));
+    el.addEventListener('mouseleave',()=>{preview.classList.remove('show');pVid.pause();});
   });
 }
-document.getElementById('trendTabs').addEventListener('click', e=>{
-  const b = e.target.closest('.tabbtn'); if(!b) return;
-  renderTrend(b.dataset.t);
-});
+function renderPurposes(){
+  const box = document.getElementById('purposeList'); if(!box) return;
+  const map = AD_MAP.anela;
+  const rows = BRANDS.anela.campaigns.filter(r=>map[r.name]).map(r=>({r, m:map[r.name]}));
+  const tot = agg(rows.map(x=>x.r));
+  box.innerHTML = PURPOSES.map((pn,idx)=>{
+    const mine = rows.filter(x=>x.m.p===pn); if(!mine.length) return '';
+    const a = agg(mine.map(x=>x.r));
+    const cs = tot.cost? a.cost/tot.cost*100:0, rs = tot.rev? a.rev/tot.rev*100:0;
+    const st = roasStatus(a.roas,a.cost);
+    const body = GRP.map(g=>{
+      const list = mine.filter(x=>g.test(x.r)).sort((x,y)=>y.r.rev-x.r.rev);
+      if(!list.length) return '';
+      return `<div class="pp-grp"><span class="media-dot" style="background:${g.color}"></span>${g.name}<span class="sub">· ${g.sub} ${list.length}개</span></div>` + list.map(x=>adCard(x.r,x.m)).join('');
+    }).join('');
+    return `<details class="pp"${idx===0?' open':''}>
+      <summary>
+        <div class="pp-name"><b>${pn}</b><small>광고 ${mine.length}개 · 구매 ${fmt(a.conv)}건</small></div>
+        <div class="pp-bars">
+          <div class="pp-b"><div class="trk"><div class="fill" style="width:${cs}%;background:var(--accent)"></div></div><span class="v">광고비 <b>${fmt(a.cost)}원</b> · ${cs.toFixed(1)}%</span></div>
+          <div class="pp-b"><div class="trk"><div class="fill" style="width:${rs}%;background:var(--good)"></div></div><span class="v">매출 <b>${fmt(a.rev)}원</b> · ${rs.toFixed(1)}%</span></div>
+        </div>
+        <div class="pp-roas"><span class="status-pill ${st[0]}">${st[1]}</span></div>
+        <span class="chev" aria-hidden="true"></span>
+      </summary>${body}</details>`;
+  }).join('') + `<p class="pp-note">합계 광고비 ${fmt(tot.cost)}원 · 매출액 ${fmt(tot.rev)}원 · 구매 ${fmt(tot.conv)}건 · ROAS ${pct(tot.roas)}. 매출은 각 매체가 보고한 구매 전환값 기준이며, 추석 프로모(OFF)는 후행 전환이 반영된 매출입니다.</p>`;
+  bindPreview(box);
+}
 
 // ================= BRAND SWITCH =================
 function setBrand(key){
@@ -1499,7 +1510,7 @@ function setBrand(key){
   curMedia='search'; curChan='total'; curCreative='meta';
   renderMedia();
   renderCreative();
-  renderTrend(curTrend);
+  renderMediaOverview();
 }
 document.getElementById('brandSwitch').addEventListener('click', e=>{
   const b = e.target.closest('.brand-chip'); if(!b) return;
@@ -1520,7 +1531,8 @@ document.querySelectorAll('.tipchart').forEach(card=>{
 // initial render
 renderMedia();
 renderCreative();
-renderTrend('all');
+renderMediaOverview();
+renderPurposes();
 
 </script>
 <script>
