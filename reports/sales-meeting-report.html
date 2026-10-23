@@ -548,6 +548,10 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
 .mc-h{font-size:12.5px;font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:7px;}
 .mc ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:3px;}
 .mc li{font-size:12.5px;color:var(--text-secondary);list-style:disc;}
+
+.cu-note{font-size:11.5px;color:var(--text-muted);margin:12px 0 0;}
+.cu-warn{margin-top:14px;padding:11px 14px;border:1px solid var(--warning);background:var(--warning-soft);border-radius:9px;font-size:12.5px;color:var(--text-primary);}
+.cu-warn b{color:var(--warning);}
 </style>
 
 <header class="top">
@@ -803,7 +807,11 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       <div class="pp-legend"><span><i style="background:var(--accent)"></i>광고비 비중</span><span><i style="background:var(--good)"></i>매출 비중</span><span class="pp-hint">광고 목적·연결 상품은 초안입니다(확인 필요 표시 항목은 연결 상품 확정 전).</span></div>
       <div id="purposeList"></div>
     </div>
-    <div data-brand-panel="rosy" hidden><div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;">로지오가닉은 아넬라 형식 확정 후 같은 방식으로 진행합니다.</p></div></div>
+    <div data-brand-panel="rosy" hidden>
+      <div class="pp-legend"><span><i style="background:var(--accent)"></i>광고비 비중</span><span><i style="background:var(--good)"></i>매출 비중</span><span class="pp-hint">광고 목적·연결 상품은 초안입니다(확인 필요 표시 항목은 연결 상품 확정 전).</span></div>
+      <div id="purposeListRosy"></div>
+      <details class="tbl-details" style="margin-top:14px;"><summary>참고: 로지오가닉 스마트스토어 판매 상위 상품 (10/12–10/18)</summary><div id="rosyTopProducts"></div></details>
+    </div>
   </section>
 
   <!-- ============ SALES DRAFT: NEW vs REPEAT ============ -->
@@ -823,7 +831,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
         <div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;"><b>월간</b> — 결제 고객 수는 기간 내 중복을 제거한 값이라 주간 값을 합산할 수 없습니다. 월 단위 고객 분류 내보내기(7·8·9월)가 필요합니다.</p></div>
       </div>
     </div>
-    <div data-brand-panel="rosy" hidden><div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;">로지오가닉은 아넬라 형식 확정 후 진행합니다. 참고: 아넬라 스마트스토어에서 로지오가닉 상품이 함께 판매되고 있습니다(상품별 집계의 별도 행).</p></div></div>
+    <div data-brand-panel="rosy" hidden><div id="custRosy"></div></div>
   </section>
 
   <!-- ============ SALES DRAFT: VOUCHER ============ -->
@@ -838,7 +846,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
       <details class="tbl-details"><summary>주간 표로 보기</summary><div class="tbl-wrap"><table class="data"><thead><tr><th>주(시작일)</th><th>바우처 고객 결제</th><th>일반 고객 결제</th><th>바우처 비중(고객)</th><th>바우처 고객 매출</th><th>바우처 매출 비중</th><th>바우처 고객 객단가</th><th>바우처 구매전환율</th></tr></thead><tbody><tr><td>10/12</td><td class="num">979</td><td class="num">198</td><td class="num">83.2%</td><td class="num">45,979,270원</td><td class="num">82.1%</td><td class="num">46,966원</td><td class="num">23.5%</td></tr><tr><td>10/5</td><td class="num">279</td><td class="num">112</td><td class="num">71.4%</td><td class="num">11,078,760원</td><td class="num">69.0%</td><td class="num">39,709원</td><td class="num">12.4%</td></tr><tr><td>9/28</td><td class="num">588</td><td class="num">143</td><td class="num">80.4%</td><td class="num">24,349,590원</td><td class="num">76.8%</td><td class="num">41,411원</td><td class="num">19.7%</td></tr><tr><td>9/21</td><td class="num">474</td><td class="num">107</td><td class="num">81.6%</td><td class="num">18,930,050원</td><td class="num">77.7%</td><td class="num">39,937원</td><td class="num">25.0%</td></tr><tr><td>9/14</td><td class="num">1,159</td><td class="num">262</td><td class="num">81.6%</td><td class="num">49,328,950원</td><td class="num">78.5%</td><td class="num">42,562원</td><td class="num">26.8%</td></tr><tr><td>9/7</td><td class="num">504</td><td class="num">137</td><td class="num">78.6%</td><td class="num">16,927,930원</td><td class="num">73.8%</td><td class="num">33,587원</td><td class="num">18.2%</td></tr><tr><td>8/31</td><td class="num">739</td><td class="num">152</td><td class="num">82.9%</td><td class="num">23,098,200원</td><td class="num">77.1%</td><td class="num">31,256원</td><td class="num">20.3%</td></tr><tr><td>8/24</td><td class="num">1,354</td><td class="num">273</td><td class="num">83.2%</td><td class="num">60,343,440원</td><td class="num">81.8%</td><td class="num">44,567원</td><td class="num">25.6%</td></tr><tr><td>8/17</td><td class="num">566</td><td class="num">133</td><td class="num">81.0%</td><td class="num">18,543,730원</td><td class="num">76.1%</td><td class="num">32,763원</td><td class="num">16.7%</td></tr><tr><td>8/10</td><td class="num">1,176</td><td class="num">189</td><td class="num">86.2%</td><td class="num">44,522,190원</td><td class="num">83.6%</td><td class="num">37,859원</td><td class="num">23.0%</td></tr><tr><td>8/3</td><td class="num">547</td><td class="num">129</td><td class="num">80.9%</td><td class="num">17,099,440원</td><td class="num">74.7%</td><td class="num">31,260원</td><td class="num">16.5%</td></tr><tr><td>7/27</td><td class="num">1,197</td><td class="num">267</td><td class="num">81.8%</td><td class="num">50,925,910원</td><td class="num">79.8%</td><td class="num">42,545원</td><td class="num">24.3%</td></tr><tr><td>7/20</td><td class="num">597</td><td class="num">164</td><td class="num">78.4%</td><td class="num">18,993,800원</td><td class="num">71.0%</td><td class="num">31,815원</td><td class="num">17.2%</td></tr></tbody></table></div></details>
       <p class="section-sub" style="margin-top:12px;">신규 고객 중 쿠폰을 쓴 고객과 기존 고객이 쿠폰을 쓴 경우가 모두 포함되어 "바우처 고객"과 "신규 고객"은 같은 값이 아닙니다. 쿠폰 사용 이후의 구매는 재구매로 집계됩니다.</p>
     </div>
-    <div data-brand-panel="rosy" hidden><div class="card comment-card"><h3>자료 대기</h3><p class="section-sub" style="margin:0;">로지오가닉에는 베이비바우처가 없다면 이 섹션은 아넬라 전용으로 둡니다.</p></div></div>
+    <div data-brand-panel="rosy" hidden><div class="card comment-card"><h3>해당 없음</h3><p class="section-sub" style="margin:0;">로지오가닉은 베이비바우처를 운영하지 않아 이 섹션은 아넬라 전용입니다.</p></div></div>
   </section>
 
   <!-- ============ MEDIA PERFORMANCE ============ -->
@@ -1347,6 +1355,21 @@ const AD_MAP = {
     'SA_아넬라 캠페인_과자k(브랜드)':{p:'브랜드',prod:'쌀과자'},
     '아넬라_프로모_추석세일':{p:'프로모',prod:'추석 프로모 (OFF)'}
   }
+  ,rosy:{
+    '260818_자사몰_과자시크릿링크_10봉':{p:'신규 확보',prod:'쌀과자 시크릿링크 10봉'},
+    '260506_로지오가닉_과자(상시)_할인':{p:'신규 확보',prod:'쌀과자 (네이버 협력광고)'},
+    '260506_로지오가닉_과자(상시)_간식고민':{p:'신규 확보',prod:'쌀과자 (네이버 협력광고)'},
+    'SSA_로지오가닉_과자_브랜드K':{p:'상품 검색',prod:'쌀과자'},
+    'SSA_로지오가닉_과자 캠페인_신제품':{p:'상품 검색',prod:'쌀과자 신제품'},
+    'SSA_로지오가닉_음료_브랜드K':{p:'상품 검색',prod:'음료 (배도라지 등)'},
+    'SA_로지오가닉 캠페인_대표K':{p:'상품 검색',prod:'대표 키워드 (연결 상품 미확정)',chk:1},
+    'SA_로지오가닉 캠페인_구매K':{p:'상품 검색',prod:'구매 키워드 (연결 상품 미확정)',chk:1},
+    'SA_로지오가닉 캠페인_탐색K':{p:'상품 검색',prod:'탐색 키워드 (연결 상품 미확정)',chk:1},
+    'SA_로지오가닉 캠페인_그외K':{p:'상품 검색',prod:'그외 키워드 (연결 상품 미확정)',chk:1},
+    'SA_로지오가닉 캠페인_신제품K':{p:'상품 검색',prod:'신제품 키워드 (연결 상품 미확정)',chk:1},
+    '로지오가닉_카탈로그_리타겟기반':{p:'리타겟·재구매',prod:'카탈로그 (구성 상품 미확정)',chk:1},
+    '로지오가닉_브검_모바일':{p:'브랜드',prod:'브랜드 전체'}
+  }
 };
 const PURPOSES = ['신규 확보','상품 검색','리타겟·재구매','브랜드','프로모'];
 const GRP = [
@@ -1397,10 +1420,10 @@ function bindPreview(root){
     el.addEventListener('mouseleave',()=>{preview.classList.remove('show');pVid.pause();});
   });
 }
-function renderPurposes(){
-  const box = document.getElementById('purposeList'); if(!box) return;
-  const map = AD_MAP.anela;
-  const rows = BRANDS.anela.campaigns.filter(r=>map[r.name]).map(r=>({r, m:map[r.name]}));
+function renderPurposes(brand, boxId){
+  const box = document.getElementById(boxId); if(!box) return;
+  const map = AD_MAP[brand];
+  const rows = BRANDS[brand].campaigns.filter(r=>map[r.name]).map(r=>({r, m:map[r.name]}));
   const tot = agg(rows.map(x=>x.r));
   box.innerHTML = PURPOSES.map((pn,idx)=>{
     const mine = rows.filter(x=>x.m.p===pn); if(!mine.length) return '';
@@ -1422,8 +1445,71 @@ function renderPurposes(){
         <div class="pp-roas"><span class="status-pill ${st[0]}">${st[1]}</span></div>
         <span class="chev" aria-hidden="true"></span>
       </summary>${body}</details>`;
-  }).join('') + `<p class="pp-note">합계 광고비 ${fmt(tot.cost)}원 · 매출액 ${fmt(tot.rev)}원 · 구매 ${fmt(tot.conv)}건 · ROAS ${pct(tot.roas)}. 매출은 각 매체가 보고한 구매 전환값 기준이며, 추석 프로모(OFF)는 후행 전환이 반영된 매출입니다.</p>`;
+  }).join('') + `<p class="pp-note">합계 광고비 ${fmt(tot.cost)}원 · 매출액 ${fmt(tot.rev)}원 · 구매 ${fmt(tot.conv)}건 · ROAS ${pct(tot.roas)}. 매출은 각 매체가 보고한 구매 전환값 기준입니다.${brand==='anela'?' 추석 프로모(OFF)는 후행 전환이 반영된 매출입니다.':' 전환 캠페인 랜딩이 아넬라 스마트스토어로 연결되어 아넬라 상품 구매가 일부 포함될 수 있습니다(대행사 안내).'}</p>`;
   bindPreview(box);
+}
+
+
+// ================= ROSY: 신규·재구매 =================
+const CUST_ROSY = [{"start":"7/20","full":"2026-07-20~2026-07-26","all":{"visit":3285.0,"pay":580.0,"paypct":"-","cvr":17.7,"rev":17946360.0,"aov":30942.0},"new":{"visit":2684.0,"pay":413.0,"paypct":71.2,"cvr":15.4,"rev":12458660.0,"aov":30166.0},"rep":{"visit":643.0,"pay":171.0,"paypct":29.5,"cvr":26.6,"rev":5487700.0,"aov":32092.0}},{"start":"7/27","full":"2026-07-27~2026-08-02","all":{"visit":3648.0,"pay":677.0,"paypct":"-","cvr":18.6,"rev":18208380.0,"aov":26896.0},"new":{"visit":2977.0,"pay":503.0,"paypct":74.3,"cvr":16.9,"rev":12773250.0,"aov":25394.0},"rep":{"visit":723.0,"pay":182.0,"paypct":26.9,"cvr":25.2,"rev":5435130.0,"aov":29863.0}},{"start":"8/3","full":"2026-08-03~2026-08-09","all":{"visit":3011.0,"pay":494.0,"paypct":"-","cvr":16.4,"rev":14933700.0,"aov":30230.0},"new":{"visit":2511.0,"pay":378.0,"paypct":76.5,"cvr":15.1,"rev":10796500.0,"aov":28562.0},"rep":{"visit":543.0,"pay":118.0,"paypct":23.9,"cvr":21.7,"rev":4137200.0,"aov":35061.0}},{"start":"8/10","full":"2026-08-10~2026-08-16","all":{"visit":3179.0,"pay":535.0,"paypct":"-","cvr":16.8,"rev":15488800.0,"aov":28951.0},"new":{"visit":2578.0,"pay":391.0,"paypct":73.1,"cvr":15.2,"rev":10920700.0,"aov":27930.0},"rep":{"visit":667.0,"pay":146.0,"paypct":27.3,"cvr":21.9,"rev":4568100.0,"aov":31288.0}},{"start":"8/17","full":"2026-08-17~2026-08-23","all":{"visit":3939.0,"pay":762.0,"paypct":"-","cvr":19.3,"rev":22343300.0,"aov":29322.0},"new":{"visit":3284.0,"pay":570.0,"paypct":74.8,"cvr":17.4,"rev":16308480.0,"aov":28611.0},"rep":{"visit":716.0,"pay":194.0,"paypct":25.5,"cvr":27.1,"rev":6034820.0,"aov":31107.0}},{"start":"8/24","full":"2026-08-24~2026-08-30","all":{"visit":3175.0,"pay":502.0,"paypct":"-","cvr":15.8,"rev":12912380.0,"aov":25722.0},"new":{"visit":2512.0,"pay":363.0,"paypct":72.3,"cvr":14.5,"rev":8707930.0,"aov":23989.0},"rep":{"visit":694.0,"pay":142.0,"paypct":28.3,"cvr":20.5,"rev":4204450.0,"aov":29609.0}},{"start":"8/31","full":"2026-08-31~2026-09-06","all":{"visit":2439.0,"pay":474.0,"paypct":"-","cvr":19.4,"rev":13484170.0,"aov":28448.0},"new":{"visit":1945.0,"pay":319.0,"paypct":67.3,"cvr":16.4,"rev":8727220.0,"aov":27358.0},"rep":{"visit":516.0,"pay":158.0,"paypct":33.3,"cvr":30.6,"rev":4756950.0,"aov":30107.0}},{"start":"9/7","full":"2026-09-07~2026-09-13","all":{"visit":4513.0,"pay":897.0,"paypct":"-","cvr":19.9,"rev":28244200.0,"aov":31487.0},"new":{"visit":3770.0,"pay":650.0,"paypct":72.5,"cvr":17.2,"rev":19569990.0,"aov":30108.0},"rep":{"visit":805.0,"pay":257.0,"paypct":28.7,"cvr":31.9,"rev":8674210.0,"aov":33752.0}},{"start":"9/14","full":"2026-09-14~2026-09-20","all":{"visit":4371.0,"pay":906.0,"paypct":"-","cvr":20.7,"rev":27499410.0,"aov":30353.0},"new":{"visit":3707.0,"pay":679.0,"paypct":74.9,"cvr":18.3,"rev":20187090.0,"aov":29731.0},"rep":{"visit":733.0,"pay":233.0,"paypct":25.7,"cvr":31.8,"rev":7312320.0,"aov":31383.0}},{"start":"9/21","full":"2026-09-21~2026-09-27","all":{"visit":3026.0,"pay":602.0,"paypct":"-","cvr":19.9,"rev":14970530.0,"aov":24868.0},"new":{"visit":2438.0,"pay":438.0,"paypct":72.8,"cvr":18.0,"rev":10496170.0,"aov":23964.0},"rep":{"visit":646.0,"pay":168.0,"paypct":27.9,"cvr":26.0,"rev":4474360.0,"aov":26633.0}},{"start":"9/28","full":"2026-09-28~2026-10-04","all":{"visit":1964.0,"pay":321.0,"paypct":"-","cvr":16.3,"rev":7852220.0,"aov":24462.0},"new":{"visit":1573.0,"pay":225.0,"paypct":70.1,"cvr":14.3,"rev":5352000.0,"aov":23787.0},"rep":{"visit":414.0,"pay":97.0,"paypct":30.2,"cvr":23.4,"rev":2500220.0,"aov":25775.0}},{"start":"10/5","full":"2026-10-05~2026-10-11","all":{"visit":3660.0,"pay":709.0,"paypct":"-","cvr":19.4,"rev":22189810.0,"aov":31297.0},"new":{"visit":3008.0,"pay":501.0,"paypct":70.7,"cvr":16.7,"rev":15223110.0,"aov":30385.0},"rep":{"visit":696.0,"pay":212.0,"paypct":29.9,"cvr":30.5,"rev":6966700.0,"aov":32862.0}},{"start":"10/12","full":"2026-10-12~2026-10-18","all":{"visit":4627.0,"pay":998.0,"paypct":"-","cvr":21.6,"rev":29170120.0,"aov":29229.0},"new":{"visit":3829.0,"pay":743.0,"paypct":74.4,"cvr":19.4,"rev":21878850.0,"aov":29447.0},"rep":{"visit":909.0,"pay":263.0,"paypct":26.4,"cvr":28.9,"rev":7291270.0,"aov":27723.0}}];
+const ROSY_TOP = [{"n":"아넬라 과일퓨레 공동구매 9차","p0":73.0,"r0":2972200.0,"p1":284.0,"r1":11303010.0},{"n":"로지오가닉 유기농 아기쌀과자 시작퍼프 8봉","p0":348.0,"r0":5845610.0,"p1":541.0,"r1":8363230.0},{"n":"로지오가닉 유기농 아기쌀과자 공동구매 9차","p0":56.0,"r0":1636950.0,"p1":160.0,"r1":4638080.0},{"n":"[첫구매전용] 로지오가닉 아기 쌀과자 첫 만남 구성","p0":84.0,"r0":910800.0,"p1":120.0,"r1":1227600.0},{"n":"로지오가닉 배도라지즙 진한 목소리도맑음 15팩+15팩 어린이음료","p0":6.0,"r0":210660.0,"p1":27.0,"r1":755420.0},{"n":"로지오가닉 진한 목소리도맑음 120팩","p0":4.0,"r0":323600.0,"p1":8.0,"r1":634200.0},{"n":"로지오가닉 아기젤리 3종 4박스 혼합세트 배도라지 유산균 빌베리 젤리","p0":12.0,"r0":411380.0,"p1":19.0,"r1":620710.0},{"n":"로지오가닉 유기농 쌀과자 시작스틱 8봉","p0":7.0,"r0":138600.0,"p1":14.0,"r1":295000.0}];
+const ROSY_TOT = {"p0":704.0,"r0":13730300.0,"p1":1274.0,"r1":29170120.0};
+function dlt(a,b){ if(!a) return ''; const g=Math.round((b/a-1)*100); return `<span class="sum-kpi-delta ${g>=0?'up':'down'}">${g>=0?'▴':'▾'} ${Math.abs(g)}%</span>`; }
+function stackChart(title,sub,rows,key,unitDiv,unitLbl){
+  const W=960,H=300,padL=64,padT=26,padB=44, n=rows.length, plotW=W-padL-20, plotH=H-padT-padB, gw=plotW/n, bw=Math.min(46,gw*0.62);
+  const tot = r=>r.new[key]+r.rep[key]; // 신규+재구매 합(고객은 중복 가능)
+  const max = Math.max(...rows.map(tot))/unitDiv; const top = Math.ceil(max/ (max>200?100:(max>20?10:1)))*(max>200?100:(max>20?10:1));
+  const y = v => padT+plotH-(v/top)*plotH;
+  let g='',bars='',lab='';
+  for(let i=0;i<=4;i++){const v=top/4*i;g+=`<line x1="${padL}" y1="${y(v)}" x2="${W-20}" y2="${y(v)}" stroke="var(--gridline)"/><text class="axis-label" x="${padL-8}" y="${y(v)+6}" text-anchor="end">${fmt(v)}</text>`;}
+  rows.forEach((r,i)=>{
+    const cx=padL+gw*i+gw/2, x=cx-bw/2, a=r.new[key]/unitDiv, b=r.rep[key]/unitDiv;
+    const hA=plotH*a/top, hB=plotH*b/top, last=i===n-1;
+    bars+=`<rect class="tip-target" data-tip data-label="${r.start} 주 · 신규" data-value="${fmt(a)}${unitLbl}" x="${x}" y="${y(a)}" width="${bw}" height="${Math.max(hA-1,0)}" rx="3" fill="var(--cust-new)"/>`;
+    bars+=`<rect class="tip-target" data-tip data-label="${r.start} 주 · 재구매" data-value="${fmt(b)}${unitLbl}" x="${x}" y="${y(a+b)}" width="${bw}" height="${Math.max(hB-1,0)}" rx="3" fill="var(--cust-rep)"/>`;
+    lab+=`<text class="axis-label" x="${cx}" y="${H-16}" text-anchor="middle">${r.start}</text>`;
+    if(last) lab+=`<text class="axis-label" x="${cx}" y="${y(a+b)-8}" text-anchor="middle" style="fill:var(--text-primary);font-weight:600">${fmt(a+b)}</text>`;
+  });
+  return `<div class="card chart-card tipchart"><h4 class="chart-title">${title}</h4><p class="section-sub" style="margin:0 0 10px;">${sub}</p>
+    <div class="legend" style="margin:0 0 6px;"><div class="legend-item"><span class="legend-swatch" style="background:var(--cust-new)"></span>신규</div><div class="legend-item"><span class="legend-swatch" style="background:var(--cust-rep)"></span>재구매 (위)</div></div>
+    <svg class="chart" viewBox="0 0 ${W} ${H}">${g}${bars}${lab}</svg><div class="chart-tooltip"></div></div>`;
+}
+function renderCustRosy(){
+  const el=document.getElementById('custRosy'); if(!el) return;
+  const d=CUST_ROSY, c=d[d.length-1], p=d[d.length-2];
+  const man2 = v => Math.round(v/10000).toLocaleString('ko-KR');
+  const kpi=(l,v,u,delta)=>`<div class="sum-kpi-card"><div class="sum-kpi-top"><span class="sum-kpi-label">${l}</span></div><div class="sum-kpi-value num">${v}<span class="unit">${u}</span></div>${delta}</div>`;
+  const topShare = Math.round(ROSY_TOP.filter(t=>t.n.indexOf('아넬라')===0).reduce((a,t)=>a+t.r1,0)/ROSY_TOT.r1*100);
+  el.innerHTML = `<div class="sum-kpi-grid">`+
+    kpi('결제 고객',fmt(c.all.pay),'명',dlt(p.all.pay,c.all.pay))+
+    kpi('신규 결제 고객',fmt(c.new.pay),'명',dlt(p.new.pay,c.new.pay))+
+    kpi('재구매 결제 고객',fmt(c.rep.pay),'명',dlt(p.rep.pay,c.rep.pay))+
+    kpi('신규 매출',man2(c.new.rev),'만원',dlt(p.new.rev,c.new.rev))+
+    kpi('재구매 매출',man2(c.rep.rev),'만원',dlt(p.rep.rev,c.rep.rev))+
+    kpi('신규 객단가',fmt(c.new.aov),'원',dlt(p.new.aov,c.new.aov))+`</div>`+
+    `<div class="chart-pair">`+
+      stackChart('주간 결제 고객 수 — 신규 vs 재구매','스마트스토어(로지오가닉) · 월요일~일요일 · 최근 13주',d,'pay',1,'명')+
+      stackChart('주간 판매금액 — 신규 vs 재구매','단위 만원',d,'rev',10000,'만원')+
+    `</div>`+
+    `<details class="tbl-details"><summary>주간 표로 보기</summary><div class="tbl-wrap"><table class="data"><thead><tr><th>주(시작일)</th><th>결제 고객</th><th>신규</th><th>재구매</th><th>신규 비중</th><th>전체 매출</th><th>신규 매출</th><th>재구매 매출</th><th>신규 객단가</th><th>재구매 객단가</th><th>신규 구매전환율</th><th>재구매 구매전환율</th></tr></thead><tbody>`+
+    [...d].reverse().map(r=>`<tr><td>${r.start}</td><td class="num">${fmt(r.all.pay)}</td><td class="num">${fmt(r.new.pay)}</td><td class="num">${fmt(r.rep.pay)}</td><td class="num">${r.new.paypct}%</td><td class="num">${fmt(r.all.rev)}원</td><td class="num">${fmt(r.new.rev)}원</td><td class="num">${fmt(r.rep.rev)}원</td><td class="num">${fmt(r.new.aov)}원</td><td class="num">${fmt(r.rep.aov)}원</td><td class="num">${r.new.cvr}%</td><td class="num">${r.rep.cvr}%</td></tr>`).join('')+
+    `</tbody></table></div></details>`+
+    `<p class="cu-note">신규와 재구매 결제 고객은 한 주 안에 둘 다 구매한 고객이 있어 합이 전체 결제 고객과 다를 수 있습니다. 전주 대비는 10/5–10/11 주 기준입니다.</p>`+
+    `<div class="cu-warn"><b>참고</b> 로지오가닉 스마트스토어에서 아넬라 과일퓨레 공동구매 9차가 판매되고 있어, 이번 주 판매금액의 ${topShare}%가 아넬라 상품입니다. 위 신규·재구매 수치에는 이 구매가 포함되어 있습니다.</div>`;
+  el.querySelectorAll('.tipchart').forEach(card=>{
+    const tip=card.querySelector('.chart-tooltip');
+    card.querySelectorAll('rect[data-tip]').forEach(r=>{
+      r.addEventListener('mouseenter',()=>{tip.innerHTML=`<b>${r.dataset.label}</b>${r.dataset.value}`;tip.classList.add('show');});
+      r.addEventListener('mousemove',e=>{const b=card.getBoundingClientRect();tip.style.left=(e.clientX-b.left)+'px';tip.style.top=(e.clientY-b.top)+'px';});
+      r.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+    });
+  });
+}
+function renderRosyTop(){
+  const el=document.getElementById('rosyTopProducts'); if(!el) return;
+  const rows=ROSY_TOP.map(t=>{const g=t.r0?Math.round((t.r1/t.r0-1)*100):null;
+    return `<tr><td>${t.n}</td><td class="num">${fmt(t.p1)}</td><td class="num">${fmt(t.p0)}</td><td class="num">${fmt(t.r1)}원</td><td class="num">${fmt(t.r0)}원</td><td class="num ${g>=0?'delta-up':'delta-down'}">${g===null?'–':(g>=0?'+':'')+g+'%'}</td></tr>`;}).join('');
+  el.innerHTML=`<div class="tbl-wrap"><table class="data"><thead><tr><th>상품(스마트스토어)</th><th>결제건수</th><th>전주</th><th>판매금액</th><th>전주</th><th>증감</th></tr></thead><tbody>${rows}<tr><td><b>스토어 전체</b></td><td class="num"><b>${fmt(ROSY_TOT.p1)}</b></td><td class="num">${fmt(ROSY_TOT.p0)}</td><td class="num"><b>${fmt(ROSY_TOT.r1)}원</b></td><td class="num">${fmt(ROSY_TOT.r0)}원</td><td class="num delta-up">+${Math.round((ROSY_TOT.r1/ROSY_TOT.r0-1)*100)}%</td></tr></tbody></table></div><p class="pp-note">상품명이 같은 항목은 합산했고 판매금액 상위 8개만 표시합니다. 광고별 연결 상품을 확정할 때 참고하세요.</p>`;
 }
 
 // ================= BRAND SWITCH =================
@@ -1462,7 +1548,10 @@ document.querySelectorAll('.tipchart').forEach(card=>{
 renderMedia();
 renderCreative();
 renderMediaOverview();
-renderPurposes();
+renderPurposes('anela','purposeList');
+renderPurposes('rosy','purposeListRosy');
+renderCustRosy();
+renderRosyTop();
 
 </script>
 <script>
