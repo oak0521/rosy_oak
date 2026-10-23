@@ -491,10 +491,14 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
   .pp>summary{grid-template-columns:1fr auto 18px;gap:10px 12px;}
   .pp-bars{grid-column:1 / -1;order:3;}
 }
-.pp-grp{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--text-secondary);padding:12px 18px 6px;}
+.pp-grpwrap{border-left:4px solid var(--gc);border-top:1px solid var(--border);}
+.pp-grpwrap:first-of-type{border-top:0;}
+.pp-grp{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;padding:8px 18px;}
+.pp-grp .nm{font-size:13px;}
 .pp-grp .media-dot{margin:0;}
 .pp-grp span.sub{font-weight:500;color:var(--text-muted);}
 .ad{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid var(--gridline);}
+.pp-grp+.ad{border-top:0;}
 .ad.nothumb{grid-template-columns:1fr auto;}
 .ad-thumb{width:64px;height:64px;border-radius:9px;object-fit:cover;border:1px solid var(--border);display:block;}
 .ad-thumb-wrap{position:relative;width:64px;height:64px;}
@@ -582,43 +586,6 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <!-- ===== 아넬라 ===== -->
     <div data-brand-panel="anela">
       <div data-viz="anela" style="margin-bottom:14px"></div>
-      <details class="tbl-details"><summary>원문 텍스트 보기 (상세 수치)</summary>
-      <div class="quad-grid" style="margin-top:10px">
-        <div class="quad good">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--good)"></span><span class="quad-title">👍 좋았던 점</span></div>
-          <ul>
-            <li><span class="bullet-text">전체 매출 178% 증가한 약 3,460만원, ROAS 504%→1,369% — 광고비 2% 증액에도 유입(클릭수) 11% 증가, 전환율 7.6%→16.8%(+9.2%p)·객단가 13% 상승. 전주 스마트스토어 이벤트 미진행 대비 금주는 라이프위크 & 오늘끝딜(10/13~14) & 1+1 이벤트(10/18, 퓨레·쌀과자) 진행</span></li>
-            <li><span class="bullet-text">전 매체 ROAS 개선 — GFA 매출 344% 증가한 약 836만원(ROAS 500%→1,702%), 쇼핑검색 매출 105% 증가한 약 760만원(ROAS 490%→1,032%), 메타 매출 87% 증가한 약 628만원(ROAS 378%→680%)</span></li>
-            <li><span class="bullet-text">파워링크 유입 27% 감소에도 매출 188% 증가한 약 159만원(ROAS 224%→935%) — 오늘끝딜 구매 17건·약 89만원(ROAS 1,195%), 1+1 구매 5건·약 21만원(ROAS 1,071%), 라이프위크 단독 일자 일평균 구매 2.1건→3건(ROAS 642%)</span></li>
-            <li><span class="bullet-text">쇼핑검색 오늘끝딜 구매 98건·약 438만원(전환율 30.91%, ROAS 1,533%), 1+1 구매 28건·약 126만원(퓨레 20건 약 103만원 ROAS 1,408% / 과자 8건 약 23만원 ROAS 704%)</span></li>
-            <li><span class="bullet-text">메타 파트너십 매출 101% 증가(ROAS 590%)·카탈로그 매출 297% 증가(ROAS 944%)로 메타 매출·ROAS 개선에 가장 크게 기여, 시크릿링크도 매출 4% 증가(ROAS 584%)</span></li>
-          </ul>
-        </div>
-        <div class="quad bad">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--serious)"></span><span class="quad-title">👎 안좋았던 점</span></div>
-          <ul>
-            <li><span class="bullet-text">금주 매출의 61%가 10/13(오늘끝딜)과 10/18(1+1 이벤트) 이틀에 집중 — 이벤트 의존도가 큼</span></li>
-            <li><span class="bullet-text">쇼핑검색은 라이프위크만 진행된 단독 일자에는 일평균 구매가 13건→13.3건으로 전주와 유사(전환율 3.85%p 증가, ROAS 568%) — 구매 규모 확대는 오늘끝딜·1+1 이벤트 영향이 가장 컸음</span></li>
-            <li><span class="bullet-text">GFA 웹전환 신규 소재 5종을 라이브했으나 재점검이 필요해 현재 OFF(구매 1건) — 추석 소재(OFF)의 후행 전환 구매 14건·약 65만원이 금주 GFA 매출에 포함</span></li>
-          </ul>
-        </div>
-        <div class="quad doing">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--warning)"></span><span class="quad-title">🔧 개선하고 있는 것</span></div>
-          <ul>
-            <li><span class="bullet-text">메타 웰컴박스 광고: 타겟 및 지면 조정, 일예산 감액으로 상시 운영을 목표로 라이브 중</span></li>
-            <li><span class="bullet-text">네이버 검색 키워드·검색어 관리 기준 정리(유형별 기준 보완 전달 예정)</span></li>
-          </ul>
-        </div>
-        <div class="quad need">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--critical)"></span><span class="quad-title">🎯 개선이 필요한 것 (차주 운영방향)</span></div>
-          <ul>
-            <li><span class="bullet-text">네이버 검색: 검색광고 최적화(키워드·검색어) 유형별 기준 보완 전달</span></li>
-            <li><span class="bullet-text">네이버 GFA: 웹전환 신규 캠페인 소재 점검 후 재운영</span></li>
-            <li><span class="bullet-text">메타: 효율 모니터링 및 소재 교체용 기획안 전달</span></li>
-          </ul>
-        </div>
-      </div>
-      </details>
 
       <div class="sum-kpi-grid">
         <div class="sum-kpi-card">
@@ -724,43 +691,6 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <!-- ===== 로지오가닉 ===== -->
     <div data-brand-panel="rosy" hidden>
       <div data-viz="rosy" style="margin-bottom:14px"></div>
-      <details class="tbl-details"><summary>원문 텍스트 보기 (상세 수치)</summary>
-      <div class="quad-grid" style="margin-top:10px">
-        <div class="quad good">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--good)"></span><span class="quad-title">👍 좋았던 점</span></div>
-          <ul>
-            <li><span class="bullet-text">광고비 유사(+2%) 소진하며 매출 38% 증가한 약 963만원, ROAS 431%→580% — 전환율 11.8%→18.9%(+7.1%p), 객단가 11% 감소를 상쇄(전주 10/8~10/11 아기 쌀과자 페스타 → 금주 10/12~10/18 라이프위크)</span></li>
-            <li><span class="bullet-text">전 매체 ROAS 개선 — 네이버협력광고 과자(상시) 매출 154% 증가한 약 224만원(ROAS 178%→446%): 간식고민 소재 전환율 20.41%p 상승(ROAS 142%→536%), 할인 소재 ROAS 199%→321%</span></li>
-            <li><span class="bullet-text">쇼핑검색 과자 캠페인 전환율 9.93%p 증가로 매출 25% 증가한 약 117만원(ROAS 512%) — 과자_브랜드K ROAS 620%, 음료 캠페인도 ROAS 99%→291%로 개선</span></li>
-            <li><span class="bullet-text">파워링크 매출 22% 증가한 약 97만원(ROAS 310%→376%) — 대표K ROAS 189%→587%, 구매K ROAS 304%→398%(라이프위크 기간 구매 전환율 상승)</span></li>
-            <li><span class="bullet-text">GFA(카탈로그) 광고비 15% 감액에도 매출 전주와 유사한 약 42만원 확보, ROAS 813%→959%</span></li>
-          </ul>
-        </div>
-        <div class="quad bad">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--serious)"></span><span class="quad-title">👎 안좋았던 점</span></div>
-          <ul>
-            <li><span class="bullet-text">쇼핑검색 광고비 12% 증액·매출 39% 증가에도 ROAS는 371%→462%로 개선 폭이 제한적 — 과자 신제품 그룹은 매출 50% 감소(ROAS 174%)</span></li>
-            <li><span class="bullet-text">파워링크 탐색K 전환율 1%p 하락으로 매출 약 7만원 감소(ROAS 271%→190%), 그외K도 매출 감소(ROAS 1,805%→754%)</span></li>
-            <li><span class="bullet-text">메타 유입 10% 감소·객단가 14% 감소 — 전환율 상승이 하락분을 상쇄해 매출은 53% 증가</span></li>
-          </ul>
-        </div>
-        <div class="quad doing">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--warning)"></span><span class="quad-title">🔧 개선하고 있는 것</span></div>
-          <ul>
-            <li><span class="bullet-text">메타 자사몰 음료 시크릿링크: 신규 소재 제작 완료, 재고 이슈 해결 후 운영 재개 예정</span></li>
-            <li><span class="bullet-text">웰컴박스 제외 타겟 생성 및 광고 재정비</span></li>
-            <li><span class="bullet-text">네이버협력광고: 교체용 신규 소재 기획안 제작 후 전달 예정(효율 모니터링 병행)</span></li>
-          </ul>
-        </div>
-        <div class="quad need">
-          <div class="quad-head"><span class="quad-dot" style="background:var(--critical)"></span><span class="quad-title">🎯 개선이 필요한 것 (차주 운영방향)</span></div>
-          <ul>
-            <li><span class="bullet-text">네이버 검색: 금주 중 키워드 유형 분류 및 기준 전달 예정</span></li>
-            <li><span class="bullet-text">메타: 네이버협력광고 신규 소재 기획안 전달</span></li>
-          </ul>
-        </div>
-      </div>
-      </details>
 
       <div class="sum-kpi-grid">
         <div class="sum-kpi-card">
@@ -1401,7 +1331,7 @@ const AD_MAP = {
     '260305_아넬라_베이비바우처(파트너십영상)_2':{p:'신규 확보',prod:'베이비바우처 파트너십'},
     '260729_자사몰_시크릿링크_7일뒤':{p:'신규 확보',prod:'자사몰 시크릿링크'},
     '아넬라_신규타겟_소구5종':{p:'신규 확보',prod:'신규 타겟 소재 5종 (OFF)',chk:1},
-    'SA_아넬라 캠페인_베이비바우처':{p:'신규 확보',prod:'베이비바우처'},
+    'SA_아넬라 캠페인_베이비바우처':{p:'상품 검색',prod:'베이비바우처'},
     '260519_아넬라_웰컴박스_0원':{p:'신규 확보',prod:'웰컴박스'},
     '260519_아넬라_웰컴박스_공짜':{p:'신규 확보',prod:'웰컴박스'},
     'SSA_아넬라_퓨레종합_브랜드K':{p:'상품 검색',prod:'과일퓨레'},
@@ -1420,9 +1350,9 @@ const AD_MAP = {
 };
 const PURPOSES = ['신규 확보','상품 검색','리타겟·재구매','브랜드','프로모'];
 const GRP = [
-  {test:r=>r.media==='search', name:'네이버 검색광고', sub:'광고세트', color:'var(--media-search)'},
-  {test:r=>r.media==='gfa', name:'GFA', sub:'광고소재', color:'var(--media-gfa)'},
-  {test:r=>r.media==='meta', name:'메타', sub:'광고소재', color:'var(--media-meta)'}
+  {test:r=>r.media==='search', name:'네이버 검색광고', sub:'광고세트', color:'var(--media-search)', soft:'var(--media-search-soft)'},
+  {test:r=>r.media==='gfa', name:'GFA', sub:'광고소재', color:'var(--media-gfa)', soft:'var(--media-gfa-soft)'},
+  {test:r=>r.media==='meta', name:'메타', sub:'광고소재', color:'var(--media-meta)', soft:'var(--media-meta-soft)'}
 ];
 function roasStatus(roas,cost){
   if(!cost) return ['warning','–'];
@@ -1480,7 +1410,7 @@ function renderPurposes(){
     const body = GRP.map(g=>{
       const list = mine.filter(x=>g.test(x.r)).sort((x,y)=>y.r.rev-x.r.rev);
       if(!list.length) return '';
-      return `<div class="pp-grp"><span class="media-dot" style="background:${g.color}"></span>${g.name}<span class="sub">· ${g.sub} ${list.length}개</span></div>` + list.map(x=>adCard(x.r,x.m)).join('');
+      return `<div class="pp-grpwrap" style="--gc:${g.color}"><div class="pp-grp" style="background:${g.soft}"><span class="media-dot" style="background:${g.color}"></span><span class="nm" style="color:${g.color}">${g.name}</span><span class="sub">${g.sub} ${list.length}개</span></div>` + list.map(x=>adCard(x.r,x.m)).join('') + '</div>';
     }).join('');
     return `<details class="pp"${idx===0?' open':''}>
       <summary>
@@ -1588,7 +1518,7 @@ renderPurposes();
         '<div class="vz-chip"><span class="vz-tag gfa">GFA</span><span>웹전환 신규 소재 5종 <b>OFF</b> (구매 1건) · 재점검 필요</span></div>';},
       badInsight:'<b>이벤트 2일 의존도 큼</b> · 평일 구매 규모는 전주 수준',
       doing:[['meta','웰컴박스: 타겟·지면 조정, 일예산 감액 → 상시 운영 목표 (라이브 중)'],['search','키워드·검색어 관리 기준 정리 (유형별 기준 보완 전달 예정)']],
-      need:[['search','키워드·검색어 유형별 기준 보완 전달'],['gfa','웹전환 신규 소재 점검 후 재운영'],['meta','효율 모니터링 + 소재 교체용 기획안 전달']]
+      need:[['search','키워드·검색어 유형별 기준 보완 수정 완료'],['gfa','웹전환 신규소재: 넾다세일 진행 후 라이브 예정'],['meta','효율 모니터링, 넾다세일 소재 준비']]
     },
     rosy:{
       delta:[{l:'노출',v:-9},{l:'클릭',v:-3},{l:'광고비',v:2},{l:'구매',v:55},{l:'매출액',v:38,strong:1},{l:'ROAS',v:35,strong:1}],
@@ -1600,7 +1530,7 @@ renderPurposes();
         '<p class="vz-cap" style="margin-top:6px">과자 신제품 그룹 ROAS 174% · 메타는 전환율 상승으로 매출 +53% 방어</p>';},
       badInsight:'<b>파워링크 키워드 2종</b>과 <b>과자 신제품 그룹</b> 하락',
       doing:[['meta','자사몰 음료 시크릿링크: 신규 소재 완료, 재고 이슈 해결 후 재개'],['meta','웰컴박스 제외 타겟 생성, 광고 재정비'],['meta','네이버 협력광고: 교체용 신규 소재 기획안 제작 (효율 모니터링 병행)']],
-      need:[['search','금주 중 키워드 유형 분류 및 기준 전달'],['meta','협력광고 신규 소재 기획안 전달']]
+      need:[['search','키워드·검색어 유형별 기준 보완 수정 완료'],['gfa','넾다세일 소재 준비'],['meta','효율 모니터링']]
     }
   };
   Object.keys(DATA).forEach(function(k){
@@ -1612,7 +1542,7 @@ renderPurposes();
       card('var(--serious)','안좋았던 점',d.badInsight,badBody)+
       '<div class="card vz-card"><div class="vz-cols">'+
         '<div><p class="vz-state"><span class="vz-dot" style="background:var(--warning)"></span>개선하고 있는 것</p>'+tasks(d.doing)+'</div>'+
-        '<div><p class="vz-state"><span class="vz-dot" style="background:var(--critical)"></span>차주 과제</p>'+tasks(d.need)+'</div>'+
+        '<div><p class="vz-state"><span class="vz-dot" style="background:var(--critical)"></span>이번주 진행사항</p>'+tasks(d.need)+'</div>'+
       '</div></div></div>';
     el.innerHTML=html;
   });
