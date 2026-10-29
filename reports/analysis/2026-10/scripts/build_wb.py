@@ -312,7 +312,7 @@ put(ck, 'A36', '5. 기준 확인', f_sec)
 notes = ['광고비는 리포트 원본 값. 네이버 VAT 포함 여부는 기존 주간·월간 리포트와 동일 방식으로 처리, 예산표(VAT 미포함)와의 정확한 대응은 확인 필요.',
          '매출은 매체가 보고한 구매(구매완료) 귀속 매출이라 스마트스토어 결제금액과 불일치.',
          '아넬라 GFA 상시 소재는 10/26~10/28 노출이 없는 날에도 전환이 잡혀 귀속 지연으로 판단(사용자 확인).',
-         '자사몰 매출 파일에 기간 표기가 없어 10월 전체로 간주. 판매합계의 쿠폰·할인 반영 여부(실결제 기준), 10/28까지 여부 확인 필요.']
+         '자사몰 매출 파일의 기간은 10/1~10/28, 판매합계는 실결제 기준(사용자 확인).']
 for i, t in enumerate(notes):
     put(ck, f'A{37+i}', f'· {t}', f_norm, al=LEFT); ck.merge_cells(f'A{37+i}:G{37+i}'); ck.row_dimensions[37 + i].height = 28
 
@@ -806,20 +806,23 @@ sm.conditional_formatting.add('K11:K13', FormulaRule(formula=['K11="근접"'], f
 sm.conditional_formatting.add('K11:K13', FormulaRule(formula=['K11="미달"'], fill=PatternFill('solid', bgColor='F8CBAD', fgColor='F8CBAD')))
 
 put(sm, 'A16', '3. 매체별 ROAS와 광고비 (10/1~10/28)', f_sec)
-hdr(sm, 17, 1, ['매체', '아넬라 광고비', '아넬라 매출', '아넬라 ROAS', '로지 광고비', '로지 매출', '로지 ROAS'], height=32)
+hdr(sm, 17, 1, ['매체', '아넬라 10월 예산', '아넬라 소진금액', '아넬라 소진율 (월 예산 대비)', '아넬라 매출', '아넬라 ROAS', '로지 10월 예산', '로지 소진금액', '로지 소진율 (월 예산 대비)', '로지 매출', '로지 ROAS'], height=44)
 for k, m in enumerate(MEDIA7):
     r = 18 + k
-    put(sm, f'A{r}', m, border=True)
-    put(sm, f'B{r}', f"={rsm('아넬라', m, 'D')}", fmt=INT, border=True); put(sm, f'C{r}', f"={rsm('아넬라', m, 'L')}", fmt=INT, border=True)
-    put(sm, f'D{r}', f"={rsm('아넬라', m, 'M')}", f_bold, PCTD, border=True)
-    put(sm, f'E{r}', f"={rsm('로지오가닉', m, 'D')}", fmt=INT, border=True); put(sm, f'F{r}', f"={rsm('로지오가닉', m, 'L')}", fmt=INT, border=True)
-    put(sm, f'G{r}', f"={rsm('로지오가닉', m, 'M')}", f_bold, PCTD, border=True)
+    put(sm, f'A{r}', m if m != '브랜드검색' else '브랜드검색 (정액)', border=True)
+    for (bname, cb, cc, cd, ce, cf) in [('아넬라', 'B', 'C', 'D', 'E', 'F'), ('로지오가닉', 'G', 'H', 'I', 'J', 'K')]:
+        put(sm, f'{cb}{r}', f"={rsm(bname, m, 'B')}", fmt=INT, border=True)
+        put(sm, f'{cc}{r}', f"={rsm(bname, m, 'D')}", fmt=INT, border=True)
+        put(sm, f'{cd}{r}', f'=IF({cb}{r}=0,0,{cc}{r}/{cb}{r})', fmt=PCTD, border=True)
+        put(sm, f'{ce}{r}', f"={rsm(bname, m, 'L')}", fmt=INT, border=True)
+        put(sm, f'{cf}{r}', f"={rsm(bname, m, 'M')}", f_bold, PCTD, border=True)
 put(sm, 'A25', '합계', f_bold, fill=fill_sub, border=True)
-for c in 'BCEF':
-    put(sm, f'{c}25', f'=SUM({c}18:{c}24)', f_bold, INT, fill_sub, border=True)
-put(sm, 'D25', '=IF(B25=0,0,C25/B25)', f_bold, PCT, fill_sub, border=True)
-put(sm, 'G25', '=IF(E25=0,0,F25/E25)', f_bold, PCT, fill_sub, border=True)
-put(sm, 'A26', '브랜드검색 ROAS는 월 정액 대비 값. GFA 전환 로지오가닉은 10/26부터 집행.', f_note)
+for (cb, cc, cd, ce, cf) in [('B', 'C', 'D', 'E', 'F'), ('G', 'H', 'I', 'J', 'K')]:
+    for c in (cb, cc, ce):
+        put(sm, f'{c}25', f'=SUM({c}18:{c}24)', f_bold, INT, fill_sub, border=True)
+    put(sm, f'{cd}25', f'=IF({cb}25=0,0,{cc}25/{cb}25)', f_bold, PCT, fill_sub, border=True)
+    put(sm, f'{cf}25', f'=IF({cc}25=0,0,{ce}25/{cc}25)', f_bold, PCT, fill_sub, border=True)
+put(sm, 'A26', f'="· 금액 단위 만원. 소진율은 월 예산 대비이며 28/31 일할 기준으로는 아넬라 "&TEXT({S_RS}!E{ra["tot"]},"0%")&", 로지 "&TEXT({S_RS}!E{rr_["tot"]},"0%")&". 브랜드검색은 정액이라 예산을 정액(31일분)으로 표시하고 ROAS는 월 정액 대비 값. GFA 전환 로지오가닉은 10월 예산 0, 10/26부터 넾다세일 한정 집행."', f_note)
 
 put(sm, 'A28', '4. 잘한 점 · 성과 이유 / 미달 · 보완', f_sec)
 good = [
@@ -884,7 +887,7 @@ for i, b in enumerate(BRANDS):
     put(sm, f'F{rr}', f"={S_JM}!C{mr}", fmt=INT, border=True)
     put(sm, f'G{rr}', f"={S_JM}!F{mr}", fmt=PCT, border=True)
     put(sm, f'H{rr}', f"={S_JM}!G{mr}", f_bold, PCT, border=True)
-put(sm, f'A{b7+4}', '자사몰 매출은 파일의 판매합계 기준(만원). 파일에 기간 표기가 없어 10월 전체로 간주, 10/28까지 여부 확인 필요. 아넬라·로지 전품목 맛보기팩(공통)은 브랜드별 합계에서 제외.', f_note)
+put(sm, f'A{b7+4}', '자사몰 매출은 파일의 판매합계 기준(만원, 실결제 기준), 기간은 10/1~10/28. 아넬라·로지 전품목 맛보기팩(공통)은 브랜드별 합계에서 제외.', f_note)
 sm.merge_cells(f'A{b7+4}:K{b7+4}'); sm.row_dimensions[b7 + 4].height = 28
 
 sm.freeze_panes = 'A4'
@@ -1165,7 +1168,7 @@ for i, r_ in jm_raw.iterrows():
     put(dj, f'H{x}', f'=IF(AND(ISNUMBER(SEARCH("아넬라",B{x})),ISNUMBER(SEARCH("로지오가닉",B{x}))),"공통",IF(ISNUMBER(SEARCH("아넬라",B{x})),"아넬라",IF(ISNUMBER(SEARCH("로지오가닉",B{x})),"로지오가닉","기타")))')
     put(dj, f'I{x}', f'=IF(ISNUMBER(SEARCH("시크릿 특가",B{x})),"시크릿특가",IF(ISNUMBER(SEARCH("첫구매 전용",B{x})),"첫구매전용","그 외"))')
 dj.freeze_panes = 'A2'
-dj['A1'].comment = Comment('Source: 자사몰 10월 매출 CSV(상품 순위별 판매), 사용자 업로드, 2026-10-29. 파일에 기간 표기가 없어 10월 매출로 간주. 브랜드·구분은 상품명 기준 수식(아넬라/로지오가닉 포함 여부, "시크릿 특가"는 메타 시크릿링크 광고 유입 상품이라는 사용자 설명).', 'Claude')
+dj['A1'].comment = Comment('Source: 자사몰 10월 매출 CSV(상품 순위별 판매), 사용자 업로드, 2026-10-29. 기간 10/1~10/28, 판매합계는 실결제 기준(사용자 확인). 브랜드·구분은 상품명 기준 수식(아넬라/로지오가닉 포함 여부, "시크릿 특가"는 메타 시크릿링크 광고 유입 상품이라는 사용자 설명).', 'Claude')
 dj['A1'].comment.width = 380; dj['A1'].comment.height = 130
 def djr(col):
     return f"{S_DJ}!${col}$2:${col}$300"
@@ -1173,7 +1176,7 @@ def djr(col):
 jm = sheet('자사몰_매출', '70AD47')
 widths(jm, {'A': 22, 'B': 13, 'C': 13, 'D': 13, 'E': 11, 'F': 13, 'G': 13, 'H': 12, 'I': 13, 'J': 12, 'K': 12})
 put(jm, 'A1', '자사몰 10월 매출 (브랜드별) 과 메타 시크릿링크 광고', f_title)
-put(jm, 'A2', '금액은 만원. 판매합계는 파일 값 그대로이며, 상품명에 "시크릿 특가"가 붙은 상품은 메타 시크릿링크 광고 유입 상품으로 간주. 파일에 기간 표기가 없어 10월로 간주.', f_note)
+put(jm, 'A2', '금액은 만원. 판매합계는 파일 값 그대로이며, 상품명에 "시크릿 특가"가 붙은 상품은 메타 시크릿링크 광고 유입 상품으로 간주. 기간은 10/1~10/28, 판매합계는 실결제 기준.', f_note)
 jm.merge_cells('A2:K2'); jm.row_dimensions[2].height = 28
 put(jm, 'A5', '브랜드별 자사몰 매출', f_sec)
 hdr(jm, 6, 1, ['구분', '결제수량', '환불수량', '환불률', '판매수량', '판매합계', '시크릿특가 매출', '시크릿특가 비중', '첫구매 전용 매출', '첫구매 전용 비중', '그 외 매출'], height=32)
@@ -1214,7 +1217,7 @@ for i, b in enumerate(BRANDS):
     put(jm, f'H{r}', f'=SUMIFS({adr("E")},{adr("A")},$A{r},{adr("B")},"메타 자사몰")/10000', fmt=MAN, border=True)
     put(jm, f'I{r}', f'=F{jr}', fmt=MAN, border=True)
     put(jm, f'J{r}', f'=IF(H{r}=0,0,I{r}/H{r})', fmt=PCT, border=True)
-put(jm, 'A18', '시크릿링크 광고비는 캠페인명에 "시크릿링크"가 들어간 메타 자사몰 캠페인만 합산(아넬라 웰컴박스 제외). 메타 보고 매출이 실매출보다 큰 것은 귀속 기준 차이(조회 후 전환 등) 또는 환불·할인 반영 차이로 추정, 판매합계의 쿠폰·할인 반영 여부(실결제 기준) 확인 필요.', f_note)
+put(jm, 'A18', '시크릿링크 광고비는 캠페인명에 "시크릿링크"가 들어간 메타 자사몰 캠페인만 합산(아넬라 웰컴박스 제외). 메타 보고 매출이 실매출보다 큰 것은 귀속 기준 차이(조회 후 전환 등) 또는 환불·할인 반영 차이로 추정(판매합계는 실결제 기준).', f_note)
 jm.merge_cells('A18:K18'); jm.row_dimensions[18].height = 40
 put(jm, 'A20', '상품별 상위 (판매합계 순)', f_sec)
 hdr(jm, 21, 1, ['순위', '상품명', '', '', '', '판매합계(만원)', '브랜드', '구분'], height=26)
