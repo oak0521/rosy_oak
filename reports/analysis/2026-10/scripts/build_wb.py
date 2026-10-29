@@ -1045,6 +1045,91 @@ for i, t in enumerate(memos):
     put(bg, f'A{r+7+i}', f'· {t}', al=LEFT); bg.merge_cells(f'A{r+7+i}:I{r+7+i}')
 bg.freeze_panes = 'A4'
 
+
+# =====================================================================
+# 예산대비_집행
+# =====================================================================
+bu = sheet('예산대비_집행', '70AD47')
+widths(bu, {'A': 24, 'B': 11, 'C': 11, 'D': 12, 'E': 11, 'F': 11, 'G': 11, 'H': 12, 'I': 11, 'J': 9, 'K': 11, 'L': 9, 'M': 12, 'N': 11, 'O': 11})
+put(bu, 'A1', '10월 예산 대비 집행 광고비·매출 (매체별)', f_title)
+put(bu, 'A2', '금액은 만원(네이버 VAT 미포함). 집행·매출은 10/1~10/28(28일) 실적이고, 월말 예상은 28일 누계에 10/26~28 일평균 × 잔여일수를 더한 값입니다. 매출은 매체가 보고한 구매 귀속 매출입니다.', f_note)
+bu.merge_cells('A2:O2'); bu.row_dimensions[2].height = 28
+put(bu, 'A3', '소진 판정 기준 (입력)', f_bold)
+put(bu, 'B3', 1.05, f_in, PCT, fill_in, RIGHT, True); put(bu, 'C3', '초과 이상', f_note)
+put(bu, 'D3', 0.8, f_in, PCT, fill_in, RIGHT, True); put(bu, 'E3', '미소진 미만 (월말 예상 소진율 기준)', f_note)
+BUR = {}
+def bu_block(r0, brand):
+    put(bu, f'A{r0}', brand, f_sec)
+    hdr(bu, r0 + 1, 1, ['매체', '월 예산', '일할 예산 (28일)', '집행 광고비', '일할 대비 소진율', '월 예산 대비 소진율', '잔여 예산', '월말 예상 광고비', '월말 예상 소진율', '구매 (건)', '매출', 'ROAS', '월말 예상 매출', '예상 매출 ÷ 월 예산', '소진 판정'], height=44)
+    first = r0 + 2
+    meds = MEDIA6 + ['브랜드검색']
+    for k, m in enumerate(meds):
+        r = first + k
+        crit = f'{adr("A")},$A${r0},{adr("B")},$A{r}'
+        crit5 = crit + f',{adr("D")},{S_GA}!$A$54'
+        put(bu, f'A{r}', m if m != '브랜드검색' else '브랜드검색 (정액, 예산표 외)', border=True)
+        if m == '브랜드검색':
+            put(bu, f'B{r}', f"={S_GA}!$B$38*{S_GA}!$B$8/10000", fmt=MAN, border=True)
+            crit = f'{adr("A")},$A${r0},{adr("B")},"브랜드검색"'
+            crit5 = crit + f',{adr("D")},{S_GA}!$A$54'
+        else:
+            put(bu, f'B{r}', f"=SUMIFS({S_GA}!$C$16:$C$27,{S_GA}!$A$16:$A$27,$A${r0},{S_GA}!$B$16:$B$27,$A{r})", fmt=MAN, border=True)
+        put(bu, f'D{r}', f'=SUMIFS({adr("E")},{crit})/10000', fmt=MAN, border=True)
+        put(bu, f'J{r}', f'=SUMIFS({adr("H")},{crit})', fmt=INT, border=True)
+        put(bu, f'K{r}', f'=SUMIFS({adr("I")},{crit})/10000', fmt=MAN, border=True)
+        put(bu, f'H{r}', f"=D{r}+SUMIFS({adr('E')},{crit5})/10000/{S_GA}!$D$54*{S_GA}!$B$9", fmt=MAN, border=True)
+        put(bu, f'M{r}', f"=K{r}+SUMIFS({adr('I')},{crit5})/10000/{S_GA}!$D$54*{S_GA}!$B$9", fmt=MAN, border=True)
+    t1 = first + len(meds)
+    t2 = t1 + 1
+    put(bu, f'A{t1}', f'{brand} 합계 (예산표 기준, 브랜드검색 제외)', f_bold, fill=fill_sub, border=True)
+    put(bu, f'A{t2}', f'{brand} 합계 (브랜드검색 포함)', f_bold, fill=fill_sub, border=True)
+    for c in 'BDHJKM':
+        fmt = INT if c == 'J' else MAN
+        put(bu, f'{c}{t1}', f'=SUM({c}{first}:{c}{first+len(MEDIA6)-1})', f_bold, fmt, fill_sub, border=True)
+        put(bu, f'{c}{t2}', f'={c}{t1}+{c}{t1-1}', f_bold, fmt, fill_sub, border=True)
+    for r in range(first, t2 + 1):
+        tot = r >= t1
+        bold = f_bold if tot else f_norm
+        fill = fill_sub if tot else None
+        put(bu, f'C{r}', f"=B{r}*{S_GA}!$B$7/{S_GA}!$B$8", bold, MAN, fill, border=True)
+        put(bu, f'E{r}', f'=IF(C{r}=0,0,D{r}/C{r})', bold, PCTD, fill, border=True)
+        put(bu, f'F{r}', f'=IF(B{r}=0,0,D{r}/B{r})', bold, PCTD, fill, border=True)
+        put(bu, f'G{r}', f'=B{r}-D{r}', bold, '#,##0.0;-#,##0.0;0.0', fill, border=True)
+        put(bu, f'I{r}', f'=IF(B{r}=0,0,H{r}/B{r})', bold, PCTD, fill, border=True)
+        put(bu, f'L{r}', f'=IF(D{r}=0,0,K{r}/D{r})', f_bold, PCT, fill, border=True)
+        put(bu, f'N{r}', f'=IF(B{r}=0,0,M{r}/B{r})', bold, '0.0"배"', fill, border=True)
+        put(bu, f'O{r}', f'=IF(B{r}=0,"예산 없음",IF(I{r}>=$B$3,"초과",IF(I{r}<$D$3,"미소진","적정")))', f_bold, al=CEN, fill=fill, border=True)
+    BUR[brand] = dict(first=first, t1=t1, t2=t2)
+    return t2 + 2
+n = bu_block(5, '아넬라')
+n = bu_block(n, '로지오가닉')
+r = n
+put(bu, f'A{r}', '전체 합계 (브랜드검색 포함)', f_bold, fill=fill_sub, border=True)
+for c in 'BDHJKM':
+    fmt = INT if c == 'J' else MAN
+    put(bu, f'{c}{r}', f"={c}{BUR['아넬라']['t2']}+{c}{BUR['로지오가닉']['t2']}", f_bold, fmt, fill_sub, border=True)
+put(bu, f'C{r}', f"=B{r}*{S_GA}!$B$7/{S_GA}!$B$8", f_bold, MAN, fill_sub, border=True)
+put(bu, f'E{r}', f'=IF(C{r}=0,0,D{r}/C{r})', f_bold, PCT, fill_sub, border=True)
+put(bu, f'F{r}', f'=IF(B{r}=0,0,D{r}/B{r})', f_bold, PCT, fill_sub, border=True)
+put(bu, f'G{r}', f'=B{r}-D{r}', f_bold, '#,##0.0;-#,##0.0;0.0', fill_sub, border=True)
+put(bu, f'I{r}', f'=IF(B{r}=0,0,H{r}/B{r})', f_bold, PCT, fill_sub, border=True)
+put(bu, f'L{r}', f'=IF(D{r}=0,0,K{r}/D{r})', f_bold, PCT, fill_sub, border=True)
+put(bu, f'N{r}', f'=IF(B{r}=0,0,M{r}/B{r})', f_bold, '0.0"배"', fill_sub, border=True)
+put(bu, f'O{r}', f'=IF(I{r}>=$B$3,"초과",IF(I{r}<$D$3,"미소진","적정"))', f_bold, al=CEN, fill=fill_sub, border=True)
+BU_TOT = r
+for i, b in enumerate(BRANDS):
+    t = BUR[b]['t1']
+    put(bu, f'A{r+2+i}', f'="· {b}: 월 예산 "&TEXT(B{t},"#,##0")&"만원 중 28일간 "&TEXT(D{t},"#,##0")&"만원 집행(일할 대비 "&TEXT(E{t},"0%")&"), 월말 예상 소진율 "&TEXT(I{t},"0%")&". 집행 대비 매출 "&TEXT(K{t},"#,##0")&"만원(ROAS "&TEXT(L{t},"#,##0%")&", 브랜드검색 제외)."', al=LEFT)
+    bu.merge_cells(f'A{r+2+i}:O{r+2+i}')
+put(bu, f'A{r+4}', '브랜드검색은 정액 상품이라 월 예산(88만원×31/30)과 집행이 거의 같고 매출이 커서, 브랜드검색 포함 합계의 ROAS가 높게 나옵니다. 매체별 예산 소진 판단은 예산표 기준(브랜드검색 제외) 합계를 보세요.', f_note)
+bu.merge_cells(f'A{r+4}:O{r+4}')
+put(bu, f'A{r+5}', '월말 예상은 넾다세일 구간(10/26~28) 일평균을 3일 더 이은 값입니다. GFA 전환(로지)은 10월 예산이 0이라 소진율이 계산되지 않고, 10/26부터 넾다세일 한정으로 집행됐습니다.', f_note)
+bu.merge_cells(f'A{r+5}:O{r+5}')
+bu.freeze_panes = 'B5'
+bu.conditional_formatting.add('O5:O60', FormulaRule(formula=['O5="초과"'], fill=PatternFill('solid', bgColor='F8CBAD', fgColor='F8CBAD')))
+bu.conditional_formatting.add('O5:O60', FormulaRule(formula=['O5="미소진"'], fill=PatternFill('solid', bgColor='FFE699', fgColor='FFE699')))
+bu.conditional_formatting.add('O5:O60', FormulaRule(formula=['O5="적정"'], fill=PatternFill('solid', bgColor='C6E0B4', fgColor='C6E0B4')))
+
 # ---- wrap long note rows
 def wrapnote(ws, ref, last, h=28):
     c = ws[ref]
@@ -1065,7 +1150,7 @@ for ref in ['A2']:
     wrapnote(ga, ref, 'F', 20)
 
 # sheet order
-order = ['요약', '10월_실적', '예산', '주차별_추이', '성과분석', '시간제한_검증', '목표_11-12월', '실행계획', '가정', '점검', '데이터_광고', '데이터_SS일별', '데이터_SS상품']
+order = ['요약', '10월_실적', '예산', '예산대비_집행', '주차별_추이', '성과분석', '시간제한_검증', '목표_11-12월', '실행계획', '가정', '점검', '데이터_광고', '데이터_SS일별', '데이터_SS상품']
 wb._sheets = [wb[n] for n in order]
 for ws in wb.worksheets:
     ws.sheet_view.zoomScale = 100
