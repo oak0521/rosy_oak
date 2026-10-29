@@ -400,3 +400,10 @@ base64 thumbnails/video) against the Artifact tool's 16MB hard cap — comfortab
 only grows week over week as creative assets accumulate, so keep an eye on it; if a future week's
 creative batch or an inlined font/asset would push a publish close to the limit, say so before
 adding it rather than finding out from a `too_large` rejection.
+
+## reports/analysis/ — 월말 분석 워크북 (2026.10 추가)
+
+HTML 리포트와 별개로, 월말에 팀장 공유용 엑셀(구글시트로 열기)을 만든 작업물을 `reports/analysis/YYYY-MM/`에
+보관한다. `source/`(원본 파일), `scripts/`(`run_all.sh`로 재생성), 결과 `.xlsx`, `README.md`로 구성. 이 저장소는
+공개(public)이므로 원본 데이터를 추가할 때 사용자에게 공개 여부를 한 번 더 상기시킨다. 구글시트 편집 커넥터가
+세션에 없으면 xlsx를 만들어 사용자가 드라이브에서 구글시트로 열게 한다 (Drive 업로드는 파일이 커서 불안정).
