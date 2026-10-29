@@ -941,6 +941,110 @@ put(tv, f'A{r+5}', '출처: 노출 시간 제한 결과 정리는 대행사 코�
 tv.merge_cells(f'A{r+5}:G{r+5}')
 tv.freeze_panes = 'A5'
 
+
+# =====================================================================
+# 예산
+# =====================================================================
+bg = sheet('예산', '70AD47')
+widths(bg, {'A': 22, 'B': 12, 'C': 12, 'D': 11, 'E': 10, 'F': 13, 'G': 14, 'H': 13, 'I': 64})
+put(bg, 'A1', '10월·11월 광고 예산 (만원, 네이버 VAT 미포함)', f_title)
+put(bg, 'A2', '예산은 가정 시트의 입력값을 참조합니다. 12월은 11월 유지 가정입니다. 10월 집행은 10/1~10/28(28일) 광고비이고, 일할 대비 소진율은 10월 예산을 28/31로 환산한 값 대비입니다.', f_note)
+bg.merge_cells('A2:I2'); bg.row_dimensions[2].height = 28
+reasons = {
+ ('아넬라', '파워링크'): '변동 없음. 10/14 노출 시간 제한 유지(노출 제외 0~3시, 17~24시), 10/21 저효율 키워드 일예산 감액.',
+ ('아넬라', '쇼핑검색'): '변동 없음. 10/26 넾다세일부터 24시간 균등 노출로 원복.',
+ ('아넬라', 'GFA 카탈로그'): '변동 없음.',
+ ('아넬라', 'GFA 전환'): '250만원에서 150만원으로 감액. 신규 소구점 5종 테스트가 소재 검토로 HOLD 중.',
+ ('아넬라', '메타 스스'): '변동 없음. 넾다세일부터 인스타그램 지면 고정, 광고 상품은 영업팀 주력 상품으로 전환.',
+ ('아넬라', '메타 자사몰'): '250만원에서 180만원으로 축소. 웰컴박스·기획전 보류.',
+ ('로지오가닉', '파워링크'): '변동 없음. 10/21 저효율 키워드 일예산 감액.',
+ ('로지오가닉', '쇼핑검색'): '변동 없음. 10/26 무전환 지면 노출 제외.',
+ ('로지오가닉', 'GFA 카탈로그'): '변동 없음.',
+ ('로지오가닉', 'GFA 전환'): '11월 신설 20만원, 넾다세일 한정. 12월은 11월 유지 가정이라 같은 값이 들어가 있어 사용처 확정 필요.',
+ ('로지오가닉', '메타 스스'): '250만원에서 215만원으로 약간 감액. 넾다세일 영향.',
+ ('로지오가닉', '메타 자사몰'): '180만원에서 150만원으로 감액. 보리차 시크릿링크 보류.',
+}
+BGR = {}
+def bg_block(r0, brand):
+    put(bg, f'A{r0}', brand, f_sec)
+    hdr(bg, r0 + 1, 1, ['매체', '10월 예산', '11월 예산', '증감', '증감률', '12월 (11월 유지)', '10월 집행 (28일)', '일할 대비 소진율', '변경 사유 · 운영 메모'], height=32)
+    first = r0 + 2
+    for k, m in enumerate(MEDIA6):
+        r = first + k
+        crit = f"{S_GA}!$A$16:$A$27,$A${r0},{S_GA}!$B$16:$B$27,$A{r}"
+        put(bg, f'A{r}', m, border=True)
+        put(bg, f'B{r}', f"=SUMIFS({S_GA}!$C$16:$C$27,{crit})", fmt=INT, border=True)
+        put(bg, f'C{r}', f"=SUMIFS({S_GA}!$D$16:$D$27,{crit})", fmt=INT, border=True)
+        put(bg, f'F{r}', f"=SUMIFS({S_GA}!$E$16:$E$27,{crit})", fmt=INT, border=True)
+        put(bg, f'G{r}', f"={S_RS}!D{RSR[brand]['first'] + MEDIA7.index(m)}", fmt=MAN, border=True)
+        put(bg, f'I{r}', reasons[(brand, m)], al=LEFT, border=True)
+        bg.row_dimensions[r].height = 30
+    tot = first + len(MEDIA6)
+    last = tot - 1
+    put(bg, f'A{tot}', f'{brand} 합계', f_bold, fill=fill_sub, border=True)
+    for c in 'BCFG':
+        put(bg, f'{c}{tot}', f'=SUM({c}{first}:{c}{last})', f_bold, INT if c != 'G' else MAN, fill_sub, border=True)
+    for r in range(first, tot + 1):
+        bold = f_bold if r == tot else f_norm
+        fill = fill_sub if r == tot else None
+        put(bg, f'D{r}', f'=C{r}-B{r}', bold, '+#,##0;-#,##0;0', fill, border=True)
+        put(bg, f'E{r}', f'=IF(B{r}=0,0,C{r}/B{r}-1)', bold, '+0%;-0%;0%', fill, border=True)
+        put(bg, f'H{r}', f"=IF(B{r}=0,0,G{r}/(B{r}*{S_GA}!$B$7/{S_GA}!$B$8))", bold, PCTD, fill, border=True)
+    put(bg, f'I{tot}', '', fill=fill_sub, border=True)
+    # brand search reference row
+    bs = tot + 1
+    put(bg, f'A{bs}', '(참고) 브랜드검색 정액', f_note, border=True)
+    put(bg, f'B{bs}', f"={S_GA}!$B$38*{S_GA}!$B$8/10000", f_note, MAN, border=True)
+    put(bg, f'C{bs}', f"={S_GA}!$B$38*{S_GA}!$B$10/10000", f_note, MAN, border=True)
+    put(bg, f'D{bs}', f'=C{bs}-B{bs}', f_note, '+#,##0.0;-#,##0.0;0.0', border=True)
+    put(bg, f'E{bs}', '', border=True)
+    put(bg, f'F{bs}', f"={S_GA}!$B$38*{S_GA}!$B$11/10000", f_note, MAN, border=True)
+    put(bg, f'G{bs}', f"={S_RS}!D{RSR[brand]['first'] + MEDIA7.index('브랜드검색')}", f_note, MAN, border=True)
+    put(bg, f'H{bs}', '', border=True)
+    put(bg, f'I{bs}', '예산표에는 포함되지 않는 정액 상품입니다(월 88만원을 일수로 안분).', f_note, al=LEFT, border=True)
+    BGR[brand] = dict(first=first, tot=tot, bs=bs)
+    return bs + 2
+n = bg_block(4, '아넬라')
+n = bg_block(n, '로지오가닉')
+r = n
+put(bg, f'A{r}', '전체 합계', f_bold, fill=fill_sub, border=True)
+for c in 'BCFG':
+    put(bg, f'{c}{r}', f"={c}{BGR['아넬라']['tot']}+{c}{BGR['로지오가닉']['tot']}", f_bold, INT if c != 'G' else MAN, fill_sub, border=True)
+put(bg, f'D{r}', f'=C{r}-B{r}', f_bold, '+#,##0;-#,##0;0', fill_sub, border=True)
+put(bg, f'E{r}', f'=IF(B{r}=0,0,C{r}/B{r}-1)', f_bold, '+0%;-0%;0%', fill_sub, border=True)
+put(bg, f'H{r}', f"=IF(B{r}=0,0,G{r}/(B{r}*{S_GA}!$B$7/{S_GA}!$B$8))", f_bold, PCTD, fill_sub, border=True)
+put(bg, f'I{r}', '', fill=fill_sub, border=True)
+BG_TOT = r
+put(bg, f'A{r+1}', '검증: 제시 합계와 차이(0이면 일치)', f_note, border=True)
+put(bg, f'B{r+1}', f"={S_GA}!C34", f_note, INT, border=True)
+put(bg, f'C{r+1}', f"={S_GA}!D34", f_note, INT, border=True)
+
+r += 3
+put(bg, f'A{r}', '4분기 KPI 보고안 광고예산과 비교 (브랜드검색 정액 포함 기준)', f_sec)
+hdr(bg, r + 1, 1, ['브랜드', 'KPI안 10월', '실행 10월', '차이', '', 'KPI안 11월', '실행 11월', '차이', 'KPI안 12월 / 실행 12월 / 차이'], height=32)
+for i, b in enumerate(BRANDS):
+    rr = r + 2 + i; t = BGR[b]
+    col = 'B' if b == '아넬라' else 'C'
+    put(bg, f'A{rr}', b, f_bold, border=True)
+    put(bg, f'B{rr}', f"={S_GA}!{col}44", fmt=INT, border=True)
+    put(bg, f'C{rr}', f"=B{t['tot']}+B{t['bs']}", fmt=MAN, border=True)
+    put(bg, f'D{rr}', f'=C{rr}-B{rr}', fmt='+#,##0.0;-#,##0.0;0.0', border=True)
+    put(bg, f'E{rr}', '', border=True)
+    put(bg, f'F{rr}', f"={S_GA}!{col}45", fmt=INT, border=True)
+    put(bg, f'G{rr}', f"=C{t['tot']}+C{t['bs']}", fmt=MAN, border=True)
+    put(bg, f'H{rr}', f'=G{rr}-F{rr}', fmt='+#,##0.0;-#,##0.0;0.0', border=True)
+    put(bg, f'I{rr}', f'=TEXT({S_GA}!{col}46,"#,##0")&" / "&TEXT(F{t["tot"]}+F{t["bs"]},"#,##0.0")&" / "&TEXT(F{t["tot"]}+F{t["bs"]}-{S_GA}!{col}46,"+#,##0.0;-#,##0.0;0.0")', al=LEFT, border=True)
+put(bg, f'A{r+4}', 'KPI안의 10월 예산(1,300 / 900)은 실행 예산에 브랜드검색 정액을 더한 값과 거의 일치합니다. 아넬라 11~12월은 KPI안보다 낮고, 로지오가닉은 KPI안보다 높게 편성돼 있습니다.', f_note)
+bg.merge_cells(f'A{r+4}:I{r+4}')
+put(bg, f'A{r+6}', '운영 메모 (사용자 전달 사항)', f_sec)
+memos = ['넾다세일(10/26~11/8, 아넬라·로지 모두)부터 메타는 인스타그램 지면만 고정으로 운영합니다.',
+         '10월 중순부터 효율이 낮은 키워드·지면은 OFF 또는 감액 중입니다.',
+         '넾다세일부터 메타 광고 상품은 상시 상품(아넬라 퓨레 6+6, 로지 쌀과자 8봉)이 아니라 영업팀 주력 상품으로 운영합니다.',
+         '12월 예산은 11월 예산을 유지하는 것으로 보고 있습니다. 블랙프라이데이 등 행사 일정이 정해지면 조정합니다.']
+for i, t in enumerate(memos):
+    put(bg, f'A{r+7+i}', f'· {t}', al=LEFT); bg.merge_cells(f'A{r+7+i}:I{r+7+i}')
+bg.freeze_panes = 'A4'
+
 # ---- wrap long note rows
 def wrapnote(ws, ref, last, h=28):
     c = ws[ref]
@@ -961,7 +1065,7 @@ for ref in ['A2']:
     wrapnote(ga, ref, 'F', 20)
 
 # sheet order
-order = ['요약', '10월_실적', '주차별_추이', '성과분석', '시간제한_검증', '목표_11-12월', '실행계획', '가정', '점검', '데이터_광고', '데이터_SS일별', '데이터_SS상품']
+order = ['요약', '10월_실적', '예산', '주차별_추이', '성과분석', '시간제한_검증', '목표_11-12월', '실행계획', '가정', '점검', '데이터_광고', '데이터_SS일별', '데이터_SS상품']
 wb._sheets = [wb[n] for n in order]
 for ws in wb.worksheets:
     ws.sheet_view.zoomScale = 100
