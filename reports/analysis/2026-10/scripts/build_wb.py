@@ -763,7 +763,7 @@ ep.freeze_panes = 'A5'
 # 요약
 # =====================================================================
 sm = sheet('요약', '1F3864')
-widths(sm, {'A': 16, 'B': 15, 'C': 15, 'D': 13, 'E': 13, 'F': 13, 'G': 15, 'H': 15, 'I': 15, 'J': 13, 'K': 13})
+widths(sm, {'A': 21, 'B': 15, 'C': 15, 'D': 13, 'E': 13, 'F': 13, 'G': 15, 'H': 15, 'I': 15, 'J': 13, 'K': 13})
 put(sm, 'A1', '2026년 10월 광고 성과 및 11~12월 목표 · 아넬라 / 로지오가닉', f_title)
 put(sm, 'A2', f'="집계 "&TEXT({S_GA}!B5,"yyyy.mm.dd")&" ~ "&TEXT({S_GA}!B6,"mm.dd")&" ("&{S_GA}!B7&"일) · 월말 예상은 10/26~28 일평균 기준 · 금액 단위 만원 · 네이버 VAT 미포함 · 매출은 매체 구매 귀속 기준"', f_note)
 
@@ -1288,11 +1288,25 @@ rs.row_breaks.append(Break(id=28))
 wk.row_breaks.append(Break(id=23)); wk.row_breaks.append(Break(id=44))
 tg.row_breaks.append(Break(id=e1 + 2))
 tv.page_setup.fitToHeight = 1
+bu.page_setup.fitToHeight = 1
+bg.row_breaks.append(Break(id=14))
 # 자사몰_매출·예산대비_집행 등은 한 쪽에 맞춤 (높이 제한 없음)
 wb.save(OUT + 'report.xlsx')
 
 # ---- 인쇄용 사본: 데이터 시트 숨김, 목표 시트의 계산 보조 열(E~H) 숨김
-PRINT_SHEETS = ['요약', '10월_실적', '예산', '예산대비_집행', '자사몰_매출', '주차별_추이', '성과분석', '시간제한_검증', '목표_11-12월', '실행계획']
+PRINT_SHEETS = ['요약', '10월_실적', '예산', '예산대비_집행', '시간제한_검증', '목표_11-12월', '실행계획']
+import re
+_ref = re.compile(r"\s*\([^()]*(?:성과분석|주차별|자사몰_매출|점검|가정|목표|10월_실적)[^()]*시트[^()]*\)|\s*(?:자사몰_매출|성과분석|주차별_추이|점검|10월_실적) 시트(?: 참고| \d번)?")
+_extra = [(" (주차별 추이)", ""), (" 가정 시트 입력값 참조", " 입력값 참조"), (" 데이터_광고 시트 SUMIFS 수식이며", " 광고 원본 데이터 SUMIFS 수식이며")]
+for name in PRINT_SHEETS:
+    for row in wb[name].iter_rows():
+        for c in row:
+            if isinstance(c.value, str) and ('시트' in c.value or '주차별 추이' in c.value):
+                new_v = _ref.sub('', c.value)
+                for a_, b_ in _extra:
+                    new_v = new_v.replace(a_, b_)
+                if new_v != c.value:
+                    c.value = new_v
 for ws in wb.worksheets:
     if ws.title not in PRINT_SHEETS:
         ws.sheet_state = 'hidden'
