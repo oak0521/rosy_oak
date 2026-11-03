@@ -517,7 +517,7 @@ for rng, first in [('I31:I33', 'I31'), ('K38:K40', 'K38')]:
 # 목표_11-12월
 # =====================================================================
 tg = sheet('목표_11-12월', 'C55A11')
-widths(tg, {'A': 34, 'B': 16, 'C': 13, 'D': 13, 'E': 13, 'F': 13, 'G': 12, 'H': 12, 'I': 11, 'J': 11, 'K': 12, 'L': 11, 'M': 11, 'N': 11, 'O': 13, 'P': 13, 'Q': 13})
+widths(tg, {'A': 34, 'B': 16, 'C': 13, 'D': 13, 'E': 13, 'F': 13, 'G': 12, 'H': 12, 'I': 11, 'J': 11, 'K': 12, 'L': 11, 'M': 11, 'N': 11, 'O': 13, 'P': 13, 'Q': 13, 'R': 12, 'S': 12, 'T': 12, 'U': 12, 'V': 12, 'W': 12, 'X': 10, 'Y': 10, 'Z': 10})
 put(tg, 'A1', '11~12월 목표 (보수 / 기준 / 도전)', f_title)
 put(tg, 'A2', '10월 실적의 상시 ROAS·행사 ROAS를 매체별로 산출한 뒤 월별 행사일수에 따라 혼합해 목표 ROAS와 목표 매출 계산. 노란 칸 가정 수정 시 전체 재계산.', f_note)
 put(tg, 'A4', '시나리오 가정 (입력)', f_sec)
@@ -536,12 +536,18 @@ put(tg, 'A8', '이상치 보정 적용 (1=적용, 0=미적용)', border=True)
 put(tg, 'B8', 1, f_in, INT, fill_in, RIGHT, True)
 put(tg, 'E8', '1이면 로지오가닉 메타 스스의 10/24~25를 상시 ROAS 계산에서 제외 (점검 시트 1번)', f_note)
 tg.merge_cells('E8:Q8')
+put(tg, 'A9', '10월 실적 대비 최소 상향률', border=True)
+for c, v in zip('BCD', [0.01, 0.03, 0.05]):
+    put(tg, f'{c}9', v, f_in, '0%', fill_in, RIGHT, True)
+put(tg, 'E9', '목표 ROAS가 10월 28일 실적 ROAS보다 낮아지지 않도록, 시나리오 산출값과 10월 실적 × (1+상향률) 중 큰 값을 사용', f_note)
+tg.merge_cells('E9:Q9')
 
 TGR = {}
 def tg_month(r0, month, gcol, dayscell, eventrow):
     put(tg, f'A{r0}', f'{month} 매체별 목표', f_sec)
     hdr(tg, r0 + 1, 1, ['브랜드', '매체', '10월 상시 광고비(원)', '10월 상시 매출(원)', '10월 행사 광고비(원)', '10월 행사 매출(원)', '보정 광고비(원)', '보정 매출(원)',
-                        '상시 ROAS', '행사 ROAS', f'{month} 광고비(만원)', '목표 ROAS 보수', '목표 ROAS 기준', '목표 ROAS 도전', '목표 매출 보수(만원)', '목표 매출 기준(만원)', '목표 매출 도전(만원)'], height=44)
+                        '상시 ROAS', '행사 ROAS', f'{month} 광고비(만원)', '목표 ROAS 보수', '목표 ROAS 기준', '목표 ROAS 도전', '목표 매출 보수(만원)', '목표 매출 기준(만원)', '목표 매출 도전(만원)',
+                        '시나리오 ROAS 보수', '시나리오 ROAS 기준', '시나리오 ROAS 도전', '10월 실적 기준 보수', '10월 실적 기준 기준', '10월 실적 기준 도전', '보정 계수 보수', '보정 계수 기준', '보정 계수 도전'], height=44)
     r = r0 + 2
     rows_by_brand = {}
     for b in BRANDS:
@@ -562,8 +568,10 @@ def tg_month(r0, month, gcol, dayscell, eventrow):
                 put(tg, f'K{r}', f"={S_GA}!$B$38*{dayscell}/10000", fmt=MAN, border=True)
             else:
                 put(tg, f'K{r}', f"=SUMIFS({S_GA}!${gcol}$16:${gcol}$27,{S_GA}!$A$16:$A$27,$A{r},{S_GA}!$B$16:$B$27,$B{r})", fmt=MAN, border=True)
+            tot_row = start + len(MEDIA7)
             for j, sc in enumerate('BCD'):
-                put(tg, f'{"LMN"[j]}{r}', f'=(${sc}${eventrow}*$J{r}+({dayscell}-${sc}${eventrow})*$I{r})/{dayscell}', f_bold, PCTD, border=True)
+                put(tg, f'{"RST"[j]}{r}', f'=(${sc}${eventrow}*$J{r}+({dayscell}-${sc}${eventrow})*$I{r})/{dayscell}', fmt=PCTD, border=True)
+                put(tg, f'{"LMN"[j]}{r}', f'=${"RST"[j]}{r}*${"XYZ"[j]}${tot_row}', f_bold, PCTD, border=True)
                 put(tg, f'{"OPQ"[j]}{r}', f'=$K{r}*{"LMN"[j]}{r}', fmt=MAN, border=True)
             r += 1
         end = r - 1
@@ -576,6 +584,9 @@ def tg_month(r0, month, gcol, dayscell, eventrow):
             o = "OPQ"[j]
             put(tg, f'{o}{r}', f'=SUM({o}{start}:{o}{end})', f_bold, MAN, fill_sub, border=True)
             put(tg, f'{"LMN"[j]}{r}', f'=IF($K{r}=0,0,{o}{r}/$K{r})', f_bold, PCT, fill_sub, border=True)
+            put(tg, f'{"RST"[j]}{r}', f'=IF($K{r}=0,0,SUMPRODUCT($K{start}:$K{end},{"RST"[j]}{start}:{"RST"[j]}{end})/$K{r})', f_bold, PCT, fill_sub, border=True)
+            put(tg, f'{"UVW"[j]}{r}', f"={S_RS}!$G${31 if b == '아넬라' else 32}*(1+${'BCD'[j]}$9)", f_bold, PCT, fill_sub, border=True)
+            put(tg, f'{"XYZ"[j]}{r}', f'=IF({"RST"[j]}{r}=0,1,MAX(1,{"UVW"[j]}{r}/{"RST"[j]}{r}))', f_bold, '0.000', fill_sub, border=True)
         rows_by_brand[b] = (start, end, r)
         r += 1
     # judgement rows
@@ -861,7 +872,7 @@ for b in BRANDS:
         r += 1
 put(sm, f'A{r}', f'="가정: 11월 행사일수 "&{S_TG}!B6&"/"&{S_TG}!C6&"/"&{S_TG}!D6&"일(보수/기준/도전), 12월 "&{S_TG}!B7&"/"&{S_TG}!C7&"/"&{S_TG}!D7&"일. 11월 확정 일정은 넾다세일 8일뿐, 나머지는 영업팀 일정에 따라 수정."', f_note)
 put(sm, f'A{r+1}', f'="스마트스토어 일반상품 순매출 목표(기준, 공구 제외): 아넬라 11월 "&TEXT({S_TG}!J{ssr[("아넬라","11월")]},"#,##0")&"만원, 12월 "&TEXT({S_TG}!J{ssr[("아넬라","12월")]},"#,##0")&"만원 / 로지오가닉 11월 "&TEXT({S_TG}!J{ssr[("로지오가닉","11월")]},"#,##0")&"만원, 12월 "&TEXT({S_TG}!J{ssr[("로지오가닉","12월")]},"#,##0")&"만원"', f_note)
-put(sm, f'A{r+2}', f'="목표 매출은 예산 100% 사용 가정(10월 소진율: 아넬라 "&TEXT({S_RS}!E{ra["tot"]},"0%")&", 로지 "&TEXT({S_RS}!E{rr_["tot"]},"0%")&"). 아넬라는 기준 시나리오에서도 하한 미달로, 하한 유지 시 행사일 확보 필요. 행사 부족 시 하한 조정 논의 필요."', f_note)
+put(sm, f'A{r+2}', f'="목표 ROAS = 행사일수 시나리오 값과 10월 실적(28일 ROAS) × (1+상향률: 보수 "&TEXT({S_TG}!B9,"0%")&" / 기준 "&TEXT({S_TG}!C9,"0%")&" / 도전 "&TEXT({S_TG}!D9,"0%")&") 중 큰 값. 목표 매출은 예산 100% 사용 가정(10월 소진율: 아넬라 "&TEXT({S_RS}!E{ra["tot"]},"0%")&", 로지 "&TEXT({S_RS}!E{rr_["tot"]},"0%")&"). 시나리오 값만으로 아넬라가 하한을 달성하려면 행사일 약 "&TEXT({S_TG}!O{TGR["11월"]["judge"]["아넬라"]},"0.0")&"일 필요."', f_note)
 SM_R = r + 2
 
 put(sm, f'A{SM_R+3}', '6. 확인이 필요한 사항', f_sec)
@@ -1310,7 +1321,7 @@ for name in PRINT_SHEETS:
 for ws in wb.worksheets:
     if ws.title not in PRINT_SHEETS:
         ws.sheet_state = 'hidden'
-for c in 'EFGH':
+for c in 'EFGHRSTUVWXYZ':
     tg.column_dimensions[c].hidden = True
 wb.save(OUT + 'report_print.xlsx')
 print('saved', AN_LAST, SM_R, TGR['11월']['judge'], TGR['12월']['judge'], ssr)

@@ -90,7 +90,7 @@ def ungroup_cols(ws):
                 ws.column_dimensions[GL(i)] = ColumnDimension(ws, index=GL(i), width=w, hidden=h, customWidth=True)
 if '목표_11-12월' in wb.sheetnames:
     ungroup_cols(wb['목표_11-12월'])
-    for col in 'EFGH':
+    for col in 'EFGHRSTUVWXYZ':
         wb['목표_11-12월'].column_dimensions[col].hidden = True
 base = os.path.join(tmp, 'print.xlsx')
 wb.save(base)
