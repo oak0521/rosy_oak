@@ -517,7 +517,7 @@ for rng, first in [('I31:I33', 'I31'), ('K38:K40', 'K38')]:
 # 목표_11-12월
 # =====================================================================
 tg = sheet('목표_11-12월', 'C55A11')
-widths(tg, {'A': 22, 'B': 16, 'C': 13, 'D': 13, 'E': 13, 'F': 13, 'G': 12, 'H': 12, 'I': 11, 'J': 11, 'K': 12, 'L': 11, 'M': 11, 'N': 11, 'O': 13, 'P': 13, 'Q': 13})
+widths(tg, {'A': 34, 'B': 16, 'C': 13, 'D': 13, 'E': 13, 'F': 13, 'G': 12, 'H': 12, 'I': 11, 'J': 11, 'K': 12, 'L': 11, 'M': 11, 'N': 11, 'O': 13, 'P': 13, 'Q': 13})
 put(tg, 'A1', '11~12월 목표 (보수 / 기준 / 도전)', f_title)
 put(tg, 'A2', '10월 실적의 상시 ROAS·행사 ROAS를 매체별로 산출한 뒤 월별 행사일수에 따라 혼합해 목표 ROAS와 목표 매출 계산. 노란 칸 가정 수정 시 전체 재계산.', f_note)
 put(tg, 'A4', '시나리오 가정 (입력)', f_sec)
@@ -717,7 +717,7 @@ for i, (sec, b, item, metric, vf, vfmt, cf, cfmt, why, fix) in enumerate(items):
     put(an, f'F{r}', cf, f_norm, cfmt, al=RIGHT, border=True)
     put(an, f'G{r}', why, al=LEFT, border=True)
     put(an, f'H{r}', fix, al=LEFT, border=True)
-    an.row_dimensions[r].height = 58
+    an.row_dimensions[r].height = 74
     fillc = {'잘한 점': 'E2EFDA', '미달·보완': 'FCE4D6', '데이터 점검': 'FFF2CC'}[sec]
     an[f'A{r}'].fill = PatternFill('solid', fgColor=fillc)
 an.freeze_panes = 'D5'
@@ -933,7 +933,7 @@ def tv_block(r0, media):
 n1 = tv_block(5, '파워링크')
 n2 = tv_block(n1 + 1, '쇼핑검색')
 r = n2 + 1
-put(tv, f'A{r}', '참고: 24시간 원복 후 3일 (10/26~10/28, 넾다세일 겹침) 아넬라 쇼핑검색 ROAS', f_bold, border=True)
+put(tv, f'A{r}', '참고: 원복 후 3일(10/26~28) 쇼핑검색 ROAS', f_bold, border=True)
 put(tv, f'C{r}', f'=IF(SUMIFS({adr("E")},{adr("A")},"아넬라",{adr("B")},"쇼핑검색",{adr("D")},{S_GA}!$A$54)=0,0,SUMIFS({adr("I")},{adr("A")},"아넬라",{adr("B")},"쇼핑검색",{adr("D")},{S_GA}!$A$54)/SUMIFS({adr("E")},{adr("A")},"아넬라",{adr("B")},"쇼핑검색",{adr("D")},{S_GA}!$A$54))', f_bold, PCT, border=True)
 tv.merge_cells(f'A{r}:B{r}')
 put(tv, f'G{r}', '원복과 넾다세일이 같은 날 시작되어 원복 효과 분리 불가. 11/8 이후 상시 구간과 비교 필요.', f_note)
@@ -961,6 +961,8 @@ for i, (m, v, why) in enumerate(verdict):
 put(tv, f'A{r+5}', '출처: 노출 시간 제한 결과 정리는 대행사 코멘트(사용자 전달, 2026-10-29). 시간 설정은 10/14 시작. 노출 제외 시간대는 0~3시, 17~24시로 파워링크·쇼핑검색 동일(사용자 확인).', f_note)
 tv.merge_cells(f'A{r+5}:G{r+5}')
 tv.freeze_panes = 'A5'
+tv['A2'].alignment = LEFTTOP; tv['A3'].alignment = LEFTTOP
+tv.row_dimensions[2].height = 30; tv.row_dimensions[3].height = 30
 
 
 # =====================================================================
@@ -1257,5 +1259,44 @@ order = ['요약', '10월_실적', '예산', '예산대비_집행', '자사몰_�
 wb._sheets = [wb[n] for n in order]
 for ws in wb.worksheets:
     ws.sheet_view.zoomScale = 100
+
+# ---- A4 print setup
+from openpyxl.worksheet.properties import PageSetupProperties
+from openpyxl.worksheet.pagebreak import Break
+PRINT_TITLES = {'성과분석': '4:4', '실행계획': '4:4', '데이터_광고': '1:1', '데이터_SS일별': '1:1', '데이터_SS상품': '1:1', '데이터_자사몰': '1:1'}
+for ws in wb.worksheets:
+    ws.page_setup.paperSize = 9            # A4
+    ws.page_setup.orientation = 'landscape'
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+    ws.sheet_properties.pageSetUpPr = PageSetupProperties(fitToPage=True)
+    ws.page_margins.left = ws.page_margins.right = 0.4
+    ws.page_margins.top = 0.6; ws.page_margins.bottom = 0.6
+    ws.page_margins.header = 0.25; ws.page_margins.footer = 0.25
+    ws.print_options.horizontalCentered = True
+    ws.oddHeader.left.text = '아넬라 · 로지오가닉 2026년 10월 광고 성과 및 11~12월 목표'
+    ws.oddHeader.left.size = 8
+    ws.oddFooter.left.text = '&A'
+    ws.oddFooter.right.text = '&P / &N'
+    ws.oddFooter.left.size = 8; ws.oddFooter.right.size = 8
+    if ws.title in PRINT_TITLES:
+        ws.print_title_rows = PRINT_TITLES[ws.title]
+# 요약: 1~3번 섹션은 1쪽, 4번 이후는 2쪽
+sm.row_breaks.append(Break(id=27))
+sm.row_breaks.append(Break(id=SM_R + 2))
+rs.row_breaks.append(Break(id=28))
+wk.row_breaks.append(Break(id=23)); wk.row_breaks.append(Break(id=44))
+tg.row_breaks.append(Break(id=e1 + 2))
+tv.page_setup.fitToHeight = 1
+# 자사몰_매출·예산대비_집행 등은 한 쪽에 맞춤 (높이 제한 없음)
 wb.save(OUT + 'report.xlsx')
+
+# ---- 인쇄용 사본: 데이터 시트 숨김, 목표 시트의 계산 보조 열(E~H) 숨김
+PRINT_SHEETS = ['요약', '10월_실적', '예산', '예산대비_집행', '자사몰_매출', '주차별_추이', '성과분석', '시간제한_검증', '목표_11-12월', '실행계획']
+for ws in wb.worksheets:
+    if ws.title not in PRINT_SHEETS:
+        ws.sheet_state = 'hidden'
+for c in 'EFGH':
+    tg.column_dimensions[c].hidden = True
+wb.save(OUT + 'report_print.xlsx')
 print('saved', AN_LAST, SM_R, TGR['11월']['judge'], TGR['12월']['judge'], ssr)
