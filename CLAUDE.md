@@ -16,8 +16,7 @@ JS, meant to be opened directly in a browser or published via the Claude Code **
   object in the inline script; all per-brand static markup (quad-grid summary, weekly comparison
   table, comment section) is duplicated in the HTML as sibling `<div data-brand-panel="anela">` /
   `<div data-brand-panel="rosy" hidden>` blocks that `setBrand()` toggles via the `hidden`
-  attribute. The `#mission` section is brand-independent (single instance, not duplicated) since
-  weekly missions apply to both brands together. A new brand means: add a key to `BRANDS`, add its
+  attribute. (The old shared `#mission` section was removed 2026.10.26 at the user's request.) A new brand means: add a key to `BRANDS`, add its
   `data-brand-panel` blocks, add a `.brand-chip` button, and extend `setBrand()`'s reset list.
   The 아넬라/로지오가닉 Meta ad accounts are known to mix campaigns across the two brands (see
   Data-sourcing & data-integrity workflow below) and 로지오가닉's Meta conversion campaign landing page currently
@@ -70,12 +69,12 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
    earlier generic, never-updated "브랜드 주간 리포트" title) — update it every time the live
    report's period changes, alongside the other per-week text (period line, footSource, section-subs).
 2. Static HTML sections, in source order top to bottom, matching the sticky top nav's link order:
-   `#summary`, `#comment`, `#trend`, `#media`, `#creative`, `#mission` (`#comment` was moved to
+   `#summary`, `#comment`, `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26; `#comment` was moved to
    directly after `#summary` on 2026.08.31 — keep the nav's `<a href="#...">` order and the sections'
    DOM order in sync if either changes again).
    `#summary`, `#trend`'s notes/table, and `#comment` each contain **two** sibling
    `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the non-active one carries
-   `hidden`); `#mission` is a single shared block, not duplicated.
+   `hidden`).
 3. One inline `<script>` at the end with:
    - `BRANDS` — `{ anela: {label, title, footSource, campaigns, mediaNotes, monthlyByMedia}, rosy:
      {...same shape...} }`, plus `curBrand` (currently active key) and `setBrand(key)` (toggles
@@ -171,7 +170,7 @@ old pattern as license to apply the same division to new raw-platform numbers; i
 
 ### Weekly automation (fresh-session-per-fire, established 2026.09 — follow it)
 The user's work hours are **10:00–19:00 KST** — don't schedule triggers outside that window.
-Four Routines drive the Mon-upload → Tue-finalize → Thu-mission → monthly-rollup cadence. As of
+Two Routines drive the Tue-build-and-publish → monthly-rollup cadence (the Thursday 18:00 mission Routine was dropped 2026.10.26) (Monday and Tuesday were merged 2026.10.19). As of
 2026.09 they all use `create_new_session_on_fire: true` — **each firing spawns a brand-new session
 with no memory of any prior conversation**, so every Routine prompt is written as a complete,
 standalone instruction, and every fired session must re-derive current state from the repo (git
@@ -180,30 +179,28 @@ with whichever session did last week's work. This is deliberate: CLAUDE.md plus 
 carry everything a fresh session needs to pick the work back up correctly — piling every week into
 one ever-growing conversation only adds compaction risk and per-turn token overhead with no benefit
 (this project's own long-running session hit its first auto-compaction well before this change).
-(See `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit any of the four.)
+(See `list_triggers`/`mcp__Claude_Code_Remote__*` tools to inspect/edit either.)
 
-- **Monday 10:30 KST** — starts the week. First archives last week's report if it isn't already in
-  `reports/archive.html`'s `WEEKLIES` array (see "Weekly workflow order" below), then asks the user
-  for that week's raw files (Naver SA CSV, Naver GFA CSV with a revenue column, the Meta xlsx pair,
-  any new creative zip). Once the files land (same session, same day or later), aggregates by brand
-  and rebuilds `campaigns`/the weekly comparison table's numbers, then **commits that to git but
-  does not publish yet** — the quad-grid/`mediaNotes` narrative needs the agency's comment, which
-  hasn't arrived yet, and the live Artifact should keep showing last week's *complete* report rather
-  than a half-written draft in the meantime.
-- **The agency's free-text weekly comment arrives separately from the client**, usually by Tuesday
-  10:30 KST.
-- **Tuesday 14:00 KST — this is where the week's report actually gets finalized and published.**
-  Reads the current repo state (Monday's numbers-only commit, if it landed) and asks for the
-  agency's comment if it hasn't been given yet. Once received: cross-check every number against the
-  raw platform data (per the workflow above), apply the 브랜드검색 commentary threshold above,
-  write the quad-grid 핵심요약 and `mediaNotes` for both brands, then publish + commit the final
-  version — this publish is the one the CEO actually reads. If Monday's raw data never arrived at
-  all, re-request it here instead, with a reminder that Thursday 2pm is the CEO meeting.
-- **Thursday 18:00 KST** — after the Thursday 2pm CEO meeting, asks the user whether there's
-  content for *next* week's `#mission` section (single shared block, not per-brand). If nothing,
-  leave `#mission` empty rather than carrying over a stale mission; if given, research as needed
-  (WebSearch etc.) and write it in following the existing markup tone/structure, then
-  publish/commit.
+- **Tuesday 14:00 KST (merged Monday+Tuesday routine, 2026.10.19 — one session does everything)** —
+  the former Monday "numbers-only" routine and Tuesday "finalize" routine are one Routine now. The
+  split caused real problems (Monday's session pushed to a different branch than Tuesday's, and the
+  Tuesday session initially reported "no data"), and the agency comment arrives by Tuesday 10:30
+  anyway, so there is nothing to gain from a numbers-only intermediate commit. One fresh session:
+  1. `git fetch` + `git branch -r`/`git log --all` to re-derive state (a stray earlier-routine
+     branch may still hold work — merge it if so), then archive the outgoing week if it isn't in
+     `WEEKLIES` yet (see "Weekly workflow order").
+  2. Ask the user — in one message — for *all* inputs: Naver SA CSV, Naver GFA CSV (with revenue
+     column), the Meta xlsx pair, any new creative zip, **and** the agency's free-text weekly
+     comment for both brands, plus the 컨텐츠/기타 업무 진행사항 bullets. Remind them Thursday 2pm is
+     the CEO meeting.
+  3. Aggregate by brand → rebuild `campaigns`/KPI/weekly comparison numbers; cross-check every
+     number in the comment against the aggregate (chat-only notes on mismatches, report carries the
+     raw-derived numbers); apply the 브랜드검색 threshold; write quad-grid + `mediaNotes` +
+     컨텐츠 list; update every per-week string (`<title>`, `.period`, `#summary` section-sub, other
+     section-subs, footSource, comparison-table row labels, archive hero card) in the "n월 n주차"
+     format; `node --check`; publish live report + archive; commit/push to the designated branch.
+  If the files/comment haven't arrived, the session notifies the user (PushNotification) and stops
+  without editing or publishing — the live Artifact keeps showing the last complete week.
 - **Monthly, first *working day* of the month, 10:30 KST** — the trigger's cron actually fires every
   day 1st–5th at 10:30 KST (a plain "day 1" cron can't express "first weekday"), and the fired
   session self-gates: no-op silently on a weekend, no-op silently if `reports/archive.html`'s
@@ -321,8 +318,7 @@ instead, and an index page ties them together:
   As of 2026.09, the monthly report is structured with the **same top subnav/tab pattern as the
   weekly report** (established when 2026-08.html was retrofitted) — a sticky `nav.subnav` with 5
   anchor links matching the weekly report's naming: `#summary`(핵심요약) → `#comment`(코멘트) →
-  `#trend`(월별추이) → `#media`(매체별성과) → `#creative`(소재별성과) (no `#mission`, monthly has no
-  weekly-mission equivalent). Content per section:
+  `#trend`(월별추이) → `#media`(매체별성과) → `#creative`(소재별성과) (monthly has no `#mission`). Content per section:
   - `#summary` — as of 2026.09 (2026-08.html retrofit), leads with the same weekly-style quad-grid
     (👍 좋았던 점 / 👎 안좋았던 점 / 🔧 개선하고 있는 것 / 🎯 개선이 필요한 것) sourced from the
     agency's monthly-report narrative, cross-checked against this report's own raw campaigns —
@@ -343,15 +339,30 @@ instead, and an index page ties them together:
     weekly report (sum of search+gfa+meta, then `roasOf`). Each new month's report needs one more
     point appended vs. the previous month's file — this is naturally repetitive; don't skip it.
   - `#media` — the existing 매체별 성과 table (search/gfa/meta + total row), unchanged.
+  - `#keyword` (added 2026.09, 9월 report onward; nav link between 매체별성과 and 소재별성과) — 네이버
+    키워드·검색어 보고서를 **7~9월 3개월 합산**으로 판정: ① 파워링크 키워드(증액 필요 / 효율 낮음 /
+    제외 후보 / 9월 급변, 확장 미등록 검색어 → 신규 키워드 제안) ② 쇼핑검색 검색어(효율 좋음·낮음, 단어
+    패턴별 효율, 제외 제안, 경쟁 전략 제안). 기준: 효율은 ROAS 200%·브랜드 평균×1.2 (손익분기/마진 기반
+    판정은 쓰지 않음 — 사용자가 마진 기준을 확정하지 않았다), 구매 5건 미만은 CTR·전환율, 제외는 광고비가
+    아니라 클릭 기준(3개월 클릭 30회+ 무전환). **월령·질문형 키워드/검색어("○개월", "돌아기", "언제부터",
+    "추천" 등)는 전환이 없어도 제외하지 않는다**(사용자 방침: 초보 부모 1순위 검색 → 브랜드 인지). **사용자 지정 유지 키워드**(`KEEP` 배열, 현재 `유기농쌀과자` — 과자 카테고리 메인 키워드)는 구매 0이어도 제외 제안에서 빼고 "유지 결정"으로 표기한다. 다음
+    달 리포트는 직전 3개월 월별 키워드·검색어 CSV를 새로 받아 `m3` 데이터를 갱신한다.
   - `#creative` — a **new** full data table of every campaign/ad row (all of `campaigns`, not just
     top 5), sorted by revenue descending, with a ROAS status pill per row. This is a **plain table,
     deliberately no `CREATIVE_IMAGES` gallery** — keep it that way; the weekly report is where actual
     creative thumbnails live, and duplicating those into the monthly report is exactly what the
     "numbers/trend-only, stay lightweight" rule above is meant to prevent.
 
+### 주차 표기 규칙 (established 2026.10.13 — follow it)
+라이브 리포트의 주차 표기는 연번(N주차)이 아니라 **대행사 코멘트가 쓰는 "n월 n주차"** 를 그대로 따른다
+(예: 10/5–10/11 = "10월 2주차", 9/28–10/4 = "10월 1주차"). `<title>`, `.period`, `section-sub`, 주간 비교
+표의 행 라벨, `archive.html` 히어로 카드에 적용한다. `archive.html`의 `WEEKLIES.week` 라벨도 같은 형식으로 쓴다(목요일이 속한 달 기준: 9/28주=10월 1주차, 8/31주=9월 1주차). 이미 아카이브된 스냅샷 파일 내부의 제목/기간 표기는 소급 변경하지 않는다.
+화요일 세션은 먼저 `git branch -r`/`git log --all`로 월요일 루틴이 다른 브랜치에 남긴 집계 커밋을 찾아 병합한
+뒤 시작한다(월요일 세션이 별도 브랜치에 푸시한 적 있음).
+
 ### Weekly workflow order (updated)
 
-Each Monday, **before** overwriting `campaigns`/`mediaNotes` for the new week, first check
+Each week (in the merged Tuesday routine), **before** overwriting `campaigns`/`mediaNotes` for the new week, first check
 `reports/archive.html`'s `WEEKLIES` array for the *outgoing* week's period-start date — if it's
 already listed (e.g. it was archived out-of-cycle, as happened for 3주차/`2026-08-17` when this
 whole archive system was bootstrapped on 2026.08.31), skip straight to overwriting; don't archive
