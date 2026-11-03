@@ -76,8 +76,20 @@ brk_before('예산', '로지오가닉')
 brk_before('목표_11-12월', '12월 매체별 목표')
 for name in ('예산대비_집행', '시간제한_검증'):
     if name in wb.sheetnames: wb[name].page_setup.fitToHeight = 1
-# 목표 시트의 계산 보조 열(E~H) 숨김
+if '목표_11-12월' in wb.sheetnames: wb['목표_11-12월'].page_setup.fitToHeight = 2
+# 목표 시트의 계산 보조 열(E~H) 숨김 (구글시트 내보내기는 같은 폭의 열을 한 묶음으로 저장하므로 먼저 풀어줌)
+def ungroup_cols(ws):
+    from openpyxl.worksheet.dimensions import ColumnDimension
+    from openpyxl.utils import get_column_letter as GL
+    for key, dim in list(ws.column_dimensions.items()):
+        lo = dim.min or 0; hi = dim.max or 0
+        if lo and hi > lo:
+            w, h = dim.width, dim.hidden
+            del ws.column_dimensions[key]
+            for i in range(lo, hi + 1):
+                ws.column_dimensions[GL(i)] = ColumnDimension(ws, index=GL(i), width=w, hidden=h, customWidth=True)
 if '목표_11-12월' in wb.sheetnames:
+    ungroup_cols(wb['목표_11-12월'])
     for col in 'EFGH':
         wb['목표_11-12월'].column_dimensions[col].hidden = True
 base = os.path.join(tmp, 'print.xlsx')
