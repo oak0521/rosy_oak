@@ -1,0 +1,749 @@
+<title>월간 리포트 2026.10</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg-page:#f6f6f7;
+  --surface-1:#ffffff;
+  --surface-2:#eeeef0;
+  --border:#e0e0e3;
+  --text-primary:#18181b;
+  --text-secondary:#57575f;
+  --text-muted:#8d8d95;
+  --accent:#3d3096;
+  --accent-soft:#ebe8f9;
+  --accent-ink:#2c2270;
+
+  --media-search:#1baf7a;
+  --media-search-soft:#e2f5ec;
+  --media-gfa:#d9762e;
+  --media-gfa-soft:#fbead9;
+  --media-meta:#2a78d6;
+  --media-meta-soft:#e3edfb;
+
+  --good:#0ca30c;
+  --good-soft:#e5f6e2;
+  --warning:#b8790a;
+  --warning-soft:#fdefd8;
+  --serious:#c85a34;
+  --serious-soft:#fbe6dc;
+  --critical:#d03b3b;
+  --critical-soft:#fbe2e2;
+
+  --gridline:#e5e5e8;
+  --shadow: 0 1px 2px rgba(20,20,25,0.04), 0 4px 14px rgba(20,20,25,0.05);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-page:#0e0e10; --surface-1:#19191c; --surface-2:#212124; --border:#2d2d31;
+    --text-primary:#f2f2f4; --text-secondary:#bbbbc2; --text-muted:#87878f;
+    --accent:#a99cf5; --accent-soft:#241f47; --accent-ink:#cabdfb;
+    --media-search:#199e70; --media-search-soft:#122a20;
+    --media-gfa:#d9762e; --media-gfa-soft:#2e2013;
+    --media-meta:#3987e5; --media-meta-soft:#152439;
+    --good:#39c239; --good-soft:#123317;
+    --warning:#e7ab35; --warning-soft:#332711;
+    --serious:#e58a5f; --serious-soft:#33201a;
+    --critical:#e66767; --critical-soft:#331717;
+    --gridline:#2a2a2e;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg-page:#0e0e10; --surface-1:#19191c; --surface-2:#212124; --border:#2d2d31;
+  --text-primary:#f2f2f4; --text-secondary:#bbbbc2; --text-muted:#87878f;
+  --accent:#a99cf5; --accent-soft:#241f47; --accent-ink:#cabdfb;
+  --media-search:#199e70; --media-search-soft:#122a20;
+  --media-gfa:#d9762e; --media-gfa-soft:#2e2013;
+  --media-meta:#3987e5; --media-meta-soft:#152439;
+  --good:#39c239; --good-soft:#123317;
+  --warning:#e7ab35; --warning-soft:#332711;
+  --serious:#e58a5f; --serious-soft:#33201a;
+  --critical:#e66767; --critical-soft:#331717;
+  --gridline:#2a2a2e;
+  --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.4);
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg-page);
+  color:var(--text-primary);
+  font-family:'Noto Sans KR', -apple-system, 'Apple SD Gothic Neo', sans-serif;
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px;}
+.num{font-variant-numeric:tabular-nums;}
+a{color:inherit;}
+[hidden]{display:none !important;}
+
+header.top{
+  border-bottom:1px solid var(--border);
+  background:var(--surface-1);
+  position:sticky; top:0; z-index:40;
+}
+.top-inner{
+  max-width:1120px;margin:0 auto;padding:18px 20px;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.brand-block{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;}
+.brand-title{font-weight:700;font-size:22px;letter-spacing:-0.01em;}
+.brand-tabs{display:flex;gap:6px;}
+.brand-chip{
+  border:1px solid var(--border); background:var(--surface-1); color:var(--text-secondary);
+  padding:6px 14px; border-radius:999px; font-size:12.5px; font-weight:600; cursor:pointer;
+  font-family:inherit;
+}
+.brand-chip.active{background:var(--accent-ink); border-color:var(--accent-ink); color:#fff;}
+.period{font-size:12.5px;color:var(--text-secondary);}
+.period b{color:var(--text-primary);font-weight:600;}
+.period a{color:var(--accent-ink); text-decoration:none;}
+.period a:hover{text-decoration:underline;}
+
+nav.subnav{display:flex;gap:2px;max-width:1120px;margin:0 auto;padding:0 20px;overflow-x:auto;}
+nav.subnav a{
+  white-space:nowrap; font-size:13px; padding:10px 14px; color:var(--text-secondary);
+  text-decoration:none; border-bottom:2px solid transparent;
+}
+nav.subnav a:hover{color:var(--text-primary);}
+nav.subnav a.current{color:var(--accent-ink);border-bottom-color:var(--accent);font-weight:600;}
+
+.section{padding-top:30px;border-bottom:1px solid var(--border);padding-bottom:30px;}
+.section:last-of-type{border-bottom:none;}
+.section-title{font-size:19px;font-weight:700;margin:0 0 4px;}
+.section-sub{color:var(--text-muted);font-size:12.5px;margin:0 0 16px;}
+
+/* ---- tabs (trend) ---- */
+.tabbar{display:flex;gap:6px;flex-wrap:wrap;}
+.tabbtn{
+  font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface-1);color:var(--text-secondary);cursor:pointer;font-family:inherit;
+}
+.tabbtn.active{background:var(--text-primary);color:var(--bg-page);border-color:var(--text-primary);font-weight:600;}
+.tabbtn[data-media="search"].active{background:var(--media-search);border-color:var(--media-search);color:#fff;}
+.tabbtn[data-media="gfa"].active{background:var(--media-gfa);border-color:var(--media-gfa);color:#fff;}
+.tabbtn[data-media="meta"].active{background:var(--media-meta);border-color:var(--media-meta);color:#fff;}
+
+.chart-card{padding:18px 20px 22px;position:relative;}
+.chart-tabs{display:flex;gap:6px;margin-bottom:14px;}
+svg.chart{width:100%;height:auto;overflow:visible;}
+.axis-label{font-size:10px;fill:var(--text-muted);}
+.tip-target{cursor:pointer;}
+.legend{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary);}
+.legend-swatch{width:10px;height:10px;border-radius:2px;}
+.ghost-note{font-size:11.5px;color:var(--text-muted);text-align:center;margin-top:6px;}
+.chart-tooltip{
+  position:absolute;pointer-events:none;z-index:5;background:var(--text-primary);color:var(--bg-page);
+  font-size:11.5px;line-height:1.5;
+  padding:7px 10px;border-radius:7px;box-shadow:var(--shadow);white-space:nowrap;
+  transform:translate(-50%,-100%);margin-top:-10px;transition:opacity .08s;opacity:0;
+}
+.chart-tooltip.show{opacity:1;}
+.chart-tooltip b{display:block;font-weight:600;margin-bottom:2px;color:var(--bg-page);}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+.kpi-card{
+  background:var(--surface-1);border:1px solid var(--border);border-radius:14px;
+  box-shadow:var(--shadow);padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;
+}
+.kpi-label{font-size:12px;color:var(--text-secondary);font-weight:600;}
+.kpi-value{font-size:21px;font-weight:700;letter-spacing:-0.01em;}
+.kpi-value .unit{font-size:11.5px;font-weight:500;color:var(--text-muted);margin-left:2px;}
+@media (max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:560px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+
+.split-row{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:14px;margin-top:16px;}
+@media (max-width:900px){.split-row{grid-template-columns:1fr;}}
+.card{
+  background:var(--surface-1);border:1px solid var(--border);border-radius:14px;
+  box-shadow:var(--shadow);padding:18px 20px;
+}
+.card h3{font-size:13px;font-weight:600;margin:0 0 2px;}
+.card .card-sub{font-size:11.5px;color:var(--text-muted);margin:0 0 14px;}
+
+.donut-wrap{display:flex;align-items:center;gap:16px;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;font-size:12px;flex:1;}
+.donut-legend .row{display:flex;align-items:center;gap:7px;}
+.donut-legend .swatch{width:8px;height:8px;border-radius:50%;flex:none;}
+.donut-legend .lbl{color:var(--text-secondary);flex:1;}
+.donut-legend .pct{font-weight:600;}
+
+table.data-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+table.data-table th{
+  text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--text-muted);font-weight:600;padding:0 8px 8px;border-bottom:1px solid var(--gridline);
+}
+table.data-table th.num,table.data-table td.num{text-align:right;}
+table.data-table td{padding:9px 8px;border-bottom:1px solid var(--gridline);vertical-align:middle;}
+table.data-table tr:last-child td{border-bottom:0;}
+.media-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;}
+.status-pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600;}
+.status-pill.good{background:var(--good-soft);color:var(--good);}
+.status-pill.warning{background:var(--warning-soft);color:var(--warning);}
+.status-pill.critical{background:var(--critical-soft);color:var(--critical);}
+
+.hl-list{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.hl-list li{font-size:13px;color:var(--text-secondary);}
+
+/* ---- quadrant summary ---- */
+.quad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px;}
+@media (max-width:720px){.quad-grid{grid-template-columns:1fr;}}
+.quad{padding:18px 20px;border-radius:12px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow);}
+.quad-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.quad-dot{width:9px;height:9px;border-radius:50%;flex:none;}
+.quad-title{font-size:13.5px;font-weight:700;}
+.quad ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;}
+.quad li{font-size:13px;color:var(--text-secondary);list-style:disc;}
+.quad li b{color:var(--text-primary);font-weight:600;}
+.quad.good{border-left:3px solid var(--good);}
+.quad.bad{border-left:3px solid var(--serious);}
+.quad.doing{border-left:3px solid var(--warning);}
+.quad.need{border-left:3px solid var(--critical);}
+
+/* comment accordion (agency monthly-report narrative) */
+.comment-overall{margin:0 0 14px;font-size:13.5px;line-height:1.6;color:var(--text-primary);}
+.trend-notes{display:flex;flex-direction:column;gap:8px;}
+.trend-notes details{
+  border:1px solid var(--border);border-radius:9px;background:var(--surface-1);overflow:hidden;
+}
+.trend-notes summary{
+  list-style:none;cursor:pointer;padding:11px 14px;font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:8px;user-select:none;
+}
+.trend-notes summary::-webkit-details-marker{display:none;}
+.trend-notes summary::before{
+  content:'';width:7px;height:7px;border-right:1.6px solid var(--text-muted);border-bottom:1.6px solid var(--text-muted);
+  transform:rotate(-45deg);transition:transform .15s;flex:none;
+}
+.trend-notes details[open] summary::before{transform:rotate(45deg);}
+.trend-notes .tn-body{padding:2px 16px 14px 29px;display:flex;flex-direction:column;gap:9px;}
+.tn-item b{font-size:12.5px;color:var(--text-primary);}
+.tn-item p{margin:3px 0 0;font-size:12.5px;color:var(--text-secondary);}
+.tn-tag{font-size:10.5px;color:var(--text-muted);background:var(--surface-2);border-radius:5px;padding:1px 6px;margin-left:6px;}
+
+
+/* ---- keyword / search-term section ---- */
+.sub-h{font-size:15px;font-weight:700;margin:26px 0 10px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+.sub-h-note{font-size:11.5px;font-weight:400;color:var(--text-muted);}
+.rule-card{padding:16px 20px;}
+.rule-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;}
+.rule-card li{font-size:12.5px;color:var(--text-secondary);}
+.rule-card li b{color:var(--text-primary);font-weight:600;}
+.kw-summary{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;}
+.kw-chip{font-size:12px;border:1px solid var(--border);background:var(--surface-1);border-radius:999px;padding:4px 12px;color:var(--text-secondary);}
+.kw-chip b{color:var(--text-primary);}
+.kw-stack{display:flex;flex-direction:column;gap:14px;}
+.kw-card h3{display:flex;align-items:center;gap:8px;}
+.kw-empty{font-size:12.5px;color:var(--text-muted);padding:4px 0;}
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap;background:var(--surface-2);color:var(--text-secondary);margin-right:4px;}
+.tag.good{background:var(--good-soft);color:var(--good);}
+.tag.warning{background:var(--warning-soft);color:var(--warning);}
+.tag.critical{background:var(--critical-soft);color:var(--critical);}
+.tag.info{background:var(--accent-soft);color:var(--accent-ink);}
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media (max-width:720px){.theme-grid{grid-template-columns:1fr;}}
+.theme-card h3{font-size:13.5px;margin-bottom:2px;}
+.theme-stat{font-size:11.5px;color:var(--text-muted);margin:0 0 10px;}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.term-chip{font-size:12px;background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:3px 10px;}
+.term-chip i{font-style:normal;color:var(--text-muted);margin-left:4px;font-size:11px;}
+details.fold{border:1px solid var(--border);border-radius:10px;background:var(--surface-1);margin-top:12px;padding:0 16px;}
+details.fold > summary{cursor:pointer;padding:12px 0;font-size:13px;font-weight:600;list-style:none;}
+details.fold > summary::-webkit-details-marker{display:none;}
+details.fold > summary::before{content:'▸';margin-right:8px;color:var(--text-muted);}
+details.fold[open] > summary::before{content:'▾';}
+details.fold[open]{padding-bottom:14px;}
+.alert-box{border:1px solid var(--critical);background:var(--critical-soft);border-radius:10px;padding:12px 16px;margin-bottom:12px;}
+.alert-box > b{display:block;margin-bottom:8px;color:var(--critical);}
+.theme-idea{font-size:12.5px;color:var(--text-secondary);margin:0;}
+
+footer.foot{
+  border-top:1px solid var(--border);
+  margin-top:36px;padding-top:16px;
+  color:var(--text-muted);font-size:12px;
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+</style>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand-block">
+      <span class="brand-title" id="brandTitle">아넬라 월간 리포트</span>
+      <div class="brand-tabs" id="brandSwitch">
+        <button type="button" class="brand-chip active" data-brand="anela">아넬라</button>
+        <button type="button" class="brand-chip" data-brand="rosy">로지오가닉</button>
+      </div>
+    </div>
+    <div class="period">리포트 기간 <b>2026.10.01 – 10.31</b> · 10월 · 전체 월 raw data 직접 집계 · <a href="https://claude.ai/code/artifact/fb28ef03-ed69-46bf-a7f8-35f05fa9999c" target="_blank" rel="noopener">리포트 아카이브 →</a></div>
+  </div>
+  <nav class="subnav">
+    <a href="#summary" class="current">핵심요약</a>
+    <a href="#comment">코멘트</a>
+    <a href="#trend">월별 추이</a>
+    <a href="#media">매체별 성과</a>
+    <a href="#creative">소재별 성과</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="section" id="summary" style="padding-top:26px;">
+    <h2 class="section-title">핵심 요약</h2>
+    <p class="section-sub" id="kpiSub">2026.10.01 – 10.31</p>
+    <div class="quad-grid" id="quadGrid"></div>
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <div class="split-row">
+      <div class="card">
+        <h3>광고비 비중</h3>
+        <p class="card-sub" id="costSub"></p>
+        <div class="donut-wrap">
+          <svg width="104" height="104" viewBox="0 0 104 104" id="costDonut"></svg>
+          <div class="donut-legend" id="costLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>매출액 비중</h3>
+        <p class="card-sub" id="revSub"></p>
+        <div class="donut-wrap">
+          <svg width="104" height="104" viewBox="0 0 104 104" id="revDonut"></svg>
+          <div class="donut-legend" id="revLegend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>캠페인 TOP 5 (매출액 순)</h3>
+        <p class="card-sub">이번 달 매출 기준 상위 캠페인</p>
+        <div style="overflow-x:auto;">
+        <table class="data-table" id="topTable">
+          <thead><tr><th>캠페인</th><th class="num">매출액</th><th class="num">ROAS</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="comment">
+    <h2 class="section-title">코멘트</h2>
+    <p class="section-sub">10월 매체별 주요 지표와 전월 대비 변화를 raw data 기준으로 정리했습니다</p>
+    <div class="card" style="padding:20px 22px;">
+      <p class="comment-overall" id="commentOverall"></p>
+      <div class="trend-notes" id="commentAccordion"></div>
+    </div>
+  </div>
+
+  <div class="section" id="trend">
+    <h2 class="section-title">월별 추이</h2>
+    <p class="section-sub">광고비 · 매출 · ROAS 흐름 — 2026년 1월~10월</p>
+    <div class="card chart-card">
+      <div class="tabbar chart-tabs" id="trendTabs">
+        <button class="tabbtn active" data-t="all">전체</button>
+        <button class="tabbtn" data-t="search" data-media="search">네이버 검색광고</button>
+        <button class="tabbtn" data-t="gfa" data-media="gfa">GFA</button>
+        <button class="tabbtn" data-t="meta" data-media="meta">메타</button>
+      </div>
+      <div id="trendChart"></div>
+      <div class="chart-tooltip" id="chartTooltip"></div>
+      <div class="ghost-note">1~7월은 대행사 월간 리포트 기준, 8~10월은 전체 월 raw data 직접 집계 기준입니다</div>
+    </div>
+  </div>
+
+  <div class="section" id="media">
+    <h2 class="section-title">매체별 성과</h2>
+    <p class="section-sub">네이버 검색광고 · GFA · 메타 — 이번 달 합계</p>
+    <div style="overflow-x:auto;">
+    <table class="data-table" id="mediaTable">
+      <thead>
+        <tr><th>매체</th><th class="num">노출</th><th class="num">클릭</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">광고비</th><th class="num">구매</th><th class="num">CVR</th><th class="num">매출액</th><th class="num">ROAS</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="section" id="creative">
+    <h2 class="section-title">소재별 성과</h2>
+    <p class="section-sub">캠페인/광고 단위 전체 성과 — 매출액 순 (이미지 갤러리는 포함하지 않습니다, 주간 리포트 참고)</p>
+    <div style="overflow-x:auto;">
+    <table class="data-table" id="creativeTable">
+      <thead>
+        <tr><th>매체</th><th>캠페인/광고</th><th class="num">노출</th><th class="num">클릭</th><th class="num">광고비</th><th class="num">구매</th><th class="num">매출액</th><th class="num">ROAS</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span id="footSource">데이터 출처: 네이버 검색광고 시스템(일별 리포트) · 네이버 GFA · Meta 광고관리자 raw export 직접 집계(전체 월), 2026.10.01–10.31 기준 · 브랜드검색 비용은 정액제 2,640,000원/90일(VAT 포함)을 31일분(909,333원)으로 환산해 두 브랜드 동일 적용 · 대행사 월간 리포트 코멘트 참고</span>
+    <span>상단 브랜드 탭을 눌러 아넬라 ↔ 로지오가닉 전환</span>
+  </footer>
+</div>
+
+<script>
+const fmt = n => Math.round(n).toLocaleString('ko-KR');
+const pct = n => (Math.round(n*10)/10).toLocaleString('ko-KR') + '%';
+const mediaColor = {search:'var(--media-search)', gfa:'var(--media-gfa)', meta:'var(--media-meta)'};
+const mediaLabel = {search:'네이버 검색', gfa:'GFA', meta:'메타'};
+
+function agg(rows){
+  const a = {imp:0,clk:0,cost:0,conv:0,rev:0};
+  rows.forEach(r=>{a.imp+=r.imp;a.clk+=r.clk;a.cost+=r.cost;a.conv+=r.conv;a.rev+=r.rev;});
+  a.roas = a.cost ? a.rev/a.cost*100 : 0;
+  a.ctr = a.imp ? a.clk/a.imp*100 : 0;
+  a.cpc = a.clk ? a.cost/a.clk : 0;
+  a.cvr = a.clk ? a.conv/a.clk*100 : 0;
+  return a;
+}
+const roasOf = (cost,rev) => cost ? rev/cost*100 : 0;
+
+const BRANDS = {
+  anela: {
+    label: '아넬라',
+    title: '아넬라 월간 리포트',
+    campaigns: [
+      {media: "search", src: "브랜드검색", chan: "store", name: "아넬라_브검_모바일", imp: 4511, clk: 2190, cost: 909333.33, conv: 581, rev: 27823520},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레종합_브랜드K", imp: 40745, clk: 860, cost: 546348, conv: 225, rev: 10834280},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레종합_일반K", imp: 1052613, clk: 1718, cost: 1883050, conv: 220, rev: 8781560},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_퓨레K", imp: 49656, clk: 600, cost: 625963, conv: 65, rev: 2634300},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_과자(떡뻥)_일반K", imp: 32705, clk: 607, cost: 942500, conv: 81, rev: 1769120},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레개별_통합k", imp: 78120, clk: 202, cost: 184576, conv: 24, rev: 1203300},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_브랜드K", imp: 2916, clk: 122, cost: 103884, conv: 23, rev: 995670},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_과자(떡뻥)_브랜드K", imp: 3352, clk: 47, cost: 6566, conv: 13, rev: 248890},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_베이비바우처", imp: 1975, clk: 24, cost: 6343, conv: 2, rev: 91800},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_아넬라 캠페인_과자k(브랜드)", imp: 4718, clk: 15, cost: 9499, conv: 2, rev: 56600},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_상시_테스트 운영", imp: 91061, clk: 1695, cost: 1200873, conv: 278, rev: 14277100},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_카탈로그_리타겟기반", imp: 13382, clk: 180, cost: 215306, conv: 33, rev: 1632800},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_프로모_추석세일", imp: 0, clk: 0, cost: 0, conv: 31, rev: 1367800},
+      {media: "gfa", src: "GFA", chan: "store", name: "넾다세일", imp: 15894, clk: 257, cost: 297123, conv: 27, rev: 1241410},
+      {media: "gfa", src: "GFA", chan: "store", name: "아넬라_신규타겟_소구5종", imp: 42359, clk: 160, cost: 117360, conv: 1, rev: 53900},
+      {media: "meta", src: "메타", chan: "mall", name: "260729_자사몰_시크릿링크_검색", imp: 118659, clk: 2293, cost: 1415770, conv: 166, rev: 6713144},
+      {media: "meta", src: "메타", chan: "store", name: "아넬라_카탈로그_260629", imp: 112263, clk: 3503, cost: 1128784, conv: 138, rev: 5115800},
+      {media: "meta", src: "메타", chan: "store", name: "260305_아넬라_베이비바우처(파트너십영상)_2", imp: 54109, clk: 1481, cost: 773690, conv: 102, rev: 4484336},
+      {media: "meta", src: "메타", chan: "store", name: "261026_아넬라_넾다세일_제품", imp: 13439, clk: 243, cost: 196965, conv: 61, rev: 2084668},
+      {media: "meta", src: "메타", chan: "mall", name: "260729_자사몰_시크릿링크_7일뒤", imp: 7975, clk: 228, cost: 127165, conv: 26, rev: 1098400},
+      {media: "meta", src: "메타", chan: "store", name: "261026_아넬라_넾다세일_사과", imp: 6333, clk: 92, cost: 79878, conv: 19, rev: 678100},
+      {media: "meta", src: "메타", chan: "store", name: "260519_아넬라_웰컴박스_공짜", imp: 12099, clk: 975, cost: 206669, conv: 2, rev: 19500},
+      {media: "meta", src: "메타", chan: "store", name: "260519_아넬라_웰컴박스_0원", imp: 1985, clk: 129, cost: 29096, conv: 0, rev: 0},
+    ],
+    monthlyByMedia: {
+      search: [
+        {m:'1월', cost:3208467,  rev:64495280},
+        {m:'2월', cost:4249286,  rev:72921260},
+        {m:'3월', cost:5412057,  rev:87593040},
+        {m:'4월', cost:4764353,  rev:103271540},
+        {m:'5월', cost:6163843,  rev:81571340},
+        {m:'6월', cost:7368981,  rev:89219220},
+        {m:'7월', cost:7089735,  rev:79653650},
+        {m:'8월', cost:6957467.33, rev:75020090},
+        {m:'9월', cost:7645783, rev:74243460},
+      ],
+      gfa: [
+        {m:'1월', cost:231550,  rev:3498900},
+        {m:'2월', cost:251498,  rev:4804890},
+        {m:'3월', cost:278941,  rev:5578350},
+        {m:'4월', cost:263049,  rev:6776020},
+        {m:'5월', cost:275568,  rev:4349560},
+        {m:'6월', cost:217586,  rev:5095160},
+        {m:'7월', cost:960530,  rev:12477610},
+        {m:'8월', cost:1550249, rev:20986010},
+        {m:'9월', cost:1381159, rev:19239790},
+      ],
+      meta: [
+        {m:'1월', cost:198887,   rev:933100},
+        {m:'2월', cost:4092839,  rev:16795458},
+        {m:'3월', cost:6751162,  rev:32583155},
+        {m:'4월', cost:5540846,  rev:47053618},
+        {m:'5월', cost:6882115,  rev:26862039},
+        {m:'6월', cost:4709247,  rev:14600300},
+        {m:'7월', cost:3718186,  rev:21353290},
+        {m:'8월', cost:4891546, rev:30261680},
+        {m:'9월', cost:4181212, rev:21203260},
+      ],
+    },
+    comment: {"overall": "전체 광고비 1,101만원(-16.7%), 매출액 9,321만원(-18.7%), ROAS 846.8%(전월 868.3%). 9월은 추석세일 기간(9/1~21)에 광고비를 집중한 반면 10월은 넾다세일이 시작된 26일부터 예산을 확대해, 검색 매체 유입·매출이 줄었고 GFA·메타가 일부 보완했습니다.", "groups": [{"title": "네이버 검색광고", "tag": "파워링크 · 쇼핑검색", "items": [{"b": "쇼핑검색", "p": "광고비 356만원(-35%), 클릭 3,434(-32%), 전환율 21.5% → 16.4%(-5.1%p)로 매출액 2,284만원(-42%), ROAS 641%. 퓨레 캠페인이 쇼핑검색 매출의 91%를 차지했습니다. 대행사 분석상 전환율 하락은 월초와 행사 없던 23~25일에 집중됐고, 오늘끝딜·1+1(13~22일)과 넾다세일(26~31일) 구간에는 회복됐습니다."}, {"b": "파워링크", "p": "광고비 75만원(-41%), 클릭 761(-41%)에 전환율 12.1%(전월 12.3%)를 유지했으나 객단가 하락으로 매출액 378만원(-48%), ROAS 507%(전월 576%). 10/14 노출시간 제한 후 10/28 24시간 노출로 원복, 10/21 일부 키워드 감액, 10/26 무전환 지면 제외를 진행했습니다."}]}, {"title": "GFA", "items": [{"b": "전체", "p": "광고비 183만원(+32%), 클릭 2,292(+25%)이었으나 전환율 21.2% → 16.1%로 하락하며 매출액 1,857만원(-3.5%), ROAS 1,393% → 1,015%."}, {"b": "그룹별", "p": "상시 테스트 그룹 매출 1,428만원·ROAS 1,189%로 GFA 매출의 77%. 카탈로그 매출 163만원·ROAS 758%. 넾다세일 그룹은 광고비 30만원·매출 124만원·ROAS 418%. 신규타겟 소구5종(10/14~16)은 광고비 12만원·구매 1건·ROAS 46%로 저조했습니다. 추석세일 그룹은 광고비·클릭이 0인데도 구매 31건·매출 137만원이 집계됐는데, 클릭 이후 지연 전환(DA 광고 특성)이 뒤늦게 반영된 것입니다."}]}, {"title": "메타", "items": [{"b": "전체", "p": "광고비 396만원(-5%), 매출액 2,019만원(-5%), ROAS 510%(전월 507%)로 유지. CPM 상승이 소재 전반에서 공통적으로 확인됐습니다."}, {"b": "소재별", "p": "자사몰 시크릿링크 매출 781만원(검색 671만원·ROAS 474%, 7일뒤 110만원·ROAS 864%). 넾다세일 소재는 제품 208만원(ROAS 1,058%)·사과 68만원(ROAS 849%). 카탈로그는 광고비 113만원·매출 512만원으로 전월(885만원) 대비 42% 감소, ROAS 453%. 파트너십(베이비바우처) 영상은 광고비 77만원·매출 448만원·ROAS 580%."}, {"b": "조치", "p": "CPM 부담을 낮추고 유입 기회를 넓히기 위해 11/3 기존 맞춤타겟을 삭제하고 육아·부모·영유아 관심사 타겟으로 확장했습니다. 이후 CPM과 구매 효율 회복 여부를 점검합니다."}]}]},
+    quad: {"good": ["전체 광고비 16.7% 감액에도 ROAS 846.8%로 800%대 효율 유지 (매출액 9,321만원)", "GFA 상시 테스트 그룹 매출 1,428만원·ROAS 1,189%로 GFA 매출의 77% 견인", "넾다세일 시작(10/26) 직후 메타 넾다세일 소재 매출 276만원 확보 (제품 ROAS 1,058%, 사과 849%)", "메타 시크릿링크 7일뒤 소재 ROAS 864%로 회복"], "bad": ["쇼핑검색 매출 2,284만원(-42%), 전환율 21.5% → 16.4% — 추석세일 집중 집행이던 9월 대비 10월은 26일부터 확대돼 유입 32% 감소", "GFA ROAS 1,393% → 1,015%, 전환율 21.2% → 16.1% 하락 (신규타겟 소구5종은 ROAS 46%)", "메타 카탈로그 매출 512만원(-42%), ROAS 453% — CPM 상승 영향", "파워링크 매출 378만원(-48%), ROAS 507%"], "doing": ["파워링크 10/14 노출시간 제한 후 10/28 24시간 노출로 원복, 10/21 키워드 감액·10/26 무전환 지면 제외 — 넾다세일 종료 후 효과 재점검", "메타 CPM 상승 대응으로 11/3 관심사 타겟 확장 (육아·부모·영유아) 진행, 효율 회복 여부 점검 중", "아넬라 신규 소재 제작 중 — 넾다세일 종료 후 전환 캠페인에서 운영 예정"], "need": ["넾다세일 종료 후 넾다세일 캠페인 OFF → 기존 상시 캠페인 ON, 효율 모니터링 및 필요 시 소재 교체", "행사 공백 구간(월초·23~25일) 전환율 하락 대응 — 이벤트 기간 일예산 유동 증액, 할인 시기에 예산 집중", "GFA 신규 소구 소재 재설계 (소구5종 효율 저조)", "메타 카탈로그·파트너십 효율 증감폭이 커 추가 분석 필요"]},
+  },
+  rosy: {
+    label: '로지오가닉',
+    title: '로지오가닉 월간 리포트',
+    campaigns: [
+      {media: "search", src: "브랜드검색", chan: "store", name: "로지오가닉_브검_모바일", imp: 3410, clk: 1410, cost: 909333.33, conv: 370, rev: 9111480},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_과자_브랜드K", imp: 43237, clk: 659, cost: 820798, conv: 183, rev: 3702880},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_구매K", imp: 20043, clk: 366, cost: 381565, conv: 48, rev: 1152450},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_음료_브랜드K", imp: 16745, clk: 304, cost: 301642, conv: 34, rev: 1079490},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_대표K", imp: 23799, clk: 367, cost: 298478, conv: 40, rev: 895210},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_탐색K", imp: 52300, clk: 569, cost: 371007, conv: 41, rev: 841150},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_그외K", imp: 12238, clk: 120, cost: 55457, conv: 18, rev: 500420},
+      {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_과자 캠페인_신제품", imp: 19864, clk: 191, cost: 301877, conv: 20, rev: 496410},
+      {media: "search", src: "파워링크", chan: "store", name: "SA_로지오가닉 캠페인_신제품K", imp: 10977, clk: 72, cost: 43860, conv: 4, rev: 66700},
+      {media: "gfa", src: "GFA", chan: "store", name: "로지오가닉_카탈로그_리타겟기반", imp: 13259, clk: 219, cost: 204448, conv: 44, rev: 1261700},
+      {media: "gfa", src: "GFA", chan: "store", name: "2610_로지오가닉_넾다세일", imp: 8727, clk: 223, cost: 168987, conv: 22, rev: 414710},
+      {media: "meta", src: "메타", chan: "store", name: "260506_로지오가닉_과자(상시)_ 간식고민", imp: 89303, clk: 1252, cost: 1131270, conv: 358, rev: 11125139},
+      {media: "meta", src: "메타", chan: "mall", name: "260818_자사몰_과자시크릿링크_10봉", imp: 172230, clk: 3405, cost: 1544489, conv: 337, rev: 7970900},
+      {media: "meta", src: "메타", chan: "store", name: "260506_로지오가닉_과자(상시)_할인", imp: 72246, clk: 1023, cost: 884301, conv: 184, rev: 5270973},
+      {media: "meta", src: "메타", chan: "mall", name: "260818_자사몰_과자시크릿링크_먼저사신", imp: 6, clk: 1, cost: 108, conv: 0, rev: 0},
+    ],
+    monthlyByMedia: {
+      search: [
+        {m:'1월', cost:3022577,  rev:13346120},
+        {m:'2월', cost:3852828,  rev:14517640},
+        {m:'3월', cost:4937097,  rev:18320440},
+        {m:'4월', cost:4547781,  rev:15883840},
+        {m:'5월', cost:4222496,  rev:11223890},
+        {m:'6월', cost:3474296,  rev:11323150},
+        {m:'7월', cost:4031232,  rev:20196550},
+        {m:'8월', cost:3973354.33, rev:16709610},
+        {m:'9월', cost:5700579, rev:25794490},
+      ],
+      gfa: [
+        {m:'1월', cost:196800,  rev:1568710},
+        {m:'2월', cost:396397,  rev:1086510},
+        {m:'3월', cost:274375,  rev:1225160},
+        {m:'4월', cost:228045,  rev:1207640},
+        {m:'5월', cost:125052,  rev:709500},
+        {m:'6월', cost:193506,  rev:918580},
+        {m:'7월', cost:575648,  rev:622670},
+        {m:'8월', cost:789077, rev:1503000},
+        {m:'9월', cost:173028, rev:982350},
+      ],
+      meta: [
+        {m:'1월', cost:0, rev:0},
+        {m:'2월', cost:0, rev:0},
+        {m:'3월', cost:726457,   rev:1227500},
+        {m:'4월', cost:576455,   rev:990785},
+        {m:'5월', cost:1025707,  rev:5135976},
+        {m:'6월', cost:1514553,  rev:9657456},
+        {m:'7월', cost:1883461,  rev:11202322},
+        {m:'8월', cost:2796824, rev:18736873},
+        {m:'9월', cost:3329870, rev:18471445},
+      ],
+    },
+    comment: {"overall": "전체 광고비 742만원(-19.4%), 클릭 8% 감소에도 매출액 4,389만원(-3.0%)으로 방어, ROAS 491.6% → 591.7%로 개선됐습니다. 쇼핑검색 감소분을 메타 매출 32% 증가가 보완했습니다.", "groups": [{"title": "네이버 검색광고", "tag": "파워링크 · 쇼핑검색", "items": [{"b": "파워링크", "p": "광고비 115만원(-31%), 클릭 1,494(-16%)였으나 전환율 8.3% → 10.1%(+1.8%p)로 개선돼 매출액 346만원(+7%), ROAS 195% → 300%. 10/21 일부 키워드 입찰가 감액, 10/26 무전환 지면 제외를 진행했고, 넾다세일 종료 후 조치 대상별 성과를 재점검합니다."}, {"b": "쇼핑검색", "p": "광고비 142만원(-55%), 클릭 1,154(-54%)로 매출액 528만원(-59%), ROAS 403% → 371%. 과자 캠페인 광고비 112만원·매출 420만원, 음료 캠페인 광고비 30만원·매출 108만원으로 모두 감소했습니다. 감액 외에도 9월은 추석 행사가 길게 이어진 반면 10월은 상품별 행사와 공백 구간이 섞인 영향이 있습니다. 넾다세일 스킨 이미지를 파워링크·쇼핑검색 썸네일에 적용했습니다."}]}, {"title": "GFA", "items": [{"b": "카탈로그 + 웹사이트 전환", "p": "광고비 37만원(+116%), 클릭 442(+251%), 매출 168만원(+71%)이나 ROAS는 449%. 카탈로그 매출 126만원·ROAS 617%. 넾다세일에 맞춰 재개한 웹전환(10/26~)은 광고비 17만원·구매 22건·매출 41만원·ROAS 245%로 카탈로그보다는 낮습니다. 행사 종료 후 최종 효율을 확인해 대형 행사 한정 운영을 판단합니다."}]}, {"title": "메타", "items": [{"b": "전체", "p": "광고비 356만원(+7%), 매출액 2,437만원(+32%), ROAS 555% → 684%로 전환율과 객단가가 함께 상승했습니다."}, {"b": "소재별", "p": "과자(상시) 간식고민 소재가 매출 288만원 → 1,113만원, ROAS 983%로 증가를 주도했습니다. 할인 소재는 광고비 88만원(-32%)에도 ROAS 596%로 개선. 자사몰 과자 시크릿링크 10봉은 광고비 154만원·매출 797만원, ROAS 638% → 516%로 하락했습니다."}, {"b": "조치", "p": "CPM 상승이 하락 요인으로 보여 11/2 타겟 확장을 진행했고 회복 여부를 모니터링합니다. 넾다세일 종료 후 할인 소재 교체 및 신규 소재 추가를 준비합니다."}]}]},
+    quad: {"good": ["광고비 19.4% 감액에도 매출액 4,389만원(-3.0%) 방어, ROAS 491.6% → 591.7%로 개선", "메타 매출 2,437만원(+32%), ROAS 684% — 간식고민 소재 매출 1,113만원(ROAS 983%)이 주도", "파워링크 ROAS 195% → 300%, 전환율 +1.8%p — 광고비 31% 감액에도 매출 7% 증가", "메타 할인 소재 광고비 32% 감액에도 ROAS 524% → 596% 개선"], "bad": ["쇼핑검색 매출 528만원(-59%), ROAS 371% — 과자·음료 모두 감소 (예산 감액 및 9월 대비 행사 공백)", "메타 과자 시크릿링크 ROAS 638% → 516% 하락 (CPM 상승)", "GFA 웹전환 ROAS 245%로 카탈로그(617%)보다 낮아 GFA 전체 ROAS 449%"], "doing": ["메타 CPM 낮추기 위한 타겟 확장 11/2 진행, 효율 회복 모니터링 중", "파워링크 10/26 무전환 지면 제외 — 넾다세일 종료 후 지면별 효율 재점검", "넾다세일 스킨 이미지를 파워링크·쇼핑검색 썸네일에 적용 (행사 진행 여부 노출)", "네이버 협력광고 신규 소재 제작 중 — 넾다세일 후 할인 소재 교체 예정"], "need": ["이벤트 기간 일예산 유동 증액으로 효율적 소진 (쇼핑검색 유입 방어)", "11월 운영 예산을 할인 시기에 집중하는 전략 검토 — 할인 구간에 전환율·ROAS가 크게 오르는 패턴 확인", "음료 캠페인 전환율 하락(14.1% → 11.2%) 지속 여부 모니터링", "GFA 웹전환은 행사 종료 후 효율 유지 시 대형 행사 한정 운영 검토"]},
+  },
+};
+
+// derive 10월 point from this report's own campaigns + 'all' series + roas for every brand
+Object.values(BRANDS).forEach(b=>{
+  const mb = b.monthlyByMedia;
+  ['search','gfa','meta'].forEach(m=>{
+    const a = agg(b.campaigns.filter(r=>r.media===m));
+    mb[m].push({m:'10월', cost:a.cost, rev:a.rev});
+  });
+  mb.all = mb.search.map((r,i)=>({
+    m:r.m,
+    cost:r.cost+mb.gfa[i].cost+mb.meta[i].cost,
+    rev:r.rev+mb.gfa[i].rev+mb.meta[i].rev,
+  }));
+  [...mb.search,...mb.gfa,...mb.meta,...mb.all].forEach(r=> r.roas = roasOf(r.cost,r.rev));
+});
+
+let curBrand = 'anela';
+let curTrend = 'all';
+
+function donutSvg(shares){
+  // shares: [{key, pct, color}], pct in 0..100, sums ~100
+  const r = 40, C = 2*Math.PI*r;
+  let offset = 0;
+  let out = `<g transform="translate(52,52) rotate(-90)"><circle r="${r}" fill="none" stroke="var(--gridline)" stroke-width="14"/>`;
+  shares.forEach(s=>{
+    const len = s.pct/100*C;
+    out += `<circle r="${r}" fill="none" stroke="${s.color}" stroke-width="14" stroke-dasharray="${len.toFixed(1)} ${C.toFixed(1)}" stroke-dashoffset="${(-offset).toFixed(1)}" stroke-linecap="round"/>`;
+    offset += len;
+  });
+  out += `</g>`;
+  return out;
+}
+
+function renderBrand(key){
+  curBrand = key;
+  const b = BRANDS[key];
+  document.getElementById('brandTitle').textContent = b.title;
+  document.querySelectorAll('#brandSwitch .brand-chip').forEach(el=> el.classList.toggle('active', el.dataset.brand===key));
+
+  const rows = b.campaigns;
+  const total = agg(rows);
+
+  // KPI tiles
+  const kpis = [
+    ['노출', fmt(total.imp), ''],
+    ['클릭', fmt(total.clk), ''],
+    ['광고비', fmt(Math.round(total.cost/10000)), '만원'],
+    ['구매', fmt(total.conv), ''],
+    ['매출액', fmt(Math.round(total.rev/10000)), '만원'],
+    ['ROAS', pct(total.roas).replace('%',''), '%'],
+  ];
+  document.getElementById('kpiGrid').innerHTML = kpis.map(([label,val,unit])=>
+    `<div class="kpi-card"><span class="kpi-label">${label}</span><div class="kpi-value num">${val}<span class="unit">${unit}</span></div></div>`
+  ).join('');
+  document.getElementById('kpiSub').textContent =
+    `노출 ${fmt(total.imp)} · 클릭 ${fmt(total.clk)}(CTR ${pct(total.ctr)}) · CPC ${fmt(total.cpc)}원 · CVR ${pct(total.cvr)}`;
+
+  // quad-grid (GOOD / BAD / 개선하고 있는 것 / 개선이 필요한 것)
+  const quadDefs = [
+    { key:'good', cls:'good', dot:'var(--good)', title:'👍 좋았던 점' },
+    { key:'bad', cls:'bad', dot:'var(--serious)', title:'👎 안좋았던 점' },
+    { key:'doing', cls:'doing', dot:'var(--warning)', title:'🔧 개선하고 있는 것' },
+    { key:'need', cls:'need', dot:'var(--critical)', title:'🎯 개선이 필요한 것' },
+  ];
+  document.getElementById('quadGrid').innerHTML = quadDefs.map(q=>{
+    const lis = (b.quad[q.key]||[]).map(t=>`<li>${t}</li>`).join('');
+    return `<div class="quad ${q.cls}"><div class="quad-head"><span class="quad-dot" style="background:${q.dot}"></span><span class="quad-title">${q.title}</span></div><ul>${lis}</ul></div>`;
+  }).join('');
+
+  // media breakdown
+  const medias = ['search','gfa','meta'];
+  const mediaAgg = {};
+  medias.forEach(m=> mediaAgg[m] = agg(rows.filter(r=>r.media===m)));
+
+  // cost / rev donuts
+  function buildDonut(field, svgId, legendId, subId, totalVal){
+    const shares = medias.map(m=>({
+      key:m, pct: totalVal ? mediaAgg[m][field]/totalVal*100 : 0, color: mediaColor[m]
+    }));
+    document.getElementById(svgId).innerHTML = donutSvg(shares);
+    document.getElementById(legendId).innerHTML = shares.map(s=>
+      `<div class="row"><span class="swatch" style="background:${s.color}"></span><span class="lbl">${mediaLabel[s.key]}</span><span class="pct num">${pct(s.pct)}</span></div>`
+    ).join('');
+    document.getElementById(subId).textContent = `매체 합계 ${fmt(Math.round(totalVal/10000))}만원`;
+  }
+  buildDonut('cost', 'costDonut', 'costLegend', 'costSub', total.cost);
+  buildDonut('rev', 'revDonut', 'revLegend', 'revSub', total.rev);
+
+  // top 5 campaigns by revenue
+  const top5 = [...rows].sort((a,b)=>b.rev-a.rev).slice(0,5);
+  document.querySelector('#topTable tbody').innerHTML = top5.map(r=>{
+    const roas = r.cost ? r.rev/r.cost*100 : 0;
+    const cls = !r.cost ? 'warning' : roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
+    return `<tr><td><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${r.name}</td>` +
+           `<td class="num">${fmt(Math.round(r.rev/10000))}만</td>` +
+           `<td class="num"><span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></td></tr>`;
+  }).join('');
+
+  // media table
+  document.querySelector('#mediaTable tbody').innerHTML = medias.map(m=>{
+    const a = mediaAgg[m];
+    return `<tr><td><span class="media-dot" style="background:${mediaColor[m]}"></span>${mediaLabel[m]}</td>` +
+      `<td class="num">${fmt(a.imp)}</td><td class="num">${fmt(a.clk)}</td><td class="num">${pct(a.ctr)}</td>` +
+      `<td class="num">${fmt(a.cpc)}원</td><td class="num">${fmt(a.cost)}원</td><td class="num">${fmt(a.conv)}</td>` +
+      `<td class="num">${pct(a.cvr)}</td><td class="num">${fmt(a.rev)}원</td><td class="num">${pct(a.roas)}</td></tr>`;
+  }).join('') + `<tr style="font-weight:600;"><td>합계</td>` +
+    `<td class="num">${fmt(total.imp)}</td><td class="num">${fmt(total.clk)}</td><td class="num">${pct(total.ctr)}</td>` +
+    `<td class="num">${fmt(total.cpc)}원</td><td class="num">${fmt(total.cost)}원</td><td class="num">${fmt(total.conv)}</td>` +
+    `<td class="num">${pct(total.cvr)}</td><td class="num">${fmt(total.rev)}원</td><td class="num">${pct(total.roas)}</td></tr>`;
+
+  // full creative/campaign table (매출액 순)
+  const allSorted = [...rows].sort((a,b)=>b.rev-a.rev);
+  document.querySelector('#creativeTable tbody').innerHTML = allSorted.map(r=>{
+    const roas = r.cost ? r.rev/r.cost*100 : 0;
+    const cls = !r.cost ? 'warning' : roas>=500 ? 'good' : roas>=200 ? 'warning' : 'critical';
+    const sub = r.media==='search' ? r.src : (r.chan==='mall' ? '자사몰' : '스마트스토어');
+    return `<tr><td style="white-space:nowrap;"><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${mediaLabel[r.media]}<div style="font-size:11px;color:var(--text-muted);margin-left:13px;">${sub}</div></td><td>${r.name}</td>` +
+      `<td class="num">${fmt(r.imp)}</td><td class="num">${fmt(r.clk)}</td><td class="num">${fmt(r.cost)}원</td>` +
+      `<td class="num">${fmt(r.conv)}</td><td class="num">${fmt(r.rev)}원</td>` +
+      `<td class="num"><span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></td></tr>`;
+  }).join('');
+
+  // comment (agency's monthly-report narrative, cross-checked against raw data above)
+  document.getElementById('commentOverall').textContent = b.comment.overall;
+  document.getElementById('commentAccordion').innerHTML = b.comment.groups.map((g,gi)=>{
+    const items = g.items.map(it=> `<div class="tn-item"><b>${it.b}</b><p>${it.p}</p></div>`).join('');
+    return `<details${gi===0?' open':''}><summary>${g.title}${g.tag?`<span class="tn-tag">${g.tag}</span>`:''}</summary><div class="tn-body">${items}</div></details>`;
+  }).join('');
+
+  renderTrend(curTrend);
+}
+
+
+function monthlyFor(mediaKey){ return BRANDS[curBrand].monthlyByMedia[mediaKey]; }
+
+function renderTrend(mediaKey){
+  curTrend = mediaKey;
+  document.querySelectorAll('#trendTabs .tabbtn').forEach(x=>x.classList.toggle('active', x.dataset.t===mediaKey));
+  const data = monthlyFor(mediaKey);
+  const color = mediaKey==='all' ? 'var(--accent)' : mediaColor[mediaKey];
+  const W=1040,H=300,padL=64,padT=20,padB=34;
+  const plotW = W-padL-40, plotH = H-padT-padB;
+  const n = data.length;
+  const groupW = plotW/n;
+  const maxVal = Math.max(1,...data.map(d=>Math.max(d.cost||0,d.rev||0)));
+  const maxRoas = Math.max(1,...data.map(d=>d.roas||0));
+  const y = v => padT + plotH - (v/maxVal)*plotH;
+  const yR = v => padT + plotH - (v/maxRoas)*plotH;
+
+  let bars='', gridlines='', roasPts=[], labels='';
+  const ticks=4;
+  for(let i=0;i<=ticks;i++){
+    const v = maxVal/ticks*i;
+    const yy = y(v);
+    gridlines += `<line x1="${padL}" y1="${yy}" x2="${padL+plotW}" y2="${yy}" stroke="var(--gridline)" stroke-width="1"/>`;
+    gridlines += `<text x="${padL-8}" y="${yy+3}" text-anchor="end" class="axis-label">${v>=10000?Math.round(v/10000)+'만':Math.round(v)}</text>`;
+  }
+  data.forEach((d,i)=>{
+    const cx = padL + groupW*i + groupW/2;
+    labels += `<text x="${cx}" y="${H-10}" text-anchor="middle" class="axis-label">${d.m}</text>`;
+    if(d.cost===0 && d.rev===0){
+      roasPts.push(null);
+      bars += `<text x="${cx}" y="${padT+plotH/2}" text-anchor="middle" class="axis-label" opacity="0.6">미운영</text>`;
+      return;
+    }
+    const bw = 22;
+    const x1 = cx-bw-3, x2 = cx+3;
+    const hCost = plotH-(y(d.cost)-padT), hRev = plotH-(y(d.rev)-padT);
+    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 광고비" data-value="${fmt(d.cost)}원" x="${x1}" y="${y(d.cost)}" width="${bw}" height="${hCost}" rx="3" fill="${color}" opacity="0.55"/>`;
+    bars += `<rect class="tip-target" data-tip data-label="${d.m} · 매출액" data-value="${fmt(d.rev)}원" x="${x2}" y="${y(d.rev)}" width="${bw}" height="${hRev}" rx="3" fill="${color}"/>`;
+    roasPts.push([cx, yR(d.roas)]);
+  });
+  let roasLine='', roasDots='';
+  const validPts = roasPts.filter(Boolean);
+  if(validPts.length){
+    roasLine = `<polyline points="${validPts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--critical)" stroke-width="2"/>`;
+    roasDots = validPts.map(([x,yy],idx)=>`<circle cx="${x}" cy="${yy}" r="4" fill="var(--critical)"/><text x="${x}" y="${yy-10}" text-anchor="middle" class="axis-label" font-weight="700" fill="var(--critical)">${pct(data.filter(d=>!(d.cost===0&&d.rev===0))[idx].roas)}</text>`).join('');
+  }
+
+  document.getElementById('trendChart').innerHTML = `
+    <svg class="chart" viewBox="0 0 ${W} ${H}">
+      ${gridlines}
+      ${bars}
+      ${roasLine}${roasDots}
+      ${labels}
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:${color};opacity:0.55"></span>광고비(원)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:${color}"></span>매출액(원)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--critical)"></span>ROAS(%, 우측 참고선)</div>
+    </div>`;
+
+  const tip = document.getElementById('chartTooltip');
+  const cardEl = document.getElementById('trendChart').closest('.chart-card');
+  document.querySelectorAll('#trendChart rect[data-tip]').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{
+      tip.innerHTML = `<b>${el.dataset.label}</b>${el.dataset.value}`;
+      tip.classList.add('show');
+    });
+    el.addEventListener('mousemove', e=>{
+      const box = cardEl.getBoundingClientRect();
+      tip.style.left = (e.clientX - box.left) + 'px';
+      tip.style.top = (e.clientY - box.top) + 'px';
+    });
+    el.addEventListener('mouseleave', ()=> tip.classList.remove('show'));
+  });
+}
+document.getElementById('trendTabs').addEventListener('click', e=>{
+  const b = e.target.closest('.tabbtn'); if(!b) return;
+  renderTrend(b.dataset.t);
+});
+
+document.getElementById('brandSwitch').addEventListener('click', e=>{
+  const b = e.target.closest('.brand-chip'); if(!b) return;
+  renderBrand(b.dataset.brand);
+});
+
+renderBrand('anela');
+</script>
