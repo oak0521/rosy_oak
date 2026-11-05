@@ -321,6 +321,7 @@ footer.foot{
 .img-preview{position:fixed;z-index:50;pointer-events:none;opacity:0;transition:opacity .1s;background:var(--surface-1);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:6px;max-width:min(360px,80vw);max-height:min(480px,80vh);}
 .img-preview.show{opacity:1;}
 .img-preview img{display:block;max-width:100%;max-height:468px;border-radius:6px;}
+.mdelta{font-size:11px;font-weight:600;line-height:1.3;}
 </style>
 
 <header class="top">
@@ -404,7 +405,7 @@ footer.foot{
 
   <div class="section" id="media">
     <h2 class="section-title">매체별 성과</h2>
-    <p class="section-sub">네이버 검색광고 · GFA · 메타 — 이번 달 합계</p>
+    <p class="section-sub">네이버 파워링크 · 쇼핑검색 · 브랜드검색 · GFA · 메타 자사몰 · 메타 스마트스토어 — 이번 달 합계, 화살표는 전월(9월) 대비 증감(광고비는 중립색, 마우스를 올리면 전월 값)</p>
     <div style="overflow-x:auto;">
     <table class="data-table" id="mediaTable">
       <thead>
@@ -491,6 +492,7 @@ const BRANDS = {
     title: '아넬라 월간 리포트',
     brandRe: /아넬라|anela|아델라/i,
     prev: {imp:1788808, clk:19105, cost:13208154, conv:2844, rev:114686510},   // 9월 (2026-09 리포트 raw 집계)
+    prevRows: [{media:"search",src:"브랜드검색",chan:"store",imp:4754,clk:2251,cost:880000,conv:644,rev:27641670},{media:"search",src:"쇼핑검색",chan:"store",imp:12710,clk:92,cost:12561,conv:27,rev:490530},{media:"search",src:"쇼핑검색",chan:"store",imp:53842,clk:1181,cost:1783386,conv:228,rev:3586900},{media:"search",src:"쇼핑검색",chan:"store",imp:63107,clk:286,cost:251939,conv:43,rev:1660100},{media:"search",src:"쇼핑검색",chan:"store",imp:38100,clk:1341,cost:854865,conv:426,rev:20004840},{media:"search",src:"쇼핑검색",chan:"store",imp:1084638,clk:2172,cost:2594859,conv:364,rev:13560600},{media:"search",src:"파워링크",chan:"store",imp:9593,clk:33,cost:23231,conv:2,rev:48600},{media:"search",src:"파워링크",chan:"store",imp:8492,clk:26,cost:11931,conv:3,rev:138200},{media:"search",src:"파워링크",chan:"store",imp:4941,clk:183,cost:135214,conv:43,rev:2153260},{media:"search",src:"파워링크",chan:"store",imp:87649,clk:1056,cost:1097797,conv:112,rev:4958760},{media:"gfa",src:"GFA",chan:"store",imp:42343,clk:959,cost:649799,conv:228,rev:11213610},{media:"gfa",src:"GFA",chan:"store",imp:16210,clk:132,cost:187221,conv:24,rev:1014260},{media:"gfa",src:"GFA",chan:"store",imp:25100,clk:743,cost:544139,conv:137,rev:7011920},{media:"meta",src:"메타",chan:"store",imp:51298,clk:1571,cost:757766,conv:109,rev:3931660},{media:"meta",src:"메타",chan:"store",imp:1307,clk:61,cost:21356,conv:0,rev:0},{media:"meta",src:"메타",chan:"store",imp:20746,clk:1290,cost:328001,conv:3,rev:87400},{media:"meta",src:"메타",chan:"mall",imp:1727,clk:56,cost:20512,conv:4,rev:107500},{media:"meta",src:"메타",chan:"mall",imp:128236,clk:2374,cost:1370360,conv:179,rev:7569100},{media:"meta",src:"메타",chan:"mall",imp:7256,clk:155,cost:114694,conv:3,rev:60700},{media:"meta",src:"메타",chan:"mall",imp:534,clk:7,cost:8178,conv:0,rev:0},{media:"meta",src:"메타",chan:"mall",imp:7162,clk:164,cost:139662,conv:9,rev:305100},{media:"meta",src:"메타",chan:"mall",imp:13377,clk:275,cost:211713,conv:10,rev:292300},{media:"meta",src:"메타",chan:"store",imp:105686,clk:2697,cost:1208970,conv:246,rev:8849500}],   // 9월 캠페인별 raw (전월 대비 세부 매체 비교용)
     campaigns: [
       {media: "search", src: "브랜드검색", chan: "store", name: "아넬라_브검_모바일", imp: 4511, clk: 2190, cost: 909333.33, conv: 581, rev: 27823520},
       {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_아넬라_퓨레종합_브랜드K", imp: 40745, clk: 860, cost: 546348, conv: 225, rev: 10834280},
@@ -562,6 +564,7 @@ const BRANDS = {
     title: '로지오가닉 월간 리포트',
     brandRe: /로지|rosy|목소리도맑음/i,
     prev: {imp:666733, clk:11027, cost:9203477, conv:1858, rev:45248285},   // 9월 (2026-09 리포트 raw 집계)
+    prevRows: [{media:"search",src:"브랜드검색",chan:"store",imp:2811,clk:1272,cost:880000,conv:411,rev:9818930},{media:"search",src:"쇼핑검색",chan:"store",imp:37746,clk:391,cost:575833,conv:62,rev:1208540},{media:"search",src:"쇼핑검색",chan:"store",imp:94308,clk:1301,cost:1701502,conv:358,rev:7376960},{media:"search",src:"쇼핑검색",chan:"store",imp:50586,clk:835,cost:883071,conv:118,rev:4154250},{media:"search",src:"파워링크",chan:"store",imp:29102,clk:449,cost:526775,conv:52,rev:1202710},{media:"search",src:"파워링크",chan:"store",imp:16976,clk:142,cost:78773,conv:12,rev:370820},{media:"search",src:"파워링크",chan:"store",imp:37210,clk:528,cost:548794,conv:42,rev:956700},{media:"search",src:"파워링크",chan:"store",imp:13040,clk:69,cost:53859,conv:5,rev:85840},{media:"search",src:"파워링크",chan:"store",imp:64624,clk:585,cost:451972,conv:37,rev:619740},{media:"gfa",src:"GFA",chan:"store",imp:0,clk:0,cost:0,conv:8,rev:298300},{media:"gfa",src:"GFA",chan:"store",imp:9630,clk:126,cost:173028,conv:32,rev:684050},{media:"meta",src:"메타",chan:"store",imp:39475,clk:544,cost:478247,conv:96,rev:2882306},{media:"meta",src:"메타",chan:"store",imp:99310,clk:1459,cost:1301406,conv:272,rev:6819239},{media:"meta",src:"메타",chan:"mall",imp:149754,clk:3098,cost:1355066,conv:350,rev:8682700},{media:"meta",src:"메타",chan:"mall",imp:152,clk:5,cost:1887,conv:0,rev:0},{media:"meta",src:"메타",chan:"mall",imp:13894,clk:136,cost:125303,conv:2,rev:57500},{media:"meta",src:"메타",chan:"mall",imp:8115,clk:87,cost:67961,conv:1,rev:29700}],   // 9월 캠페인별 raw (전월 대비 세부 매체 비교용)
     campaigns: [
       {media: "search", src: "브랜드검색", chan: "store", name: "로지오가닉_브검_모바일", imp: 3410, clk: 1410, cost: 909333.33, conv: 370, rev: 9111480},
       {media: "search", src: "쇼핑검색", chan: "store", name: "SSA_로지오가닉_과자_브랜드K", imp: 43237, clk: 659, cost: 820798, conv: 183, rev: 3702880},
@@ -766,17 +769,34 @@ function renderBrand(key){
     return `<div class="camp-item"><div class="top"><span class="nm" title="${r.name}"><span class="media-dot" style="background:${mediaColor[r.media]}"></span>${r.name}</span><span class="rv num">${fmt(Math.round(r.rev/10000))}만 <span class="status-pill ${cls}">${r.cost?pct(roas):'–'}</span></span></div><div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:${(r.rev/topMax*100).toFixed(1)}%;background:${mediaColor[r.media]}"></div></div></div>`;
   }).join('');
 
-  // media table
-  document.querySelector('#mediaTable tbody').innerHTML = medias.map(m=>{
-    const a = mediaAgg[m];
-    return `<tr><td><span class="media-dot" style="background:${mediaColor[m]}"></span>${mediaLabel[m]}</td>` +
+  // media table (세부 매체별 + 전월 대비)
+  const segs = [
+    ['네이버 파워링크','search', r=>r.media==='search'&&r.src==='파워링크'],
+    ['네이버 쇼핑검색','search', r=>r.media==='search'&&r.src==='쇼핑검색'],
+    ['네이버 브랜드검색','search', r=>r.media==='search'&&r.src==='브랜드검색'],
+    ['GFA','gfa', r=>r.media==='gfa'],
+    ['메타 자사몰','meta', r=>r.media==='meta'&&r.chan==='mall'],
+    ['메타 스마트스토어','meta', r=>r.media==='meta'&&r.chan==='store'],
+  ];
+  const dl = (cur, prev, neutral, fmtPrev) => {
+    if(!prev) return `<div class="mdelta" style="color:var(--text-muted);">전월 –</div>`;
+    const d = (cur/prev-1)*100, up = d>=0, col = neutral ? 'var(--text-secondary)' : (up?'var(--good)':'var(--critical)');
+    return `<div class="mdelta" style="color:${col};" title="전월 ${fmtPrev}">${up?'▲':'▼'} ${Math.abs(d).toFixed(1)}%</div>`;
+  };
+  const mrow = (label, dot, a, p, bold) => {
+    const st = bold ? ' style="font-weight:600;"' : '';
+    return `<tr${st}><td style="white-space:nowrap;">${dot?`<span class="media-dot" style="background:${dot}"></span>`:''}${label}</td>` +
       `<td class="num">${fmt(a.imp)}</td><td class="num">${fmt(a.clk)}</td><td class="num">${pct(a.ctr)}</td>` +
-      `<td class="num">${fmt(a.cpc)}원</td><td class="num">${fmt(a.cost)}원</td><td class="num">${fmt(a.conv)}</td>` +
-      `<td class="num">${pct(a.cvr)}</td><td class="num">${fmt(a.rev)}원</td><td class="num">${pct(a.roas)}</td></tr>`;
-  }).join('') + `<tr style="font-weight:600;"><td>합계</td>` +
-    `<td class="num">${fmt(total.imp)}</td><td class="num">${fmt(total.clk)}</td><td class="num">${pct(total.ctr)}</td>` +
-    `<td class="num">${fmt(total.cpc)}원</td><td class="num">${fmt(total.cost)}원</td><td class="num">${fmt(total.conv)}</td>` +
-    `<td class="num">${pct(total.cvr)}</td><td class="num">${fmt(total.rev)}원</td><td class="num">${pct(total.roas)}</td></tr>`;
+      `<td class="num">${fmt(a.cpc)}원</td>` +
+      `<td class="num">${fmt(a.cost)}원${dl(a.cost,p.cost,true,fmt(p.cost)+'원')}</td>` +
+      `<td class="num">${fmt(a.conv)}${dl(a.conv,p.conv,false,fmt(p.conv)+'건')}</td>` +
+      `<td class="num">${pct(a.cvr)}</td>` +
+      `<td class="num">${fmt(a.rev)}원${dl(a.rev,p.rev,false,fmt(p.rev)+'원')}</td>` +
+      `<td class="num">${pct(a.roas)}${dl(a.roas,p.roas,false,pct(p.roas))}</td></tr>`;
+  };
+  document.querySelector('#mediaTable tbody').innerHTML = segs.map(([label,mk,f])=>
+    mrow(label, mediaColor[mk], agg(rows.filter(f)), agg((b.prevRows||[]).filter(f)))
+  ).join('') + mrow('합계', null, total, agg(b.prevRows||[]), true);
 
   // full creative/campaign table (매출액 순)
   const allSorted = [...rows].sort((a,b)=>b.rev-a.rev);
