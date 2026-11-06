@@ -194,11 +194,18 @@ footer.foot{border-top:1px solid var(--border);margin-top:30px;padding-top:14px;
     </table>
   </div>
   <div class="card chart-wrap" style="margin-top:14px" id="dailyCard">
-    <h3>10월 일별 신규 응모</h3>
-    <p class="card-sub">막대 위 숫자는 일 최고치와 마지막 날 값 · 광고 집행일은 인디고, 미집행일은 회색</p>
+    <h3>일별 신규 응모 (10/1~11/6)</h3>
+    <p class="card-sub">광고 집행일은 인디고, 미집행일은 회색입니다. 11/6은 당일 일부만 집계됐습니다. 번호는 운영계획의 리뉴얼 이력과 같습니다(3은 10/30 모바일 리뉴얼, 4는 11/6 원복 예정)</p>
     <div id="dailyChart"></div>
     <div class="tip" id="tipDaily"></div>
-    <div class="legend"><span><i style="background:var(--prev)"></i>광고 미집행 (10/1~10/15)</span><span><i style="background:var(--accent)"></i>광고 집행 (10/16~10/31)</span></div>
+    <div class="legend"><span><i style="background:var(--prev)"></i>광고 미집행 (10/1~10/15)</span><span><i style="background:var(--accent)"></i>광고 집행 (10/16~)</span></div>
+  </div>
+  <div class="callout warn" id="novCall"></div>
+  <div class="card chart-wrap" style="margin-top:14px" id="appMonthCard">
+    <h3>월별 신규 응모 (4/30 오픈~11/6)</h3>
+    <p class="card-sub">참여 번호 순서로 센 신규 응모입니다. 이전 응모자의 수정 기록은 제외했습니다. 전체 1,394건입니다</p>
+    <div id="appMonthChart"></div>
+    <div class="tip" id="tipAppMonth"></div>
   </div>
   <div class="callout" id="welCall"></div>
 </section>
@@ -324,7 +331,7 @@ footer.foot{border-top:1px solid var(--border);margin-top:30px;padding-top:14px;
 </section>
 
 <footer class="foot">
-  데이터 출처: 월간 리포트 2026.09·2026.10의 Meta 광고관리자 raw 집계(캠페인 이름의 브랜드 기준), 웰컴박스 9월 집행 실적(사용자 제공), 웰컴박스 신청 설문 엑셀(9월·10월), 자사몰 회원 리스트(2026.11.06 기준 가입일), 자사몰 매출 CSV(10/1~10/28, 실결제 기준), Meta 일별 raw(10/1~10/28).
+  데이터 출처: 월간 리포트 2026.09·2026.10의 Meta 광고관리자 raw 집계(캠페인 이름의 브랜드 기준), 웰컴박스 9월 집행 실적(사용자 제공), 웰컴박스 신청 설문 엑셀(9월·10월, 전체기간 명단 4/30~11/6), 자사몰 회원 리스트(2026.11.06 기준 가입일), 자사몰 매출 CSV(10/1~10/28, 실결제 기준), Meta 일별 raw(10/1~10/28).
   <br>웰컴박스 광고는 캠페인 이름에 '자사몰(웰컴박스)'가 있어 자사몰 광고로 집계했고, 월간 리포트에서는 아넬라 이름의 광고로 분류돼 있습니다. 신규 응모는 설문 참여 번호 기준으로 9월 997~1219의 223건, 10월 1220~1385의 166건입니다. 9월 엑셀 246행 중 이전 응모자의 수정 기록 23건과 10월 엑셀 179행 중 13건은 제외했습니다. 10/29~31 Meta 수치는 월간 리포트 합계에서 10/28까지의 raw를 뺀 추정값이며, 매출은 늦게 반영된 전환이 섞여 있어 실제보다 높게 잡혔을 수 있습니다.
 </footer>
 </main>
@@ -363,7 +370,12 @@ const WEL = {
   oct:{imp:14084,clk:1104,cost:235765,apps:166,onApps:140,days:16,monthDays:31}
 };
 // 10/1~10/31 일별 웰컴박스 신규 응모. 광고는 10/16부터
-const DAILY = [5,2,1,3,1,4,1,1,2,1,0,1,1,2,1,8,12,10,16,16,7,12,8,3,9,2,7,10,4,7,9];
+const DAILY = [5,2,1,3,1,4,1,1,2,2,0,0,1,3,0,8,12,10,16,16,7,12,8,3,9,2,7,10,4,7,9];
+// 11/1~11/6 (11/6은 당일 일부). 웰컴박스 전체기간 명단 기준, 광고는 계속 집행 예정
+const NOV = [0,0,1,2,3,3];
+const DAILY_ALL = DAILY.concat(NOV);
+// 월별 신규 응모 (참여 번호 순서 기준, 4/30 오픈~11/6)
+const APP_MONTH = [['4월',1],['5월',223],['6월',305],['7월',226],['8월',241],['9월',223],['10월',166],['11월',9]];
 const AD_START = 15;
 // 월별 신규가입자 (회원 리스트 가입일, 2026.11.06 기준)
 const MEM = [['1월',265],['2월',5],['3월',152],['4월',73],['5월',397],['6월',583],['7월',574],['8월',882],['9월',1082],['10월',918]];
@@ -404,6 +416,7 @@ const cpaOnSep = WEL.sep.cost/WEL.sep.onApps, cpaOnOct = WEL.oct.cost/WEL.oct.on
 function incr(w){ const offRate=(w.apps-w.onApps)/(w.monthDays-w.days); const inc=w.onApps-offRate*w.days; return {offRate, inc, cpa:w.cost/inc}; }
 const iS = incr(WEL.sep), iO = incr(WEL.oct);
 const viaSep = CLS[0][1]+CLS[1][1], viaOct = CLS[0][2]+CLS[1][2];
+const nov5 = NOV.slice(0,5).reduce((a,b)=>a+b,0)/5;
 const avg = (a,b) => { const x = SIGN.slice(a,b+1); return x.reduce((p,q)=>p+q,0)/x.length; };
 
 function chip(cur,prev,opts={}){
@@ -442,6 +455,7 @@ const li = a => a.map(t=>'<li>'+t+'</li>').join('');
   document.getElementById('qBad').innerHTML = li([
     '신규회원이 '+fmt(memSep)+'명 → '+fmt(memOct)+'명(-'+dec1((memSep-memOct)/memSep*100)+'%), 신규회원당 광고비는 '+fmt(cacSep)+'원 → '+fmt(cacOct)+'원(+'+dec1((cacOct-cacSep)/cacSep*100)+'%)입니다. 감소 '+fmt(memSep-memOct)+'명 중 웰컴박스 경유는 '+fmt(viaSep-viaOct)+'명, 나머지 '+fmt(memSep-memOct-(viaSep-viaOct))+'명은 그 외 유입입니다',
     '시크릿링크 매출 '+man(S.rev)+' → '+man(O.rev)+'(-'+dec1(Math.abs((O.rev-S.rev)/S.rev*100))+'%), ROAS '+dec1(S.roas-O.roas)+'%p 하락. 10월 내내 구매 전환율은 9%대를 유지했고 CPM이 9,009원 → 11,172원으로 올랐습니다',
+    '웰컴박스 신규 응모가 11/1~11/5 일 평균 '+dec1(nov5)+'명으로 10월 광고 집행일(일 '+dec1(WEL.oct.onApps/WEL.oct.days)+'명)의 '+Math.round(nov5/(WEL.oct.onApps/WEL.oct.days)*100)+'% 수준으로 급감했습니다',
     '10/30 모바일 리뉴얼 이후 일평균 신규회원 '+dec1(avg(29,35))+'명으로 직전 7일('+dec1(avg(22,28))+'명)보다 '+dec1((1-avg(29,35)/avg(22,28))*100)+'% 적고, 10/29~31 시크릿링크 전환율은 6.4%였습니다'
   ]);
   document.getElementById('qDoing').innerHTML = li([
@@ -451,7 +465,7 @@ const li = a => a.map(t=>'<li>'+t+'</li>').join('');
     '11/9(월)부터 로지 진맑 배도라지 시크릿링크를 일예산 3만원으로 시작합니다. 기존 시크릿링크 캠페인별 예산은 동일합니다'
   ]);
   document.getElementById('qNeed').innerHTML = li([
-    '11/1 이후 웰컴박스 신청자 명단(11/15 이후). 광고 한 달(10/16~11/15) 기준 신청자당 광고비를 계산하려면 필요합니다',
+    '11/1~11/6 웰컴박스 광고의 Meta 집행 데이터(광고세트 상태, 일별 지출·노출·클릭). 신청 급감이 광고 문제인지 신청 경로 문제인지 가르는 데 필요합니다',
     '배도라지 시크릿링크 상품 판매가(객단가)와 목표 ROAS. 판단 기준 숫자를 확정하는 데 필요합니다',
     '신청서에 적은 쇼핑몰 아이디가 회원과 맞지 않는 신청이 9월 38건, 10월 25건입니다. 입력 안내를 점검하세요',
     '시크릿링크 소재 교체일, 팝업 클릭 데이터(GA 이벤트)'
@@ -545,7 +559,18 @@ const li = a => a.map(t=>'<li>'+t+'</li>').join('');
     '<li><b>월 전체 기준 신청자당 광고비는 '+fmt(cpaSep)+'원 → '+fmt(cpaOct)+'원으로 '+dec1((cpaSep-cpaOct)/cpaSep*100)+'% 낮아졌습니다.</b> 광고비가 '+dec1((1-o.cost/s.cost)*100)+'% 줄 때 신규 응모는 '+dec1((1-o.apps/s.apps)*100)+'%만 줄었습니다.</li>'+
     '<li><b>광고가 늘린 응모만 보면 '+fmt(iS.cpa)+'원 → '+fmt(iO.cpa)+'원으로 같습니다.</b> 광고 없는 날에도 일 '+dec1(iO.offRate)+'~'+dec1(iS.offRate)+'명이 들어오는데, 광고 규모가 작아지면 이 자연 신청이 평균에서 차지하는 몫이 커져 단가가 낮아 보입니다. 광고 자체의 효율이 좋아진 것은 아닙니다.</li>'+
     '<li>일예산을 절반으로 줄여도 광고가 만드는 신청의 단가는 늘지 않았다는 점이 실무 결론입니다. 신규 응모 규모는 광고비에 비례해 줄었습니다.</li>'+
-    '<li>광고 한 달 예상(10/16~11/15 31일, 현 추세 유지 시): 집행일당 약 '+fmt(o.cost/o.days)+'원이면 광고비 약 '+man(o.cost/o.days*31)+', 신규 응모 약 '+Math.round(o.onApps/o.days*31)+'명(집행일 평균 일 '+dec1(o.onApps/o.days)+'명 기준)입니다. 이 구간은 광고가 계속 켜져 있어 신청자당 광고비를 집행일 기준(약 '+fmt(cpaOnOct)+'원)으로 비교하는 것이 맞습니다.</li>'+
+    '<li>광고 한 달 예상(10/16~11/15 31일): 10월 추세(집행일당 약 '+fmt(o.cost/o.days)+'원, 일 '+dec1(o.onApps/o.days)+'명)가 이어지면 광고비 약 '+man(o.cost/o.days*31)+', 신규 응모 약 '+Math.round(o.onApps/o.days*31)+'명입니다. 다만 11/1~11/5 실적이 일 '+dec1(nov5)+'명이라 원인이 확인되기 전까지 이 예상은 유효하지 않습니다.</li>'+
+    '</ul>';
+})();
+
+(function(){
+  const o = WEL.oct, onDay = o.onApps/o.days, perDay = o.cost/o.days;
+  document.getElementById('novCall').innerHTML =
+    '<b>11월 첫 주 신규 응모가 급감했습니다</b><ul>'+
+    '<li>11/1~11/5 신규 응모는 '+NOV.slice(0,5).reduce((a,b)=>a+b,0)+'건(일 평균 '+dec1(nov5)+'명)으로, 10월 광고 집행일 평균 '+dec1(onDay)+'명의 '+Math.round(nov5/onDay*100)+'% 수준입니다. 광고가 없던 10/1~10/15(일 '+dec1(iO.offRate)+'명)과 비슷한 수준입니다. 11/1·11/2는 0건이었습니다.</li>'+
+    '<li>같은 기간 일별 신규 가입자는 15~28명으로 크게 줄지 않았습니다. 웰컴박스 신청 경로만 줄었다는 뜻입니다.</li>'+
+    '<li>광고가 일 '+fmt(perDay)+'원으로 켜져 있었다면 11/1~11/6 광고비는 약 '+man(perDay*6)+'이고 신청자당 광고비는 약 '+fmt(perDay*6/NOV.reduce((a,b)=>a+b,0))+'원입니다. 10월 집행일 기준 '+fmt(cpaOnOct)+'원의 6배 수준입니다.</li>'+
+    '<li><b>먼저 확인할 것:</b> Meta 광고관리자에서 11/1 이후 웰컴박스 광고세트의 상태와 일별 지출·노출·클릭을 봐주세요. 클릭이 10월과 비슷한데 신청만 줄었다면 광고가 아니라 신청 경로(10/30 모바일 리뉴얼 이후 배너·팝업 링크, 신청서 접속)를 점검해야 합니다. 클릭이 줄었다면 광고 집행·소재·예산 문제입니다.</li>'+
     '</ul>';
 })();
 
@@ -590,7 +615,7 @@ const li = a => a.map(t=>'<li>'+t+'</li>').join('');
     '<li><b>10/12 퓨레 상세:</b> 아넬라 전환율이 6.8% → 7.8%로 일부 회복했지만 리뉴얼 전(8.2%)에는 못 미칩니다. 뚜렷한 개선으로 보기는 어렵습니다.</li>'+
     '<li><b>ROAS 하락은 CPM 영향이 큽니다.</b> 10/1~7 604% → 10/12~28 489%로 내려가는 동안 전환율은 9%대를 유지했고 CPM이 9,009원 → 11,172원(+24%)으로 올랐습니다.</li>'+
     '<li><b>10/30 모바일 리뉴얼:</b> 10/29~31 전환율 6.4%는 10월 가장 낮고, 10/30~11/5 일평균 신규회원 '+dec1(avg(29,35))+'명은 직전 7일('+dec1(avg(22,28))+'명)보다 '+dec1((1-avg(29,35)/avg(22,28))*100)+'% 적습니다. 다만 전환율은 10/22~28에 이미 7.5%로 내려와 있었고 10/29는 리뉴얼 전이며 표본이 31건이라, 리뉴얼 때문이라고 단정하기는 이릅니다.</li>'+
-    '<li><b>광고 변경 때문은 아닙니다.</b> 11월에도 웰컴박스 광고는 일 1.5만원 수준으로 켜져 있고 시크릿링크 캠페인별 예산도 10월과 같아, 10/30 이후 신규회원 감소를 예산 변경으로 설명할 수는 없습니다. CPM 상승과 모바일 리뉴얼이 남는 후보입니다.</li>'+
+    '<li><b>예산 변경 때문은 아닙니다.</b> 시크릿링크 캠페인별 예산은 10월과 같고 웰컴박스 광고도 일 1.5만원으로 켜 두기로 했으니, 10/30 이후 신규회원 감소를 예산 변경으로 설명할 수는 없습니다. 다만 웰컴박스 신청은 11/1부터 거의 끊겨(일 1.2명) 웰컴박스 섹션의 확인이 먼저입니다. CPM 상승과 모바일 리뉴얼이 남는 후보입니다.</li>'+
     '<li><b>11/6 원복 후 판단:</b> 11/13에 원복 후 7일의 전환율과 일평균 신규회원을 이 표에 한 줄 더 넣어 비교하세요. 11/9부터 신규 배도라지 시크릿링크(일 3만원)가 시작돼 신규회원 수에는 그 유입이 섞입니다. 전환율은 기존 캠페인(과자 10봉, 아넬라 검색·7일뒤)만 따로 봐야 원복 효과를 구분할 수 있습니다.</li>'+
     '</ul>';
 })();
@@ -630,8 +655,11 @@ function barChart(opts){
     el.addEventListener('mouseleave', ()=>tipEl.classList.remove('show'));
   });
 }
-barChart({id:'dailyChart', tipId:'tipDaily', boxId:'dailyCard', w:760, h:220, label:'10월 일별 신규 웰컴박스 응모 수', labelEvery:3,
-  data: DAILY.map((v,i)=>({v, x:(i+1)+'일', c: i>=AD_START ? 'var(--accent)' : 'var(--prev)', t:'<b>10/'+(i+1)+'</b><br>신규 응모 '+v+'명 · '+(i>=AD_START?'광고 집행':'광고 미집행')}))});
+barChart({id:'dailyChart', tipId:'tipDaily', boxId:'dailyCard', w:760, h:230, label:'10월 1일부터 11월 6일까지 일별 신규 웰컴박스 응모 수', labelEvery:4,
+  markers:[{i:15,n:'광',ad:true},{i:29,n:3},{i:36,n:4}],
+  data: DAILY_ALL.map((v,i)=>({v, x:signLabel(i), c: i>=AD_START ? 'var(--accent)' : 'var(--prev)', t:'<b>'+signLabel(i)+'</b><br>신규 응모 '+v+'명 · '+(i>=AD_START?'광고 집행':'광고 미집행')+(i===36?'<br>집계 중(당일 일부)':'')}))});
+barChart({id:'appMonthChart', tipId:'tipAppMonth', boxId:'appMonthCard', w:760, h:200, label:'월별 신규 웰컴박스 응모 수', labelAll:true,
+  data: APP_MONTH.map(m=>({v:m[1], x:m[0]==='11월'?'11월(6일까지)':m[0], c: m[0]==='10월' ? 'var(--accent)' : (m[0]==='11월' ? 'var(--warning)' : 'var(--prev)'), t:'<b>'+m[0]+'</b><br>신규 응모 '+fmt(m[1])+'명'}))});
 barChart({id:'memChart', tipId:'tipMem', boxId:'memCard', w:760, h:220, label:'월별 신규가입자', labelAll:true,
   data: MEM.map(m=>({v:m[1], x:m[0], c: m[0]==='10월' ? 'var(--accent)' : 'var(--prev)', t:'<b>'+m[0]+'</b><br>신규가입자 '+fmt(m[1])+'명'}))});
 barChart({id:'signChart', tipId:'tipSign', boxId:'signCard', w:760, h:230, label:'10월 1일부터 11월 6일까지 일별 신규가입자와 리뉴얼 시점', labelEvery:4,
