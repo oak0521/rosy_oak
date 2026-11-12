@@ -271,6 +271,12 @@ is off-limits) — a human still has to download and attach the files each week.
     recorded, so a tracking gap still needs to be called out rather than mistaken for a real
     performance drop.
 
+### 행사(넾다세일 등) 비교 집계 기준 (2026.11 확정 — follow it)
+같은 기간·같은 범위인데 출처마다 값이 다르면(예: 우리 주간 스냅샷은 집계 시점의 하한값이고, 대행사 집계는
+후행 전환이 반영돼 더 높음 — 아넬라 넾다 하반기 1주차 매출 3,072만 vs 3,327만) **높은 쪽 값으로 통일**해서
+상·하반기 비교와 목표 대비 달성률을 낸다. 어느 값을 썼는지(대행사 집계 등)는 채팅에서 밝힌다. 브랜드검색
+정액 광고비를 총계에 넣는지 여부도 출처 간 차이가 나는 원인이므로 같이 확인한다.
+
 ### 브랜드검색 commentary threshold (established 2026.09 — follow it)
 네이버 브랜드검색은 대부분 영업팀이 직접 관리한다 — 사용자는 데이터 흐름만 확인하고, 문제가 있을
 때만 개입한다. 그래서 핵심요약(quad-grid)에는 **브랜드검색에 대한 코멘트를 기본적으로 쓰지 않는다**
