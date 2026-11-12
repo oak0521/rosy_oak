@@ -271,6 +271,20 @@ is off-limits) — a human still has to download and attach the files each week.
     recorded, so a tracking gap still needs to be called out rather than mistaken for a real
     performance drop.
 
+### 모든 섹션 자동 갱신 원칙 (2026.11 확정 — follow it)
+주간·월간 리포트는 **모든 섹션**(핵심요약, 코멘트, 월별 추이 차트·코멘트, 매체별 성과, 소재별 성과, 키워드 등)을
+그 주/월 기준으로 갱신한다. 한 번 만든 섹션이 옛 기간 값에 머무르면 안 된다(월별 추이가 8월에 멈춰 있다가
+11월에 발견된 사례). 갱신에 필요한 내용·자료가 저장소와 대화에 없으면 임의로 채우거나 건너뛰지 말고 **사용자에게
+요청**한다. 구체적으로:
+- **주간:** 새 주차를 쓸 때 직전 `campaigns`를 `BRANDS[brand].prevCampaigns`로 옮긴 뒤 새 `campaigns`를 넣는다
+  (`#media`의 전주 대비 증감 표시가 이 배열을 쓴다). `#media`의 `section-sub`("증감은 전주(M/D–M/D) 대비")
+  날짜도 갱신한다. 월이 바뀐 뒤 첫 주에는 `#trend`가 전월 값을 쓰도록 월간 리포트의 직전 월 점·코멘트를 가져온다.
+- **월별 추이(`#trend`):** 월간 리포트를 만들 때 그 달 점(search/gfa/meta)과 "N월 전월대비" 코멘트를 주간
+  리포트의 `monthlyByMedia`·`.trend-notes`에도 같이 넣는다(월간 `campaigns` 합계 = 점, 월간 `comment` = 코멘트).
+- **소재 이미지:** 사용자가 보내는 신규 광고소재는 소재명(`campaigns[].name`)과 짝을 확인한 뒤 `CREATIVE_IMAGES`에
+  넣는다. 소재명을 알 수 없으면 사용자에게 묻는다. **아넬라 GFA는 메타와 같은 소재를 쓴다**(GFA+메타 동일 소재) —
+  아넬라 GFA 행의 썸네일은 대응하는 메타 소재 이미지를 재사용한다(대응 소재가 불명확하면 사용자에게 묻는다).
+
 ### 행사(넾다세일 등) 비교 집계 기준 (2026.11 확정 — follow it)
 같은 기간·같은 범위인데 출처마다 값이 다르면(예: 우리 주간 스냅샷은 집계 시점의 하한값이고, 대행사 집계는
 후행 전환이 반영돼 더 높음 — 아넬라 넾다 하반기 1주차 매출 3,072만 vs 3,327만) **높은 쪽 값으로 통일**해서

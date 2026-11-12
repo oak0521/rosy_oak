@@ -194,6 +194,12 @@ h2.section-title{font-size:18px;font-weight:700;margin:0;letter-spacing:-0.01em;
 .kpi{padding:13px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface-1);}
 .kpi .l{font-size:11px;color:var(--text-muted);margin-bottom:5px;}
 .kpi .v{font-size:16px;font-weight:600;}
+.kpi .d{display:inline-block;margin-top:4px;font-size:10.5px;font-weight:600;padding:1px 6px;border-radius:999px;}
+.kpi .d.up,td .d.up{color:var(--good);}
+.kpi .d.down,td .d.down{color:var(--critical);}
+.kpi .d.na,td .d.na{color:var(--text-muted);}
+.kpi .d.up{background:var(--good-soft);} .kpi .d.down{background:var(--critical-soft);}
+td .d{display:block;font-size:10.5px;font-weight:600;line-height:1.2;margin-top:2px;}
 
 /* ---------- summary highlight cards (2026.09 design refresh) ---------- */
 .sum-kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:16px;}
@@ -830,7 +836,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <div class="section-head">
       <div>
         <h2 class="section-title">매체별 성과</h2>
-        <p class="section-sub">2026.11.02 – 11.08 (11월 1주차, 네이버·메타 raw data 직접 집계) · 매체 → 판매채널(스마트스토어/자사몰) 순으로 확인</p>
+        <p class="section-sub">2026.11.02 – 11.08 (11월 1주차, 네이버·메타 raw data 직접 집계) · 증감은 전주(10/26–11/1) 대비 · 매체 → 판매채널(스마트스토어/자사몰) 순으로 확인</p>
       </div>
     </div>
 
@@ -971,6 +977,35 @@ const BRANDS = {
       {media:'meta', src:'메타', chan:'mall', name:'260729_자사몰_시크릿링크_7일뒤', imp:2694, clk:49, cost:46597, conv:4, rev:140600},
       {media:'meta', src:'메타', chan:'mall', name:'260519_아넬라_웰컴박스_공짜', imp:1867, clk:171, cost:33104, conv:1, rev:14700},
     ],
+    // 전주(직전 주차) 캠페인 — 매체별 성과의 전주 대비 증감 계산용. 새 주차를 쓸 때 직전 campaigns를 여기로 옮긴다.
+    prevCampaigns: [
+      // 파워링크
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_브랜드K', imp:518, clk:23, cost:21671, conv:4, rev:135100},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_퓨레K', imp:9992, clk:95, cost:90391, conv:17, rev:706500},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_베이비바우처', imp:351, clk:3, cost:856, conv:1, rev:45900},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_아넬라 캠페인_과자k(브랜드)', imp:764, clk:3, cost:2248, conv:0, rev:0},
+      // 쇼핑검색
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_퓨레종합_브랜드K', imp:10412, clk:236, cost:146306, conv:77, rev:3653990},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_퓨레종합_일반K', imp:358908, clk:569, cost:614956, conv:78, rev:3336260},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_퓨레개별_통합k', imp:21255, clk:36, cost:32964, conv:4, rev:202260},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_과자(떡뻥)_브랜드K', imp:488, clk:16, cost:3523, conv:5, rev:93660},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_아넬라_과자(떡뻥)_일반K', imp:9069, clk:184, cost:275879, conv:34, rev:704520},
+      // 브랜드검색
+      {media:'search', src:'브랜드검색', chan:'store', name:'아넬라_브검_모바일', imp:1000, clk:533, cost:205333, conv:194, rev:9402810},
+      // GFA
+      {media:'gfa', src:'GFA', chan:'store', name:'넾다세일', imp:19515, clk:303, cost:345565, conv:31, rev:1374510},
+      {media:'gfa', src:'GFA', chan:'store', name:'아넬라_상시_테스트 운영', imp:1222, clk:22, cost:14314, conv:82, rev:4328770},
+      {media:'gfa', src:'GFA', chan:'store', name:'아넬라_카탈로그_리타겟기반', imp:3646, clk:54, cost:53158, conv:14, rev:632800},
+      // 메타
+      {media:'meta', src:'메타', chan:'store', name:'261026_아넬라_넾다세일_사과', imp:6776, clk:100, cost:84809, conv:21, rev:796500},
+      {media:'meta', src:'메타', chan:'store', name:'261026_아넬라_넾다세일_제품', imp:17790, clk:308, cost:251838, conv:72, rev:2532868},
+      {media:'meta', src:'메타', chan:'store', name:'아넬라_카탈로그_260629', imp:1412, clk:36, cost:12234, conv:13, rev:500500},
+      {media:'meta', src:'메타', chan:'store', name:'260305_아넬라_베이비바우처(파트너십영상)_2', imp:622, clk:13, cost:10325, conv:17, rev:708034},
+      {media:'meta', src:'메타', chan:'mall', name:'260729_자사몰_시크릿링크_검색', imp:23682, clk:469, cost:324429, conv:35, rev:1317397},
+      {media:'meta', src:'메타', chan:'mall', name:'260519_아넬라_웰컴박스_0원', imp:591, clk:43, cost:8267, conv:0, rev:0},
+      {media:'meta', src:'메타', chan:'mall', name:'260519_아넬라_웰컴박스_공짜', imp:5306, clk:434, cost:97217, conv:0, rev:0},
+      {media:'meta', src:'메타', chan:'mall', name:'260729_자사몰_시크릿링크_7일뒤', imp:1759, clk:49, cost:29217, conv:6, rev:247400},
+    ],
     mediaNotes: {
       search: [
         {label:"파워링크", text:"전주 대비 광고비 38% 증액 운영되며 유입(클릭수) 43% 증가 → 전환율 7.01%p·객단가 2% 하락하며 매출 16% 감소한 약 75만원 확보(ROAS 771%→471%). 11/4(수) 노출 시간 제한 해제(24시간 노출). 유입은 확대됐지만 전환율 하락으로 추가 유입이 구매 확대로 이어지지 않음."},
@@ -1052,6 +1087,28 @@ const BRANDS = {
       {media:'meta', src:'메타', chan:'mall', name:'260818_자사몰_과자시크릿링크_쉿', imp:3853, clk:83, cost:41258, conv:2, rev:34500},
       {media:'meta', src:'메타', chan:'mall', name:'260818_자사몰_과자시크릿링크_먼저사신', imp:44, clk:0, cost:508, conv:0, rev:0},
     ],
+    // 전주(직전 주차) 캠페인 — 매체별 성과의 전주 대비 증감 계산용. 새 주차를 쓸 때 직전 campaigns를 여기로 옮긴다.
+    prevCampaigns: [
+      // 파워링크
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_대표K', imp:4783, clk:90, cost:71821, conv:13, rev:274400},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_구매K', imp:3954, clk:81, cost:82189, conv:19, rev:376630},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_그외K', imp:1876, clk:25, cost:14140, conv:3, rev:63100},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_탐색K', imp:11152, clk:113, cost:69479, conv:9, rev:149900},
+      {media:'search', src:'파워링크', chan:'store', name:'SA_로지오가닉 캠페인_신제품K', imp:3198, clk:27, cost:14940, conv:2, rev:40700},
+      // 쇼핑검색
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_로지오가닉_과자_브랜드K', imp:10743, clk:233, cost:280787, conv:82, rev:1649270},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_로지오가닉_과자 캠페인_신제품', imp:3832, clk:48, cost:76083, conv:7, rev:166520},
+      {media:'search', src:'쇼핑검색', chan:'store', name:'SSA_로지오가닉_음료_브랜드K', imp:4985, clk:94, cost:100912, conv:10, rev:365220},
+      // 브랜드검색
+      {media:'search', src:'브랜드검색', chan:'store', name:'로지오가닉_브검_모바일', imp:762, clk:316, cost:205333, conv:102, rev:2240830},
+      // GFA
+      {media:'gfa', src:'GFA', chan:'store', name:'2610_로지오가닉_넾다세일', imp:10056, clk:257, cost:198273, conv:24, rev:448010},
+      {media:'gfa', src:'GFA', chan:'store', name:'로지오가닉_카탈로그_리타겟기반', imp:4367, clk:46, cost:44577, conv:12, rev:300260},
+      // 메타
+      {media:'meta', src:'메타', chan:'store', name:'260506_로지오가닉_과자(상시)_할인', imp:10820, clk:156, cost:112956, conv:45, rev:1588827},
+      {media:'meta', src:'메타', chan:'store', name:'260506_로지오가닉_과자(상시)_간식고민', imp:14707, clk:213, cost:173326, conv:76, rev:2428087},
+      {media:'meta', src:'메타', chan:'mall', name:'260818_자사몰_과자시크릿링크_10봉', imp:35371, clk:699, cost:358602, conv:63, rev:1404500},
+    ],
     mediaNotes: {
       search: [
         {label:"파워링크", text:"전주 대비 6.5% 증액 운영했으나 유입(클릭수) 유사 → 객단가 9% 상승했으나 전환율 1.08%p 하락하며 매출 전주와 유사한 약 90만원 확보(ROAS 358%→335%). 광고비 증가와 전환율 하락으로 ROAS 소폭 감소. 구매K: 전환율 7.46%p 하락하며 매출 약 39만원, ROAS 422% / 대표K: ROAS 141% / 그외K: ROAS 1,885% / 탐색K: ROAS 279%. 넾다세일 1주차 성과가 상승했던 구매K·대표K 그룹은 2주차 진입 후 감소, 그외K 그룹은 반대로 상승."},
@@ -1123,6 +1180,14 @@ let curBrand = 'anela';
 let curMedia = 'search', curChan = 'total', curCreative = 'meta', curTrend = 'all';
 
 // ================= MEDIA SECTION =================
+function deltaTag(cur,prev,kind){
+  if(prev===null||prev===undefined||(kind!=='pp'&&!prev)) return '<span class="d na">전주 –</span>';
+  const v = kind==='pp' ? cur-prev : (cur-prev)/prev*100;
+  if(!isFinite(v)) return '<span class="d na">–</span>';
+  const r = Math.round(v*10)/10;
+  const cls = r>0?'up':(r<0?'down':'na');
+  return `<span class="d ${cls}">${r>0?'▴':(r<0?'▾':'–')} ${Math.abs(r).toLocaleString('ko-KR')}${kind==='pp'?'%p':'%'}</span>`;
+}
 function renderMedia(){
   const campaigns = BRANDS[curBrand].campaigns;
   const mediaNotes = BRANDS[curBrand].mediaNotes;
@@ -1134,17 +1199,20 @@ function renderMedia(){
   const mall = all.filter(r=>r.chan==='mall');
   const shown = curChan==='total'?all:(curChan==='store'?store:mall);
   const a = agg(shown);
+  const prevAll = (BRANDS[curBrand].prevCampaigns||[]).filter(r=>r.media===curMedia);
+  const prevShown = curChan==='total'?prevAll:prevAll.filter(r=>r.chan===curChan);
+  const pa = agg(prevShown);
 
   const kpiRow = document.getElementById('kpiRow');
   kpiRow.innerHTML = [
-    ['광고비', fmt(a.cost)+'원'],
-    ['노출', fmt(a.imp)],
-    ['클릭', fmt(a.clk)],
-    ['CTR', pct(a.ctr)],
-    ['전환', fmt(a.conv)+'건'],
-    ['매출액', fmt(a.rev)+'원'],
-  ].map(([l,v])=>`<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div></div>`).join('') +
-  `<div class="kpi" style="grid-column:span 6;background:${mediaSoft[curMedia]};border-color:${mediaColor[curMedia]}"><div class="l">ROAS</div><div class="v num" style="color:${mediaColor[curMedia]};font-size:22px">${pct(a.roas)}</div></div>`;
+    ['광고비', fmt(a.cost)+'원', deltaTag(a.cost,pa.cost)],
+    ['노출', fmt(a.imp), deltaTag(a.imp,pa.imp)],
+    ['클릭', fmt(a.clk), deltaTag(a.clk,pa.clk)],
+    ['CTR', pct(a.ctr), deltaTag(a.ctr,pa.ctr,'pp')],
+    ['전환', fmt(a.conv)+'건', deltaTag(a.conv,pa.conv)],
+    ['매출액', fmt(a.rev)+'원', deltaTag(a.rev,pa.rev)],
+  ].map(([l,v,d])=>`<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div>${d}</div>`).join('') +
+  `<div class="kpi" style="grid-column:span 6;background:${mediaSoft[curMedia]};border-color:${mediaColor[curMedia]}"><div class="l">ROAS · 전주 대비</div><div class="v num" style="color:${mediaColor[curMedia]};font-size:22px">${pct(a.roas)}</div>${deltaTag(a.roas,pa.roas)}<span class="d na" style="margin-left:6px">전주 ${pct(pa.roas)}</span></div>`;
 
   const notesBox = document.getElementById('mediaNotes');
   notesBox.innerHTML = (mediaNotes[curMedia]||[]).map(n=>
@@ -1170,9 +1238,15 @@ function renderMedia(){
   }
 
   const tbody = document.querySelector('#campaignTable tbody');
+  const prevByKey = {}; prevShown.forEach(r=>{ prevByKey[r.name+'|'+r.chan]=r; });
   const rows = [...shown].sort((x,y)=> (y.rev/(y.cost||1)) - (x.rev/(x.cost||1)));
   tbody.innerHTML = rows.map(r=>{
     const ctr=r.imp?r.clk/r.imp*100:0, cpc=r.clk?r.cost/r.clk:0, cvr=r.clk?r.conv/r.clk*100:0, cpa=r.conv?r.cost/r.conv:0, roas=r.cost?r.rev/r.cost*100:0;
+    const pr = prevByKey[r.name+'|'+r.chan];
+    const pRoas = pr&&pr.cost ? pr.rev/pr.cost*100 : null;
+    const dc = pr ? deltaTag(r.cost,pr.cost) : '<span class="d na">신규</span>';
+    const dr = pr ? deltaTag(r.rev,pr.rev) : '<span class="d na">신규</span>';
+    const dro = pr ? deltaTag(roas,pRoas) : '<span class="d na">신규</span>';
     return `<tr>
       <td title="${r.name}">${r.name}</td>
       <td><span class="chan-tag ${r.chan==='store'?'chan-store':'chan-mall'}">${r.chan==='store'?'스마트스토어':'자사몰'}</span></td>
@@ -1180,12 +1254,12 @@ function renderMedia(){
       <td class="num">${fmt(r.clk)}</td>
       <td class="num">${pct(ctr)}</td>
       <td class="num">${fmt(cpc)}원</td>
-      <td class="num">${fmt(r.cost)}원</td>
+      <td class="num">${fmt(r.cost)}원${dc}</td>
       <td class="num">${fmt(r.conv)}</td>
       <td class="num">${pct(cvr)}</td>
-      <td class="num">${fmt(r.rev)}원</td>
+      <td class="num">${fmt(r.rev)}원${dr}</td>
       <td class="num">${r.conv?fmt(cpa)+'원':'–'}</td>
-      <td class="num roas-cell" style="color:${roas>=300?'var(--good)':(roas<100?'var(--critical)':'var(--text-primary)')}">${r.cost?pct(roas):'–'}</td>
+      <td class="num roas-cell" style="color:${roas>=300?'var(--good)':(roas<100?'var(--critical)':'var(--text-primary)')}">${r.cost?pct(roas):'–'}${dro}</td>
     </tr>`;
   }).join('');
 }
