@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>자사몰 월간 리포트 2026.11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* 레이아웃: 상단 고정 탭 + 요약 타일 → 시크릿링크 표 → 웰컴박스 → 신규회원 → 운영계획. 중립 회색 + 인디고 1색, 9월=회색 / 10월=인디고 */
+:root{
+  --bg-page:#f6f6f7; --surface-1:#ffffff; --surface-2:#eeeef0; --border:#e0e0e3;
+  --text-primary:#18181b; --text-secondary:#57575f; --text-muted:#8d8d95;
+  --accent:#3d3096; --accent-soft:#ebe8f9; --accent-ink:#2c2270;
+  --prev:#b4b4bc; --gridline:#e5e5e8;
+  --good:#0a8a0a; --good-soft:#e5f6e2; --warning:#b8790a; --warning-soft:#fdefd8;
+  --critical:#d03b3b; --critical-soft:#fbe2e2;
+  --shadow:0 1px 2px rgba(20,20,25,.04),0 4px 14px rgba(20,20,25,.05);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg-page:#0e0e10; --surface-1:#19191c; --surface-2:#212124; --border:#2d2d31;
+    --text-primary:#f2f2f4; --text-secondary:#bbbbc2; --text-muted:#87878f;
+    --accent:#a99cf5; --accent-soft:#241f47; --accent-ink:#cabdfb; --prev:#5a5a62; --gridline:#2a2a2e;
+    --good:#39c239; --good-soft:#123317; --warning:#e7ab35; --warning-soft:#332711;
+    --critical:#e66767; --critical-soft:#331717;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 4px 16px rgba(0,0,0,.4); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg-page:#0e0e10; --surface-1:#19191c; --surface-2:#212124; --border:#2d2d31;
+  --text-primary:#f2f2f4; --text-secondary:#bbbbc2; --text-muted:#87878f;
+  --accent:#a99cf5; --accent-soft:#241f47; --accent-ink:#cabdfb; --prev:#5a5a62; --gridline:#2a2a2e;
+  --good:#39c239; --good-soft:#123317; --warning:#e7ab35; --warning-soft:#332711;
+  --critical:#e66767; --critical-soft:#331717;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 4px 16px rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg-page);color:var(--text-primary);font-family:'Noto Sans KR',-apple-system,'Apple SD Gothic Neo',sans-serif;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+.num{font-variant-numeric:tabular-nums}
+header.top{background:var(--surface-1);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:30}
+.top-inner{max-width:1120px;margin:0 auto;padding:16px 16px 10px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.brand-title{font-weight:700;font-size:21px;letter-spacing:-.01em;text-wrap:balance}
+.period{font-size:12.5px;color:var(--text-secondary)}
+.period b{color:var(--text-primary);font-weight:600}
+nav.subnav{display:flex;gap:2px;max-width:1120px;margin:0 auto;padding:0 16px;overflow-x:auto}
+nav.subnav a{white-space:nowrap;font-size:13px;padding:9px 13px;color:var(--text-secondary);text-decoration:none;border-bottom:2px solid transparent}
+nav.subnav a:hover,nav.subnav a:focus-visible{color:var(--text-primary);outline:none;border-bottom-color:var(--border)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 72px}
+.section{padding:28px 0;border-bottom:1px solid var(--border)}
+.section:last-of-type{border-bottom:0}
+.section-title{font-size:19px;font-weight:700;margin:0 0 4px;text-wrap:balance}
+.section-sub{color:var(--text-muted);font-size:12.5px;margin:0 0 16px}
+.card{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.card h3{font-size:14px;font-weight:700;margin:0 0 2px}
+.card .card-sub{font-size:11.5px;color:var(--text-muted);margin:0 0 12px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+@media (max-width:760px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:440px){.kpi-grid{grid-template-columns:1fr}}
+.kpi{background:var(--surface-1);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:16px 16px 14px;display:flex;flex-direction:column;gap:5px}
+.kpi.hero{border-top:3px solid var(--accent)}
+.kpi-label{font-size:12.5px;color:var(--text-secondary);font-weight:600}
+.kpi-value{font-size:27px;line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.kpi-value small{font-size:12.5px;font-weight:500;color:var(--text-muted);margin-left:2px}
+.kpi-prev{font-size:11.5px;color:var(--text-muted)}
+.kpi.wait .kpi-value{color:var(--text-muted);font-size:20px}
+.dchip{display:inline-flex;align-items:center;gap:3px;width:fit-content;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.dchip.up{color:var(--good);background:var(--good-soft)}
+.dchip.down{color:var(--critical);background:var(--critical-soft)}
+.dchip.neutral{color:var(--text-secondary);background:var(--surface-2)}
+.dchip.wait{color:var(--warning);background:var(--warning-soft)}
+.quad-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:720px){.quad-grid{grid-template-columns:1fr}}
+.quad{padding:16px 20px;border-radius:12px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow)}
+.quad-title{font-size:13.5px;font-weight:700;margin:0 0 8px}
+.quad ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.quad li{font-size:13px;color:var(--text-secondary)}
+.quad li b{color:var(--text-primary);font-weight:600}
+.quad.good{border-left:3px solid var(--good)} .quad.bad{border-left:3px solid var(--critical)}
+.quad.doing{border-left:3px solid var(--warning)} .quad.need{border-left:3px solid var(--accent)}
+table.data-table{width:100%;border-collapse:collapse;font-size:12.5px}
+table.data-table th{text-align:left;font-size:11px;letter-spacing:.02em;color:var(--text-muted);font-weight:600;padding:0 8px 8px;border-bottom:1px solid var(--gridline);white-space:nowrap}
+table.data-table th.num,table.data-table td.num{text-align:right;white-space:nowrap}
+table.data-table td{padding:9px 8px;border-bottom:1px solid var(--gridline);vertical-align:middle}
+table.data-table tr:last-child td{border-bottom:0}
+table.data-table tr.sub td{background:var(--surface-2);font-weight:600}
+table.data-table tr.tot td{background:var(--accent-soft);font-weight:700;color:var(--accent-ink)}
+table.data-table tr.grp td{font-size:11px;color:var(--text-muted);font-weight:600;padding-top:14px;border-bottom:1px solid var(--gridline)}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;font-size:11px;font-weight:600;background:var(--surface-2);color:var(--text-secondary);margin-left:6px}
+.tag.end{background:var(--warning-soft);color:var(--warning)}
+.scroll{overflow-x:auto}
+.bcards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:16px}
+@media (max-width:720px){.bcards{grid-template-columns:1fr}}
+.bc-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.bc-nums .l{display:block;font-size:11px;color:var(--text-muted)}
+.bc-nums .v{font-size:17px;font-weight:700}
+.bc-nums .p{display:block;font-size:11px;color:var(--text-muted)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-secondary);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+svg.chart{width:100%;height:auto;display:block;overflow:visible}
+.ax{font-size:10px;fill:var(--text-muted)}
+.chart-wrap{position:relative}
+.tip{position:absolute;pointer-events:none;z-index:5;background:var(--text-primary);color:var(--bg-page);font-size:11.5px;line-height:1.5;padding:6px 10px;border-radius:7px;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-8px;opacity:0;transition:opacity .08s}
+.tip.show{opacity:1}
+.note{font-size:12.5px;color:var(--text-secondary);margin:12px 0 0}
+.note b{color:var(--text-primary)}
+.callout{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:10px;background:var(--surface-1);padding:12px 16px;margin-top:14px}
+.callout.warn{border-left-color:var(--warning);background:var(--warning-soft)}
+.callout ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.callout li{font-size:12.5px;color:var(--text-secondary)}
+.callout li b{color:var(--text-primary)}
+.callout > b{font-size:13px}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.plan-grid{grid-template-columns:1fr}}
+.plan h3{font-size:14px;margin:0 0 4px}
+.plan .when{font-size:11.5px;color:var(--text-muted);margin:0 0 10px}
+.plan h4{font-size:11.5px;color:var(--text-muted);font-weight:600;margin:12px 0 4px}
+.plan ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:3px}
+.plan li{font-size:12.5px;color:var(--text-secondary)}
+.plan li b{color:var(--text-primary)}
+.ev-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.ev-list li{display:flex;gap:10px;align-items:baseline;font-size:12.5px;color:var(--text-secondary)}
+.ev-n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--accent);color:var(--surface-1);font-size:10.5px;font-weight:700}
+.ev-n.ad{background:var(--prev);color:var(--surface-1)}
+.ev-list b{color:var(--text-primary);font-weight:600}
+.two{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+footer.foot{border-top:1px solid var(--border);margin-top:30px;padding-top:14px;color:var(--text-muted);font-size:12px;line-height:1.6}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <span class="brand-title">자사몰 월간 광고성과</span>
+    <div class="period">리포트 기간 <b>2026.11.01 – 11.16 (진행 중)</b> · 전월(10월) 대비 · 11월은 웰컴박스만 반영</div>
+  </div>
+  <nav class="subnav" aria-label="섹션">
+    <a href="https://claude.ai/artifact/FBrex7Tf1G439kPiDxRPfM" target="_blank" rel="noopener">← 10월 리포트</a>
+    <a href="#summary">핵심요약</a>
+    <a href="#welcome">웰컴박스</a>
+    <a href="#budget">예산 효율</a>
+    <a href="#pending">추가 예정</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+<section class="section" id="summary">
+  <h2 class="section-title">핵심 요약</h2>
+  <p class="section-sub">웰컴박스 신청 광고의 11월 성과(11/1~11/16)를 10월 광고 집행 16일(10/16~10/31)과 같은 일수로 비교했습니다</p>
+  <div class="kpi-grid" id="kpiGrid"></div>
+  <div class="quad-grid">
+    <div class="quad good"><h3 class="quad-title">좋았던 점</h3><ul id="qGood"></ul></div>
+    <div class="quad bad"><h3 class="quad-title">아쉬운 점</h3><ul id="qBad"></ul></div>
+    <div class="quad doing"><h3 class="quad-title">진행 중</h3><ul id="qDoing"></ul></div>
+    <div class="quad need"><h3 class="quad-title">확인이 필요한 것</h3><ul id="qNeed"></ul></div>
+  </div>
+</section>
+
+<section class="section" id="welcome">
+  <h2 class="section-title">웰컴박스 신청</h2>
+  <p class="section-sub">광고비는 Meta 원본 그대로, 신규 응모는 설문 참여 번호 기준(광고 외 유입 포함, 이전 응모자의 수정 기록 제외)</p>
+  <div class="card scroll">
+    <h3>10월 대비 11월</h3>
+    <p class="card-sub">두 기간 모두 광고 집행 16일입니다. 오른쪽 열은 신청 경로 이상 구간(11/1~11/7)을 뺀 11/8~11/16입니다</p>
+    <table class="data-table" id="welTable">
+      <thead><tr><th>지표</th><th class="num">10월 (10/16~10/31)</th><th class="num">11월 (11/1~11/16)</th><th class="num">증감</th><th class="num">(참고) 11/8~11/16</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="card chart-wrap" style="margin-top:14px" id="dailyCard">
+    <h3>일별 광고 클릭과 신규 응모 (11/1~11/16)</h3>
+    <p class="card-sub">위는 광고 클릭, 아래는 신규 응모입니다. 클릭은 처음부터 꾸준했고 신규 응모만 11/7까지 낮았습니다</p>
+    <div id="clkChart"></div>
+    <div id="appChart"></div>
+    <div class="tip" id="tipDaily"></div>
+    <ul class="ev-list" style="margin-top:12px">
+      <li><span class="ev-n">1</span><span><b>11/4</b> 새 소재 '누구나' 노출 시작 (기존 '공짜'는 11/4까지)</span></li>
+      <li><span class="ev-n">2</span><span><b>11/6</b> 모바일 스킨을 이전 버전으로 원복</span></li>
+    </ul>
+  </div>
+  <div class="callout" id="novCall"></div>
+  <div class="card scroll" style="margin-top:14px">
+    <h3>소재별 광고 성과</h3>
+    <p class="card-sub">신청 수는 소재별로 나눌 수 없어 광고 쪽 지표만 비교했습니다</p>
+    <table class="data-table" id="adTable">
+      <thead><tr><th>소재</th><th>기간</th><th class="num">광고비</th><th class="num">노출</th><th class="num">클릭</th><th class="num">CTR</th><th class="num">CPC</th><th class="num">CPM</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="card chart-wrap" style="margin-top:14px" id="appMonthCard">
+    <h3>월별 신규 응모 (4/30 오픈~11/16)</h3>
+    <p class="card-sub">참여 번호 순서로 센 신규 응모입니다. 11/16까지 전체 1,480건입니다</p>
+    <div id="appMonthChart"></div>
+    <div class="tip" id="tipAppMonth"></div>
+  </div>
+</section>
+
+<section class="section" id="budget">
+  <h2 class="section-title">웰컴박스 예산별 효율</h2>
+  <p class="section-sub">일예산 4만원(9월)과 1.5만원(10/16~)의 신청 효율을 비교했습니다. 신규 응모는 광고 집행일 기준입니다</p>
+  <div class="card scroll">
+    <h3>예산 구간 비교</h3>
+    <p class="card-sub">11/1~11/7은 신청 경로 이상 구간이라 따로 떼어 표시했고, 1.5만원 정상 구간 비교에는 쓰지 않았습니다</p>
+    <table class="data-table" id="budTable">
+      <thead><tr><th>지표</th><th class="num">9월 · 4만원</th><th class="num">10/16~10/31 · 1.5만원</th><th class="num">11/8~11/16 · 1.5만원</th><th class="num">(참고) 11/1~11/7</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="callout" id="budCall"></div>
+</section>
+
+<section class="section" id="pending">
+  <h2 class="section-title">11월 추가 예정</h2>
+  <p class="section-sub">11월은 웰컴박스만 먼저 넣었습니다. 아래는 11월 월간 데이터가 들어오면 같은 형식으로 추가합니다</p>
+  <div class="two">
+    <div class="card plan">
+      <h3>시크릿링크</h3>
+      <p class="when">이미 알고 있는 일정</p>
+      <ul>
+        <li>11/6 기존 시크릿링크 소재 2종 교체 (쉿 소재로 교체된 광고가 11/6부터 노출 중)</li>
+        <li>11/9 로지 진맑 배도라지 시크릿링크 시작 (일예산 3만원)</li>
+        <li>10월 기준선: 시크릿링크 ROAS 511.2%, 구매 전환율 8.9%</li>
+      </ul>
+    </div>
+    <div class="card plan">
+      <h3>자사몰 신규회원</h3>
+      <p class="when">필요한 자료</p>
+      <ul>
+        <li>11월 말까지의 가입일이 있는 회원 리스트</li>
+        <li>10월 기준선: 신규회원 918명, 신규회원당 광고비 3,620원</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  데이터 출처: 웰컴박스 신청 설문 엑셀(전체기간 명단 4/30~11/16), 웰컴박스 광고 일별 Meta raw(11/1~11/16), 10월 값은 10월 리포트와 같은 자료입니다.
+  <br>웰컴박스 광고는 캠페인 이름에 '자사몰(웰컴박스)'가 있어 자사몰 광고로 집계했습니다. 11월 신규 응모는 11/17 신청 3건을 제외했고, 9월 신규 응모는 참여 번호 997~1219의 223건입니다. 9월 일예산은 4만원으로 표기했으며 실제 집행액은 일 38,817원입니다.
+</footer>
+</main>
+
+<script>
+const fmt = n => Math.round(n).toLocaleString('ko-KR');
+const pct1 = n => (Math.round(n*10)/10).toLocaleString('ko-KR') + '%';
+const dec1 = n => (Math.round(n*10)/10).toLocaleString('ko-KR');
+const man = n => (Math.round(n/1000)/10).toLocaleString('ko-KR') + '만원';
+const S_ = (a,i,j)=>a.slice(i,j+1).reduce((x,y)=>x+y,0);
+const li = a => a.map(t=>'<li>'+t+'</li>').join('');
+
+// 11/1~11/16 웰컴박스 광고 일별 (Meta raw)와 신규 응모 (참여 번호 기준)
+const D_IMP  = [1010,979,714,698,1112,1189,689,1034,1195,1056,874,1072,1027,1001,1302,1003];
+const D_CLK  = [96,102,56,49,80,123,58,107,105,114,87,94,109,66,97,90];
+const D_COST = [18565,16378,11897,12102,17863,18700,9466,16497,17439,14171,13481,15919,14711,12679,16744,13810];
+const D_APP  = [0,0,1,2,3,5,3,9,4,10,10,14,12,10,4,8];
+const dayLabel = i => '11/'+(i+1);
+const seg = (days,cost,imp,clk,apps,offRate) => { const g={days,cost,imp,clk,apps};
+  g.perDay=cost/days; g.ctr=clk/imp*100; g.cpc=cost/clk; g.cpm=cost/imp*1000; g.appsDay=apps/days; g.apc=apps/clk*100;
+  g.cpa=cost/apps; g.per10k=apps/(cost/10000); g.inc=apps-offRate*days; g.cpaInc=g.inc>0?cost/g.inc:null; return g; };
+const OFF9 = 40/21, OFF10 = 26/15;   // 광고 없는 날 일평균 신규 응모 (9월, 10/1~10/15)
+const SEP = seg(9,349357,22053,1351,183,OFF9);
+const OCT = seg(16,235765,14084,1104,140,OFF10);
+const NOVA = seg(16,S_(D_COST,0,15),S_(D_IMP,0,15),S_(D_CLK,0,15),S_(D_APP,0,15),OFF10);
+const NOVN = seg(9,S_(D_COST,7,15),S_(D_IMP,7,15),S_(D_CLK,7,15),S_(D_APP,7,15),OFF10);
+const NOVE = seg(7,S_(D_COST,0,6),S_(D_IMP,0,6),S_(D_CLK,0,6),S_(D_APP,0,6),OFF10);
+const APP_MONTH = [['4월',1],['5월',223],['6월',305],['7월',226],['8월',241],['9월',223],['10월',166],['11월',95]];
+
+function chip(cur,prev,opts={}){
+  const {better='up', pp=false} = opts;
+  if(prev==null||cur==null) return '<span class="dchip wait">비교 대기</span>';
+  const d = pp ? cur-prev : (prev? (cur-prev)/prev*100 : 0);
+  if(Math.abs(d)<0.05) return '<span class="dchip neutral">변화 없음</span>';
+  const up = d>0; let cls='neutral';
+  if(better==='up') cls = up?'up':'down'; else if(better==='down') cls = up?'down':'up';
+  return '<span class="dchip '+cls+'">'+(up?'▲ ':'▼ ')+(Math.round(Math.abs(d)*10)/10).toLocaleString('ko-KR')+(pp?'%p':'%')+'</span>';
+}
+
+// ---- KPI + 요약
+(function(){
+  const k = [
+    {l:'웰컴박스 광고비', v:fmt(NOVA.cost), u:'원', prev:'10월 집행 16일 '+fmt(OCT.cost)+'원', c:chip(NOVA.cost,OCT.cost,{better:'neutral'})},
+    {l:'신규 응모', v:fmt(NOVA.apps), u:'명', prev:'10월 집행 16일 '+fmt(OCT.apps)+'명', c:chip(NOVA.apps,OCT.apps), hero:true},
+    {l:'신청자당 광고비', v:fmt(NOVA.cpa), u:'원', prev:'10월 '+fmt(OCT.cpa)+'원', c:chip(NOVA.cpa,OCT.cpa,{better:'down'}), hero:true},
+    {l:'신청자당 광고비 (11/8~11/16)', v:fmt(NOVN.cpa), u:'원', prev:'10월 '+fmt(OCT.cpa)+'원', c:chip(NOVN.cpa,OCT.cpa,{better:'down'})},
+    {l:'클릭 대비 신규 응모', v:pct1(NOVA.apc), u:'', prev:'10월 '+pct1(OCT.apc), c:chip(NOVA.apc,OCT.apc,{pp:true})},
+    {l:'CPC', v:fmt(NOVA.cpc), u:'원', prev:'10월 '+fmt(OCT.cpc)+'원', c:chip(NOVA.cpc,OCT.cpc,{better:'down'})}
+  ];
+  document.getElementById('kpiGrid').innerHTML = k.map(x=>'<div class="kpi'+(x.hero?' hero':'')+'"><span class="kpi-label">'+x.l+'</span><span class="kpi-value num">'+x.v+'<small>'+x.u+'</small></span>'+x.c+'<span class="kpi-prev">'+x.prev+'</span></div>').join('');
+  document.getElementById('qGood').innerHTML = li([
+    '11/8부터 신청이 회복돼 일 평균 <b>'+dec1(NOVN.appsDay)+'명</b>, 신청자당 광고비 <b>'+fmt(NOVN.cpa)+'원</b>으로 10월 집행일('+fmt(OCT.cpa)+'원)과 같은 수준입니다',
+    '새 소재 \'누구나\'(11/4~)의 CPC는 '+fmt(173633/1119)+'원, CTR '+pct1(1119/12085*100)+'로 기존 \'공짜\' 소재 10월(CPC 212원)보다 클릭 효율이 좋습니다',
+    '광고비는 집행일당 '+fmt(NOVA.perDay)+'원으로 1.5만원 수준을 유지했습니다'
+  ]);
+  document.getElementById('qBad').innerHTML = li([
+    '11/1~11/7 신청이 막혀 신규 응모 '+NOVE.apps+'명(일 '+dec1(NOVE.appsDay)+'명), 신청자당 광고비 '+fmt(NOVE.cpa)+'원이었습니다. 이 때문에 11월 전체 신청자당 광고비가 '+fmt(NOVA.cpa)+'원으로 10월보다 '+dec1((NOVA.cpa/OCT.cpa-1)*100)+'% 높습니다',
+    '클릭 대비 신규 응모가 11/8 이후에도 '+pct1(NOVN.apc)+'로 10월('+pct1(OCT.apc)+')보다 낮습니다'
+  ]);
+  document.getElementById('qDoing').innerHTML = li([
+    '웰컴박스 광고를 10/16부터 일 1.5만원 수준으로 11/15까지 한 달 운영했습니다 (결과는 예산 효율 섹션)',
+    '11/6 모바일 스킨 원복 후 신청이 회복되는 것을 확인했습니다'
+  ]);
+  document.getElementById('qNeed').innerHTML = li([
+    '10/30 모바일 리뉴얼 때 신청 페이지 링크·팝업·배너 경로가 바뀌었는지',
+    '새 소재 \'누구나\'로 들어온 클릭이 신청까지 덜 이어지는지. 신청서 유입 경로를 소재별로 구분할 수 있게 링크에 소재 구분 값(UTM)을 붙이면 확인할 수 있습니다',
+    '웰컴박스 1개당 원가와 배송비. 12월 예산을 정하는 데 필요합니다'
+  ]);
+})();
+
+// ---- 웰컴박스 표
+(function(){
+  const rows = [
+    ['광고비', g=>fmt(g.cost)+'원', {better:'neutral'}, 'cost'],
+    ['집행일당 광고비', g=>fmt(g.perDay)+'원', {better:'neutral'}, 'perDay'],
+    ['노출', g=>fmt(g.imp), {}, 'imp'],
+    ['클릭', g=>fmt(g.clk), {}, 'clk'],
+    ['CTR', g=>pct1(g.ctr), {pp:true}, 'ctr'],
+    ['CPC', g=>fmt(g.cpc)+'원', {better:'down'}, 'cpc'],
+    ['CPM', g=>fmt(g.cpm)+'원', {better:'down'}, 'cpm'],
+    ['신규 응모', g=>g.apps+'명', {}, 'apps'],
+    ['일평균 신규 응모', g=>dec1(g.appsDay)+'명', {}, 'appsDay'],
+    ['클릭 대비 신규 응모', g=>pct1(g.apc), {pp:true}, 'apc'],
+    ['<b>신청자당 광고비</b>', g=>'<b>'+fmt(g.cpa)+'원</b>', {better:'down'}, 'cpa']
+  ];
+  document.querySelector('#welTable tbody').innerHTML = rows.map(r=>'<tr><td>'+r[0]+'</td><td class="num">'+r[1](OCT)+'</td><td class="num">'+r[1](NOVA)+'</td><td class="num">'+chip(NOVA[r[3]],OCT[r[3]],r[2])+'</td><td class="num" style="color:var(--text-muted)">'+r[1](NOVN)+'</td></tr>').join('');
+  const c1=NOVE.clk, c2=NOVN.clk, a1=NOVE.apps, a2=NOVN.apps;
+  document.getElementById('novCall').innerHTML =
+    '<b>11/1~11/7 신청이 막혔다가 11/8부터 회복했습니다</b><ul>'+
+    '<li>광고는 정상이었습니다. 11/1~11/7에도 일 평균 클릭 '+Math.round(c1/7)+'회로 11/8~11/16('+Math.round(c2/9)+'회)과 비슷했습니다. 같은 기간 신규 응모는 일 '+dec1(a1/7)+'명에서 '+dec1(a2/9)+'명으로 올랐습니다.</li>'+
+    '<li>클릭 대비 신규 응모는 11/1~11/7 '+pct1(a1/c1*100)+', 11/8~11/16 '+pct1(a2/c2*100)+'입니다(10월 집행 16일은 '+pct1(OCT.apc)+'). 신청 경로에서 이탈이 늘어난 구간이 있었다는 뜻입니다.</li>'+
+    '<li>시점이 10/30 모바일 리뉴얼(신청 급감은 11/1부터)과 11/6 원복(회복은 11/8부터)에 이어집니다. 리뉴얼 직후 이틀(10/30·10/31)은 신청이 정상이어서 원인을 단정할 수는 없습니다. 리뉴얼 때 신청 페이지 링크나 팝업·배너 경로가 바뀌었는지 확인해 주세요.</li>'+
+    '<li>11/1~11/7 광고비 '+fmt(NOVE.cost)+'원으로 신규 응모 '+a1+'명을 얻어 신청자당 광고비는 '+fmt(NOVE.cpa)+'원이었습니다.</li>'+
+    '</ul>';
+  // 소재별
+  const ad = [
+    ['공짜','10/16~10/31',206669,12099,975],['공짜','11/1~11/4',50719,2815,259],
+    ['0원','10/16~10/31',29096,1985,129],['0원','11/1~11/16',16070,1055,55],
+    ['누구나','11/4~11/16',173633,12085,1119]
+  ];
+  document.querySelector('#adTable tbody').innerHTML = ad.map(a=>'<tr><td>'+a[0]+'</td><td>'+a[1]+'</td><td class="num">'+fmt(a[2])+'원</td><td class="num">'+fmt(a[3])+'</td><td class="num">'+fmt(a[4])+'</td><td class="num">'+pct1(a[4]/a[3]*100)+'</td><td class="num">'+fmt(a[2]/a[4])+'원</td><td class="num">'+fmt(a[2]/a[3]*1000)+'원</td></tr>').join('');
+})();
+
+// ---- 예산별 효율
+(function(){
+  const rows = [
+    ['집행일 수', g=>g.days+'일'],['집행일당 광고비', g=>fmt(g.perDay)+'원'],['광고비', g=>fmt(g.cost)+'원'],
+    ['노출', g=>fmt(g.imp)],['클릭', g=>fmt(g.clk)],['CTR', g=>pct1(g.ctr)],['CPC', g=>fmt(g.cpc)+'원'],['CPM', g=>fmt(g.cpm)+'원'],
+    ['신규 응모(집행일)', g=>g.apps+'명'],['일평균 신규 응모', g=>dec1(g.appsDay)+'명'],['클릭 대비 신규 응모', g=>pct1(g.apc)],
+    ['<b>신청자당 광고비</b>', g=>'<b>'+fmt(g.cpa)+'원</b>'],
+    ['신청자당 광고비 (광고가 늘린 응모만)', g=>(g.cpaInc && g!==NOVE) ? fmt(g.cpaInc)+'원' : '-'],
+    ['광고비 1만원당 신규 응모', g=>dec1(g.per10k)+'명']
+  ];
+  document.querySelector('#budTable tbody').innerHTML = rows.map(r=>'<tr><td>'+r[0]+'</td>'+[SEP,OCT,NOVN,NOVE].map((g,i)=>'<td class="num"'+(i===3?' style="color:var(--text-muted)"':'')+'>'+r[1](g)+'</td>').join('')+'</tr>').join('');
+  const nB = {days:OCT.days+NOVN.days, cost:OCT.cost+NOVN.cost, apps:OCT.apps+NOVN.apps};
+  const lowPerDay = nB.cost/nB.days, lowApps = nB.apps/nB.days;
+  const marg = (SEP.perDay-lowPerDay)/(SEP.appsDay-lowApps);
+  document.getElementById('budCall').innerHTML =
+    '<b>해석</b><ul>'+
+    '<li><b>예산을 '+Math.round((1-lowPerDay/SEP.perDay)*100)+'% 줄이자(집행일당 '+fmt(SEP.perDay)+'원 → '+fmt(lowPerDay)+'원) 일 신규 응모는 '+Math.round((1-lowApps/SEP.appsDay)*100)+'% 줄었고(일 '+dec1(SEP.appsDay)+'명 → '+dec1(lowApps)+'명), 신청자당 광고비는 '+fmt(SEP.cpa)+'원 → '+fmt(nB.cost/nB.apps)+'원으로 '+Math.round((1-(nB.cost/nB.apps)/SEP.cpa)*100)+'% 낮아졌습니다.</b> 1.5만원 정상 구간만 합친 값입니다(10/16~10/31, 11/8~11/16 25일).</li>'+
+    '<li><b>광고가 늘린 응모만 보면 효율은 같습니다.</b> '+fmt(SEP.cpaInc)+'원 → '+fmt(OCT.cpaInc)+'원 → '+fmt(NOVN.cpaInc)+'원입니다. 평균 단가가 내려간 것은 광고 없이도 들어오는 신청(일 '+dec1(OFF10)+'~'+dec1(OFF9)+'명)이 작은 광고 규모에서 더 큰 몫을 차지하기 때문입니다.</li>'+
+    '<li><b>예산을 다시 올리면 추가 신청 1명당 약 '+fmt(marg)+'원입니다.</b> 1.5만원에서 4만원 수준으로 올릴 때 집행일당 광고비가 '+fmt(SEP.perDay-lowPerDay)+'원 늘고 일 신청이 '+dec1(SEP.appsDay-lowApps)+'명 늘어난 값으로, 평균 단가('+fmt(nB.cost/nB.apps)+'원)보다 '+Math.round((marg/(nB.cost/nB.apps)-1)*100)+'% 높습니다.</li>'+
+    '<li><b>클릭 단가는 내려갔지만 신청 전환율도 같이 내려갔습니다.</b> CPC '+fmt(SEP.cpc)+'원 → '+fmt(OCT.cpc)+'원 → '+fmt(NOVN.cpc)+'원으로 좋아졌고 클릭 대비 신규 응모는 '+pct1(SEP.apc)+' → '+pct1(OCT.apc)+' → '+pct1(NOVN.apc)+'입니다. 11/4부터 새 소재(누구나)가 노출을 이어받아 클릭이 쉬운 대신 신청까지 덜 이어지는 것으로 보이며, 소재별 신청 데이터가 없어 확정할 수는 없습니다.</li>'+
+    '<li>조건이 다릅니다. 9월은 추석 행사 기간과 겹쳤고 광고 첫 집행 시기라 대상 소진 속도도 달랐습니다. 신규 응모는 광고 외 유입을 포함합니다.</li>'+
+    '</ul>';
+})();
+
+// ---- 차트
+const tipShow = (el, html, ev, box) => { const r = box.getBoundingClientRect(); el.innerHTML = html; el.style.left=(ev.clientX-r.left)+'px'; el.style.top=(ev.clientY-r.top)+'px'; el.classList.add('show'); };
+function barChart(opts){
+  const {id, data, w, h, tipId, boxId, labelEvery, markers} = opts;
+  const pad = {l:38, r:8, t:(markers?30:14), b:(opts.noX?8:22)};
+  const max = Math.max.apply(null, data.map(d=>d.v||0));
+  const step = max>100?100:(max>20?10:5);
+  const top = Math.ceil(max/step)*step || 1;
+  const bw = (w-pad.l-pad.r)/data.length, ph = h-pad.t-pad.b;
+  let s = '<svg class="chart" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+opts.label+'">';
+  [0,.5,1].forEach(f=>{ const y = pad.t + ph*(1-f); s += '<line x1="'+pad.l+'" x2="'+(w-pad.r)+'" y1="'+y+'" y2="'+y+'" stroke="var(--gridline)" stroke-width="1"/><text class="ax" x="'+(pad.l-6)+'" y="'+(y+3)+'" text-anchor="end">'+fmt(top*f)+'</text>'; });
+  const maxI = data.findIndex(d=>d.v===max);
+  data.forEach((d,i)=>{
+    const x = pad.l + bw*i + bw*0.18, bwid = bw*0.64, bh = ph*d.v/top, y = h-pad.b-bh;
+    s += '<rect x="'+x+'" y="'+y+'" width="'+bwid+'" height="'+Math.max(bh,1)+'" rx="3" fill="'+d.c+'"/>';
+    if(i===maxI || i===data.length-1 || opts.labelAll) s += '<text class="ax" x="'+(x+bwid/2)+'" y="'+(y-4)+'" text-anchor="middle" style="fill:var(--text-secondary);font-weight:600">'+fmt(d.v)+'</text>';
+    if(!opts.noX && (!labelEvery || i%labelEvery===0 || i===data.length-1)) s += '<text class="ax" x="'+(x+bwid/2)+'" y="'+(h-6)+'" text-anchor="middle">'+d.x+'</text>';
+  });
+  (markers||[]).forEach(m=>{
+    const cx = pad.l + bw*m.i + bw/2;
+    s += '<line x1="'+cx+'" x2="'+cx+'" y1="'+(pad.t-6)+'" y2="'+(h-pad.b)+'" stroke="var(--accent)" stroke-width="1.5"/>';
+    s += '<circle cx="'+cx+'" cy="10" r="8" fill="var(--accent)"/><text x="'+cx+'" y="13.5" text-anchor="middle" style="font-size:10.5px;font-weight:700;fill:var(--surface-1)">'+m.n+'</text>';
+  });
+  data.forEach((d,i)=>{ s += '<rect x="'+(pad.l+bw*i)+'" y="'+pad.t+'" width="'+bw+'" height="'+ph+'" fill="transparent" data-hit="'+i+'"/>'; });
+  s += '</svg>';
+  const mount = document.getElementById(id); mount.innerHTML = s;
+  const tipEl = document.getElementById(tipId), box = document.getElementById(boxId);
+  mount.querySelectorAll('[data-hit]').forEach(el=>{
+    const i = +el.getAttribute('data-hit');
+    el.addEventListener('mousemove', ev=>tipShow(tipEl, data[i].t, ev, box));
+    el.addEventListener('mouseleave', ()=>tipEl.classList.remove('show'));
+  });
+}
+const mk = [{i:3,n:1},{i:5,n:2}];
+barChart({id:'clkChart', tipId:'tipDaily', boxId:'dailyCard', w:760, h:150, label:'11월 1일부터 16일까지 일별 광고 클릭', noX:true, markers:mk,
+  data: D_CLK.map((v,i)=>({v, x:dayLabel(i), c:'var(--prev)', t:'<b>'+dayLabel(i)+'</b><br>클릭 '+v+'회 · 광고비 '+fmt(D_COST[i])+'원'}))});
+barChart({id:'appChart', tipId:'tipDaily', boxId:'dailyCard', w:760, h:160, label:'11월 1일부터 16일까지 일별 신규 웰컴박스 응모', labelEvery:2,
+  data: D_APP.map((v,i)=>({v, x:dayLabel(i), c:'var(--accent)', t:'<b>'+dayLabel(i)+'</b><br>신규 응모 '+v+'명 · 클릭 '+D_CLK[i]+'회'}))});
+barChart({id:'appMonthChart', tipId:'tipAppMonth', boxId:'appMonthCard', w:760, h:200, label:'월별 신규 웰컴박스 응모 수', labelAll:true,
+  data: APP_MONTH.map(m=>({v:m[1], x:m[0]==='11월'?'11월(16일까지)':m[0], c: m[0]==='11월' ? 'var(--accent)' : 'var(--prev)', t:'<b>'+m[0]+'</b><br>신규 응모 '+fmt(m[1])+'명'}))});
+</script>
+</body>
+</html>
