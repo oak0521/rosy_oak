@@ -204,6 +204,23 @@ footer.foot{border-top:1px solid var(--border);margin-top:30px;padding-top:14px;
   <h2 class="section-title">웰컴박스 예산별 효율</h2>
   <p class="section-sub">일예산 4만원(9월)과 1.5만원(10/16~)의 신청 효율을 비교했습니다. 신규 응모는 광고 집행일 기준입니다</p>
   <div class="card scroll">
+    <h3>한 달 전체 비교 (9월 4만원 대 10/16~11/16 1.5만원)</h3>
+    <p class="card-sub">1.5만원 32일에는 11/1~11/7 신청 경로 이상 구간(7일)이 포함돼 있습니다</p>
+    <table class="data-table" id="allTable">
+      <thead><tr><th>지표</th><th class="num">9월 · 4만원 (9일)</th><th class="num">10/16~11/16 · 1.5만원 (32일)</th><th class="num">변화</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="card scroll" style="margin-top:14px">
+    <h3>이상 구간을 빼면</h3>
+    <p class="card-sub">신청자당 광고비 기준입니다</p>
+    <table class="data-table" id="normTable">
+      <thead><tr><th>구간</th><th class="num">신청자당 광고비</th><th class="num">광고가 늘린 응모만</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="callout" id="allCall"></div>
+  <div class="card scroll" style="margin-top:14px">
     <h3>예산 구간 비교</h3>
     <p class="card-sub">11/1~11/7은 신청 경로 이상 구간이라 따로 떼어 표시했고, 1.5만원 정상 구간 비교에는 쓰지 않았습니다</p>
     <table class="data-table" id="budTable">
@@ -365,6 +382,41 @@ function chip(cur,prev,opts={}){
     '<li><b>예산을 다시 올리면 추가 신청 1명당 약 '+fmt(marg)+'원입니다.</b> 1.5만원에서 4만원 수준으로 올릴 때 집행일당 광고비가 '+fmt(SEP.perDay-lowPerDay)+'원 늘고 일 신청이 '+dec1(SEP.appsDay-lowApps)+'명 늘어난 값으로, 평균 단가('+fmt(nB.cost/nB.apps)+'원)보다 '+Math.round((marg/(nB.cost/nB.apps)-1)*100)+'% 높습니다.</li>'+
     '<li><b>클릭 단가는 내려갔지만 신청 전환율도 같이 내려갔습니다.</b> CPC '+fmt(SEP.cpc)+'원 → '+fmt(OCT.cpc)+'원 → '+fmt(NOVN.cpc)+'원으로 좋아졌고 클릭 대비 신규 응모는 '+pct1(SEP.apc)+' → '+pct1(OCT.apc)+' → '+pct1(NOVN.apc)+'입니다. 11/4부터 새 소재(누구나)가 노출을 이어받아 클릭이 쉬운 대신 신청까지 덜 이어지는 것으로 보이며, 소재별 신청 데이터가 없어 확정할 수는 없습니다.</li>'+
     '<li>조건이 다릅니다. 9월은 추석 행사 기간과 겹쳤고 광고 첫 집행 시기라 대상 소진 속도도 달랐습니다. 신규 응모는 광고 외 유입을 포함합니다.</li>'+
+    '</ul>';
+})();
+
+(function(){
+  const ALL = seg(32, OCT.cost+NOVA.cost, OCT.imp+NOVA.imp, OCT.clk+NOVA.clk, OCT.apps+NOVA.apps, OFF10);
+  const NB = seg(25, OCT.cost+NOVN.cost, OCT.imp+NOVN.imp, OCT.clk+NOVN.clk, OCT.apps+NOVN.apps, OFF10);
+  const rows = [
+    ['집행일당 광고비', g=>fmt(g.perDay)+'원', 'perDay', {better:'neutral'}],
+    ['총 광고비', g=>fmt(g.cost)+'원', 'cost', {better:'neutral'}],
+    ['노출', g=>fmt(g.imp), 'imp', {}],
+    ['클릭', g=>fmt(g.clk), 'clk', {}],
+    ['CTR', g=>pct1(g.ctr), 'ctr', {pp:true}],
+    ['CPC', g=>fmt(g.cpc)+'원', 'cpc', {better:'down'}],
+    ['CPM', g=>fmt(g.cpm)+'원', 'cpm', {better:'down'}],
+    ['신규 응모', g=>g.apps+'명', 'apps', {}],
+    ['일평균 신규 응모', g=>dec1(g.appsDay)+'명', 'appsDay', {}],
+    ['클릭 대비 신규 응모', g=>pct1(g.apc), 'apc', {pp:true}],
+    ['<b>신청자당 광고비</b>', g=>'<b>'+fmt(g.cpa)+'원</b>', 'cpa', {better:'down'}],
+    ['신청자당 광고비 (광고가 늘린 응모만)', g=>fmt(g.cpaInc)+'원', 'cpaInc', {better:'down'}],
+    ['광고비 1만원당 신규 응모', g=>dec1(g.per10k)+'명', 'per10k', {}]
+  ];
+  document.querySelector('#allTable tbody').innerHTML = rows.map(r=>'<tr><td>'+r[0]+'</td><td class="num">'+r[1](SEP)+'</td><td class="num">'+r[1](ALL)+'</td><td class="num">'+chip(ALL[r[2]],SEP[r[2]],r[3])+'</td></tr>').join('');
+  document.querySelector('#normTable tbody').innerHTML =
+    '<tr><td>9월 · 4만원</td><td class="num">'+fmt(SEP.cpa)+'원</td><td class="num">'+fmt(SEP.cpaInc)+'원</td></tr>'+
+    '<tr><td>1.5만원 전체 (32일)</td><td class="num">'+fmt(ALL.cpa)+'원</td><td class="num">'+fmt(ALL.cpaInc)+'원</td></tr>'+
+    '<tr class="sub"><td>1.5만원, 이상 구간 제외 (25일)</td><td class="num">'+fmt(NB.cpa)+'원 ('+Math.round((NB.cpa/SEP.cpa-1)*100)+'%)</td><td class="num">'+fmt(NB.cpaInc)+'원</td></tr>';
+  const margAll = (SEP.perDay-ALL.perDay)/(SEP.appsDay-ALL.appsDay);
+  const margNorm = (SEP.perDay-NB.perDay)/(SEP.appsDay-NB.appsDay);
+  document.getElementById('allCall').innerHTML =
+    '<b>해석</b><ul>'+
+    '<li><b>한 달 전체로는 신청자당 광고비가 9월보다 '+Math.round((ALL.cpa/SEP.cpa-1)*100)+'% 높습니다</b>('+fmt(SEP.cpa)+'원 → '+fmt(ALL.cpa)+'원). 예산은 '+Math.round((1-ALL.perDay/SEP.perDay)*100)+'% 줄었고 일 신규 응모는 '+Math.round((1-ALL.appsDay/SEP.appsDay)*100)+'% 줄었습니다.</li>'+
+    '<li><b>단가가 높아진 것은 11/1~11/7 신청 경로 이상 때문입니다.</b> 이 7일을 빼면 '+fmt(NB.cpa)+'원으로 9월보다 '+Math.round((1-NB.cpa/SEP.cpa)*100)+'% 낮습니다. 광고가 늘린 응모만 보면 9월 '+fmt(SEP.cpaInc)+'원, 정상 구간 '+fmt(NB.cpaInc)+'원으로 같습니다.</li>'+
+    '<li><b>광고 쪽 지표는 개선됐습니다.</b> CPC '+fmt(SEP.cpc)+'원 → '+fmt(ALL.cpc)+'원, CTR '+pct1(SEP.ctr)+' → '+pct1(ALL.ctr)+'이고 CPM은 '+fmt(SEP.cpm)+'원 → '+fmt(ALL.cpm)+'원으로 같습니다. 클릭 대비 신청은 '+pct1(SEP.apc)+' → '+pct1(ALL.apc)+'로 낮아졌습니다.</li>'+
+    '<li><b>예산을 줄여 포기한 신청 1명당 약 '+fmt(margAll)+'원</b>(일 광고비 '+fmt(SEP.perDay-ALL.perDay)+'원 감소, 일 신청 '+dec1(SEP.appsDay-ALL.appsDay)+'명 감소). 이상 구간을 빼면 약 '+fmt(margNorm)+'원입니다.</li>'+
+    '<li>조건이 다릅니다. 9월은 추석 행사 기간과 겹쳤고 광고 첫 집행 시기였습니다. 신규 응모에는 광고 없이 들어오는 신청(일 '+dec1(OFF10)+'~'+dec1(OFF9)+'명 추정)이 포함됩니다.</li>'+
     '</ul>';
 })();
 
