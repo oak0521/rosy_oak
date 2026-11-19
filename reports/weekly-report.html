@@ -306,6 +306,11 @@ table.data tbody tr:hover{background:var(--surface-2);}
 .rank-item .ri-stat{font-size:11px;color:var(--text-muted);white-space:nowrap;}
 .rank-item .ri-stat b{font-weight:600;color:var(--text-secondary);margin-right:3px;}
 .rank-item .ri-roas{font-size:14px;font-weight:700;text-align:right;min-width:66px;}
+.rank-item .ri-stat .d{display:inline-block;margin-left:4px;font-size:10px;font-weight:600;}
+.rank-item .ri-roas .d{display:block;font-size:10.5px;font-weight:600;margin-top:2px;}
+.rank-item .d.up{color:var(--good);}
+.rank-item .d.down{color:var(--critical);}
+.rank-item .d.na{color:var(--text-muted);}
 @media (max-width:640px){
   .rank-item{grid-template-columns:40px 1fr auto;gap:9px;}
   .rank-item .ri-thumb-wrap,.rank-item .ri-thumb,.rank-item .ri-thumb-empty{width:40px;height:40px;}
@@ -868,7 +873,7 @@ footer.foot{padding:26px 0 10px;font-size:11.5px;color:var(--text-muted);display
     <div class="section-head">
       <div>
         <h2 class="section-title">소재별 성과</h2>
-        <p class="section-sub">2026.11.09 – 11.15 (11월 2주차) · 메타 · GFA — 캠페인명을 소재 기준으로 대체 표기 (개별 소재명 미설정)</p>
+        <p class="section-sub">2026.11.09 – 11.15 (11월 2주차) · 메타 · GFA — 캠페인명을 소재 기준으로 대체 표기 (개별 소재명 미설정) · 매출액·ROAS 증감은 전주(11/2–11/8) 대비</p>
       </div>
     </div>
     <div class="tabbar" id="creativeTabs">
@@ -1284,10 +1289,12 @@ document.getElementById('channelTabs').addEventListener('click', e=>{
 // ================= CREATIVE RANKING =================
 function renderCreative(){
   const campaigns = BRANDS[curBrand].campaigns;
+  const prevCampaigns = BRANDS[curBrand].prevCampaigns||[];
   document.querySelectorAll('#creativeTabs .tabbtn').forEach(b=>b.classList.toggle('active', b.dataset.media===curCreative));
   const rows = campaigns.filter(r=>r.media===curCreative && r.cost>0)
     .map(r=>({...r, roas: r.rev/r.cost*100}))
     .sort((a,b)=>b.roas-a.roas);
+  const prevByName = {}; prevCampaigns.filter(r=>r.media===curCreative).forEach(r=>{ prevByName[r.name]=r; });
   const list = document.getElementById('creativeList');
   list.innerHTML = rows.map((r,i)=>{
     const badge = r.roas>=500?'<span class="badge good">우수</span>':(r.roas<100?'<span class="badge bad">저조</span>':'');
@@ -1298,6 +1305,10 @@ function renderCreative(){
     const thumb = img
       ? `<span class="ri-thumb-wrap"><img class="ri-thumb" src="${img.thumb}" data-large="${img.large}" data-video="${img.video||''}" alt="${r.name} 소재 썸네일" loading="lazy">${playIcon}</span>`
       : `<div class="ri-thumb ri-thumb-empty" aria-hidden="true">–</div>`;
+    const pr = prevByName[r.name];
+    const pRoas = pr&&pr.cost ? pr.rev/pr.cost*100 : null;
+    const dr = pr ? deltaTag(r.rev,pr.rev) : '<span class="d na">신규</span>';
+    const dro = pr ? deltaTag(r.roas,pRoas) : '<span class="d na">신규</span>';
     return `<div class="rank-item">
       ${thumb}
       <div class="ri-main">
@@ -1305,11 +1316,11 @@ function renderCreative(){
         <div class="ri-stats">
           <span class="ri-stat"><b>CTR</b> ${ctr.toFixed(2)}%</span>
           <span class="ri-stat"><b>광고비</b> ${fmt(r.cost)}원</span>
-          <span class="ri-stat"><b>매출액</b> ${fmt(r.rev)}원</span>
+          <span class="ri-stat"><b>매출액</b> ${fmt(r.rev)}원${dr}</span>
           <span class="ri-stat"><b>전환</b> ${r.conv}건</span>
         </div>
       </div>
-      <div class="ri-roas num" style="color:${color}">${pct(r.roas)}</div>
+      <div class="ri-roas num" style="color:${color}">${pct(r.roas)}${dro}</div>
     </div>`;
   }).join('');
 
