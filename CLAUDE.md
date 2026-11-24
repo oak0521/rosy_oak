@@ -12,9 +12,10 @@ JS, meant to be opened directly in a browser or published via the Claude Code **
 - `reports/weekly-report.html` — the current/latest weekly report, covering **both** brands
   (아넬라, 로지오가닉) in a single file. A `.brand-chip` switcher in the header (`#brandSwitch`)
   swaps between brands **instantly, in place** — no new tab/page, no reload. All per-brand data
-  (campaigns, monthlyByMedia, mediaNotes) lives in one `BRANDS = { anela: {...}, rosy: {...} }`
-  object in the inline script; all per-brand static markup (quad-grid summary, weekly comparison
-  table, comment section) is duplicated in the HTML as sibling `<div data-brand-panel="anela">` /
+  (campaigns, prevCampaigns, brief, mediaNotes, monthlyByMedia) lives in one `BRANDS = { anela: {...}, rosy: {...} }`
+  object in the inline script; the top sections (`#overview`, `#summary`, `#event`, `#keyword`) are
+  **rendered by JS from that data** (redesigned 2026.11.24 — see "2026.11.24 대시보드 개편" below), and
+  the remaining per-brand static markup (comment section, monthly trend notes) is duplicated in the HTML as sibling `<div data-brand-panel="anela">` /
   `<div data-brand-panel="rosy" hidden>` blocks that `setBrand()` toggles via the `hidden`
   attribute. (The old shared `#mission` section was removed 2026.10.26 at the user's request.) A new brand means: add a key to `BRANDS`, add its
   `data-brand-panel` blocks, add a `.brand-chip` button, and extend `setBrand()`'s reset list.
@@ -37,6 +38,15 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   "
   node --check /tmp/extracted.js
   ```
+  **`node --check` is syntax-only and is NOT sufficient.** On 2026.11.24 a stray `curBrand: 'anela',`
+  line inside the `BRANDS` literal passed `--check` but threw at load (`Object.values(BRANDS)` hit a
+  string), so every JS-rendered section (매체별/소재별 성과, 추이…) published blank. Always also render
+  the page in the pre-installed headless Chromium and fail on any `pageerror`/console error:
+  `require('playwright').chromium.launch()` → `goto('file://…/reports/weekly-report.html')` → click both
+  `#brandSwitch` chips and every tab (`#mediaTabs`, `#channelTabs`, `#creativeTabs`, `#trendTabs`,
+  `#evChanTabs`, `#kwTypeTabs`), hover a chart bar (tooltip must show), and check
+  `document.documentElement.scrollWidth <= clientWidth` at 390px and 1200px. Screenshot section by
+  section (`header.top{position:static}` first so the sticky header doesn't overlap element shots).
 - **Preview**: open the file directly in a browser, or publish it with the Artifact tool (see
   "Publishing" below) to see it themed/rendered as it will actually be viewed.
 
@@ -68,16 +78,19 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
    snapshot, and **"월간 리포트 YYYY.MM"** for monthly rollups (established 2026.09, replacing an
    earlier generic, never-updated "브랜드 주간 리포트" title) — update it every time the live
    report's period changes, alongside the other per-week text (period line, footSource, section-subs).
-2. Static HTML sections, in source order top to bottom, matching the sticky top nav's link order:
-   `#summary`, `#comment`, `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26; `#comment` was moved to
-   directly after `#summary` on 2026.08.31 — keep the nav's `<a href="#...">` order and the sections'
-   DOM order in sync if either changes again).
-   `#summary`, `#trend`'s notes/table, and `#comment` each contain **two** sibling
-   `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the non-active one carries
-   `hidden`).
+2. Sections, in source order top to bottom, matching the top nav's link order (keep the nav's
+   `<a href="#...">` order and the sections' DOM order in sync if either changes):
+   `#overview`(한눈에 결론), `#summary`(핵심요약), `#comment`, `#event`(행사 비교), `#keyword`(키워드·검색어),
+   `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`, `#event`,
+   `#keyword` are empty containers (`#overviewBody`, `#summaryBody`, `#eventBody`, `#keywordBody`) filled
+   by `renderOverview/renderSummary/renderEvent/renderKeyword`. `#trend`'s notes and `#comment` still
+   contain **two** sibling `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the
+   non-active one carries `hidden`). A tiny IntersectionObserver scroll-spy moves `.current` on the nav.
 3. One inline `<script>` at the end with:
-   - `BRANDS` — `{ anela: {label, title, footSource, campaigns, mediaNotes, monthlyByMedia}, rosy:
-     {...same shape...} }`, plus `curBrand` (currently active key) and `setBrand(key)` (toggles
+   - `BRANDS` — `{ anela: {label, title, footSource, campaigns, prevCampaigns, brief, mediaNotes,
+     monthlyByMedia}, rosy: {...same shape...} }` (only brand keys — **never put another key such as
+     `curBrand` inside this literal**, `Object.values(BRANDS)` is iterated), and, outside it, `curBrand`
+     (currently active key) and `setBrand(key)` (toggles
      `.brand-chip` active state, updates `#brandTitle`/`#footSource` text, toggles `hidden` on every
      `[data-brand-panel]` to match `key`, resets the media/channel/creative/trend sub-tab state to
      defaults, then re-runs the render functions below). Adding a week's new data means editing
@@ -86,9 +99,12 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
      the week, one row per ad-platform campaign: `{media, src, chan, name, imp, clk, cost, conv,
      rev}`. `cost` is **VAT-excluded** (매체 "총 지출금액" convention used throughout the
      dashboard's KPI cards). `media` is one of `search` (네이버 검색광고 — pools
-     쇼핑검색/파워링크/브랜드검색 under `src`), `gfa`, `meta`. `chan` is `store` (스마트스토어) or
+     쇼핑검색/파워링크 under `src`; **브랜드검색 rows are excluded entirely since 2026.11.24**), `gfa`, `meta`. `chan` is `store` (스마트스토어) or
      `mall` (자사몰) — classification rule: a campaign is `mall` only if its name explicitly says
-     so (e.g. contains `자사몰`); everything else defaults to `store`. All other numbers
+     so (e.g. contains `자사몰`); everything else defaults to `store`. **Exception, kept for
+     consistency with every archived week: 아넬라 `웰컴박스_*` Meta ads are `mall`** even though the name
+     lacks 자사몰 (11/2·11/9 snapshots and `HISTORY` tag them so; flipping one week to `store` breaks the
+     prev-week delta match, which keys on `name|chan`). All other numbers
      (CTR/CPC/CVR/CPA/ROAS) are *derived* at render time by `agg()`, never stored — don't add
      redundant derived fields to a campaign row.
    - `monthlyByMedia` (per brand, under `BRANDS[brand].monthlyByMedia`) — separate,
@@ -106,12 +122,47 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
      tooltips are wired up after `innerHTML` is set (see the `mouseenter`/`mousemove` listeners
      added to `rect[data-tip]` in `renderTrend`).
 
-## The 핵심요약 and 컨텐츠/업무 진행사항 sections are plain static lists (not live-editable)
+## 2026.11.24 대시보드 개편 (한눈에 결론 · 행사 비교 · 키워드) — follow it
 
-The four "좋았던 점 / 안좋았던 점 / 개선하고 있는 것 / 개선이 필요한 것" lists (핵심요약, quad-grid)
-and the "컨텐츠 및 기타 업무 진행사항" list in `#comment` — one instance inside each brand's
-`data-brand-panel` block — are **plain `<ul><li><span class="bullet-text">text</span></li></ul>`
-lists**. There is no in-page editing UI (no "+ 항목 추가" button, no per-item × delete button, no
+사용자 요청: 영업팀·상사가 글이 많아 요점을 못 읽는다 → **결론부터, 시각 위주**. 구조:
+
+- **`#overview` (맨 위)** — `renderOverview()`가 `BRANDS[brand].brief`와 `campaigns`/`prevCampaigns`/`HISTORY`로
+  그린다: 판정 배너(`verdict` good|warn|bad + `headline` 한 줄 + `reason`) → KPI 5타일(광고비·매출·ROAS·구매·CPA,
+  전주 대비 + 최근 8주 스파크라인) → 매체별 ROAS 전주/이번 주 막대(한 축, 200% 점선) → **문제점→보완 조치**
+  (`problems[]`: `sev` bad|warn|watch, `t` 제목, `ev` 근거 수치, `fix` 조치, `st` prog|prop|chk, 선택 `jump`) →
+  잘한 점(`wins[]`) → 지난주 과제 점검(`checks[]`: `r` up|down|flat, 전주 보고서의 "개선하고 있는 것/필요한
+  것"을 이번 주 수치로 확인) → `foot`. **숫자는 계산값만 쓴다**(손으로 옮긴 추정치 금지 — 이전 세션이 추정
+  문구를 썼다가 틀림). `st` 의미: `prog`=전주 보고서에 있던 진행 과제, `prop`=이번 주 새로 *제안*, `chk`=대행사·사용자 확인
+  대기 — **진행 중이라고 근거 없이 쓰지 않는다**. 이 `brief`가 기존 4분면(quad-grid: 좋았던 점/안좋았던 점/
+  개선하고 있는 것/개선이 필요한 것)을 **대체**한다(요점·문제·조치를 쌍으로 묶음). quad-grid는 부활시키지 않는다 —
+  같은 서술이 두 군데 생기면 어긋난다(2026.08.26 교훈).
+- **`#summary`** — `renderSummary()`: 광고비/매출 비중 도넛, TOP 5, 최근 4주 비교표(`histFor()` 기반). 정적 마크업 없음.
+- **`#event` 행사 효율 비교** — `renderEvent()`: 2026.08.17~ 주차별 ROAS 막대를 행사 주/행사 언급 없는 주/애매/이번 주(미확정)로
+  구분하고, 그룹 합산 ROAS(Σ매출÷Σ광고비) 점선·칩·이번 주 위치를 보여준다. 기본은 **스마트스토어(store) 기준**
+  (사용자 요청, 커밋 7b19f6a)이고 토글로 전체. 해석 문구는 `brief.evNotes[]`(스토어 기준으로 작성).
+- **`#keyword` 키워드·검색어** — `renderKeyword()`가 `KW`(JSON 상수)로 그린다: 핵심 bullets(`KW.brands[b].brief`, 생성
+  스크립트가 JSON 숫자로 만든 문구) / 자사 브랜드어 vs 일반어 매출 / 전환 검색어 TOP / 메인 키워드 W1→W3 흐름(클릭·전환율·
+  객단가 분해 원인 태그, 전환 5건 미만은 "판단 보류") / 패턴별 ROAS / 제외·등록 후보 / 컨텐츠 후보 / 경쟁사 신호.
+  입력은 네이버 SA **키워드 리포트 2종**(키워드 `…_9.csv`, 검색어 `…_10.csv`, 일별·두 브랜드 합본, 1행 제목·2행 헤더).
+  분석 스크립트는 `reports/analysis/keyword-weekly/`(원본 CSV는 공개 저장소라 커밋하지 않음). 메타는 DA라 검색어 없음 → 네이버만.
+  **경쟁사 키워드 갭은 이 데이터로 불가**(우리 광고가 노출된 검색어만 있음) — 네이버 키워드도구 CSV나 SERP 스크린샷이 필요하다고
+  사용자에게 요청한다. 이 클라우드 세션에서는 search.naver.com이 프록시 403으로 막혀 있고 사용자 크롬도 접근 불가.
+- **브랜드검색은 광고데이터에서 전부 제외**(2026.11.24, 사용자: 영업팀이 이 데이터를 신뢰하지 않음). `campaigns`·`prevCampaigns`·
+  `HISTORY`·키워드 분석 모두 해당. 아래 "네이버 브랜드검색 cost" 정액 안분 규칙과 "브랜드검색 commentary threshold"는 **폐기**됐다.
+  `monthlyByMedia`(대행사 엑셀 기반)와 월간 리포트에는 아직 브랜드검색이 섞여 있다 — 분리 불가, 사용자 확인 필요.
+- **주차 전환 시 갱신할 상수**(`new_js` 블록, `BRAND SWITCH` 주석 바로 위): `CUR_WEEK`(start/label/range), `PREV_WEEK`,
+  `CUR_EVENT`(`ev`: event|none|amb|unk — 대행사 코멘트로 확정, 미확정이면 `unk`), `HISTORY`(**직전 주를 새 `campaigns`로 덮기 전에**
+  그 주 합계 `{s,l,r,cost,rev,conv,clk,imp,c:{store:[cost,rev,conv],mall:[…]},ev,en}`를 배열 끝에 추가 — 브랜드검색 제외, 집계 시점
+  값 그대로), `KW`(키워드 CSV 재분석), 각 브랜드 `brief`. 과거 `HISTORY`의 행사 플래그는 각 주 리포트 본문 근거로 분류한 1차
+  결과이며 사용자 확정 대기(비행사 표본: 아넬라 2주, 로지 4주 — 10/19주 로지 896%는 행사명 미언급 이상치).
+- 한계: 과거 주차는 그 주 집계 시점 값(후행 전환 미반영 하한). 광고비 0원인데 매출이 있는 행(종료된 넾다세일 GFA 후행 전환)은
+  ROAS를 부풀리므로 `brief`에서 분리해 언급한다.
+
+## The 컨텐츠/업무 진행사항 section is a plain static list (not live-editable)
+
+The "컨텐츠 및 기타 업무 진행사항" list in `#comment` — one instance inside each brand's
+`data-brand-panel` block — is a **plain `<ul><li><span class="bullet-text">text</span></li></ul>`
+list** (the former 핵심요약 quad-grid lists were replaced by `#overview`'s `brief`, see above). There is no in-page editing UI (no "+ 항목 추가" button, no per-item × delete button, no
 `contenteditable`) and no Artifact `artifact-sync` capability declared. This was a deliberate
 removal (2026.09) — the sync-region live-editing feature (built 2026.08, "fixed" once already after
 a `setReadOnly()`-mutating-a-sync-region bug) never reliably persisted edits for the user in
@@ -123,10 +174,10 @@ asks for live editing back.
 
 `#comment`'s `.comment-card` per brand holds **only** the 컨텐츠 및 기타 업무 진행사항 list now —
 the earlier static `광고 관련 코멘트 (n주차)` and `차주 운영 방향` lists were removed (2026.08.26)
-because they duplicated the 핵심요약 quad-grid's "안좋았던 점" and "개선이 필요한 것 (차주
-운영방향)" lists verbatim — one source of truth (the quad-grid) beats two copies that can drift.
+because they duplicated the 핵심요약 "안좋았던 점" and "개선이 필요한 것 (차주
+운영방향)" lists verbatim — one source of truth beats two copies that can drift.
 Don't reintroduce those two lists in `#comment`; narrative/number commentary and next-week
-direction live in the quad-grid only.
+direction live in `brief` (`#overview`) only.
 
 ## Data-sourcing & data-integrity workflow (established practice — follow it)
 
@@ -145,7 +196,8 @@ for that week's exact Mon–Sun range and fully replace the previous week's `cam
   `name` = 광고 그룹 이름 (matches existing GFA row granularity). **Ask for a version with
   `구매완료 수`/`구매완료 전환매출액` columns** — an earlier GFA export had no revenue column at
   all (지출/노출/클릭만) and had to be re-requested.
-- **네이버 브랜드검색 cost is not in the daily SA export** (그 상품은 정액제/구좌 단위이고 raw
+- **[폐기 2026.11.24 — 브랜드검색은 광고데이터에서 전부 제외, 이 항목은 더 이상 적용하지 않음]**
+  **네이버 브랜드검색 cost is not in the daily SA export** (그 상품은 정액제/구좌 단위이고 raw
   daily 리포트에는 "총비용"이 매일 `0`으로 찍힘). Cost must be computed from the flat-rate
   contract instead: as of 2026.08, **2,640,000원 / 90일 (VAT 포함)**, prorated to the week's day
   count and applied identically to both brands' `_브검_모바일` rows (걸 다시 확인받기 전까진 이
@@ -190,15 +242,20 @@ one ever-growing conversation only adds compaction risk and per-turn token overh
      branch may still hold work — merge it if so), then archive the outgoing week if it isn't in
      `WEEKLIES` yet (see "Weekly workflow order").
   2. Ask the user — in one message — for *all* inputs: Naver SA CSV, Naver GFA CSV (with revenue
-     column), the Meta xlsx pair, any new creative zip, **and** the agency's free-text weekly
+     column), the Meta xlsx pair, the two Naver 키워드·검색어 리포트 CSVs, any new creative zip, **and** the agency's free-text weekly
      comment for both brands, plus the 컨텐츠/기타 업무 진행사항 bullets. Remind them Thursday 2pm is
      the CEO meeting.
-  3. Aggregate by brand → rebuild `campaigns`/KPI/weekly comparison numbers; cross-check every
-     number in the comment against the aggregate (chat-only notes on mismatches, report carries the
-     raw-derived numbers); apply the 브랜드검색 threshold; write quad-grid + `mediaNotes` +
-     컨텐츠 list; update every per-week string (`<title>`, `.period`, `#summary` section-sub, other
-     section-subs, footSource, comparison-table row labels, archive hero card) in the "n월 n주차"
-     format; `node --check`; publish live report + archive; commit/push to the designated branch.
+  3. Aggregate by brand (**drop 브랜드검색 rows**; reconcile raw totals vs aggregated totals per media
+     before writing — SA/GFA/Meta must match exactly; Meta rows with no brand in the name must be
+     reported, never silently dropped) → rebuild `campaigns`/`prevCampaigns`; append the outgoing week
+     to `HISTORY`; update `CUR_WEEK`/`PREV_WEEK`/`CUR_EVENT`; cross-check every number in the agency
+     comment against the aggregate (chat-only notes on mismatches, report carries the raw-derived
+     numbers); rewrite `brief` (computed numbers only) + `mediaNotes` + 컨텐츠 list; refresh `KW`
+     from the keyword CSVs; update every per-week string (`<title>`, `.period`, `#summary`
+     section-sub, other section-subs, footSource, archive hero card) in the "n월 n주차" format;
+     `node --check` **and the headless-Chromium render check** (see Commands); publish live report +
+     archive; commit/push to the branch named in the session instructions (not whatever branch the
+     checkout happens to be on — on 2026.11.24 work was pushed to a stale `zealous-cray-*` branch).
   If the files/comment haven't arrived, the session notifies the user (PushNotification) and stops
   without editing or publishing — the live Artifact keeps showing the last complete week.
 - **Monthly, first *working day* of the month, 10:30 KST** — the trigger's cron actually fires every
@@ -291,7 +348,7 @@ is off-limits) — a human still has to download and attach the files each week.
 상·하반기 비교와 목표 대비 달성률을 낸다. 어느 값을 썼는지(대행사 집계 등)는 채팅에서 밝힌다. 브랜드검색
 정액 광고비를 총계에 넣는지 여부도 출처 간 차이가 나는 원인이므로 같이 확인한다.
 
-### 브랜드검색 commentary threshold (established 2026.09 — follow it)
+### 브랜드검색 commentary threshold (established 2026.09 — **폐기 2026.11.24**: 브랜드검색은 광고데이터에서 아예 제외, 아래는 이력)
 네이버 브랜드검색은 대부분 영업팀이 직접 관리한다 — 사용자는 데이터 흐름만 확인하고, 문제가 있을
 때만 개입한다. 그래서 핵심요약(quad-grid)에는 **브랜드검색에 대한 코멘트를 기본적으로 쓰지 않는다**
 — 좋았던 점이든 안좋았던 점이든, 숫자가 오르내린다는 이유만으로는 언급하지 않는다 (4주차의
@@ -389,7 +446,7 @@ whole archive system was bootstrapped on 2026.08.31), skip straight to overwriti
 the same week twice. Otherwise:
 1. Copy the current (outgoing) `reports/weekly-report.html` to `reports/weekly/<that week's
    period-start date>.html`.
-2. Publish the copy as its own new Artifact (`favicon: "📅"`; give it its own `<title>` so it
+2. Publish the copy as its own new Artifact (`icon: "calendar"` — the tool's old `favicon` param is deprecated; a new snapshot is **private** until the user shares it from the page's Share menu, so tell them; give it its own `<title>` so it
    reads as an archived week, not the live report — the live report's own `<title>` tag otherwise
    wins and both would show the same name in the gallery).
 3. Add an entry to the *front* of `WEEKLIES` in `reports/archive.html` and republish that page —
@@ -398,8 +455,10 @@ the same week twice. Otherwise:
    transition (2026.09 bug fix) — the hero card kept showing "3주차" while the live report already
    held 4주차 data, so don't let the two drift again.
 4. *Then* edit `reports/weekly-report.html` in place for the new week and continue the normal
-   pipeline (aggregate → rebuild `campaigns`/`mediaNotes`/quad-grid/comparison table → publish →
-   commit) as before. **Also update `#summary`'s own `<p class="section-sub">` caption** (the
+   pipeline (aggregate → rebuild `campaigns`/`prevCampaigns`/`brief`/`mediaNotes`, append the outgoing
+   week to `HISTORY` → publish → commit) as before. If the outgoing week was *not* archived and the
+   live file was already overwritten, the true snapshot is recoverable from git history
+   (`git show <commit before the overwrite>:reports/weekly-report.html`) — never invent an archive URL. **Also update `#summary`'s own `<p class="section-sub">` caption** (the
    "전주(...) 대비 N주차(...) 비교 · ..." line right under "핵심 요약") to the current week's actual
    dates — this is a single shared line (not per-brand) that's easy to forget since every other
    per-brand text update draws attention away from it; it silently went stale for three weeks
