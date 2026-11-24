@@ -44,7 +44,8 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   the page in the pre-installed headless Chromium and fail on any `pageerror`/console error:
   `require('playwright').chromium.launch()` → `goto('file://…/reports/weekly-report.html')` → click both
   `#brandSwitch` chips and every tab (`#mediaTabs`, `#channelTabs`, `#creativeTabs`, `#trendTabs`,
-  `#evChanTabs`, `#kwTypeTabs`), hover a chart bar (tooltip must show), and check
+  `#evChanTabs`, `#kwTypeTabs`, `#tmTabs`, `#tmScope` + type into `#tmQ`), hover a chart bar (tooltip must show; SVG
+  `<text>` labels must not intercept hover — `svg.chart text{pointer-events:none}`), and check
   `document.documentElement.scrollWidth <= clientWidth` at 390px and 1200px. Screenshot section by
   section (`header.top{position:static}` first so the sticky header doesn't overlap element shots).
 - **Preview**: open the file directly in a browser, or publish it with the Artifact tool (see
@@ -81,9 +82,9 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
 2. Sections, in source order top to bottom, matching the top nav's link order (keep the nav's
    `<a href="#...">` order and the sections' DOM order in sync if either changes):
    `#overview`(한눈에 결론), `#summary`(핵심요약), `#comment`, `#event`(행사 비교), `#keyword`(키워드·검색어),
-   `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`, `#event`,
-   `#keyword` are empty containers (`#overviewBody`, `#summaryBody`, `#eventBody`, `#keywordBody`) filled
-   by `renderOverview/renderSummary/renderEvent/renderKeyword`. `#trend`'s notes and `#comment` still
+   `#terms`(전체 리스트), `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`,
+   `#event`, `#keyword` are empty containers (`#overviewBody`, `#summaryBody`, `#eventBody`, `#keywordBody`) filled
+   by `renderOverview/renderSummary/renderEvent/renderKeyword`; `#terms` has static controls and `renderTerms()` fills its table. `#trend`'s notes and `#comment` still
    contain **two** sibling `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the
    non-active one carries `hidden`). A tiny IntersectionObserver scroll-spy moves `.current` on the nav.
 3. One inline `<script>` at the end with:
@@ -147,6 +148,21 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   분석 스크립트는 `reports/analysis/keyword-weekly/`(원본 CSV는 공개 저장소라 커밋하지 않음). 메타는 DA라 검색어 없음 → 네이버만.
   **경쟁사 키워드 갭은 이 데이터로 불가**(우리 광고가 노출된 검색어만 있음) — 네이버 키워드도구 CSV나 SERP 스크린샷이 필요하다고
   사용자에게 요청한다. 이 클라우드 세션에서는 search.naver.com이 프록시 403으로 막혀 있고 사용자 크롬도 접근 불가.
+- **`#terms` 키워드·검색어 전체 리스트**(영업팀 요청, 2026.11.24) — `renderTerms()`가 `TERMS`(JSON 상수, ~125KB)로 그린다. 탭 2개:
+  **파워링크 키워드**(리포트에 노출이 1회 이상 있던 키워드 전부 + 광고그룹별 "미등록·확장 매칭 검색어 합계" 행) /
+  **쇼핑검색 유입 검색어**(클릭 발생 검색어 전부 + 클릭 0이어도 노출 10회 이상인 검색어). 11/1–11/23 합계 + 이번 주(W3) 클릭·구매 컬럼,
+  검색창·구매 발생/클릭만·무전환/클릭 0 필터·자사어 제외·광고그룹 선택·헤더 정렬·"더 보기"(50개씩). 브랜드 칩을 바꾸면 필터가 초기화된다.
+  파워링크 리스트의 W3 합계는 `campaigns`의 파워링크 합계와 정확히 일치해야 한다(클릭·구매·매출 대조 후 발행). **한계**: 노출 0인 키워드·입찰가·운영
+  상태는 키워드 리포트에 없다 → 필요하면 네이버 광고관리 키워드 목록 export를 사용자에게 요청. 쇼핑검색 검색어는 네이버 비공개 처리로 일부만 보인다.
+  생성: `reports/analysis/keyword-weekly/scripts/make_terms.py <키워드 csv> <검색어 csv> <out.json>` → `const TERMS = …;`에 붙여 넣는다(주차마다 갱신).
+- **상태 라벨(`problems[].st`)**: `prog` 진행중(전주 보고 과제) / `plan` 차주 계획(대행사 코멘트의 '차주 운영 방향') / `done` 조치 완료 / `prop` 제안 / `chk` 확인 필요.
+  `brief.next[]`(`{m:'search'|'meta'|'gfa', t}`)는 대행사 코멘트의 '차주 운영 방향'을 그대로 옮긴 카드("차주 운영 방향")로 그려진다.
+- **행사 여부는 대행사 코멘트가 출처**다. `CUR_EVENT`의 `ev`/`name`을 코멘트 문구(예: "금주: 이벤트 미진행", "쌀과자 오늘끝딜 11/18~19")로 확정하고, 이번 주 막대는
+  행사/비행사 색 + 굵은 테두리로 표시된다(`CUR_LABEL`). 코멘트의 매체별 수치는 우리 raw 집계와 한 줄씩 대조한다(총계는 브랜드검색 포함·후행 전환 반영분이라
+  다를 수 있음 — 불일치는 채팅에만). 2026.11.24 대조 결과: 매체별 수치는 거의 일치, 로지 과자 시크릿링크 "광고비 9% 감액"은 raw로는 +8.8%(대행사 오타로 보임).
+- **입력(대행사 코멘트·파일)은 받자마자 저장소에 보관한다.** 2026.11.24 세션에서 사용자가 보낸 대행사 코멘트가 컨텍스트 압축 때 사라져, 세션이 "미수신"이라고 잘못
+  답했다. 코멘트는 `reports/agency-comments/YYYY-MM-DD(주 시작일).md`에 원문 그대로 저장(커밋)하고, "입력이 안 왔다"고 말하기 전에 세션 기록
+  (`/root/.claude/projects/-home-user-rosy-oak/<session-id>.jsonl`의 user 메시지)과 `/root/.claude/uploads/<session-id>/`를 먼저 검색한다.
 - **브랜드검색은 광고데이터에서 전부 제외**(2026.11.24, 사용자: 영업팀이 이 데이터를 신뢰하지 않음). `campaigns`·`prevCampaigns`·
   `HISTORY`·키워드 분석 모두 해당. 아래 "네이버 브랜드검색 cost" 정액 안분 규칙과 "브랜드검색 commentary threshold"는 **폐기**됐다.
   `monthlyByMedia`(대행사 엑셀 기반)와 월간 리포트에는 아직 브랜드검색이 섞여 있다 — 분리 불가, 사용자 확인 필요.

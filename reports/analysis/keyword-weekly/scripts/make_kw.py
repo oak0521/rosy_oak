@@ -3,8 +3,8 @@ SP='/tmp/claude-0/-home-user-rosy-oak/4eb12892-ad7e-503f-aa00-8a85010a71c4/scrat
 k=json.load(open(SP+'kw_analysis.min.json',encoding='utf-8'))
 WK=('W1','W2','W3')
 def tagshort(t):
-    if t.startswith('행사 기저효과(추정)'): return '행사 기저효과(추정)'
-    if t.startswith('넾다세일 주간(W1)'): return 'W1 넾다세일 대비 하락(추정)'
+    if t.startswith('행사 기저효과(추정)'): return '전주 행사 기저효과'
+    if t.startswith('넾다세일 주간(W1)'): return 'W1 넾다세일 주간 대비 하락'
     return t
 def roas(c,r): return round(r/c*100,1) if c else None
 def row(e,ext=False):
@@ -14,7 +14,7 @@ def row(e,ext=False):
             'rev':[w[x]['rev'] for x in WK],'cost':[w[x]['cost'] for x in WK],'conv':[w[x]['conv'] for x in WK],
             'conv3':e['total3w']['conv'],'roas3':e['total3w']['roas'],'roasW':[w[x]['roas'] for x in WK],
             'vs2':e['direction']['vs_w2']['rev_pct'],'vs1':e['direction']['vs_w1']['rev_pct'],
-            'tags':[tagshort(t) for t in e.get('reason_tags',[])][:3],'act':e.get('action',''),'verdict':e.get('verdict','')}
+            'tags':[tagshort(t) for t in e.get('reason_tags',[])][:3],'act':e.get('action','').replace('기저효과(추정)','기저효과'),'verdict':e.get('verdict','')}
 out={'weeks':{'W1':'11/2–11/8','W2':'11/9–11/15','W3':'11/16–11/22'},'brands':{}}
 for br in ('anela','rosy'):
     b=k['brands'][br]; mk=b['main_keywords']; o={}
@@ -66,7 +66,7 @@ for br in ('anela','rosy'):
     pat=lambda t,name:next(r for r in b['pattern_efficiency'][t]['rows'] if r['pattern']==name)
     if br=='anela':
         own2,own3=st['W2']['own']['rev'],st['W3']['own']['rev']; non2,non3=st['W2']['non']['rev'],st['W3']['non']['rev']
-        bl.append(f"<b>W3 하락의 대부분은 자사 브랜드어 검색</b> — 관측된 검색어 기준 자사어 매출 {M(own2)} → {M(own3)}원({M(own3-own2)[:-1]}만), 일반어는 {M(non2)} → {M(non3)}원({(non3-non2)/non2*100:+.0f}%)으로 거의 유지. 일반어 효율은 안정적이며 W2 행사 기저효과로 추정(행사 여부 확정 후 재판정)")
+        bl.append(f"<b>W3 하락의 대부분은 자사 브랜드어 검색</b> — 관측된 검색어 기준 자사어 매출 {M(own2)} → {M(own3)}원({M(own3-own2)[:-1]}만), 일반어는 {M(non2)} → {M(non3)}원({(non3-non2)/non2*100:+.0f}%)으로 거의 유지. 일반어 효율은 안정적 — 전주 행사(더블혜택·1+1) 때 높았던 자사어 검색이 정상화된 것으로 보입니다(대행사도 브랜드 검색 수요 완화로 설명)")
         a,c,s,p=pat('쇼핑검색','떡뻥·쌀과자류'),pat('쇼핑검색','과자·간식(범용)'),pat('쇼핑검색','성분·속성'),pat('쇼핑검색','퓨레류')
         bl.append(f"<b>쇼핑검색 과자·떡뻥 계열은 구조적으로 ROAS 200% 미만</b> — 떡뻥·쌀과자류 {a['roas']:.0f}%(광고비 {a['cost']/1e4:.1f}만원), 과자·간식 범용 {c['roas']:.0f}%, 성분·속성 {s['roas']:.0f}%. 퓨레 계열은 {p['roas']:.0f}%")
         u=o['unreg']; e=next(r for r in o['main']['파워링크'] if r['ext'])
