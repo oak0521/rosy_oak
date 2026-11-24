@@ -82,7 +82,7 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
 2. Sections, in source order top to bottom, matching the top nav's link order (keep the nav's
    `<a href="#...">` order and the sections' DOM order in sync if either changes):
    `#overview`(한눈에 결론), `#summary`(핵심요약), `#comment`, `#event`(행사 비교), `#keyword`(키워드·검색어),
-   `#terms`(전체 리스트), `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`,
+   `#terms`(전체 리스트), `#serp`(경쟁사 비교, 데이터 있을 때만), `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`,
    `#event`, `#keyword` are empty containers (`#overviewBody`, `#summaryBody`, `#eventBody`, `#keywordBody`) filled
    by `renderOverview/renderSummary/renderEvent/renderKeyword`; `#terms` has static controls and `renderTerms()` fills its table. `#trend`'s notes and `#comment` still
    contain **two** sibling `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the
@@ -153,13 +153,24 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   **`KW_GAPS`**(상수, `let curKwType` 바로 위)는 "경쟁 갭 후보" 카드의 행이다: `ours`=자사 네이버 리포트로 **검증한** 수치, `ext`=네이버 SERP가 아닌 외부 채널 관찰(**미검증**으로
   표기), `todo`=다음 확인. 사용자가 붙여 준 외부 리서치(`competitor_research_2026-11-24.md`)는 우리 리포트·월간 데이터와 대조한 항목만 `ours`에 싣고, 검증 못 한 가격·리뷰 수는 `ext`
   에만 두며, 제품 스펙 확인 없는 "무설탕·무첨가 명기" 같은 표시 권고는 싣지 않는다(식품 표시·광고 기준).
-- **`#terms` 키워드·검색어 전체 리스트**(영업팀 요청, 2026.11.24) — `renderTerms()`가 `TERMS`(JSON 상수, ~125KB)로 그린다. 탭 2개:
+- **`#terms` 키워드·검색어 전체 리스트**(영업팀 요청, 2026.11.24) — `renderTerms()`가 `TERMS`(JSON 상수, ~125KB)로 그린다. 탭 3개(`pl`/`ss`/`ex`):
   **파워링크 키워드**(리포트에 노출이 1회 이상 있던 키워드 전부 + 광고그룹별 "미등록·확장 매칭 검색어 합계" 행) /
   **쇼핑검색 유입 검색어**(클릭 발생 검색어 전부 + 클릭 0이어도 노출 10회 이상인 검색어). 11/1–11/23 합계 + 이번 주(W3) 클릭·구매 컬럼,
   검색창·구매 발생/클릭만·무전환/클릭 0 필터·자사어 제외·광고그룹 선택·헤더 정렬·"더 보기"(50개씩). 브랜드 칩을 바꾸면 필터가 초기화된다.
   파워링크 리스트의 W3 합계는 `campaigns`의 파워링크 합계와 정확히 일치해야 한다(클릭·구매·매출 대조 후 발행). **한계**: 노출 0인 키워드·입찰가·운영
   상태는 키워드 리포트에 없다 → 필요하면 네이버 광고관리 키워드 목록 export를 사용자에게 요청. 쇼핑검색 검색어는 네이버 비공개 처리로 일부만 보인다.
   생성: `reports/analysis/keyword-weekly/scripts/make_terms.py <키워드 csv> <검색어 csv> <out.json>` → `const TERMS = …;`에 붙여 넣는다(주차마다 갱신).
+  **`ex` 탭(파워링크 확장 검색어, 2026.11.24 사용자 요청)** — "미등록·확장 매칭 검색어 합계" 행은 합계만 보여 줘서 *어떤 검색어*가 매출을 만드는지 알 수 없었다. 이 합계
+  행의 "검색어별로 보기 ›" 버튼이 `ex` 탭으로 이동해 그 광고그룹으로 필터한다(`.tm-jump`, `TS.ag`). 정의: 검색어 리포트의 파워링크 행 중 같은 광고그룹의 등록 키워드와 문자열이 다른 검색어
+  (키워드 리포트에서 `-`로 묶인 버킷과 대조). 노출은 클릭·전환·비용이 있거나 노출 30회 이상인 것만 수록(`ex_total_terms`가 전체 수). **합계는 키워드 탭의 확장 합계 행과 같아야 한다**
+  (2026.11.24 기준 아넬라 클릭 246·전환 22·매출 81.5만, 로지 클릭 470·전환 42·매출 88.7만 — 전환만 있고 노출 0인 행이 빠져 로지 전환이 37로 나왔던 버그를 `make_terms.py`에서 고침).
+  클릭 1~2회 검색어의 ROAS는 수천%로 튀므로 탭 캡션에 "구매 건수·패턴으로 판단"이라고 적어 둔다.
+- **`#serp` 경쟁사 비교(네이버 모바일 검색 캡처, 2026.11.24 사용자 요청)** — 우리 제품과 함께 노출되는 경쟁 상품의 썸네일·가격·순위·리뷰 수·구매 수를 카드/막대/표로 비교한다. `renderSerp()`가
+  `SERP` 상수(`{captured,device,anela:[],rosy:[]}`, 키워드 항목 `{kw,at,shots[],items[{src,rank,ad,ours,brand,name,price,unit,unitPrice,rating,reviews,buys,img}]}`)로 그린다.
+  **`SERP[brand]`가 비어 있으면 섹션 `#serp`와 메뉴 `#navSerp`가 숨겨진다**(지금은 비어 있음 — 데이터가 없는데 빈 틀을 보여 주지 않는다). 이 클라우드 세션은 네이버에 접속할 수 없어(프록시 403) 직접 캡처가
+  불가능하다 → **사용자가 네이버 모바일 검색 스크린샷을 보내 주면** 세션이 값을 눈으로 읽어 `input.json`을 쓰고(보이지 않는 값은 비운다, 추정 금지)
+  `reports/analysis/serp-compare/make_serp.js`(Chromium canvas로 썸네일 240×240·캡처 520px 축소)로 변환해 `const SERP`에 붙인다. 절차·요청 양식은 `reports/analysis/serp-compare/README.md`.
+  단가(`unitPrice`)는 모든 상품에 있을 때만 비교에 쓴다. 데모 데이터로 렌더 검증할 때는 임시 사본(`/tmp`)에만 주입하고 **발행하지 않는다**. 원본 캡처 PNG는 공개 저장소라 커밋하지 않는다.
 - **상태 라벨(`problems[].st`)**: `prog` 진행중(전주 보고 과제) / `plan` 차주 계획(대행사 코멘트의 '차주 운영 방향') / `done` 조치 완료 / `prop` 제안 / `chk` 확인 필요.
   `brief.next[]`(`{m:'search'|'meta'|'gfa', t}`)는 대행사 코멘트의 '차주 운영 방향'을 그대로 옮긴 카드("차주 운영 방향")로 그려진다.
 - **행사 여부는 대행사 코멘트가 출처**다. `CUR_EVENT`의 `ev`/`name`을 코멘트 문구(예: "금주: 이벤트 미진행", "쌀과자 오늘끝딜 11/18~19")로 확정하고, 이번 주 막대는

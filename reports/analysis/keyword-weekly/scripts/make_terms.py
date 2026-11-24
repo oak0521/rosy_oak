@@ -38,7 +38,19 @@ for b in ('anela','rosy'):
     sd=agg(ss,'검색어'); ssrows=[]
     for k,a in sd.items():
         if a['clk']>=1 or a['imp']>=10: ssrows.append(enc(k,a,bool(OWN.search(k))))
-    out[b]={'pl':plrows,'ss':ssrows,'ss_total_terms':len(sd)}
+    # 파워링크 확장(미등록) 검색어: 같은 광고그룹의 등록 키워드와 문자열이 다른 검색어. 키워드 리포트의 '-' 합계와 거의 일치(아넬라 구매·매출 동일, 로지 구매 41 vs 42).
+    regset={(r['광고그룹'],r['키워드']) for r in pl if r['키워드']!='-'}
+    exrs=[r for r in ST if brand(r)==b and r['캠페인유형']=='파워링크' and (r['광고그룹'],r['검색어']) not in regset]
+    ed=collections.OrderedDict()
+    for r in exrs: ed.setdefault((r['광고그룹'],r['검색어']),[]).append(r)
+    exrows=[]
+    for (g,k),rs in ed.items():
+        a=agg(rs,'검색어')[k]
+        if a['clk']>=1 or a['conv']>=1 or a['rev']>0 or a['cost']>0 or a['imp']>=30:   # 클릭 없이 후행 전환만 잡힌 행도 포함(합계가 키워드 리포트와 맞도록)
+            row=enc(k,a,bool(OWN.search(k))); row[1]=short(g); exrows.append(row)
+    out[b]={'pl':plrows,'ss':ssrows,'ex':exrows,'ss_total_terms':len(sd),'ex_total_terms':len({r['검색어'] for r in exrs}),
+            'ex_bucket':{'clk':sum(r[3] for r in exrows),'cost':sum(r[4] for r in exrows),'conv':sum(r[5] for r in exrows),'rev':sum(r[6] for r in exrows)}}
+    print(b,'EX rows',len(exrows),'of',out[b]['ex_total_terms'],'terms | clk/cost/conv/rev',out[b]['ex_bucket'])
     print(b,'PL rows',len(plrows),'| SS rows',len(ssrows),'(of',len(sd),'terms; clicks>=1:',sum(1 for r in ssrows if r[3]>=1),')',
           '| PL totals cost',sum(r[4] for r in plrows),'rev',sum(r[6] for r in plrows))
 json.dump(out,open(OUT,'w',encoding='utf-8'),ensure_ascii=False,separators=(',',':'))
