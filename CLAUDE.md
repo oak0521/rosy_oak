@@ -165,12 +165,15 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   (키워드 리포트에서 `-`로 묶인 버킷과 대조). 노출은 클릭·전환·비용이 있거나 노출 30회 이상인 것만 수록(`ex_total_terms`가 전체 수). **합계는 키워드 탭의 확장 합계 행과 같아야 한다**
   (2026.11.24 기준 아넬라 클릭 246·전환 22·매출 81.5만, 로지 클릭 470·전환 42·매출 88.7만 — 전환만 있고 노출 0인 행이 빠져 로지 전환이 37로 나왔던 버그를 `make_terms.py`에서 고침).
   클릭 1~2회 검색어의 ROAS는 수천%로 튀므로 탭 캡션에 "구매 건수·패턴으로 판단"이라고 적어 둔다.
-- **`#serp` 경쟁사 비교(네이버 모바일 검색 캡처, 2026.11.24 사용자 요청)** — 우리 제품과 함께 노출되는 경쟁 상품의 썸네일·가격·순위·리뷰 수·구매 수를 카드/막대/표로 비교한다. `renderSerp()`가
-  `SERP` 상수(`{captured,device,anela:[],rosy:[]}`, 키워드 항목 `{kw,at,shots[],items[{src,rank,ad,ours,brand,name,price,unit,unitPrice,rating,reviews,buys,img}]}`)로 그린다.
-  **`SERP[brand]`가 비어 있으면 섹션 `#serp`와 메뉴 `#navSerp`가 숨겨진다**(지금은 비어 있음 — 데이터가 없는데 빈 틀을 보여 주지 않는다). 이 클라우드 세션은 네이버에 접속할 수 없어(프록시 403) 직접 캡처가
-  불가능하다 → **사용자가 네이버 모바일 검색 스크린샷을 보내 주면** 세션이 값을 눈으로 읽어 `input.json`을 쓰고(보이지 않는 값은 비운다, 추정 금지)
-  `reports/analysis/serp-compare/make_serp.js`(Chromium canvas로 썸네일 240×240·캡처 520px 축소)로 변환해 `const SERP`에 붙인다. 절차·요청 양식은 `reports/analysis/serp-compare/README.md`.
-  단가(`unitPrice`)는 모든 상품에 있을 때만 비교에 쓴다. 데모 데이터로 렌더 검증할 때는 임시 사본(`/tmp`)에만 주입하고 **발행하지 않는다**. 원본 캡처 PNG는 공개 저장소라 커밋하지 않는다.
+- **`#serp` 경쟁사 비교(네이버 모바일 검색, 2026.11.25 반영)** — 우리 제품과 함께 노출되는 경쟁 상품의 썸네일·가격·단가·평점·리뷰·구매·순위·광고 여부를 카드/막대/표로 비교한다. `renderSerp()`가
+  `SERP` 상수(`{captured,device,anela:[],rosy:[]}`, 키워드 항목 `{kw,at,shots[],items[{src:'파워링크'|'쇼핑광고'|'쇼핑',rank,ad,ours,brand(판매처·광고주),name,promo,desc,url,price,unit,unitPrice,rating,reviews,reviewsTxt,buys,buysTxt,img}]}`)로 그린다.
+  **`SERP[brand]`가 비어 있으면 섹션 `#serp`와 메뉴 `#navSerp`가 숨겨진다.** 사용자가 환경 네트워크 정책에 네이버 도메인(`m.search.naver.com`, `search.shopping.naver.com`, `shopping.naver.com`)을 허용하면
+  **세션이 직접 수집한다**: `reports/analysis/serp-compare/capture_serp.js keywords.json <workdir>` → `make_serp.js <workdir>/input.json <workdir>/out.json` → `const SERP`에 붙여 넣기(절차·한계는 같은 폴더 README).
+  규칙: **광고를 클릭하지 않는다**(클릭 비용), 키워드당 1회 로드, 캡차가 뜨면 우회하지 말고 건너뛴다, 구매 `2천+`·리뷰 `2.8만` 표기는 `*Txt`로 보존한다. 해외 IP·비로그인 화면이라 한국 소비자 화면과 다를 수 있음을 리포트에 명시한다(푸터 문구).
+  네이버가 막혀 있으면(403) 사용자 스크린샷 방식(README 방법 B)으로 대체한다. 단가(`unitPrice`)는 g/ml 100단위로 환산하고 같은 단위 상품 3개 이상일 때만 비교에 쓴다.
+  **용량**: 키워드 10개 ≈ 3.2MB, 리뷰 포함 리포트 ≈ 13MB(한도 16MB) — 키워드를 늘리기 전에 확인. 주차마다 `SERP`를 교체(누적 금지). 원본 캡처 PNG는 공개 저장소라 커밋하지 않는다. 데모 데이터로 검증할 때는 `/tmp` 사본에만 주입하고 발행하지 않는다.
+  2026.11.25 첫 수집(키워드 아넬라 5·로지 5)에서 확인된 사실: 아넬라 "떡뻥"은 파워링크·쇼핑광고에 우리 상품이 없고 일반 쇼핑 10위에만 노출, 로지 "아기떡뻥"은 파워링크 2위·일반 쇼핑 12위뿐,
+  로지오가닉 상품이 아넬라 스토어에서 별도 가격(19,800원 vs 로지 스토어 14,500원)으로 판매·노출됨.
 - **상태 라벨(`problems[].st`)**: `prog` 진행중(전주 보고 과제) / `plan` 차주 계획(대행사 코멘트의 '차주 운영 방향') / `done` 조치 완료 / `prop` 제안 / `chk` 확인 필요.
   `brief.next[]`(`{m:'search'|'meta'|'gfa', t}`)는 대행사 코멘트의 '차주 운영 방향'을 그대로 옮긴 카드("차주 운영 방향")로 그려진다.
 - **행사 여부는 대행사 코멘트가 출처**다. `CUR_EVENT`의 `ev`/`name`을 코멘트 문구(예: "금주: 이벤트 미진행", "쌀과자 오늘끝딜 11/18~19")로 확정하고, 이번 주 막대는

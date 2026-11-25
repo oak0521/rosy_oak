@@ -28,8 +28,8 @@
 //   "rosy": [ … ]
 // }
 //
-// 출력: { captured, device, anela:[…], rosy:[…] } — items[].img = 240x240 JPEG dataURL, shots = 520px폭 JPEG dataURL.
-// 이 JSON 을 weekly-report.html 의 `const SERP = {…};` 한 줄에 그대로 붙여 넣는다. 파일 크기: 상품 1개 ≈ 12KB, 캡처 1장 ≈ 60–120KB.
+// 출력: { captured, device, anela:[…], rosy:[…] } — items[].img = 240x240 JPEG dataURL, shots = 400px폭 JPEG dataURL.
+// 이 JSON 을 weekly-report.html 의 `const SERP = {…};` 한 줄에 그대로 붙여 넣는다. 파일 크기: 상품 1개 ≈ 6KB, 캡처 1장 ≈ 40–70KB.
 
 const fs = require('fs');
 const path = require('path');
@@ -68,13 +68,14 @@ const dataUrl = f => `data:${mime(f)};base64,` + fs.readFileSync(f).toString('ba
       const o = { kw: q.kw, at: q.at || '', items: [] };
       const shots = q.shots || (q.shot ? [q.shot] : []);
       if (shots.length) o.shots = [];
-      for (const s of shots) o.shots.push(await render(load(s), null, 520, null, 0.72));
+      for (const s of shots) o.shots.push(await render(load(s), null, 400, null, 0.55));
       for (const it of q.items || []) {
-        const { crop, ...rest } = it;
-        if (crop && crop.file) {
+        const { crop, imgFile, ...rest } = it;
+        if (imgFile) rest.img = await render(load(imgFile), null, 160, 160, 0.75);   // capture_serp.js 가 저장한 상품 이미지 전체를 정사각 썸네일로
+        else if (crop && crop.file) {
           if (crop.w < 40 || crop.h < 40) warn.push(`${brand}/${q.kw}/${it.brand}: crop ${crop.w}x${crop.h} 너무 작음`);
           rest.img = await render(load(crop.file), crop, 240, 240, 0.82);
-        } else warn.push(`${brand}/${q.kw}/${it.brand}: crop 없음 → 썸네일 비어 있음`);
+        } else if (it.src !== '파워링크') warn.push(`${brand}/${q.kw}/${it.brand}: 썸네일 없음`);
         o.items.push(rest);
       }
       out[brand].push(o);
