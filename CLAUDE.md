@@ -43,7 +43,8 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   string), so every JS-rendered section (매체별/소재별 성과, 추이…) published blank. Always also render
   the page in the pre-installed headless Chromium and fail on any `pageerror`/console error:
   `require('playwright').chromium.launch()` → `goto('file://…/reports/weekly-report.html')` → click both
-  `#brandSwitch` chips and every tab (`#mediaTabs`, `#channelTabs`, `#creativeTabs`, `#trendTabs`,
+  `#brandSwitch` chips and every tab — **each tab lives inside a view that is `display:none` unless active, so navigate first**
+  (`location.hash='#event'` etc., or click `#menu a[data-view=…]`; at ≤1000px open `#burger` first) — (`#mediaTabs`, `#channelTabs`, `#creativeTabs`, `#trendTabs`,
   `#evChanTabs`, `#kwTypeTabs`, `#tmTabs`, `#tmScope` + type into `#tmQ`), hover a chart bar (tooltip must show; SVG
   `<text>` labels must not intercept hover — `svg.chart text{pointer-events:none}`), and check
   `document.documentElement.scrollWidth <= clientWidth` at 390px and 1200px. Screenshot section by
@@ -79,8 +80,19 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
    snapshot, and **"월간 리포트 YYYY.MM"** for monthly rollups (established 2026.09, replacing an
    earlier generic, never-updated "브랜드 주간 리포트" title) — update it every time the live
    report's period changes, alongside the other per-week text (period line, footSource, section-subs).
-2. Sections, in source order top to bottom, matching the top nav's link order (keep the nav's
-   `<a href="#...">` order and the sections' DOM order in sync if either changes):
+2. **App shell (2026.11.25, 사용자 요청: "다 스크롤로 봐야 해서 눈에 안 보인다 → 좌측 메뉴 탭으로 이동")** — the page is a left-sidebar app, not one long scroll:
+   `div.app` = `aside.side#side` (logo, `nav.menu#menu` with `a.mi[data-view]` + SVG icon per item, grouped 요약/분석/성과, archive link, `.side-foot` period text) + `div.main`
+   (`header.top` sticky: `#burger`, `#brandTitle` + `.period`, `#brandSwitch` segmented control; `div.wrap` holding the sections; `footer.foot`). Every `<section class="view">` is hidden
+   (`.view{display:none}`) except the `.active` one; `showView(id)` (near the end of the script, replaces the old scroll-spy) toggles `.active`, marks `#menu a.current`, closes the mobile
+   drawer and scrolls to top. **Routing is by hash only** (`#overview`, `#summary`, … — plain ASCII ids, `hashchange` + initial `showView(location.hash.slice(1))`; unknown/hidden ids fall back to
+   `overview`; `renderSerp()` falls back too when SERP data disappears). In-page links such as the `jump` hrefs in `brief.problems[]` therefore keep working unchanged. ≤1000px the sidebar becomes
+   an off-canvas drawer (`#burger`, `#scrim`, Esc). Side gutters use `max(clamp(16px,2.6vw,32px), env(safe-area-inset-*))` and the sticky header uses `top:env(safe-area-inset-top)` + a `body::before` band
+   (artifact page contract); keep `<meta name="claude:viewport-fit-sides" content="cover">` beside `<title>` together with those paddings. Visual tokens added for the shell:
+   `--side-bg --top-bg --accent-2 --hero-a/b --ring --shadow-lg --feat-a/b` (defined in all three theme blocks — light `:root`, dark media query, `[data-theme=dark]`).
+   Overview uses a verdict hero (`.ov-banner` tinted by `--v-soft`), icon KPI tiles with area sparklines, and the ROAS tile highlighted as `.ov-kpi.feat`; SVG chart text gets a surface-colored halo
+   (`svg.chart text{paint-order:stroke…}`; labels *inside* bars must carry `.in-bar` or `fill="#fff"` to opt out). The archived snapshots (`reports/weekly/*.html`), `archive.html` and monthly
+   reports keep their old single-scroll design (frozen; only the live report got the shell).
+   Sections, in source order top to bottom, matching the sidebar's link order (keep the `#menu` link order and the sections' DOM order in sync if either changes):
    `#overview`(한눈에 결론), `#summary`(핵심요약), `#comment`, `#event`(행사 비교), `#keyword`(키워드·검색어),
    `#terms`(전체 리스트), `#serp`(경쟁사 비교, 데이터 있을 때만), `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`,
    `#event`, `#keyword` are empty containers (`#overviewBody`, `#summaryBody`, `#eventBody`, `#keywordBody`) filled
@@ -287,7 +299,7 @@ one ever-growing conversation only adds compaction risk and per-turn token overh
      to `HISTORY`; update `CUR_WEEK`/`PREV_WEEK`/`CUR_EVENT`; cross-check every number in the agency
      comment against the aggregate (chat-only notes on mismatches, report carries the raw-derived
      numbers); rewrite `brief` (computed numbers only) + `mediaNotes` + 컨텐츠 list; refresh `KW`
-     from the keyword CSVs; update every per-week string (`<title>`, `.period`, `#summary`
+     from the keyword CSVs; update every per-week string (`<title>`, `header.top .period`, **`.side-foot` period text in the sidebar**, `#summary`
      section-sub, other section-subs, footSource, archive hero card) in the "n월 n주차" format;
      `node --check` **and the headless-Chromium render check** (see Commands); publish live report +
      archive; commit/push to the branch named in the session instructions (not whatever branch the
@@ -500,7 +512,7 @@ the same week twice. Otherwise:
    per-brand text update draws attention away from it; it silently went stale for three weeks
    running before being caught and fixed (2026.09).
 
-Both the live report and every archived snapshot link to `reports/archive.html` from the header's
+Every archived snapshot links to `reports/archive.html` from the header's `.period` line, and the live report from the sidebar footer (`.side-foot`); the live report's
 `.period` line (and an archived snapshot additionally links back to the live report), so a reader
 can navigate in either direction.
 
