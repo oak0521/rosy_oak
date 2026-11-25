@@ -489,13 +489,52 @@ svg.spark{width:100%;height:30px;display:block;overflow:visible;}
 .ev-chip .v{font-size:22px;font-weight:700;margin-top:3px;letter-spacing:-0.01em;}
 .ev-chip .s{font-size:11px;color:var(--text-muted);margin-top:1px;}
 .sw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none;}
-.sw.ev{background:var(--accent);} .sw.none{background:var(--text-muted);opacity:.75;}
+.sw.ev{background:var(--accent);} .sw.none{background:var(--text-secondary);}
 .sw.amb{background:repeating-linear-gradient(45deg,var(--text-muted) 0 2px,transparent 2px 5px);border:1px solid var(--text-muted);}
 .sw.unk{background:repeating-linear-gradient(45deg,var(--accent) 0 2px,transparent 2px 5px);border:1px dashed var(--accent);}
 .ev-notes{margin:14px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;}
 .ev-notes li{font-size:12.5px;color:var(--text-secondary);}
 .ev-notes li b{color:var(--text-primary);font-weight:600;}
 .chart-card .legend .sw{margin-right:2px;}
+/* 행사 비교: 그룹별 가로 막대 (그룹을 위아래로 갈라 놓고 같은 축으로 비교) */
+.evg{margin-top:18px;} .evg:first-of-type{margin-top:6px;}
+.evg-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;padding:0 0 7px;border-bottom:2px solid var(--border);}
+.evg-h .nm{font-size:14.5px;font-weight:700;display:inline-flex;align-items:center;gap:7px;}
+.evg-h .nm .sw{width:12px;height:12px;align-self:center;}
+.evg-h .sub{font-size:11.5px;color:var(--text-muted);}
+.evg-h .roas{margin-left:auto;font-size:12px;color:var(--text-secondary);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+.evg-h .roas b{font-size:15px;color:var(--text-primary);font-weight:700;}
+.evg-h .roas i{display:inline-block;width:0;height:14px;border-left:2px dashed var(--text-secondary);}
+.evg.g-ev .evg-h{border-bottom-color:var(--accent);} .evg.g-ev .evg-h .roas i{border-left-color:var(--accent);}
+.evr,.evx{display:grid;grid-template-columns:minmax(120px,210px) minmax(0,1fr) 64px;column-gap:10px;align-items:stretch;}
+.evr{min-height:40px;border-bottom:1px solid var(--gridline);cursor:default;}
+.evr:last-child{border-bottom:0;}
+.evr:hover{background:var(--surface-2);} .evr.cur,.evr.cur:hover{background:var(--accent-soft);}
+.evr-l{display:flex;flex-direction:column;justify-content:center;gap:1px;padding:4px 0 4px 4px;min-width:0;}
+.evr-l .d{font-size:12.5px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.evr-l .d span.wk{font-weight:400;color:var(--text-muted);font-size:11.5px;}
+.evr-l .en{font-size:11px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.evr-t{position:relative;display:flex;align-items:center;background:linear-gradient(to right,var(--gridline) 1px,transparent 1px) 0 0/25% 100% repeat-x;border-right:1px solid var(--gridline);}
+.evr-f{height:16px;border-radius:0 5px 5px 0;min-width:2px;box-sizing:border-box;}
+.evr-f.ev{background:var(--accent);} .evr-f.no{background:var(--text-secondary);}
+.evr-f.am{background:transparent;border:1.5px dashed var(--text-muted);border-left:0;}
+.evr-f.un{background:transparent;border:1.5px dashed var(--accent);border-left:0;}
+.evr.cur .evr-f{box-shadow:0 0 0 2px var(--text-primary);}
+.evr-ref{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--text-secondary);pointer-events:none;opacity:.8;}
+.evg.g-ev .evr-ref{border-left-color:var(--accent);}
+.evr-v{display:flex;align-items:center;justify-content:flex-end;font-size:13px;font-weight:700;padding-right:2px;}
+.evx{margin-top:2px;} .evx .ticks{position:relative;height:16px;} .evx .ticks span{position:absolute;top:0;transform:translateX(-50%);font-size:10.5px;color:var(--text-muted);white-space:nowrap;}
+.evx .ticks span:first-child{transform:none;} .evx .ticks span:last-child{transform:translateX(-100%);}
+.ev-cap{font-size:11.5px;color:var(--text-muted);margin:10px 0 0;}
+@media (max-width:640px){
+  .evr{grid-template-columns:minmax(0,1fr) 56px;grid-template-areas:"l l" "t v";column-gap:6px;min-height:0;padding:6px 0 7px;}
+  .evr-l{grid-area:l;flex-direction:row;justify-content:flex-start;align-items:baseline;gap:8px;padding:0 0 3px 2px;}
+  .evr-l .d span.wk{display:none;} .evr-l .en{flex:1;min-width:0;}
+  .evr-t{grid-area:t;height:18px;} .evr-v{grid-area:v;}
+  .evx{grid-template-columns:minmax(0,1fr) 56px;column-gap:6px;} .evx>div:first-child{display:none;}
+  .evx .ticks span:nth-child(2),.evx .ticks span:nth-child(4){display:none;}
+  .evg-h .roas{margin-left:0;width:100%;}
+}
 .ref-lab{font-size:10.5px;font-weight:600;}
 
 /* keyword section */
@@ -1643,33 +1682,25 @@ function renderEvent(){
   const past=wk.filter(w=>!w.cur);
   const evW=past.filter(w=>w.ev==='event'), noW=past.filter(w=>w.ev==='none'), amW=past.filter(w=>w.ev==='amb'), cur=wk[wk.length-1];
   const gE=groupStat(evW), gN=groupStat(noW);
-  const W=1040,H=300,padL=52,padR=124,padT=26,padB=34, plotW=W-padL-padR, plotH=H-padT-padB, n=wk.length, gw=plotW/n, bw=Math.min(40,gw*0.62);
-  const maxV=Math.max(...wk.map(w=>w.roas),gE.roas,gN.roas), rawStep=maxV*1.08/4, step=[50,100,200,250,300,400,500,1000].find(v=>v>=rawStep)||1000, top=step*4;
-  const y=v=>padT+plotH-(v/top)*plotH;
-  let grid='';
-  for(let i=0;i<=4;i++){ const v=top/4*i, yy=y(v); grid+=`<line x1="${padL}" y1="${yy}" x2="${padL+plotW}" y2="${yy}" stroke="var(--gridline)"/><text x="${padL-8}" y="${yy+3}" text-anchor="end" class="axis-label">${Math.round(v).toLocaleString('ko-KR')}%</text>`; }
-  const defs=`<defs>
-    <pattern id="hAmb" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--surface-1)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--text-muted)" stroke-width="2.2"/></pattern>
-    <pattern id="hUnk" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--surface-1)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--accent)" stroke-width="2.2"/></pattern></defs>`;
-  const maxW=wk.reduce((a,w)=>w.roas>a.roas?w:a,wk[0]), minW=wk.reduce((a,w)=>w.roas<a.roas?w:a,wk[0]);
-  let bars='', xl='', vl='';
-  wk.forEach((w,i)=>{
-    const cx=padL+gw*i+gw/2, x=cx-bw/2, h=Math.max(1,plotH-(y(w.roas)-padT));
-    const fill = w.ev==='event'?'var(--accent)':(w.ev==='none'?'var(--text-muted)':(w.ev==='amb'?'url(#hAmb)':'url(#hUnk)'));
-    const stroke = w.cur?'var(--text-primary)':(w.ev==='amb'?'var(--text-muted)':(w.ev==='unk'?'var(--accent)':'none'));
-    const tip = `<b>${w.range} · ${w.label}</b>ROAS ${pct(w.roas)}<br>광고비 ${man(w.cost)}만 · 매출 ${man(w.rev)}만 · 구매 ${fmt(w.conv)}건<br>${(w.cur?CUR_LABEL:EV_LABEL)[w.ev]}${w.en?' — '+esc(w.en):''}`;
-    bars+=`<rect class="tip-target" data-tip="${esc(tip)}" x="${x}" y="${y(w.roas)}" width="${bw}" height="${h}" rx="4" fill="${fill}" stroke="${stroke}" stroke-width="${w.cur?2.2:(w.ev==='unk'?1.6:1)}" ${(w.ev==='unk'&&!w.cur)||(w.cur&&w.ev==='unk')?'stroke-dasharray="4 3"':''} opacity="${w.ev==='none'?0.75:1}"/>`;
-    xl+=`<text x="${cx}" y="${H-12}" text-anchor="middle" class="axis-label" ${w.cur?'font-weight="700" fill="var(--text-primary)"':''}>${mdOf(w.s)}</text>`;
-    if(w===cur||w===maxW||w===minW) vl+=`<text x="${cx}" y="${y(w.roas)-6}" text-anchor="middle" class="axis-label" font-weight="700" fill="var(--text-primary)">${Math.round(w.roas).toLocaleString('ko-KR')}%</text>`;
-  });
-  let refs='';
-  const refLine=(v,col,lab,dy)=> v>0 ? `<line x1="${padL}" y1="${y(v)}" x2="${padL+plotW}" y2="${y(v)}" stroke="${col}" stroke-width="1.5" stroke-dasharray="6 4"/><text x="${padL+plotW+6}" y="${y(v)+4+dy}" text-anchor="start" class="ref-lab" fill="${col}">${lab} ${Math.round(v).toLocaleString('ko-KR')}%</text>` : '';
-  const close = gE.n&&gN.n && Math.abs(y(gE.roas)-y(gN.roas))<14;
-  refs += refLine(gE.roas,'var(--accent)','행사 합산',close?(gE.roas>=gN.roas?-8:8):0);
-  refs += refLine(gN.roas,'var(--text-secondary)','비행사 합산',close?(gN.roas>gE.roas?-8:8):0);
-  const chart = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="주차별 ROAS와 행사 여부">${defs}${grid}${bars}${refs}${vl}${xl}</svg>
-    <div class="legend"><div class="legend-item"><span class="sw ev"></span>행사 주</div><div class="legend-item"><span class="sw none"></span>행사 언급 없는 주</div><div class="legend-item"><span class="sw amb"></span>행사 애매</div><div class="legend-item"><span class="sw cur"></span>굵은 테두리 = 이번 주(${CUR_LABEL[cur.ev]})</div>${cur.ev==='unk'?'<div class="legend-item"><span class="sw unk"></span>행사 여부 미확정</div>':''}
-    <div class="legend-item" style="margin-left:auto;color:var(--text-muted)">점선 = 그룹 합산 ROAS(Σ매출÷Σ광고비)</div></div>`;
+  // 그룹별 가로 막대: 같은 축(0~top%)을 쓰되 행사 주 / 행사 없는 주 / 애매를 위아래로 갈라 놓는다. 점선 = 그 그룹의 합산 ROAS(과거 주만)
+  const maxV=Math.max(...wk.map(w=>w.roas),gE.roas,gN.roas,1), rawStep=maxV*1.06/4, step=[50,100,200,250,300,400,500,600,800,1000,1500,2000].find(v=>v>=rawStep)||2000, top=step*4;
+  const X=v=>Math.max(0.4,Math.min(100,v/top*100));
+  const GR=[
+    {k:'event',cls:'ev',g:'g-ev',name:'행사 주',sub:'행사·프로모션이 있던 주',ws:evW,gs:gE},
+    {k:'none',cls:'no',g:'g-no',name:'행사 없는 주',sub:'과거는 리포트에 행사 언급 없음 · 이번 주는 대행사 확인',ws:noW,gs:gN},
+    {k:'amb',cls:'am',g:'g-am',name:'행사 애매',sub:'행사 여부 불확실 — 위 두 그룹 비교에서 제외',ws:amW,gs:groupStat(amW)},
+    {k:'unk',cls:'un',g:'g-un',name:'행사 여부 미확정',sub:'대행사 확인 대기',ws:[],gs:groupStat([])}
+  ].map(x=>({...x,rows:wk.filter(w=>w.ev===x.k).sort((p,q)=>q.roas-p.roas)})).filter(x=>x.rows.length);
+  const row=(w,grp)=>{
+    const tip=`<b>${w.range} · ${w.label}</b>ROAS ${pct(w.roas)}<br>광고비 ${man(w.cost)}만 · 매출 ${man(w.rev)}만 · 구매 ${fmt(w.conv)}건<br>${(w.cur?CUR_LABEL:EV_LABEL)[w.ev]}${w.en?' — '+esc(w.en):''}`;
+    return `<div class="evr ${w.cur?'cur':''}" data-tip="${esc(tip)}"><div class="evr-l"><div class="d">${mdOf(w.s)}<span class="wk">${esc(w.label)}</span>${w.cur?'<span class="tag acc">이번 주</span>':''}</div>${w.en?`<div class="en" title="${esc(w.en)}">${esc(w.en)}</div>`:''}</div>
+      <div class="evr-t">${grp.gs.n&&grp.gs.roas?`<i class="evr-ref" style="left:${X(grp.gs.roas).toFixed(1)}%"></i>`:''}<div class="evr-f ${grp.cls}" style="width:${X(w.roas).toFixed(1)}%"></div></div><div class="evr-v num">${Math.round(w.roas).toLocaleString('ko-KR')}%</div></div>`;
+  };
+  const swc={ev:'ev',no:'none',am:'amb',un:'unk'};
+  const blocks=GR.map(grp=>`<div class="evg ${grp.g}"><div class="evg-h"><span class="nm"><span class="sw ${swc[grp.cls]}"></span>${grp.name}</span><span class="sub">${grp.sub}</span>${grp.gs.n?`<span class="roas"><i></i>과거 ${grp.gs.n}주 합산 <b>${pct(grp.gs.roas)}</b></span>`:''}</div>${grp.rows.map(w=>row(w,grp)).join('')}</div>`).join('');
+  const ticks=[0,1,2,3,4].map(i=>`<span style="left:${i*25}%">${Math.round(step*i).toLocaleString('ko-KR')}%</span>`).join('');
+  const chart=`${blocks}<div class="evx"><div></div><div class="ticks">${ticks}</div><div></div></div>
+    <p class="ev-cap">막대 길이 = 주간 ROAS(세 그룹 같은 축) · 점선 = 그 그룹의 합산 ROAS(Σ매출÷Σ광고비) · 강조 행 = 이번 주 · 행에 마우스를 올리거나 누르면 광고비·매출·행사 내용</p>`;
 
   const ratio = gE.n&&gN.n&&gN.roas ? gE.roas/gN.roas : null;
   const vsE = gE.roas? (cur.roas-gE.roas)/gE.roas*100 : null, vsN = gN.roas? (cur.roas-gN.roas)/gN.roas*100 : null;
