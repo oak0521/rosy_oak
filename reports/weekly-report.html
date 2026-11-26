@@ -822,6 +822,7 @@ body[data-view="snack"] #brandSwitch{display:none;}
   .sn-act td.kwn{font-weight:700;font-size:13.5px;margin-bottom:2px;}
   .sn-act td:nth-child(2)::before{content:"근거  ";color:var(--text-muted);font-weight:600;}
   .sn-act td.act::before{content:"할 일  ";color:var(--text-muted);font-weight:600;}
+  .sn-act.cmp td:nth-child(2)::before{content:"이 분석  ";} .sn-act.cmp td.act::before{content:"추가 요청  ";}
   .sn-act td:last-child{margin-top:4px;}
 }
 </style>
@@ -2225,6 +2226,8 @@ function renderSerp(){
 
 // ================= 쌀과자 전략 (#snack) — 아넬라 vs 로지오가닉, 영업팀·팀장 공유용 =================
 // 숫자는 TERMS(키워드 리포트 11/1–11/23)·SERP(네이버 모바일 수집)·COUPANG(스냅샷)에서 계산한다. 문구(결론·액션)만 사람이 쓴 제안이며 분석 기준일을 화면에 표시한다.
+// 쌀과자 전략 평가 기준선 — 대행사 세팅(2026-11-26 전달) 이전 값을 그 시점 데이터로 계산해 고정. 주차가 바뀌어도 덮어쓰지 않는다(전·후 비교용).
+const SN_BASE = {"asOf":"2026-11-26","terms":"11/1–11/23","week":"11/16–11/22","rosy":{"ownShare":57,"genRoas":201,"ownRoas":842,"waste":40,"ddeokImp":814,"ddeokPlImp":6164,"ddeokRoas":94,"snCost":551675,"snRev":1613200,"snConv":65,"snRoas":292},"anela":{"ddeokImp":9822,"ddeokConv":36,"longConv":13,"longRoas":394,"genCost":262998,"genRev":625800,"genConv":28,"genRoas":238},"sum":{"cost":817064,"rev":2288100,"conv":96,"roas":280}};
 const COUPANG = {"captured":"2026-11-26","kwN":7,"adTotal":106,"sellers":[["매일유업 직영스토어",18],["아이배냇 공식몰",14],["쿠팡",13],["룰루맘",12],["로지오가닉",5],["아이보리",4],["깊은숲속행복한식품",4],["지구대장",4]],"items":[{"b":"지후쌀과자","n":"지후쌀과자 떡뻥 아기과자 맛별로 골고루 10봉 1세트 30g 골고루10봉","kw":"떡뻥","r":4,"p":26000},{"b":"일동후디스","n":"일동후디스 아이얌 유기농 쌀과자 백미 떡뻥 30g 12개 100% 국산 지퍼백 ","kw":"떡뻥","r":14,"p":28900},{"b":"현미한톨","n":"현미한톨 현미스낵 8종 골라담기 떡뻥 아기과자 8개 혼합 37g","kw":"떡뻥","r":16,"p":49000},{"b":"야미얼스","n":"야미얼스 유기농 후르츠 스낵 젤리 혼합맛(바나나/체리/복숭아/딸기) 178.2g","kw":"유기농과자","r":10,"p":146050},{"b":"지구로운","n":"지구로운 유기농아기과자 12종세트 400g 1세트 스틱4종 롱스틱4종 소프트링4","kw":"유기농과자","r":11,"p":19800},{"b":"미룡","n":"미룡 구운 달콤한 쌀과자 10p 275g 10개","kw":"쌀과자","r":1,"p":19220},{"b":"허니눈꽃","n":"허니눈꽃 크리스피 쌀과자 벌꿀 5.5% 920g 4개 대용량 개별포장 바삭 달콤","kw":"쌀과자","r":7,"p":33600},{"b":"농협","n":"농협 아름찬 우리쌀 인절미스낵 125g 12봉 국산 쌀과자 HACCP 콩고물 쌀","kw":"쌀과자","r":12,"p":23760},{"b":"지후쌀과자","n":"지후쌀과자 떡뻥 아기과자 맛별로 골고루 10봉 1세트 30g 골고루10봉","kw":"아기쌀과자","r":9,"p":26000},{"b":"베베쿡","n":"베베쿡 처음먹는 빼빼롱뻥 단호박 사과 자색고구마 청포도 30g 12봉 국산 백미","kw":"롱떡뻥","r":6,"p":31710},{"b":"아넬라","n":"아넬라 롱떡뻥 스위트딸기 롱스틱 스위트 딸기 40g 6개","kw":"롱떡뻥","r":7,"p":20060},{"b":"프레벨롱","n":"프레벨롱 아기 롱떡뻥 사과 40g 10개입 대용량 15cm 국산 현미 백미 해썹","kw":"롱떡뻥","r":9,"p":26500},{"b":"베베쿡","n":"베베쿡 더 맛있는 빼빼롱뻥 구운옥수수 40g 10개 아기 롱떡뻥 14cm 스틱 ","kw":"롱떡뻥","r":12,"p":22880}],"pl":[{"kw":"유기농과자","r":1,"t":"유기농과자 쿠팡"},{"kw":"쌀과자","r":1,"t":"쌀과자 쿠팡"},{"kw":"아기퍼프과자","r":2,"t":"아기퍼프과자 쿠팡"},{"kw":"롱떡뻥","r":2,"t":"롱떡뻥 쿠팡"}]};
 const SN_TF = ['n','ag','imp','clk','cost','conv','rev','rank','w3c','w3v','w3rev','own','ext'];
 const snRows = (b, tab) => TERMS[b][tab].map(r => { const o = {}; SN_TF.forEach((k, i) => o[k] = r[i]); return o; });
@@ -2278,14 +2281,14 @@ function renderSnack(){
   // ---- 1. 결론 ----
   const hero = `<div class="ov-banner sn-hero"><span class="ov-chip">결론</span>
     <div><p class="ov-headline">쌀과자는 한 브랜드만 밀지 말고, 키워드마다 맡을 브랜드를 나눈다</p>
-    <p class="ov-reason">일반어 쇼핑검색은 두 브랜드 모두 ROAS가 200% 안팎(로지 ${snR(R.gen.roas)}, 아넬라 ${snR(A.gen.roas)})이라 “잘 되는 쪽에 몰아주기”만으로는 효율이 오르지 않습니다. 입찰 인상보다 쇼핑검색 상품 그룹·제외키워드 구조를 정리하는 것이 먼저입니다. 아래 수치는 네이버(쇼핑검색·파워링크)만이며 메타는 제외했습니다.</p></div></div>
+    <p class="ov-reason">일반어 쇼핑검색은 두 브랜드 모두 ROAS가 200% 안팎(로지 ${snR(R.gen.roas)}, 아넬라 ${snR(A.gen.roas)})이라 “잘 되는 쪽에 몰아주기”만으로는 효율이 오르지 않습니다. 대행사가 로지 쇼핑검색 일반K 신설·제외 검색어 정비·입찰 조정을 마쳤으므로(사용자 전달 2026.11.26, 상세 내역은 차주 수령 예정) 이제는 그 효과를 두 브랜드 합산으로 볼 기준선과 남은 할 일이 중요합니다. 아래 수치는 네이버(쇼핑검색·파워링크)만이며 메타는 제외했습니다.</p></div></div>
     <div class="sn-decide">
       <div class="sn-d"><span class="who a">아넬라 유지</span><h3>떡뻥·롱떡뻥 쇼핑검색</h3>
         <div class="big num">${kw['떡뻥'].as.conv + kw['롱떡뻥'].as.conv}건 · ${snM(kw['떡뻥'].as.rev + kw['롱떡뻥'].as.rev)}</div>
         <p>떡뻥 ${kw['떡뻥'].as.conv}건(ROAS ${snR(kw['떡뻥'].as.roas)}, ${snK(kw['떡뻥'].as.rank)}), 롱떡뻥 ${kw['롱떡뻥'].as.conv}건(ROAS ${snR(kw['롱떡뻥'].as.roas)}, 아넬라 전용). 로지는 떡뻥 ${kw['떡뻥'].rs.conv}건. 아기떡뻥·유기농떡뻥은 ROAS ${snR(kw['아기떡뻥'].as.roas)}·${snR(kw['유기농떡뻥'].as.roas)}라 입찰을 낮춥니다.</p></div>
       <div class="sn-d"><span class="who r">로지 개선</span><h3>아기과자·아기간식 쇼핑검색</h3>
         <div class="big num">${kw['아기과자'].rs.conv + kw['아기간식'].rs.conv}건 · ${snM(kw['아기과자'].rs.rev + kw['아기간식'].rs.rev)}</div>
-        <p>아기과자 ${kw['아기과자'].rs.conv}건(ROAS ${snR(kw['아기과자'].rs.roas)}, ${snK(kw['아기과자'].rs.rank)}), 아기간식 ${kw['아기간식'].rs.conv}건(${snR(kw['아기간식'].rs.roas)}). 아넬라는 ${kw['아기과자'].as.conv}건·${kw['아기간식'].as.conv}건. 입찰 인상보다 상품명·상품 그룹·제외키워드·리뷰를 먼저 점검합니다.</p></div>
+        <p>아기과자 ${kw['아기과자'].rs.conv}건(ROAS ${snR(kw['아기과자'].rs.roas)}, ${snK(kw['아기과자'].rs.rank)}), 아기간식 ${kw['아기간식'].rs.conv}건(${snR(kw['아기간식'].rs.roas)}). 아넬라는 ${kw['아기과자'].as.conv}건·${kw['아기간식'].as.conv}건. 일반K는 대행사가 신설했으므로 다음은 검색어 정비·소구 문구(무설탕)·리뷰입니다.</p></div>
       <div class="sn-d"><span class="who n">의도된 운영</span><h3>같은 상품, 가격을 달리한 두 스토어</h3>
         <div class="big num">${dups.length ? dups.map(i => fmt(i.price) + '원').join(' / ') : '–'}</div>
         <p>${ownStore && crossStore ? `로지 시작퍼프 8봉은 로지 스토어(${fmt(ownStore.price)}원, 리뷰 ${ownStore.reviewsTxt||'–'})와 아넬라 스토어(${fmt(crossStore.price)}원, 리뷰 ${crossStore.reviewsTxt||'–'}, 구매 ${crossStore.buysTxt||'–'})에서 팔립니다. 아넬라 스토어에서만 네이버 베이비바우처 50% 쿠폰을 쓸 수 있어 판매가를 달리 둔 운영입니다(가격은 영업팀 관할).` : '같은 상품이 두 스토어에서 팔립니다.'} <b>제안:</b> 리뷰가 갈리는 비용은 역할 분리로 줄입니다. 일반 검색은 리뷰가 많은 로지 스토어 상품, 아넬라 스토어 상품은 바우처 고객용.</p></div>
@@ -2358,27 +2361,66 @@ function renderSnack(){
 
   // ---- 6. 문제 → 액션 ----
   const rosyBrandTerm = snRows('rosy','ss').filter(r => r.n === '로지오가닉').reduce((s, r) => s + r.rev, 0);
-  const act = [
-    ['로지 매출이 브랜드어에 쏠림', `쇼핑검색 매출의 ${R.share.toFixed(0)}%(아넬라 ${A.share.toFixed(0)}%)`, '쇼핑검색은 키워드 등록이 아니라 상품 그룹·제외키워드로 운영 → 브랜드어/일반어 성과를 따로 볼 수 있게 상품 그룹·입찰을 나누는 안을 로지 설정을 확인한 뒤 확정 · 파워링크에는 검증된 일반어(아기떡뻥·아기과자·유기농떡뻥)를 키워드로 등록', '1–2주'],
-    ['같은 상품을 두 스토어에서 판매(의도된 가격 차이)', ownStore && crossStore ? `${fmt(ownStore.price)}원 / ${fmt(crossStore.price)}원 · 리뷰 ${ownStore.reviewsTxt} / ${crossStore.reviewsTxt}로 분산. 아넬라 스토어만 베이비바우처 50% 쿠폰 사용 가능` : '리뷰·판매 분산', '가격 차이는 유지 · 일반 검색 광고와 상품명 개편은 리뷰가 많은 로지 스토어 상품에 집중 · 아넬라 스토어 상품은 바우처 고객 노출용으로 구분 · 네이버 가격비교에서 두 상품이 한 묶음으로 합쳐져 낮은 가격이 대표가로 노출되는지 확인', '확인 후'],
-    ['상품명에 검색어가 없음', '대표 상품명이 “시작퍼프 8봉”이라 “아기과자”·“떡뻥”과 일치하지 않음', '상품명 앞부분에 검색어 배치(“떡뻥” 표기는 실제 제품이 떡뻥류일 때만)', '2–4주'],
-    ['경쟁 리뷰 격차', topComp.length ? `${topComp[0].brand} ${topComp[0].reviewsTxt || fmt(topComp[0].reviews)} · 우리 최대 ${oursB.length ? (oursB[0].reviewsTxt || fmt(oursB[0].reviews)) : '–'}` : '–', '일반 검색용 대표 상품 1개(리뷰가 많은 로지 스토어 시작퍼프)에 리뷰 집중(스마트스토어 리뷰만 랭킹 반영) · 첫 구매용 소용량 구성 검토', '2–4주'],
-    ['파워링크 확장 매칭에서 새는 광고비', `로지 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}, 노이즈 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회·클릭 0`, '패턴 단위로 제외·입찰 하향(개별 검색어 제외보다 효과적) · 무설탕 검색어는 제외하지 않음', '1–2주'],
-    ['경쟁사명 검색 유입', `“지후떡뻥” 구매 ${g(cR,'경쟁사명').conv}건 · ROAS ${snR(g(cR,'경쟁사명').roas)}`, '의도적으로 운영할지 결정 · 광고 문구 타사 상표 정책 확인', '결정 필요'],
-    ['월령·정보형 수요를 광고로만 받음', `아넬라 정보·질문형 노출 ${fmt(g(cA,'정보·질문형').imp)}회·구매 ${g(cA,'정보·질문형').conv}건`, '로지 “월령별 첫 간식 가이드”, 아넬라 “이유식 양·시작 방법” 콘텐츠로 받고 상품으로 연결', '중기'],
-    ['쿠팡 노출 관리', '아넬라 롱떡뻥이 쿠팡 판매처 광고로 노출(자사 운영 광고일 가능성 높음) · 쿠팡 본사 파워링크가 우리 일반어 선점', '쿠팡 광고 계정은 자사 운영으로 보고 최종 확인만 · 쿠팡이 선점한 일반어는 쇼핑검색·브랜드 콘텐츠로 방어', '확인 후']
+  // 대행사 조치(2026-11-26 전달)와 이 분석의 대조
+  const rosyGroups = BRANDS.rosy.campaigns.filter(c => c.media === 'search' && c.src === '쇼핑검색').map(c => c.name.replace(/^SSA_로지오가닉_/, ''));
+  const anelaGenRow = BRANDS.anela.campaigns.filter(c => c.media === 'search' && c.src === '쇼핑검색' && /과자\(떡뻥\)_일반K/.test(c.name))[0];
+  const stickR = snSum(snRows('rosy','ss').filter(r => /스틱/.test(r.n))), stickA = snRows('anela','ss').filter(r => /스틱/.test(r.n)).length;
+  const ddeok8 = (SERP.rosy||[]).reduce((f, q) => f || q.items.find(i => i.ours && i.brand === '로지오가닉' && i.src !== '파워링크' && /쌀과자 떡뻥 8봉/.test(i.name)), null);
+  const ddeokQ = (SERP.anela||[]).find(q => q.kw === '떡뻥');
+  const ddeokTop = ddeokQ ? ddeokQ.items.filter(i => i.src === '쇼핑' && !i.ours && i.price).sort((a, b) => a.rank - b.rank).slice(0, 2).map(i => fmt(i.price) + '원') : [];
+  const cmp = [
+    ['로지 쇼핑검색 일반K 그룹 신설', `일치 — 로지 쇼핑검색 그룹은 ${rosyGroups.join('·')}뿐이었고, 아넬라에는 일반K가 있었음${anelaGenRow ? `(지난주 구매 ${anelaGenRow.conv}건·매출 ${snM(anelaGenRow.rev)}·ROAS ${snR(anelaGenRow.cost ? anelaGenRow.rev / anelaGenRow.cost * 100 : null)})` : ''}`, '그룹 구성(소재·일예산)과 변경일 전달', '일치'],
+    ['양 브랜드 제외 검색어 정비', `일치 — 로지 숫자접미 노이즈 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회·클릭 0, 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}, 구매 없는 일반어 광고비 ${R.waste.toFixed(0)}%(아넬라 ${A.waste.toFixed(0)}%)`, '월령형·질문형·무설탕 검색어를 제외하지 않았는지, 경쟁사명(“지후떡뻥”) 처리, 제외 목록 전달', '일치'],
+    ['아넬라 제외 검색어 추가(스틱 등)', `근거 미확인 — 아넬라 스틱 검색어는 리포트에 ${stickA}건(비공개·수록 기준 미달일 수 있음). 로지 스틱 검색어는 ${stickR.n}개·노출 ${fmt(stickR.imp)}·클릭 ${stickR.clk}·구매 ${stickR.conv}건`, '유입됐던 검색어와 규모 근거 · 아넬라 롱떡뻥·롱뻥 검색어가 제외 목록에 없는지 확인', '근거 요청'],
+    ['소재별 입찰가 조정(로지 8봉 상향)', `일치 — 일반 검색 대표는 리뷰가 많은 로지 스토어 시작퍼프 8봉${ownStore ? `(리뷰 ${ownStore.reviewsTxt})` : ''}`, `입찰가 전·후와 아넬라 하향 폭 · 아넬라 롱떡뻥(ROAS ${snR(kw['롱떡뻥'].as.roas)}) 보호 확인`, '일치'],
+    ['일반K 확대로 로지 ROAS 일시 하락 가능', `예상 가능 — 로지 일반어 ROAS ${snR(R.gen.roas)}, 브랜드어 ${snR(R.own.roas)}라 일반어 비중이 커지면 합산 ROAS가 내려감(추정)`, '하락 허용 하한과 평가 시점을 영업팀과 사전 합의', '사전 합의']
   ];
-  const actBlock = `<div class="card kw-card"><h3>문제점 → 해야 할 일 <span class="tag acc">제안</span></h3><p class="sub">근거 수치는 위 표에서 계산한 값 · 시기는 우선순위 제안이며 대행사·영업팀 확인 전 확정 아님</p>
-    <div class="tbl-wrap" style="margin-top:6px"><table class="kw-trend sn-act"><thead><tr><th style="text-align:left">문제</th><th style="text-align:left">근거</th><th style="text-align:left">할 일</th><th>시기</th></tr></thead><tbody>${act.map(r => `<tr><td class="kwn">${r[0]}</td><td class="why">${r[1]}</td><td class="why act">${r[2]}</td><td><span class="tag">${r[3]}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+  const cmpBlock = `<div class="card kw-card"><h3>대행사 조치와 이 분석 대조 <span class="tag acc">제안</span></h3><p class="sub">세팅은 완료(사용자 전달 2026.11.26) · 상세 내역은 차주 대행사 전달 예정 — 받으면 이 표를 실제 설정에 맞춰 확정</p>
+    <div class="tbl-wrap" style="margin-top:6px"><table class="kw-trend sn-act cmp"><thead><tr><th style="text-align:left">대행사 조치</th><th style="text-align:left">이 분석</th><th style="text-align:left">추가 요청</th><th>판정</th></tr></thead><tbody>${cmp.map(r => `<tr><td class="kwn">${r[0]}</td><td class="why">${r[1]}</td><td class="why act">${r[2]}</td><td><span class="tag">${r[3]}</span></td></tr>`).join('')}</tbody></table></div></div>`;
 
-  const checks = ['로지 쇼핑검색 광고그룹별 상품 그룹·제외키워드 구성 — 쇼핑검색은 키워드 등록이 없어 이 설정이 노출을 좌우합니다(담당자가 제공 가능)', '쿠팡의 아넬라 롱떡뻥 광고가 자사 운영 광고인지 — 가능성 높음, 광고 계정으로 최종 확인', '로지 시작퍼프를 “떡뻥”으로 표기해도 되는 제품인지', '네이버 가격비교에서 두 스토어의 같은 상품이 한 묶음으로 노출되는지'];
+  const kwDd = kw['떡뻥'];
+  const act = [
+    ['대행사 세팅 상세 내역 수령', '세팅 완료 · 변경일·그룹·소재·입찰가 전후·제외 목록은 차주 전달 예정', '변경 전·후 표를 받아 변경일 기준으로 전·후 비교(지난주 11/16–11/22는 변경 전 기준선) · 이 화면의 확인 목록과 할 일을 실제 설정에 맞춰 확정', ['대행사', '차주']],
+    ['로지 일반어 매출이 브랜드어에 쏠림', `쇼핑검색 매출의 ${R.share.toFixed(0)}%가 브랜드어(아넬라 ${A.share.toFixed(0)}%) · 로지 일반어 ROAS ${snR(R.gen.roas)} vs 브랜드어 ${snR(R.own.roas)}`, `일반K는 입찰을 주 단위로 단계 상향하며 클릭당 단가·구매를 확인 · 검색어는 주 1회 제외 정비(구매 없는 일반어 광고비 ${R.waste.toFixed(0)}% 줄이기) · 아넬라는 ROAS가 낮은 아기떡뻥(${snR(kw['아기떡뻥'].as.roas)})·유기농떡뻥(${snR(kw['유기농떡뻥'].as.roas)})부터 낮추고, 떡뻥 본체(아넬라 구매 ${kwDd.as.conv}건·ROAS ${snR(kwDd.as.roas)})는 두 브랜드 합산으로 판단`, ['대행사', '1–4주']],
+    ['파워링크 일반어는 이미 검증됨', `로지 파워링크 떡뻥 ROAS ${snR(kwDd.rp.roas)}, 아기떡뻥 ${snR(kw['아기떡뻥'].rp.roas)}, 유기농떡뻥 ${snR(kw['유기농떡뻥'].rp.roas)} (쇼핑검색 떡뻥 ROAS ${snR(kwDd.rs.roas)}·구매 ${kwDd.rs.conv}건)`, '일반K ROAS 하락 구간을 파워링크가 받치도록 쇼핑검색에서 구매가 난 변형어(쌀떡뻥·아기롱뻥·롱뻥 등) 추가 등록 검토 · 소재 문구 A/B(무설탕 소구)', ['대행사', '1–2주']],
+    ['파워링크 확장 매칭에서 새는 광고비', `로지 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}, 노이즈 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회·클릭 0`, '패턴 단위로 제외·입찰 하향(개별 검색어 제외보다 효과적) · 월령형·질문형·무설탕 검색어는 제외하지 않음', ['대행사', '1–2주']],
+    ['경쟁사명 검색 유입', `“지후떡뻥” 구매 ${g(cR,'경쟁사명').conv}건 · ROAS ${snR(g(cR,'경쟁사명').roas)}`, '의도적으로 운영할지 결정 · 광고 문구 타사 상표 정책 확인', ['영업팀', '결정 필요']],
+    ['무설탕 소구가 광고·상품에 없음', `쌀과자류는 대부분 무설탕(사용자 확인). 로지 파워링크 문구는 “100% 유기농 쌀·평점 4.94” 중심, 경쟁은 “향·색소 무첨가”(요미요미)·“설탕 무첨가”(돌코리아) 표기(SERP 2026.11.25)`, `영업팀이 라벨 기준 허용 문구(무설탕·설탕 무첨가 등)와 예외 제품을 확정 → 파워링크 소재·상품 상세 첫 화면·썸네일 배지에 반영. “무설탕떡뻥” 노출은 ${fmt(snTerm('rosy','pl','무설탕떡뻥').imp)}회로 수요가 작아 보이므로 신규 유입보다 클릭률·전환율 개선용으로 시작`, ['영업팀→대행사', '문구 확정 후']],
+    ['로지 쌀과자 상품 2종의 역할', `시작퍼프 8봉 리뷰 ${ownStore ? ownStore.reviewsTxt : '–'} · 떡뻥 8봉 리뷰 ${ddeok8 ? ddeok8.reviewsTxt : '–'} · 광고 노출명(“…떡뻥 퍼프 쌀과자 8봉”)과 일반 쇼핑 노출명(“…시작퍼프 8봉”)이 다름`, '떡뻥 검색에 내세울 대표 상품 결정(리뷰가 많은 시작퍼프를 대표로, 떡뻥 8봉은 리뷰를 모으거나 통합하는 안) · 두 노출명이 다른 이유 확인 · 시작퍼프를 “떡뻥”으로 표기해도 되는 제품인지 확인', ['영업팀', '2주']],
+    ['같은 상품을 두 스토어에서 판매(의도된 가격 차이)', ownStore && crossStore ? `${fmt(ownStore.price)}원 / ${fmt(crossStore.price)}원 · 리뷰 ${ownStore.reviewsTxt} / ${crossStore.reviewsTxt}로 분산. 아넬라 스토어만 베이비바우처 50% 쿠폰 사용 가능` : '리뷰·판매 분산', '가격 차이는 유지 · 일반 검색 광고는 리뷰가 많은 로지 스토어 상품에 집중 · 아넬라 스토어 상품은 바우처 고객 노출용으로 구분 · 네이버 가격비교에서 두 상품이 한 묶음으로 합쳐져 낮은 가격이 대표가로 노출되는지 확인', ['영업팀', '확인 후']],
+    ['첫 구매 문턱', `떡뻥 검색 상위 1~2위 가격 ${ddeokTop.join('·') || '–'}(소용량) vs 로지 8봉 ${ownStore ? fmt(ownStore.price) + '원(라이프위크 반값특가 표기)' : '–'}`, '체험용 소용량 구성 검토(가격 책정은 영업팀 관할이라 구성만 제안) · 행사 종료 후 가격에서 단가·순위 재확인', ['영업팀', '2–4주']],
+    ['경쟁 리뷰 격차', topComp.length ? `${topComp[0].brand} ${topComp[0].reviewsTxt || fmt(topComp[0].reviews)} · 우리 최대 ${oursB.length ? (oursB[0].reviewsTxt || fmt(oursB[0].reviews)) : '–'}` : '–', '포토·영상 리뷰 확보(스마트스토어 리뷰만 랭킹 반영) · 일반 쇼핑 순위는 단기에 뒤집기 어려우므로 광고 영역(쇼핑광고·파워링크)에서 먼저 올림', ['영업팀·마케팅', '중기']],
+    ['월령·정보형 수요를 광고로만 받음', `아넬라 정보·질문형 노출 ${fmt(g(cA,'정보·질문형').imp)}회·구매 ${g(cA,'정보·질문형').conv}건`, '로지 “월령별 첫 간식 가이드”, 아넬라 “이유식 양·시작 방법” 콘텐츠로 받고 상품으로 연결', ['마케팅', '중기']],
+    ['쿠팡 노출 관리', '아넬라 롱떡뻥이 쿠팡 판매처 광고로 노출(자사 운영 광고일 가능성 높음) · 쿠팡 본사 파워링크가 우리 일반어 선점', '쿠팡 광고 계정은 자사 운영으로 보고 최종 확인만 · 쿠팡이 선점한 일반어는 쇼핑검색·브랜드 콘텐츠로 방어', ['마케팅', '확인 후']]
+  ];
+  const actBlock = `<div class="card kw-card"><h3>문제점 → 해야 할 일 <span class="tag acc">제안</span></h3><p class="sub">우선순위 순 · 근거 수치는 위 표에서 계산한 값 · 담당·시기는 제안이며 대행사·영업팀 확인 전 확정 아님</p>
+    <div class="tbl-wrap" style="margin-top:6px"><table class="kw-trend sn-act"><thead><tr><th style="text-align:left">문제</th><th style="text-align:left">근거</th><th style="text-align:left">할 일</th><th>담당·시기</th></tr></thead><tbody>${act.map(r => `<tr><td class="kwn">${r[0]}</td><td class="why">${r[1]}</td><td class="why act">${r[2]}</td><td><span class="tag">${r[3][0]}</span> <span class="tag">${r[3][1]}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+
+  // 평가 기준선 (SN_BASE = 세팅 전 값 고정)
+  const B = SN_BASE;
+  const bc = (l, v, sub) => `<div class="ev-chip"><div class="l">${l}</div><div class="v num">${v}</div><div class="s">${sub}</div></div>`;
+  const baseBlock = `<div class="card kw-card"><h3>효과 평가 기준선 <span class="tag acc">제안</span></h3><p class="sub">대행사 세팅 전 값 · 키워드는 ${B.terms}, 주간 집계는 ${B.week} · ${B.asOf}에 계산해 고정 (주차가 바뀌어도 덮어쓰지 않음)</p>
+    <div class="ev-chips">
+      ${bc('로지 일반어 매출 비중', (100 - B.rosy.ownShare) + '%', `브랜드어 ${B.rosy.ownShare}% · 쇼핑검색 과자 광고그룹`)}
+      ${bc('로지 일반어 ROAS', B.rosy.genRoas + '%', `브랜드어 ${B.rosy.ownRoas}% · 구매 없는 일반어 광고비 ${B.rosy.waste}%`)}
+      ${bc('로지 쇼핑검색 떡뻥 노출', fmt(B.rosy.ddeokImp) + '회', `아넬라 ${fmt(B.anela.ddeokImp)}회 · 로지 파워링크 ${fmt(B.rosy.ddeokPlImp)}회`)}
+      ${bc('아넬라 과자(떡뻥)_일반K', B.anela.genConv + '건 · ' + snM(B.anela.genRev), `지난주 ROAS ${B.anela.genRoas}% · 롱떡뻥(${B.terms}) 구매 ${B.anela.longConv}건·ROAS ${B.anela.longRoas}%는 보호`)}
+      ${bc('로지 쇼핑검색 과자 합산', B.rosy.snRoas + '%', `광고비 ${snM(B.rosy.snCost)} · 매출 ${snM(B.rosy.snRev)} · 구매 ${B.rosy.snConv}건`)}
+      ${bc('두 브랜드 합산(쇼핑검색 과자)', B.sum.roas + '%', `광고비 ${snM(B.sum.cost)} · 매출 ${snM(B.sum.rev)} · 구매 ${B.sum.conv}건`)}
+    </div>
+    <ul class="sn-ul"><li><b>두 브랜드 합산으로 판단</b>합니다. 로지가 오른 만큼 아넬라가 빠지면 의미가 없습니다.</li>
+      <li>최소 <b>2주</b> 관찰하고 입찰은 주 단위로 조정합니다. 변경일이 걸친 주는 전·후가 섞이므로, 상세 내역에서 변경일을 확정한 뒤 비교합니다.</li>
+      <li>보는 지표: 로지 일반어 매출 비중·일반어 ROAS·떡뻥/아기떡뻥 노출과 순위·구매 없는 일반어 광고비 비중·합산 매출/ROAS.</li>
+      <li>ROAS 허용 하한은 영업팀 기준으로 정합니다(이 화면은 정하지 않음).</li></ul></div>`;
+
+  const checks = ['대행사 세팅 상세 내역(변경일·그룹·소재·입찰가 전후·제외 검색어 목록) — 차주 수령 대기', '로지 쌀과자 상품 2종(시작퍼프 8봉·떡뻥 8봉)의 구분 이유와, 광고 노출명·일반 쇼핑 노출명이 다른 이유', '쌀과자류 무설탕 표기 문구(라벨 기준)와 예외 제품 목록 — 영업팀 확정', '로지 시작퍼프를 “떡뻥”으로 표기해도 되는 제품인지', '네이버 가격비교에서 두 스토어의 같은 상품이 한 묶음으로 노출되는지', '쿠팡의 아넬라 롱떡뻥 광고가 자사 운영 광고인지 — 가능성 높음, 광고 계정으로 최종 확인'];
   const foot = `<div class="card kw-card"><h3>확인이 필요한 것</h3><ul class="sn-ul sn-chk">${checks.map(c => `<li>${c}</li>`).join('')}</ul>
-    <p class="sn-note">확정된 것(2026.11.26): 아넬라 “퍼프&롱떡뻥”은 아넬라 제품이고, 두 스토어의 가격 차이는 의도된 운영입니다. 제품 마진은 영업팀 관할이라 이 화면에서 다루지 않습니다.</p>
+    <p class="sn-note">확정된 것(2026.11.26): 아넬라 “퍼프&롱떡뻥”은 아넬라 제품이고, 두 스토어의 가격 차이는 의도된 운영입니다. 쌀과자류는 대부분 무설탕 제품이며(예외 제품은 미확인), 대행사의 로지 일반K 신설·제외 검색어 정비·입찰 조정은 세팅 완료(상세 내역 차주 전달 예정)입니다. 제품 마진은 영업팀 관할이라 이 화면에서 다루지 않습니다.</p>
     <p class="sn-note">한계: 키워드·검색어 리포트(11/1–11/23)에서 쇼핑검색 검색어는 네이버 비공개 처리로 일부만 보입니다. 경쟁 화면은 해외 IP·비로그인 1회 수집이라 광고 구성이 시점마다 다릅니다. 경쟁사 리뷰·구매는 네이버 표기값(예: 2천+)입니다. 이 화면의 수치는 리포트 데이터에서 계산하고, 결론·할 일 문구는 2026.11.25–26 분석 기준의 제안입니다.</p></div>`;
 
   el.innerHTML = `${hero}<div class="sn-cols">${brandBlock}${kwBlock}</div>
     <div class="sn-cols eq" style="margin-top:16px">${exCard('아넬라', 'anela', 'a')}${exCard('로지오가닉', 'rosy', 'r')}</div>${insights}
-    <div style="margin-top:16px">${benchBlock}</div><div style="margin-top:16px">${cpBlock}</div><div style="margin-top:16px">${actBlock}</div><div style="margin-top:16px">${foot}</div>`;
+    <div style="margin-top:16px">${benchBlock}</div><div style="margin-top:16px">${cpBlock}</div><div style="margin-top:16px">${cmpBlock}</div><div style="margin-top:16px">${actBlock}</div><div style="margin-top:16px">${baseBlock}</div><div style="margin-top:16px">${foot}</div>`;
   wireTips(el);
 }
 
