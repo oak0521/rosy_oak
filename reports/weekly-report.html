@@ -2278,17 +2278,17 @@ function renderSnack(){
   // ---- 1. 결론 ----
   const hero = `<div class="ov-banner sn-hero"><span class="ov-chip">결론</span>
     <div><p class="ov-headline">쌀과자는 한 브랜드만 밀지 말고, 키워드마다 맡을 브랜드를 나눈다</p>
-    <p class="ov-reason">일반어 쇼핑검색은 두 브랜드 모두 ROAS가 200% 안팎(로지 ${snR(R.gen.roas)}, 아넬라 ${snR(A.gen.roas)})이라 “잘 되는 쪽에 몰아주기”만으로는 이익이 늘지 않습니다. 마진(손익분기 ROAS)을 확인하기 전까지 입찰 인상보다 구조 정리가 먼저입니다. 아래 수치는 네이버(쇼핑검색·파워링크)만이며 메타는 제외했습니다.</p></div></div>
+    <p class="ov-reason">일반어 쇼핑검색은 두 브랜드 모두 ROAS가 200% 안팎(로지 ${snR(R.gen.roas)}, 아넬라 ${snR(A.gen.roas)})이라 “잘 되는 쪽에 몰아주기”만으로는 효율이 오르지 않습니다. 입찰 인상보다 쇼핑검색 상품 그룹·제외키워드 구조를 정리하는 것이 먼저입니다. 아래 수치는 네이버(쇼핑검색·파워링크)만이며 메타는 제외했습니다.</p></div></div>
     <div class="sn-decide">
       <div class="sn-d"><span class="who a">아넬라 유지</span><h3>떡뻥·롱떡뻥 쇼핑검색</h3>
         <div class="big num">${kw['떡뻥'].as.conv + kw['롱떡뻥'].as.conv}건 · ${snM(kw['떡뻥'].as.rev + kw['롱떡뻥'].as.rev)}</div>
         <p>떡뻥 ${kw['떡뻥'].as.conv}건(ROAS ${snR(kw['떡뻥'].as.roas)}, ${snK(kw['떡뻥'].as.rank)}), 롱떡뻥 ${kw['롱떡뻥'].as.conv}건(ROAS ${snR(kw['롱떡뻥'].as.roas)}, 아넬라 전용). 로지는 떡뻥 ${kw['떡뻥'].rs.conv}건. 아기떡뻥·유기농떡뻥은 ROAS ${snR(kw['아기떡뻥'].as.roas)}·${snR(kw['유기농떡뻥'].as.roas)}라 입찰을 낮춥니다.</p></div>
       <div class="sn-d"><span class="who r">로지 개선</span><h3>아기과자·아기간식 쇼핑검색</h3>
         <div class="big num">${kw['아기과자'].rs.conv + kw['아기간식'].rs.conv}건 · ${snM(kw['아기과자'].rs.rev + kw['아기간식'].rs.rev)}</div>
-        <p>아기과자 ${kw['아기과자'].rs.conv}건(ROAS ${snR(kw['아기과자'].rs.roas)}, ${snK(kw['아기과자'].rs.rank)}), 아기간식 ${kw['아기간식'].rs.conv}건(${snR(kw['아기간식'].rs.roas)}). 아넬라는 ${kw['아기과자'].as.conv}건·${kw['아기간식'].as.conv}건. 입찰 인상보다 상품명·그룹 구조·리뷰를 먼저 고칩니다.</p></div>
+        <p>아기과자 ${kw['아기과자'].rs.conv}건(ROAS ${snR(kw['아기과자'].rs.roas)}, ${snK(kw['아기과자'].rs.rank)}), 아기간식 ${kw['아기간식'].rs.conv}건(${snR(kw['아기간식'].rs.roas)}). 아넬라는 ${kw['아기과자'].as.conv}건·${kw['아기간식'].as.conv}건. 입찰 인상보다 상품명·상품 그룹·제외키워드·리뷰를 먼저 점검합니다.</p></div>
       <div class="sn-d"><span class="who n">의도된 운영</span><h3>같은 상품, 가격을 달리한 두 스토어</h3>
         <div class="big num">${dups.length ? dups.map(i => fmt(i.price) + '원').join(' / ') : '–'}</div>
-        <p>${ownStore && crossStore ? `로지 시작퍼프 8봉은 로지 스토어(${fmt(ownStore.price)}원, 리뷰 ${ownStore.reviewsTxt||'–'})와 아넬라 스토어(${fmt(crossStore.price)}원, 리뷰 ${crossStore.reviewsTxt||'–'}, 구매 ${crossStore.buysTxt||'–'})에서 팔립니다. 아넬라 스토어만 베이비바우처 50% 쿠폰을 쓸 수 있어, 쿠폰 적용 후 마진을 지키려고 판매가를 올려 둔 운영입니다.` : '같은 상품이 두 스토어에서 팔립니다.'} <b>제안:</b> 리뷰가 갈리는 비용은 역할 분리로 줄입니다. 일반 검색은 리뷰가 많은 로지 스토어 상품, 아넬라 스토어 상품은 바우처 고객용.</p></div>
+        <p>${ownStore && crossStore ? `로지 시작퍼프 8봉은 로지 스토어(${fmt(ownStore.price)}원, 리뷰 ${ownStore.reviewsTxt||'–'})와 아넬라 스토어(${fmt(crossStore.price)}원, 리뷰 ${crossStore.reviewsTxt||'–'}, 구매 ${crossStore.buysTxt||'–'})에서 팔립니다. 아넬라 스토어에서만 네이버 베이비바우처 50% 쿠폰을 쓸 수 있어 판매가를 달리 둔 운영입니다(가격은 영업팀 관할).` : '같은 상품이 두 스토어에서 팔립니다.'} <b>제안:</b> 리뷰가 갈리는 비용은 역할 분리로 줄입니다. 일반 검색은 리뷰가 많은 로지 스토어 상품, 아넬라 스토어 상품은 바우처 고객용.</p></div>
     </div>`;
 
   // ---- 2. 일반어 vs 브랜드어 ----
@@ -2320,7 +2320,7 @@ function renderSnack(){
     const cl = snExClusters(b), tot = snSum(snRows(b, 'ex')), mx = Math.max(...cl.map(c => c.rev), 1);
     const rows = cl.map(c => hbar(`${esc(c.k)} <span class="mut">${c.n}개</span>`, c.rev / mx * 100, `var(--brand-${cls})`, `${snM(c.rev)} · ${snR(c.roas)}`,
       `<b>${c.k}</b>${c.n}개 검색어 · 노출 ${fmt(c.imp)} · 클릭 ${fmt(c.clk)} · 구매 ${c.conv}건<br>광고비 ${fmt(c.cost)}원 · 매출 ${fmt(c.rev)}원 · ROAS ${snR(c.roas)}`)).join('');
-    return `<div class="card kw-card sn-ex"><h3>${name} · 미등록(확장) 검색어</h3><p class="sub">수록 ${fmt(tot.n)}개 · 구매 ${tot.conv}건 · 매출 ${snM(tot.rev)} · ROAS ${snR(tot.roas)} · 막대 = 매출, 오른쪽 = 매출·ROAS</p>${rows}</div>`;
+    return `<div class="card kw-card sn-ex"><h3>${name} · 파워링크 미등록(확장) 검색어</h3><p class="sub">수록 ${fmt(tot.n)}개 · 구매 ${tot.conv}건 · 매출 ${snM(tot.rev)} · ROAS ${snR(tot.roas)} · 막대 = 매출, 오른쪽 = 매출·ROAS</p>${rows}</div>`;
   };
   const cA = Object.fromEntries(snExClusters('anela').map(c => [c.k, c])), cR = Object.fromEntries(snExClusters('rosy').map(c => [c.k, c]));
   const z = {n:0, imp:0, clk:0, conv:0, cvr:null, roas:null};
@@ -2352,27 +2352,28 @@ function renderSnack(){
   const cpBlock = `<div class="card kw-card"><h3>쿠팡이 네이버 쇼핑검색에서 광고하는 브랜드</h3><p class="sub">쇼핑 영역이 나온 ${COUPANG.kwN}개 과자 키워드의 쇼핑광고 ${COUPANG.adTotal}개 중 판매처가 쿠팡인 광고 · ${COUPANG.captured} 수집</p>
     <div class="ev-chips" style="margin-bottom:12px"><div class="ev-chip"><div class="l">쿠팡 판매 광고</div><div class="v num">${cpItems.length}개 <span style="font-size:13px;color:var(--text-muted)">(${cpShare.toFixed(0)}%)</span></div><div class="s">쇼핑광고 판매처 ${COUPANG.sellers.findIndex(s => s[0] === '쿠팡') + 1}위</div></div>
       <div class="ev-chip"><div class="l">쿠팡 파워링크</div><div class="v num">${COUPANG.pl.length}개 키워드</div><div class="s">${COUPANG.pl.map(p => '“' + esc(p.kw) + '”').join(' · ')} — “키워드 + 쿠팡” 문구로 1~2위</div></div>
-      <div class="ev-chip"><div class="l">우리 상품</div><div class="v num">${cpBrand['아넬라'] ? '아넬라 롱떡뻥' : '없음'}</div><div class="s">${cpBrand['아넬라'] ? '쿠팡 판매처로 광고 노출 — 공식 입점인지 확인 필요' : '쿠팡 판매처 노출 없음'} · 로지 상품은 없음</div></div></div>
+      <div class="ev-chip"><div class="l">우리 상품</div><div class="v num">${cpBrand['아넬라'] ? '아넬라 롱떡뻥' : '없음'}</div><div class="s">${cpBrand['아넬라'] ? '쿠팡 판매처로 광고 노출 — 자사 운영 광고일 가능성 높음(최종 확인 전)' : '쿠팡 판매처 노출 없음'} · 로지 상품은 없음</div></div></div>
     <div class="tbl-wrap" style="margin-top:0"><table class="kw-trend sn-cp"><thead><tr><th style="text-align:left">브랜드</th><th style="text-align:left">상품</th><th>노출</th><th style="text-align:left">키워드·순위</th></tr></thead><tbody>${cpRows}</tbody></table></div>
     <p class="sn-note">경쟁 상품이 쿠팡 판매처로 우리 일반어에 광고를 내고 있고(지후쌀과자·베베쿡·일동후디스 등), 쿠팡 본사도 같은 키워드에 파워링크를 냅니다. 쇼핑광고 판매처 상위는 매일유업 직영(${COUPANG.sellers[0][1]}), 아이배냇 공식몰(${COUPANG.sellers[1][1]}), 쿠팡(${(COUPANG.sellers.find(s => s[0] === '쿠팡') || [0, 0])[1]})입니다.</p></div>`;
 
   // ---- 6. 문제 → 액션 ----
   const rosyBrandTerm = snRows('rosy','ss').filter(r => r.n === '로지오가닉').reduce((s, r) => s + r.rev, 0);
   const act = [
-    ['로지 매출이 브랜드어에 쏠림', `쇼핑검색 매출의 ${R.share.toFixed(0)}%(아넬라 ${A.share.toFixed(0)}%)`, '쇼핑검색에 일반어 전용 그룹 분리 · 파워링크에서 검증된 일반어(아기떡뻥·아기과자·유기농떡뻥)를 쇼핑 우선 키워드로', '1–2주'],
-    ['같은 상품을 두 스토어에서 판매(의도된 가격 차이)', ownStore && crossStore ? `${fmt(ownStore.price)}원 / ${fmt(crossStore.price)}원 · 리뷰 ${ownStore.reviewsTxt} / ${crossStore.reviewsTxt}로 분산. 아넬라 스토어 베이비바우처 50% 쿠폰 마진 보호용 가격` : '리뷰·판매 분산', '가격 차이는 유지 · 일반 검색 광고와 상품명 개편은 리뷰가 많은 로지 스토어 상품에 집중 · 아넬라 스토어 상품은 바우처 고객 노출용으로 구분 · 네이버 가격비교에서 두 상품이 한 묶음으로 합쳐져 낮은 가격이 대표가로 노출되는지 확인', '확인 후'],
+    ['로지 매출이 브랜드어에 쏠림', `쇼핑검색 매출의 ${R.share.toFixed(0)}%(아넬라 ${A.share.toFixed(0)}%)`, '쇼핑검색은 키워드 등록이 아니라 상품 그룹·제외키워드로 운영 → 브랜드어/일반어 성과를 따로 볼 수 있게 상품 그룹·입찰을 나누는 안을 로지 설정을 확인한 뒤 확정 · 파워링크에는 검증된 일반어(아기떡뻥·아기과자·유기농떡뻥)를 키워드로 등록', '1–2주'],
+    ['같은 상품을 두 스토어에서 판매(의도된 가격 차이)', ownStore && crossStore ? `${fmt(ownStore.price)}원 / ${fmt(crossStore.price)}원 · 리뷰 ${ownStore.reviewsTxt} / ${crossStore.reviewsTxt}로 분산. 아넬라 스토어만 베이비바우처 50% 쿠폰 사용 가능` : '리뷰·판매 분산', '가격 차이는 유지 · 일반 검색 광고와 상품명 개편은 리뷰가 많은 로지 스토어 상품에 집중 · 아넬라 스토어 상품은 바우처 고객 노출용으로 구분 · 네이버 가격비교에서 두 상품이 한 묶음으로 합쳐져 낮은 가격이 대표가로 노출되는지 확인', '확인 후'],
     ['상품명에 검색어가 없음', '대표 상품명이 “시작퍼프 8봉”이라 “아기과자”·“떡뻥”과 일치하지 않음', '상품명 앞부분에 검색어 배치(“떡뻥” 표기는 실제 제품이 떡뻥류일 때만)', '2–4주'],
     ['경쟁 리뷰 격차', topComp.length ? `${topComp[0].brand} ${topComp[0].reviewsTxt || fmt(topComp[0].reviews)} · 우리 최대 ${oursB.length ? (oursB[0].reviewsTxt || fmt(oursB[0].reviews)) : '–'}` : '–', '일반 검색용 대표 상품 1개(리뷰가 많은 로지 스토어 시작퍼프)에 리뷰 집중(스마트스토어 리뷰만 랭킹 반영) · 첫 구매용 소용량 구성 검토', '2–4주'],
-    ['확장 매칭에서 새는 광고비', `로지 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}, 노이즈 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회·클릭 0`, '패턴 단위로 제외·입찰 하향(개별 검색어 제외보다 효과적) · 무설탕 소구 금지', '1–2주'],
+    ['파워링크 확장 매칭에서 새는 광고비', `로지 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}, 노이즈 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회·클릭 0`, '패턴 단위로 제외·입찰 하향(개별 검색어 제외보다 효과적) · 무설탕 소구 금지', '1–2주'],
     ['경쟁사명 검색 유입', `“지후떡뻥” 구매 ${g(cR,'경쟁사명').conv}건 · ROAS ${snR(g(cR,'경쟁사명').roas)}`, '의도적으로 운영할지 결정 · 광고 문구 타사 상표 정책 확인', '결정 필요'],
     ['월령·정보형 수요를 광고로만 받음', `아넬라 정보·질문형 노출 ${fmt(g(cA,'정보·질문형').imp)}회·구매 ${g(cA,'정보·질문형').conv}건`, '로지 “월령별 첫 간식 가이드”, 아넬라 “이유식 양·시작 방법” 콘텐츠로 받고 상품으로 연결', '중기'],
-    ['쿠팡 노출 관리', '아넬라 롱떡뻥이 쿠팡 판매처 광고로 노출 · 쿠팡 본사 파워링크가 우리 일반어 선점', '쿠팡 판매 채널이 공식인지 확인 · 일반어 쇼핑검색·브랜드 콘텐츠로 방어', '확인 후']
+    ['쿠팡 노출 관리', '아넬라 롱떡뻥이 쿠팡 판매처 광고로 노출(자사 운영 광고일 가능성 높음) · 쿠팡 본사 파워링크가 우리 일반어 선점', '쿠팡 광고 계정은 자사 운영으로 보고 최종 확인만 · 쿠팡이 선점한 일반어는 쇼핑검색·브랜드 콘텐츠로 방어', '확인 후']
   ];
   const actBlock = `<div class="card kw-card"><h3>문제점 → 해야 할 일 <span class="tag acc">제안</span></h3><p class="sub">근거 수치는 위 표에서 계산한 값 · 시기는 우선순위 제안이며 대행사·영업팀 확인 전 확정 아님</p>
     <div class="tbl-wrap" style="margin-top:6px"><table class="kw-trend sn-act"><thead><tr><th style="text-align:left">문제</th><th style="text-align:left">근거</th><th style="text-align:left">할 일</th><th>시기</th></tr></thead><tbody>${act.map(r => `<tr><td class="kwn">${r[0]}</td><td class="why">${r[1]}</td><td class="why act">${r[2]}</td><td><span class="tag">${r[3]}</span></td></tr>`).join('')}</tbody></table></div></div>`;
 
-  const checks = ['이 제품군의 마진(손익분기 ROAS) — 증액 판단의 전제', '아넬라 스토어 로지 시작퍼프의 쿠폰 적용 후 마진(최저 허용 판매가)과 바우처 사용 비중 — 현재 가격 조정이 충분한지', '아넬라 “퍼프&롱떡뻥” 세트의 퍼프가 로지 제품인지', '쿠팡의 아넬라 롱떡뻥·퓨레 판매가 공식 채널인지', '로지 쇼핑검색 그룹별(브랜드K·신제품) 키워드·상품 구성 (대행사 확인)', '로지 시작퍼프를 “떡뻥”으로 표기해도 되는 제품인지'];
+  const checks = ['로지 쇼핑검색 광고그룹별 상품 그룹·제외키워드 구성 — 쇼핑검색은 키워드 등록이 없어 이 설정이 노출을 좌우합니다(담당자가 제공 가능)', '쿠팡의 아넬라 롱떡뻥 광고가 자사 운영 광고인지 — 가능성 높음, 광고 계정으로 최종 확인', '로지 시작퍼프를 “떡뻥”으로 표기해도 되는 제품인지', '네이버 가격비교에서 두 스토어의 같은 상품이 한 묶음으로 노출되는지'];
   const foot = `<div class="card kw-card"><h3>확인이 필요한 것</h3><ul class="sn-ul sn-chk">${checks.map(c => `<li>${c}</li>`).join('')}</ul>
+    <p class="sn-note">확정된 것(2026.11.26): 아넬라 “퍼프&롱떡뻥”은 아넬라 제품이고, 두 스토어의 가격 차이는 의도된 운영입니다. 제품 마진은 영업팀 관할이라 이 화면에서 다루지 않습니다.</p>
     <p class="sn-note">한계: 키워드·검색어 리포트(11/1–11/23)에서 쇼핑검색 검색어는 네이버 비공개 처리로 일부만 보입니다. 경쟁 화면은 해외 IP·비로그인 1회 수집이라 광고 구성이 시점마다 다릅니다. 경쟁사 리뷰·구매는 네이버 표기값(예: 2천+)입니다. 이 화면의 수치는 리포트 데이터에서 계산하고, 결론·할 일 문구는 2026.11.25–26 분석 기준의 제안입니다.</p></div>`;
 
   el.innerHTML = `${hero}<div class="sn-cols">${brandBlock}${kwBlock}</div>
