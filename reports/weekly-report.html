@@ -41,6 +41,11 @@
   --shadow-lg:0 2px 4px rgba(20,20,40,0.04), 0 12px 32px rgba(40,30,110,0.10);
   --feat-a:#3d3096;
   --feat-b:#6b5ce0;
+  --brand-a:#5a4ad6;
+  --brand-a-ink:#3f32a8;
+  --brand-r:#c93f78;
+  --brand-r-ink:#a32c5e;
+  --brand-r-soft:#fbe4ed;
   --shadow: 0 1px 2px rgba(20,20,25,0.04), 0 4px 14px rgba(20,20,25,0.05);
   color-scheme: light;
 }
@@ -83,6 +88,11 @@
     --shadow-lg:0 2px 4px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.45);
     --feat-a:#4a3fc0;
     --feat-b:#6c5ce6;
+    --brand-a:#8d7fef;
+    --brand-a-ink:#c0b6f7;
+    --brand-r:#e5709f;
+    --brand-r-ink:#f09bbd;
+    --brand-r-soft:#3a1a28;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
     color-scheme: dark;
   }
@@ -125,6 +135,11 @@
   --shadow-lg:0 2px 4px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.45);
   --feat-a:#4a3fc0;
   --feat-b:#6c5ce6;
+  --brand-a:#8d7fef;
+  --brand-a-ink:#c0b6f7;
+  --brand-r:#e5709f;
+  --brand-r-ink:#f09bbd;
+  --brand-r-soft:#3a1a28;
   --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
   color-scheme: dark;
 }
@@ -744,6 +759,71 @@ text.dc{paint-order:normal;}
 .subtabbtn{padding:7px 14px;}
 .mnote{border-radius:12px;}
 .rank-item{border-radius:14px;padding:12px 14px;}
+/* ---------- 쌀과자 전략 (#snack) ---------- */
+body[data-view="snack"] #brandSwitch{display:none;}
+.tag.rose{background:var(--brand-r-soft);color:var(--brand-r-ink);}
+.sn-hero{--v:var(--accent);--v-soft:var(--accent-soft);}
+.sn-decide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px;}
+.sn-d{padding:18px 20px;border-radius:18px;border:1px solid var(--border);background:var(--surface-1);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;min-width:0;}
+.sn-d .who{display:inline-flex;font-size:11.5px;font-weight:700;padding:3px 11px;border-radius:999px;width:fit-content;}
+.sn-d .who.a{background:var(--accent-soft);color:var(--brand-a-ink);} .sn-d .who.r{background:var(--brand-r-soft);color:var(--brand-r-ink);} .sn-d .who.x{background:var(--warning-soft);color:var(--warning);}
+.sn-d h3{margin:0;font-size:16px;line-height:1.4;letter-spacing:-0.01em;}
+.sn-d .big{font-size:22px;font-weight:700;letter-spacing:-0.01em;}
+.sn-d p{font-size:12.5px;color:var(--text-secondary);margin:0;line-height:1.6;}
+.sn-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:16px;margin-top:16px;align-items:start;}
+.sn-cols.eq,.sn-ins{grid-template-columns:repeat(2,minmax(0,1fr));}
+.sn-ins{display:grid;gap:16px;margin-top:16px;}
+.sn-note{font-size:12px;color:var(--text-secondary);margin:12px 0 0;line-height:1.65;}
+.sn-leg{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--text-secondary);margin:2px 0 6px;}
+.sn-leg .muted{color:var(--text-muted);}
+.sn-leg .sw,.sn-sl .sw{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;}
+.sw.a{background:var(--brand-a);} .sw.r{background:var(--brand-r);} .sw.own{background:var(--text-muted);}
+.sn-brand{margin:8px 0 18px;}
+.sn-bh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:7px;font-size:12.5px;color:var(--text-secondary);}
+.sn-bh b{font-size:14px;} .sn-bh b.a{color:var(--brand-a-ink);} .sn-bh b.r{color:var(--brand-r-ink);}
+.sn-st{display:flex;gap:2px;height:24px;border-radius:9px;overflow:hidden;background:var(--surface-2);}
+.sn-st i{display:block;height:100%;min-width:2px;} .sn-st i.own{background:var(--text-muted);} .sn-st i.gen.a{background:var(--brand-a);} .sn-st i.gen.r{background:var(--brand-r);}
+.sn-sl{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:7px;font-size:12px;color:var(--text-secondary);}
+.sn-sl.sub{color:var(--text-muted);font-size:11.5px;margin-top:3px;}
+/* paired bars */
+.pb-row{display:grid;grid-template-columns:minmax(92px,128px) minmax(0,1fr) minmax(180px,250px) 84px;gap:6px 14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--gridline);}
+.pb-row:last-child{border-bottom:0;} .pb-row:hover{background:var(--surface-2);}
+.pb-k{font-weight:700;font-size:13.5px;} .pb-k small{display:block;font-weight:400;color:var(--text-muted);font-size:11px;margin-top:1px;}
+.pb-bars{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.pb-line{display:flex;align-items:center;gap:8px;height:15px;}
+.pb-line i{display:block;height:13px;border-radius:0 6px 6px 0;min-width:2px;} .pb-line.a i{background:var(--brand-a);} .pb-line.r i{background:var(--brand-r);}
+.pb-line span{font-size:11.5px;color:var(--text-secondary);white-space:nowrap;}
+.pb-n{font-size:11.5px;color:var(--text-secondary);line-height:1.55;font-variant-numeric:tabular-nums;}
+.pb-n .ca{color:var(--brand-a-ink);font-weight:700;} .pb-n .cr{color:var(--brand-r-ink);font-weight:700;} .pb-n .cm{color:var(--text-muted);}
+.pb-w{justify-self:end;}
+@media (max-width:1560px){.pb-row{grid-template-columns:minmax(80px,110px) minmax(0,1fr) 84px;} .pb-n{grid-column:1 / -1;order:5;padding-bottom:2px;}}
+.sn-ex .hbar-row{grid-template-columns:minmax(0,1.4fr) minmax(0,1.3fr) 128px;}
+.sn-ex .hbar-row .nm{white-space:normal;overflow:visible;}
+.sn-ex .mut{color:var(--text-muted);font-size:11px;margin-left:3px;}
+.sn-ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);line-height:1.6;}
+.sn-ul li{list-style:disc;} .sn-ul li b{color:var(--text-primary);font-weight:600;}
+.sn-chk{padding-left:0;} .sn-chk li{list-style:none;} .sn-chk li::before{content:"□";margin-right:9px;color:var(--text-muted);}
+.kw-trend tr.ours td{background:var(--accent-soft);}
+.sn-act td.act{min-width:240px;color:var(--text-primary);} .sn-act td.kwn{min-width:130px;}
+@media (max-width:900px){
+  .sn-decide,.sn-cols,.sn-cols.eq,.sn-ins{grid-template-columns:minmax(0,1fr);}
+  .sn-ex .hbar-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 112px;}
+}
+@media (max-width:640px){
+  .pb-row{grid-template-columns:minmax(0,1fr) auto;} .pb-bars{grid-column:1 / -1;order:3;} .pb-n{order:4;}
+  .sn-d .big{font-size:20px;}
+}
+@media (max-width:640px){
+  .sn-bench th:nth-child(2),.sn-bench td:nth-child(2),.sn-cp th:nth-child(2),.sn-cp td:nth-child(2){display:none;}
+  .sn-act,.sn-act tbody,.sn-act tr,.sn-act td{display:block;width:100%;}
+  .sn-act thead{display:none;}
+  .sn-act tr{padding:12px 2px;border-bottom:1px solid var(--gridline);} .sn-act tr:last-child{border-bottom:0;}
+  .sn-act td{padding:2px 0;border:0;min-width:0 !important;text-align:left !important;white-space:normal !important;}
+  .sn-act td.kwn{font-weight:700;font-size:13.5px;margin-bottom:2px;}
+  .sn-act td:nth-child(2)::before{content:"근거  ";color:var(--text-muted);font-weight:600;}
+  .sn-act td.act::before{content:"할 일  ";color:var(--text-muted);font-weight:600;}
+  .sn-act td:last-child{margin-top:4px;}
+}
 </style>
 
 <div class="app" id="app">
@@ -762,6 +842,7 @@ text.dc{paint-order:normal;}
       <a href="#keyword" data-view="keyword" class="mi"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg><span>키워드·검색어</span></a>
       <a href="#terms" data-view="terms" class="mi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg><span>전체 리스트</span></a>
       <a href="#serp" data-view="serp" class="mi" id="navSerp" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg><span>경쟁사 비교</span></a>
+      <a href="#snack" data-view="snack" class="mi"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg><span>쌀과자 전략</span></a>
       <div class="menu-g">성과</div>
       <a href="#trend" data-view="trend" class="mi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><span>월별 추이</span></a>
       <a href="#media" data-view="media" class="mi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9h9"/><path d="M20.5 15A9 9 0 1 1 9 3.5"/></svg><span>매체별 성과</span></a>
@@ -914,6 +995,17 @@ text.dc{paint-order:normal;}
     </div>
     <div class="tm-chips" id="serpKw" style="margin-bottom:12px"></div>
     <div id="serpBody"></div>
+  </section>
+
+  <!-- ============ 쌀과자 전략: 아넬라 vs 로지오가닉 (영업팀·팀장 공유용) ============ -->
+  <section id="snack" class="view">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">쌀과자 전략 · 아넬라 vs 로지오가닉</h2>
+        <p class="section-sub">두 브랜드의 쌀과자 겹침을 네이버(쇼핑검색·파워링크)만으로 정리 · 키워드 11/1–11/23 · 경쟁 화면 11/25–26 수집 · 메타·브랜드검색 제외 · 두 브랜드를 함께 보는 화면이라 상단 브랜드 전환과 무관</p>
+      </div>
+    </div>
+    <div id="snackBody"></div>
   </section>
 
   <!-- ============ MONTHLY TREND ============ -->
@@ -1872,7 +1964,7 @@ document.getElementById('evChanTabs').addEventListener('click', e=>{
 });
 
 // ================= APP SHELL: 좌측 메뉴 + 한 번에 한 화면 (해시 라우팅) =================
-const VIEWS = ['overview','summary','comment','event','keyword','terms','serp','trend','media','creative'];
+const VIEWS = ['overview','summary','comment','event','keyword','terms','serp','snack','trend','media','creative'];
 let curView = 'overview';
 function closeSide(){ const sd=document.getElementById('side'), sc=document.getElementById('scrim'), bg=document.getElementById('burger'); if(sd) sd.classList.remove('open'); if(sc) sc.hidden=true; if(bg) bg.setAttribute('aria-expanded','false'); }
 function openSide(){ document.getElementById('side').classList.add('open'); document.getElementById('scrim').hidden=false; document.getElementById('burger').setAttribute('aria-expanded','true'); }
@@ -1880,6 +1972,8 @@ function showView(id){
   const sec = id ? document.getElementById(id) : null;
   if(!VIEWS.includes(id) || !sec || sec.hidden) id = 'overview';
   curView = id;
+  document.body.dataset.view = id;
+  { const bt = document.getElementById('brandTitle'); if(bt) bt.textContent = id==='snack' ? '쌀과자 전략 · 아넬라 vs 로지오가닉' : BRANDS[curBrand].title; }
   VIEWS.forEach(v=>{ const el=document.getElementById(v); if(el) el.classList.toggle('active', v===id); });
   document.querySelectorAll('#menu a[data-view]').forEach(a=>{ const on=a.dataset.view===id; a.classList.toggle('current',on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   closeSide(); window.scrollTo(0,0);
@@ -2129,6 +2223,164 @@ function renderSerp(){
   });
 })();
 
+// ================= 쌀과자 전략 (#snack) — 아넬라 vs 로지오가닉, 영업팀·팀장 공유용 =================
+// 숫자는 TERMS(키워드 리포트 11/1–11/23)·SERP(네이버 모바일 수집)·COUPANG(스냅샷)에서 계산한다. 문구(결론·액션)만 사람이 쓴 제안이며 분석 기준일을 화면에 표시한다.
+const COUPANG = {"captured":"2026-11-26","kwN":7,"adTotal":106,"sellers":[["매일유업 직영스토어",18],["아이배냇 공식몰",14],["쿠팡",13],["룰루맘",12],["로지오가닉",5],["아이보리",4],["깊은숲속행복한식품",4],["지구대장",4]],"items":[{"b":"지후쌀과자","n":"지후쌀과자 떡뻥 아기과자 맛별로 골고루 10봉 1세트 30g 골고루10봉","kw":"떡뻥","r":4,"p":26000},{"b":"일동후디스","n":"일동후디스 아이얌 유기농 쌀과자 백미 떡뻥 30g 12개 100% 국산 지퍼백 ","kw":"떡뻥","r":14,"p":28900},{"b":"현미한톨","n":"현미한톨 현미스낵 8종 골라담기 떡뻥 아기과자 8개 혼합 37g","kw":"떡뻥","r":16,"p":49000},{"b":"야미얼스","n":"야미얼스 유기농 후르츠 스낵 젤리 혼합맛(바나나/체리/복숭아/딸기) 178.2g","kw":"유기농과자","r":10,"p":146050},{"b":"지구로운","n":"지구로운 유기농아기과자 12종세트 400g 1세트 스틱4종 롱스틱4종 소프트링4","kw":"유기농과자","r":11,"p":19800},{"b":"미룡","n":"미룡 구운 달콤한 쌀과자 10p 275g 10개","kw":"쌀과자","r":1,"p":19220},{"b":"허니눈꽃","n":"허니눈꽃 크리스피 쌀과자 벌꿀 5.5% 920g 4개 대용량 개별포장 바삭 달콤","kw":"쌀과자","r":7,"p":33600},{"b":"농협","n":"농협 아름찬 우리쌀 인절미스낵 125g 12봉 국산 쌀과자 HACCP 콩고물 쌀","kw":"쌀과자","r":12,"p":23760},{"b":"지후쌀과자","n":"지후쌀과자 떡뻥 아기과자 맛별로 골고루 10봉 1세트 30g 골고루10봉","kw":"아기쌀과자","r":9,"p":26000},{"b":"베베쿡","n":"베베쿡 처음먹는 빼빼롱뻥 단호박 사과 자색고구마 청포도 30g 12봉 국산 백미","kw":"롱떡뻥","r":6,"p":31710},{"b":"아넬라","n":"아넬라 롱떡뻥 스위트딸기 롱스틱 스위트 딸기 40g 6개","kw":"롱떡뻥","r":7,"p":20060},{"b":"프레벨롱","n":"프레벨롱 아기 롱떡뻥 사과 40g 10개입 대용량 15cm 국산 현미 백미 해썹","kw":"롱떡뻥","r":9,"p":26500},{"b":"베베쿡","n":"베베쿡 더 맛있는 빼빼롱뻥 구운옥수수 40g 10개 아기 롱떡뻥 14cm 스틱 ","kw":"롱떡뻥","r":12,"p":22880}],"pl":[{"kw":"유기농과자","r":1,"t":"유기농과자 쿠팡"},{"kw":"쌀과자","r":1,"t":"쌀과자 쿠팡"},{"kw":"아기퍼프과자","r":2,"t":"아기퍼프과자 쿠팡"},{"kw":"롱떡뻥","r":2,"t":"롱떡뻥 쿠팡"}]};
+const SN_TF = ['n','ag','imp','clk','cost','conv','rev','rank','w3c','w3v','w3rev','own','ext'];
+const snRows = (b, tab) => TERMS[b][tab].map(r => { const o = {}; SN_TF.forEach((k, i) => o[k] = r[i]); return o; });
+function snSum(rs){
+  const s = {n:rs.length, imp:0, clk:0, cost:0, conv:0, rev:0}; let rk = 0, rw = 0;
+  rs.forEach(r => { s.imp += r.imp; s.clk += r.clk; s.cost += r.cost; s.conv += r.conv; s.rev += r.rev; if(r.rank && r.imp){ rk += r.rank*r.imp; rw += r.imp; } });
+  s.roas = s.cost ? s.rev/s.cost*100 : null; s.rank = rw ? rk/rw : null; s.cvr = s.clk ? s.conv/s.clk*100 : null; return s;
+}
+const snTerm = (b, tab, t) => snSum(snRows(b, tab).filter(r => r.n === t));
+function snSplit(b){
+  const ss = snRows(b, 'ss').filter(r => r.ag.includes('과자')), own = snSum(ss.filter(r => r.own)), gen = snSum(ss.filter(r => !r.own));
+  const noConv = snSum(ss.filter(r => !r.own && r.conv === 0));
+  return {own, gen, share: own.rev/((own.rev+gen.rev)||1)*100, waste: gen.cost ? noConv.cost/gen.cost*100 : 0};
+}
+const SN_COMP = ['지후','내아이','퓨어잇','질마재','베베쿡','오가닉스토리','요미요미','룰루맘','아이얌','키우키우','베베모메','맘스윙','아이배냇','프레벨롱','루솔','상하목장','맘마밀','홀레'];
+function snClass(r, b){
+  const n = r.n;
+  if(r.own || (b==='anela' ? /아넬라|아네라/ : /로지/).test(n)) return '자사어';
+  if(SN_COMP.some(c => n.includes(c))) return '경쟁사명';
+  if(/\d+\s*개월|돌|\d+m|백일/.test(n)) return '월령형';
+  if(/무설탕|무첨가|저당|무가당|설탕/.test(n)) return '무설탕·저당·무첨가';
+  if(/언제|시기|방법|추천|후기|비교|가격|만들|레시피/.test(n)) return '정보·질문형';
+  if(/[가-힣]+\d+$/.test(n) || /(과자|간식)\d/.test(n)) return '숫자접미 노이즈';
+  if(/쌀과자|떡뻥|퍼프|뻥튀기/.test(n)) return '쌀과자·떡뻥·퍼프';
+  if(/과자|간식|스낵|젤리|요거트/.test(n)) return '과자·간식(범용)';
+  if(/퓨레|이유식|시판|파우치|짜먹/.test(n)) return '퓨레·이유식';
+  return '기타';
+}
+function snExClusters(b){
+  const by = {}; snRows(b, 'ex').forEach(r => (by[snClass(r, b)] = by[snClass(r, b)] || []).push(r));
+  return Object.entries(by).map(([k, v]) => ({k, ...snSum(v)})).sort((a, b2) => b2.rev - a.rev);
+}
+const snF = n => n == null ? '–' : fmt(n);
+const snM = n => man(n) + '만';
+const snR = n => n == null ? '–' : Math.round(n).toLocaleString('ko-KR') + '%';
+const snK = n => n == null ? '–' : n.toFixed(1) + '위';
+
+function renderSnack(){
+  const el = document.getElementById('snackBody'); if(!el) return;
+  const A = snSplit('anela'), R = snSplit('rosy');
+  const kwList = [
+    {k:'떡뻥', g:'떡뻥 계열'}, {k:'롱떡뻥', g:'아넬라 전용 제품', only:'anela'}, {k:'아기떡뻥', g:'떡뻥 계열'}, {k:'유기농떡뻥', g:'떡뻥 계열'},
+    {k:'아기과자', g:'대표 키워드'}, {k:'아기간식', g:'대표 키워드'}, {k:'아기쌀과자', g:'쌀과자'}, {k:'아기퍼프과자', g:'퍼프'}, {k:'유아간식', g:'대표 키워드'}
+  ].map(x => ({...x, as: snTerm('anela','ss',x.k), rs: snTerm('rosy','ss',x.k), rp: snTerm('rosy','pl',x.k)}));
+  const kw = Object.fromEntries(kwList.map(x => [x.k, x]));
+  // 같은 상품 이중 판매 (SERP)
+  const dup = {}; (SERP.rosy||[]).concat(SERP.anela||[]).forEach(q => q.items.forEach(i => { if(/시작퍼프 8봉/.test(i.name) && i.src !== '파워링크') dup[i.brand + '|' + i.price] = i; }));
+  const dups = Object.values(dup).sort((a, b) => (a.price||0) - (b.price||0));
+  const ownStore = dups.find(i => i.brand === '로지오가닉'), crossStore = dups.find(i => i.brand === '아넬라');
+
+  // ---- 1. 결론 ----
+  const hero = `<div class="ov-banner sn-hero"><span class="ov-chip">결론</span>
+    <div><p class="ov-headline">쌀과자는 한 브랜드만 밀지 말고, 키워드마다 맡을 브랜드를 나눈다</p>
+    <p class="ov-reason">일반어 쇼핑검색은 두 브랜드 모두 ROAS가 200% 안팎(로지 ${snR(R.gen.roas)}, 아넬라 ${snR(A.gen.roas)})이라 “잘 되는 쪽에 몰아주기”만으로는 이익이 늘지 않습니다. 마진(손익분기 ROAS)을 확인하기 전까지 입찰 인상보다 구조 정리가 먼저입니다. 아래 수치는 네이버(쇼핑검색·파워링크)만이며 메타는 제외했습니다.</p></div></div>
+    <div class="sn-decide">
+      <div class="sn-d"><span class="who a">아넬라 유지</span><h3>떡뻥·롱떡뻥 쇼핑검색</h3>
+        <div class="big num">${kw['떡뻥'].as.conv + kw['롱떡뻥'].as.conv}건 · ${snM(kw['떡뻥'].as.rev + kw['롱떡뻥'].as.rev)}</div>
+        <p>떡뻥 ${kw['떡뻥'].as.conv}건(ROAS ${snR(kw['떡뻥'].as.roas)}, ${snK(kw['떡뻥'].as.rank)}), 롱떡뻥 ${kw['롱떡뻥'].as.conv}건(ROAS ${snR(kw['롱떡뻥'].as.roas)}, 아넬라 전용). 로지는 떡뻥 ${kw['떡뻥'].rs.conv}건. 아기떡뻥·유기농떡뻥은 ROAS ${snR(kw['아기떡뻥'].as.roas)}·${snR(kw['유기농떡뻥'].as.roas)}라 입찰을 낮춥니다.</p></div>
+      <div class="sn-d"><span class="who r">로지 개선</span><h3>아기과자·아기간식 쇼핑검색</h3>
+        <div class="big num">${kw['아기과자'].rs.conv + kw['아기간식'].rs.conv}건 · ${snM(kw['아기과자'].rs.rev + kw['아기간식'].rs.rev)}</div>
+        <p>아기과자 ${kw['아기과자'].rs.conv}건(ROAS ${snR(kw['아기과자'].rs.roas)}, ${snK(kw['아기과자'].rs.rank)}), 아기간식 ${kw['아기간식'].rs.conv}건(${snR(kw['아기간식'].rs.roas)}). 아넬라는 ${kw['아기과자'].as.conv}건·${kw['아기간식'].as.conv}건. 입찰 인상보다 상품명·그룹 구조·리뷰를 먼저 고칩니다.</p></div>
+      <div class="sn-d"><span class="who x">먼저 정리</span><h3>같은 상품의 이중 판매</h3>
+        <div class="big num">${dups.length ? dups.map(i => fmt(i.price) + '원').join(' / ') : '–'}</div>
+        <p>${ownStore && crossStore ? `로지 시작퍼프 8봉이 로지 스토어(${fmt(ownStore.price)}원, 리뷰 ${ownStore.reviewsTxt||'–'})와 아넬라 스토어(${fmt(crossStore.price)}원, 리뷰 ${crossStore.reviewsTxt||'–'}, 구매 ${crossStore.buysTxt||'–'})에서 따로 팔려 리뷰와 판매 실적이 갈립니다. 의도된 운영인지 확인합니다.` : '같은 상품이 두 스토어에서 팔리는지 확인합니다.'}</p></div>
+    </div>`;
+
+  // ---- 2. 일반어 vs 브랜드어 ----
+  const stack = (b, S, cls) => `<div class="sn-brand"><div class="sn-bh"><b class="${cls}">${b}</b><span class="num">쇼핑검색 매출 ${snM(S.own.rev + S.gen.rev)}</span></div>
+    <div class="sn-st" role="img" aria-label="${b} 브랜드어 ${S.share.toFixed(0)}% 일반어 ${(100 - S.share).toFixed(0)}%"><i class="own" style="width:${S.share.toFixed(1)}%"></i><i class="gen ${cls}" style="width:${(100 - S.share).toFixed(1)}%"></i></div>
+    <div class="sn-sl"><span><i class="sw own"></i>브랜드어 <b class="num">${S.share.toFixed(0)}%</b> · ${S.own.conv}건 · ROAS ${snR(S.own.roas)}</span><span><i class="sw ${cls}"></i>일반어 <b class="num">${(100 - S.share).toFixed(0)}%</b> · ${S.gen.conv}건 · ROAS ${snR(S.gen.roas)}</span></div>
+    <div class="sn-sl sub">일반어 광고비 ${snM(S.gen.cost)} 중 구매 없는 검색어에 쓴 비중 <b class="num">${S.waste.toFixed(0)}%</b></div></div>`;
+  const brandBlock = `<div class="card kw-card"><h3>브랜드어 의존도</h3><p class="sub">쇼핑검색 과자 광고그룹 · 11/1–11/23 · 브랜드어 = 브랜드명이 들어간 검색어 · 정액제 브랜드검색은 제외(실제 의존도는 더 높음)</p>
+    ${stack('로지오가닉', R, 'r')}${stack('아넬라 (과자 라인)', A, 'a')}
+    <p class="sn-note">로지 매출의 ${R.share.toFixed(0)}%가 브랜드어이고 “로지오가닉” 한 단어가 ${snF(snRows('rosy','ss').filter(r => r.n === '로지오가닉').reduce((s, r) => s + r.conv, 0))}건·${snM(snRows('rosy','ss').filter(r => r.n === '로지오가닉').reduce((s, r) => s + r.rev, 0))}입니다. 이미 로지를 아는 사람의 구매라 신규 유입은 일반어에서 만들어야 합니다.</p></div>`;
+
+  // ---- 3. 키워드별 비교 ----
+  const maxRev = Math.max(...kwList.flatMap(x => [x.as.rev, x.rs.rev]), 1);
+  const win = x => { const a = x.as.rev, r = x.rs.rev; if(x.only) return ['아넬라 전용','a']; if(Math.max(a, r) < 50000) return ['표본 작음','x']; if(a > r*1.5) return ['아넬라 우위','a']; if(r > a*1.5) return ['로지 우위','r']; return ['비슷','x']; };
+  const pbRow = x => { const [wt, wc] = win(x);
+    const tip = `<b>${x.k}</b>아넬라 쇼핑 ${x.as.conv}건 · ${snM(x.as.rev)} · ${snR(x.as.roas)}<br>로지 쇼핑 ${x.rs.conv}건 · ${snM(x.rs.rev)} · ${snR(x.rs.roas)}<br>로지 파워링크 ${x.rp.conv}건 · ${snM(x.rp.rev)} · ${snR(x.rp.roas)}`;
+    const line = (c, v, w) => `<div class="pb-line ${c}"><i style="width:${Math.max(v ? 1 : 0, v / maxRev * 100).toFixed(1)}%"></i><span class="num">${snM(v)}</span></div>`;
+    return `<div class="pb-row" data-tip="${esc(tip)}"><div class="pb-k">${x.k}<small>${x.g}</small></div>
+      <div class="pb-bars">${line('a', x.as.rev)}${x.only ? '' : line('r', x.rs.rev)}</div>
+      <div class="pb-n"><span class="ca">아넬라</span> ${x.as.conv}건 · ${snR(x.as.roas)} · ${snK(x.as.rank)}<br>${x.only ? `<span class="cm">로지 쇼핑 ${x.rs.imp ? x.rs.conv + '건' : '거의 없음'}</span>` : `<span class="cr">로지</span> ${x.rs.conv}건 · ${snR(x.rs.roas)} · ${snK(x.rs.rank)}`}<br><span class="cm">로지 파워링크 ${x.rp.imp ? `${x.rp.conv}건 · ${snM(x.rp.rev)} · ${snK(x.rp.rank)}` : '–'}</span></div>
+      <div class="pb-w"><span class="tag ${wc === 'a' ? 'acc' : (wc === 'r' ? 'rose' : '')}">${wt}</span></div></div>`; };
+  const kwBlock = `<div class="card kw-card"><h3>키워드별 비교 · 쇼핑검색 매출</h3><p class="sub">같은 키워드를 두 브랜드가 얼마나 가져가는지 · 막대 = 쇼핑검색 매출(한 축) · 오른쪽 숫자 = 구매·ROAS·평균순위 · 파워링크는 로지만 해당</p>
+    <div class="sn-leg"><span><i class="sw a"></i>아넬라</span><span><i class="sw r"></i>로지오가닉</span><span class="muted">행에 마우스를 올리면 파워링크까지 상세</span></div>
+    <div class="pb">${kwList.map(pbRow).join('')}</div>
+    <p class="sn-note">떡뻥 계열은 쇼핑검색은 아넬라, 파워링크는 로지가 가져가고(“아기떡뻥” 로지 파워링크 ${kw['아기떡뻥'].rp.conv}건·${snM(kw['아기떡뻥'].rp.rev)}, ${snK(kw['아기떡뻥'].rp.rank)}), 아기과자·아기간식은 쇼핑검색에서 로지가 앞섭니다. 롱떡뻥은 아넬라에만 있는 제품이라 비교에서 뺐습니다.</p></div>`;
+
+  // ---- 4. 미등록·확장 검색어 ----
+  const exCard = (name, b, cls) => {
+    const cl = snExClusters(b), tot = snSum(snRows(b, 'ex')), mx = Math.max(...cl.map(c => c.rev), 1);
+    const rows = cl.map(c => hbar(`${esc(c.k)} <span class="mut">${c.n}개</span>`, c.rev / mx * 100, `var(--brand-${cls})`, `${snM(c.rev)} · ${snR(c.roas)}`,
+      `<b>${c.k}</b>${c.n}개 검색어 · 노출 ${fmt(c.imp)} · 클릭 ${fmt(c.clk)} · 구매 ${c.conv}건<br>광고비 ${fmt(c.cost)}원 · 매출 ${fmt(c.rev)}원 · ROAS ${snR(c.roas)}`)).join('');
+    return `<div class="card kw-card sn-ex"><h3>${name} · 미등록(확장) 검색어</h3><p class="sub">수록 ${fmt(tot.n)}개 · 구매 ${tot.conv}건 · 매출 ${snM(tot.rev)} · ROAS ${snR(tot.roas)} · 막대 = 매출, 오른쪽 = 매출·ROAS</p>${rows}</div>`;
+  };
+  const cA = Object.fromEntries(snExClusters('anela').map(c => [c.k, c])), cR = Object.fromEntries(snExClusters('rosy').map(c => [c.k, c]));
+  const z = {n:0, imp:0, clk:0, conv:0, cvr:null, roas:null};
+  const g = (m, k) => m[k] || z;
+  const aFamily = (g(cA,'퓨레·이유식').rev + g(cA,'월령형').rev) / (snSum(snRows('anela','ex')).rev || 1) * 100;
+  const insights = `<div class="sn-ins">
+    <div class="card kw-card"><h3>아넬라가 읽을 수 있는 것</h3><ul class="sn-ul">
+      <li><b>퓨레·이유식·월령 확장이 확장 매출의 ${aFamily.toFixed(0)}%</b>입니다. 부모가 “시판 퓨레”, “○개월 간식”으로 찾는 수요입니다.</li>
+      <li><b>정보·질문형</b>(이유식 언제부터·양·시작 방법)은 노출 ${fmt(g(cA,'정보·질문형').imp)}회에 구매 ${g(cA,'정보·질문형').conv}건(CVR ${(g(cA,'정보·질문형').cvr||0).toFixed(1)}%)입니다. 입찰이 아니라 <b>콘텐츠로 받을 수요</b>입니다.</li>
+      <li>퓨레에서 떡뻥으로 이어지는 교차구매 동선(퓨레 상세·콘텐츠에서 떡뻥 연결)이 아직 없습니다. <span class="tag">제안</span></li></ul></div>
+    <div class="card kw-card"><h3>로지가 읽을 수 있는 것</h3><ul class="sn-ul">
+      <li><b>구체어는 돈이 되고 범용어는 새는 구조</b>입니다. 쌀과자·떡뻥·퍼프 ROAS ${snR(g(cR,'쌀과자·떡뻥·퍼프').roas)}, 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}(클릭 ${g(cR,'과자·간식(범용)').clk}회·구매 ${g(cR,'과자·간식(범용)').conv}건).</li>
+      <li><b>경쟁사명 검색에서 구매가 나옵니다.</b> 주로 “지후떡뻥”: 노출 ${fmt(g(cR,'경쟁사명').imp)}·클릭 ${g(cR,'경쟁사명').clk}·구매 ${g(cR,'경쟁사명').conv}건(ROAS ${snR(g(cR,'경쟁사명').roas)}). 의도적으로 운영할지 결정하고, 광고 문구에 타사 상표 사용은 정책을 확인합니다.</li>
+      <li>“무설탕과자”는 노출 ${fmt(g(cR,'무설탕·저당·무첨가').imp)}회에 클릭 ${g(cR,'무설탕·저당·무첨가').clk}회입니다. 성분 확인 전에는 “무설탕” 소구를 쓰지 않습니다(식품 표시 기준).</li>
+      <li>숫자접미 노이즈(“과자8” 등)가 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회에 클릭 0이라 제외 대상입니다.</li></ul></div></div>`;
+
+  // ---- 5. 경쟁 환경 ----
+  const seen = {}; const bench = [];
+  const SN_Q = ['아기과자','아기떡뻥','유기농과자','아기간식','떡뻥'];   // 과자 키워드만(퓨레·배도라지즙 캡처 제외)
+  (SERP.rosy||[]).concat(SERP.anela||[]).filter(q => SN_Q.includes(q.kw)).forEach(q => q.items.forEach(i => { if(i.src === '파워링크' || i.reviews == null) return; const key = i.brand + '|' + i.name; if(!seen[key]){ seen[key] = 1; bench.push(i); } }));
+  const topComp = bench.filter(i => !i.ours).sort((a, b) => b.reviews - a.reviews).slice(0, 7);
+  const oursB = bench.filter(i => i.ours).sort((a, b) => b.reviews - a.reviews).slice(0, 3);
+  const bRow = i => `<tr class="${i.ours ? 'ours' : ''}"><td class="kwn">${esc(i.brand)}${i.ours ? ' <span class="tag acc">우리</span>' : ''}</td><td class="why">${esc(i.name.slice(0, 34))}</td><td class="num">${i.price != null ? fmt(i.price) + '원' : '–'}</td><td class="num">${i.unitPrice != null ? fmt(i.unitPrice) + '원' : '–'}</td><td class="num">${i.reviewsTxt || fmt(i.reviews)}</td><td class="num">${i.buysTxt || '–'}</td></tr>`;
+  const benchBlock = `<div class="card kw-card"><h3>리뷰·가격 격차 (네이버 모바일 ${SERP.captured || ''} 수집)</h3><p class="sub">과자 키워드 검색 결과에서 리뷰가 많은 상품과 우리 상품 · 단가는 화면의 100g당 · 해외 IP·비로그인 1회 수집이라 시점에 따라 달라질 수 있음</p>
+    <div class="tbl-wrap" style="margin-top:6px"><table class="kw-trend sn-bench"><thead><tr><th style="text-align:left">판매처</th><th style="text-align:left">상품</th><th>가격</th><th>100g당</th><th>리뷰</th><th>구매</th></tr></thead><tbody>${topComp.map(bRow).join('')}${oursB.map(bRow).join('')}</tbody></table></div></div>`;
+  const cpItems = COUPANG.items, cpShare = COUPANG.adTotal ? cpItems.length / COUPANG.adTotal * 100 : 0;
+  const cpBrand = {}; cpItems.forEach(i => (cpBrand[i.b] = cpBrand[i.b] || []).push(i));
+  const cpRows = Object.entries(cpBrand).sort((a, b) => b[1].length - a[1].length).map(([b, v]) => `<tr class="${b === '아넬라' ? 'ours' : ''}"><td class="kwn">${esc(b)}${b === '아넬라' ? ' <span class="tag acc">우리</span>' : ''}</td><td class="why">${esc(v[0].n.slice(0, 30))}${v.length > 1 ? ` 외 ${v.length - 1}` : ''}</td><td class="num">${v.length}회</td><td class="why">${v.map(i => i.kw + ' ' + i.r + '위').join(' · ')}</td></tr>`).join('');
+  const cpBlock = `<div class="card kw-card"><h3>쿠팡이 네이버 쇼핑검색에서 광고하는 브랜드</h3><p class="sub">쇼핑 영역이 나온 ${COUPANG.kwN}개 과자 키워드의 쇼핑광고 ${COUPANG.adTotal}개 중 판매처가 쿠팡인 광고 · ${COUPANG.captured} 수집</p>
+    <div class="ev-chips" style="margin-bottom:12px"><div class="ev-chip"><div class="l">쿠팡 판매 광고</div><div class="v num">${cpItems.length}개 <span style="font-size:13px;color:var(--text-muted)">(${cpShare.toFixed(0)}%)</span></div><div class="s">쇼핑광고 판매처 ${COUPANG.sellers.findIndex(s => s[0] === '쿠팡') + 1}위</div></div>
+      <div class="ev-chip"><div class="l">쿠팡 파워링크</div><div class="v num">${COUPANG.pl.length}개 키워드</div><div class="s">${COUPANG.pl.map(p => '“' + esc(p.kw) + '”').join(' · ')} — “키워드 + 쿠팡” 문구로 1~2위</div></div>
+      <div class="ev-chip"><div class="l">우리 상품</div><div class="v num">${cpBrand['아넬라'] ? '아넬라 롱떡뻥' : '없음'}</div><div class="s">${cpBrand['아넬라'] ? '쿠팡 판매처로 광고 노출 — 공식 입점인지 확인 필요' : '쿠팡 판매처 노출 없음'} · 로지 상품은 없음</div></div></div>
+    <div class="tbl-wrap" style="margin-top:0"><table class="kw-trend sn-cp"><thead><tr><th style="text-align:left">브랜드</th><th style="text-align:left">상품</th><th>노출</th><th style="text-align:left">키워드·순위</th></tr></thead><tbody>${cpRows}</tbody></table></div>
+    <p class="sn-note">경쟁 상품이 쿠팡 판매처로 우리 일반어에 광고를 내고 있고(지후쌀과자·베베쿡·일동후디스 등), 쿠팡 본사도 같은 키워드에 파워링크를 냅니다. 쇼핑광고 판매처 상위는 매일유업 직영(${COUPANG.sellers[0][1]}), 아이배냇 공식몰(${COUPANG.sellers[1][1]}), 쿠팡(${(COUPANG.sellers.find(s => s[0] === '쿠팡') || [0, 0])[1]})입니다.</p></div>`;
+
+  // ---- 6. 문제 → 액션 ----
+  const rosyBrandTerm = snRows('rosy','ss').filter(r => r.n === '로지오가닉').reduce((s, r) => s + r.rev, 0);
+  const act = [
+    ['로지 매출이 브랜드어에 쏠림', `쇼핑검색 매출의 ${R.share.toFixed(0)}%(아넬라 ${A.share.toFixed(0)}%)`, '쇼핑검색에 일반어 전용 그룹 분리 · 파워링크에서 검증된 일반어(아기떡뻥·아기과자·유기농떡뻥)를 쇼핑 우선 키워드로', '1–2주'],
+    ['같은 상품을 두 스토어가 판매', ownStore && crossStore ? `${fmt(ownStore.price)}원 / ${fmt(crossStore.price)}원, 리뷰 ${ownStore.reviewsTxt} / ${crossStore.reviewsTxt}로 분산` : '리뷰·판매 분산', '한 스토어로 일원화하거나 가격·가격비교 묶음을 맞춤', '먼저 확인'],
+    ['상품명에 검색어가 없음', '대표 상품명이 “시작퍼프 8봉”이라 “아기과자”·“떡뻥”과 일치하지 않음', '상품명 앞부분에 검색어 배치(“떡뻥” 표기는 실제 제품이 떡뻥류일 때만)', '2–4주'],
+    ['경쟁 리뷰 격차', topComp.length ? `${topComp[0].brand} ${topComp[0].reviewsTxt || fmt(topComp[0].reviews)} · 우리 최대 ${oursB.length ? (oursB[0].reviewsTxt || fmt(oursB[0].reviews)) : '–'}` : '–', '대표 상품 1개에 리뷰 집중(스마트스토어 리뷰만 랭킹 반영) · 첫 구매용 소용량 구성 검토', '2–4주'],
+    ['확장 매칭에서 새는 광고비', `로지 범용 과자·간식 ROAS ${snR(g(cR,'과자·간식(범용)').roas)}, 노이즈 노출 ${fmt(g(cR,'숫자접미 노이즈').imp)}회·클릭 0`, '패턴 단위로 제외·입찰 하향(개별 검색어 제외보다 효과적) · 무설탕 소구 금지', '1–2주'],
+    ['경쟁사명 검색 유입', `“지후떡뻥” 구매 ${g(cR,'경쟁사명').conv}건 · ROAS ${snR(g(cR,'경쟁사명').roas)}`, '의도적으로 운영할지 결정 · 광고 문구 타사 상표 정책 확인', '결정 필요'],
+    ['월령·정보형 수요를 광고로만 받음', `아넬라 정보·질문형 노출 ${fmt(g(cA,'정보·질문형').imp)}회·구매 ${g(cA,'정보·질문형').conv}건`, '로지 “월령별 첫 간식 가이드”, 아넬라 “이유식 양·시작 방법” 콘텐츠로 받고 상품으로 연결', '중기'],
+    ['쿠팡 노출 관리', '아넬라 롱떡뻥이 쿠팡 판매처 광고로 노출 · 쿠팡 본사 파워링크가 우리 일반어 선점', '쿠팡 판매 채널이 공식인지 확인 · 일반어 쇼핑검색·브랜드 콘텐츠로 방어', '확인 후']
+  ];
+  const actBlock = `<div class="card kw-card"><h3>문제점 → 해야 할 일 <span class="tag acc">제안</span></h3><p class="sub">근거 수치는 위 표에서 계산한 값 · 시기는 우선순위 제안이며 대행사·영업팀 확인 전 확정 아님</p>
+    <div class="tbl-wrap" style="margin-top:6px"><table class="kw-trend sn-act"><thead><tr><th style="text-align:left">문제</th><th style="text-align:left">근거</th><th style="text-align:left">할 일</th><th>시기</th></tr></thead><tbody>${act.map(r => `<tr><td class="kwn">${r[0]}</td><td class="why">${r[1]}</td><td class="why act">${r[2]}</td><td><span class="tag">${r[3]}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+
+  const checks = ['이 제품군의 마진(손익분기 ROAS) — 증액 판단의 전제', '아넬라 스토어에서 로지 시작퍼프 8봉을 판매하는 것이 의도된 운영인지', '아넬라 “퍼프&롱떡뻥” 세트의 퍼프가 로지 제품인지', '쿠팡의 아넬라 롱떡뻥·퓨레 판매가 공식 채널인지', '로지 쇼핑검색 그룹별(브랜드K·신제품) 키워드·상품 구성 (대행사 확인)', '로지 시작퍼프를 “떡뻥”으로 표기해도 되는 제품인지'];
+  const foot = `<div class="card kw-card"><h3>확인이 필요한 것</h3><ul class="sn-ul sn-chk">${checks.map(c => `<li>${c}</li>`).join('')}</ul>
+    <p class="sn-note">한계: 키워드·검색어 리포트(11/1–11/23)에서 쇼핑검색 검색어는 네이버 비공개 처리로 일부만 보입니다. 경쟁 화면은 해외 IP·비로그인 1회 수집이라 광고 구성이 시점마다 다릅니다. 경쟁사 리뷰·구매는 네이버 표기값(예: 2천+)입니다. 이 화면의 수치는 리포트 데이터에서 계산하고, 결론·할 일 문구는 2026.11.25–26 분석 기준의 제안입니다.</p></div>`;
+
+  el.innerHTML = `${hero}<div class="sn-cols">${brandBlock}${kwBlock}</div>
+    <div class="sn-cols eq" style="margin-top:16px">${exCard('아넬라', 'anela', 'a')}${exCard('로지오가닉', 'rosy', 'r')}</div>${insights}
+    <div style="margin-top:16px">${benchBlock}</div><div style="margin-top:16px">${cpBlock}</div><div style="margin-top:16px">${actBlock}</div><div style="margin-top:16px">${foot}</div>`;
+  wireTips(el);
+}
+
 // ================= BRAND SWITCH =================
 function setBrand(key){
   if(!BRANDS[key]) return;
@@ -2163,6 +2415,7 @@ renderOverview(); renderSummary(); renderEvent();
 if(typeof renderKeyword==='function') renderKeyword();
 renderTerms(true);
 renderSerp();
+renderSnack();
 showView(location.hash.slice(1));
 // 딥링크(#trend 등)로 열면 브라우저가 섹션 위치로 스크롤해 제목이 상단 바에 가려진다 → 로드 직후 맨 위로 고정
 requestAnimationFrame(()=>window.scrollTo(0,0)); window.addEventListener('load',()=>window.scrollTo(0,0),{once:true});

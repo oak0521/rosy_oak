@@ -94,7 +94,7 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
    reports keep their old single-scroll design (frozen; only the live report got the shell).
    Sections, in source order top to bottom, matching the sidebar's link order (keep the `#menu` link order and the sections' DOM order in sync if either changes):
    `#overview`(한눈에 결론), `#summary`(핵심요약), `#comment`, `#event`(행사 비교), `#keyword`(키워드·검색어),
-   `#terms`(전체 리스트), `#serp`(경쟁사 비교, 데이터 있을 때만), `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`,
+   `#terms`(전체 리스트), `#serp`(경쟁사 비교, 데이터 있을 때만), `#snack`(쌀과자 전략), `#trend`, `#media`, `#creative` (`#mission` removed 2026.10.26). `#overview`, `#summary`,
    `#event`, `#keyword` are empty containers (`#overviewBody`, `#summaryBody`, `#eventBody`, `#keywordBody`) filled
    by `renderOverview/renderSummary/renderEvent/renderKeyword`; `#terms` has static controls and `renderTerms()` fills its table. `#trend`'s notes and `#comment` still
    contain **two** sibling `data-brand-panel="anela"` / `data-brand-panel="rosy"` blocks (the
@@ -187,6 +187,14 @@ There is no build, lint, or test tooling (no `package.json`). The only useful ch
   **용량**: 키워드 10개 ≈ 3.2MB, 리뷰 포함 리포트 ≈ 13MB(한도 16MB) — 키워드를 늘리기 전에 확인. 주차마다 `SERP`를 교체(누적 금지). 원본 캡처 PNG는 공개 저장소라 커밋하지 않는다. 데모 데이터로 검증할 때는 `/tmp` 사본에만 주입하고 발행하지 않는다.
   2026.11.25 첫 수집(키워드 아넬라 5·로지 5)에서 확인된 사실: 아넬라 "떡뻥"은 파워링크·쇼핑광고에 우리 상품이 없고 일반 쇼핑 10위에만 노출, 로지 "아기떡뻥"은 파워링크 2위·일반 쇼핑 12위뿐,
   로지오가닉 상품이 아넬라 스토어에서 별도 가격(19,800원 vs 로지 스토어 14,500원)으로 판매·노출됨.
+- **`#snack` 쌀과자 전략 (2026.11.26, 사용자 요청: 영업팀·팀장 공유용 새 화면)** — 아넬라·로지오가닉이 쌀과자 제품이 겹쳐서 "로지를 올릴지 / 잘 되는 아넬라를 밀지"를 네이버(쇼핑검색·파워링크, 메타 제외)
+  데이터로 정리한 **두 브랜드 비교 화면**이다(메뉴 "쌀과자 전략", 링크 `…#snack`, `renderSnack()`). 이 화면에서는 상단 브랜드 전환(`#brandSwitch`)을 숨기고 `#brandTitle`을 바꾼다(`body[data-view="snack"]`, `showView()`).
+  구성: 결론 히어로 + 3개 결정 카드 → 브랜드어 의존도(스택 막대) → 키워드별 비교(두 브랜드 쌍막대 + 파워링크) → 아넬라·로지 미등록(확장) 검색어 클러스터 → 읽을 수 있는 것 → 리뷰·가격 격차 표 → 쿠팡 광고 브랜드 → 문제→할 일 표(제안) → 확인 필요.
+  **숫자는 전부 `TERMS`·`SERP`·`COUPANG`에서 계산**한다(`snRows/snSum/snTerm/snSplit/snClass`). 확장 검색어 클러스터 규칙(`snClass`: 자사어→경쟁사명→월령형→무설탕·저당→정보·질문형→숫자접미 노이즈→쌀과자·떡뻥·퍼프→범용 과자·간식→퓨레·이유식)을
+  바꾸면 클러스터 숫자가 달라지므로 채팅에서 전달한 수치와 어긋나지 않게 한다. **사람이 쓴 문구는 결론·`act` 표(문제→할 일)·`checks`(확인 필요) 뿐이고 "분석 기준일"과 함께 제안(`제안` 태그)으로 표기**한다 — 주차가 바뀌면 이 문구를 새 데이터로 다시 검토하거나,
+  검토하지 못했으면 기준일을 그대로 두고 사용자에게 알린다(진행 중·완료라고 근거 없이 쓰지 않는다). `COUPANG`(쿠팡 판매처 쇼핑광고 스냅샷, 2026-11-26 수집, `capture_serp.js --max-ad 40 --max-org 40`로 과자 키워드 9개를 훑어 판매처=쿠팡만 추린 값)은
+  재수집 전까지 고정이며 용량이 작다. 두 브랜드 구분색은 `--brand-a`(아넬라, 인디고)·`--brand-r`(로지, 로즈)로 **dataviz 검증기를 통과한 쌍**(라이트 `#5a4ad6/#c93f78`, 다크 `#8d7fef/#e5709f`)이며 막대·태그·텍스트에 라벨과 함께 쓴다.
+  모바일에서는 행동 표를 카드형으로 풀고(`.sn-act`) 벤치마크·쿠팡 표의 긴 상품명 열을 숨긴다.
 - **상태 라벨(`problems[].st`)**: `prog` 진행중(전주 보고 과제) / `plan` 차주 계획(대행사 코멘트의 '차주 운영 방향') / `done` 조치 완료 / `prop` 제안 / `chk` 확인 필요.
   `brief.next[]`(`{m:'search'|'meta'|'gfa', t}`)는 대행사 코멘트의 '차주 운영 방향'을 그대로 옮긴 카드("차주 운영 방향")로 그려진다.
 - **행사 여부는 대행사 코멘트가 출처**다. `CUR_EVENT`의 `ev`/`name`을 코멘트 문구(예: "금주: 이벤트 미진행", "쌀과자 오늘끝딜 11/18~19")로 확정하고, 이번 주 막대는
